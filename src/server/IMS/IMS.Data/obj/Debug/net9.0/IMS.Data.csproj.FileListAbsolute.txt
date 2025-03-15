@@ -1,0 +1,12 @@
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\bin\Debug\net9.0\IMS.Data.deps.json
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\bin\Debug\net9.0\IMS.Data.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\bin\Debug\net9.0\IMS.Data.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.csproj.AssemblyReference.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.AssemblyInfoInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.AssemblyInfo.cs
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.csproj.CoreCompileInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\refint\IMS.Data.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\IMS.Data.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Data\obj\Debug\net9.0\ref\IMS.Data.dll

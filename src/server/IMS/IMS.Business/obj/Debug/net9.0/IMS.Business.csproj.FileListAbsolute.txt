@@ -1,0 +1,17 @@
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Business.deps.json
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Business.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Business.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Core.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Data.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Core.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\bin\Debug\net9.0\IMS.Data.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.csproj.AssemblyReference.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.AssemblyInfoInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.AssemblyInfo.cs
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.csproj.CoreCompileInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Busi.3ADB0B14.Up2Date
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\refint\IMS.Business.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\IMS.Business.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Business\obj\Debug\net9.0\ref\IMS.Business.dll

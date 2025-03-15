@@ -1,0 +1,561 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.api\\ims.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|solutionrelative:ims.api\\ims.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7396519A-3E89-4FB4-9308-165F39C5BC0D}|IMS.Domain\\IMS.Domain.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.domain\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7396519A-3E89-4FB4-9308-165F39C5BC0D}|IMS.Domain\\IMS.Domain.csproj|solutionrelative:ims.domain\\entities\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|solutionrelative:ims.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.api\\extensions\\applicationserviceextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|solutionrelative:ims.api\\extensions\\applicationserviceextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basegetbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basegetbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basehandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basesearchquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basesearchquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\baseupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\baseupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basegetallquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basegetallquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basedeletebyidcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basedeletebyidcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basecreateupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basecreateupdatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\handlers\\basecreatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\handlers\\basecreatecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9872B923-C2E7-4AF9-B99A-B7D7506DE575}|IMS.Tests\\IMS.Tests.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9872B923-C2E7-4AF9-B99A-B7D7506DE575}|IMS.Tests\\IMS.Tests.csproj|solutionrelative:ims.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\unitofworks\\iunitofworks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\unitofworks\\iunitofworks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\unitofworks\\unitofworks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\unitofworks\\unitofworks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.data\\repositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AADA2DE-601A-4234-9AB5-59DFB4CFF4F3}|IMS.Data\\IMS.Data.csproj|solutionrelative:ims.data\\repositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.core\\viewmodels\\paginatedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|solutionrelative:ims.core\\viewmodels\\paginatedresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.core\\exceptions\\databasebadrequestexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|solutionrelative:ims.core\\exceptions\\databasebadrequestexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.core\\exceptions\\resourceuniqueexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|solutionrelative:ims.core\\exceptions\\resourceuniqueexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.core\\exceptions\\resourcenotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3E78ACB2-2FE2-48F5-BC69-2577B1290378}|IMS.Core\\IMS.Core.csproj|solutionrelative:ims.core\\exceptions\\resourcenotfoundexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|solutionrelative:ims.api\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.api\\controllers\\baseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{438B7FAE-69B8-46E0-9822-40D0F810A777}|IMS.API\\IMS.API.csproj|solutionrelative:ims.api\\controllers\\baseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|d:\\cs\\ims-mock-project\\ims\\src\\server\\ims\\ims.business\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8DF610D6-EACF-4F29-AE77-0BAD88679EA5}|IMS.Business\\IMS.Business.csproj|solutionrelative:ims.business\\mappings\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IMS.API",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\IMS.API.csproj",
+              "RelativeDocumentMoniker": "IMS.API\\IMS.API.csproj",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\IMS.API.csproj",
+              "RelativeToolTip": "IMS.API\\IMS.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-15T13:26:00.402Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\SeedData.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\SeedData.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\SeedData.cs",
+              "RelativeToolTip": "IMS.Data\\SeedData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:23:00.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ApplicationServiceExtensions.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Extensions\\ApplicationServiceExtensions.cs",
+              "RelativeDocumentMoniker": "IMS.API\\Extensions\\ApplicationServiceExtensions.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Extensions\\ApplicationServiceExtensions.cs",
+              "RelativeToolTip": "IMS.API\\Extensions\\ApplicationServiceExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:19:06.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Domain\\Entities\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "IMS.Domain\\Entities\\BaseEntity.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Domain\\Entities\\BaseEntity.cs",
+              "RelativeToolTip": "IMS.Domain\\Entities\\BaseEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T03:52:41.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Services\\ITokenService.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Services\\ITokenService.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Services\\ITokenService.cs",
+              "RelativeToolTip": "IMS.Business\\Services\\ITokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:16:04.445Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\DTOs\\UserDto.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\DTOs\\UserDto.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\DTOs\\UserDto.cs",
+              "RelativeToolTip": "IMS.Business\\DTOs\\UserDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:17:00.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Services\\TokenService.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Services\\TokenService.cs",
+              "RelativeToolTip": "IMS.Business\\Services\\TokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:16:35.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Program.cs",
+              "RelativeDocumentMoniker": "IMS.API\\Program.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Program.cs",
+              "RelativeToolTip": "IMS.API\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:28:37.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "BaseGetByIdQuery.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseGetByIdQuery.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseGetByIdQuery.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseGetByIdQuery.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseGetByIdQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:14:52.917Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "BaseHandler.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseHandler.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseHandler.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseHandler.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:14:13.613Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BaseSearchQuery.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseSearchQuery.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseSearchQuery.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseSearchQuery.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseSearchQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:13:30.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BaseUpdateCommand.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseUpdateCommand.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseUpdateCommand.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseUpdateCommand.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseUpdateCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:13:02.808Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "BaseGetAllQuery.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseGetAllQuery.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseGetAllQuery.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseGetAllQuery.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseGetAllQuery.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:11:43.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BaseDeleteByIdCommand.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseDeleteByIdCommand.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseDeleteByIdCommand.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseDeleteByIdCommand.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseDeleteByIdCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:11:12.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "BaseCreateUpdateCommand.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseCreateUpdateCommand.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseCreateUpdateCommand.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseCreateUpdateCommand.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseCreateUpdateCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:08:17.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "BaseCreateCommand.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseCreateCommand.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Handlers\\BaseCreateCommand.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Handlers\\BaseCreateCommand.cs",
+              "RelativeToolTip": "IMS.Business\\Handlers\\BaseCreateCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:07:03.396Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Tests\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "IMS.Tests\\UnitTest1.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Tests\\UnitTest1.cs",
+              "RelativeToolTip": "IMS.Tests\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:06:09.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "UnitOfWorks.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\UnitOfWorks\\UnitOfWorks.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\UnitOfWorks\\UnitOfWorks.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\UnitOfWorks\\UnitOfWorks.cs",
+              "RelativeToolTip": "IMS.Data\\UnitOfWorks\\UnitOfWorks.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:04:40.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IUnitOfWorks.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\UnitOfWorks\\IUnitOfWorks.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\UnitOfWorks\\IUnitOfWorks.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\UnitOfWorks\\IUnitOfWorks.cs",
+              "RelativeToolTip": "IMS.Data\\UnitOfWorks\\IUnitOfWorks.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:04:22.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\ApplicationDbContext.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "IMS.Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:58:35.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\Repositories\\GenericRepository.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "IMS.Data\\Repositories\\GenericRepository.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAkwDAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:57:41.183Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IGenericRepository.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\Repositories\\IGenericRepository.cs",
+              "RelativeDocumentMoniker": "IMS.Data\\Repositories\\IGenericRepository.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Data\\Repositories\\IGenericRepository.cs",
+              "RelativeToolTip": "IMS.Data\\Repositories\\IGenericRepository.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAIwBYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:57:12.806Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "PaginatedResult.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\ViewModels\\PaginatedResult.cs",
+              "RelativeDocumentMoniker": "IMS.Core\\ViewModels\\PaginatedResult.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\ViewModels\\PaginatedResult.cs",
+              "RelativeToolTip": "IMS.Core\\ViewModels\\PaginatedResult.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAmwB8AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:52:17.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DatabaseBadRequestException.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\DatabaseBadRequestException.cs",
+              "RelativeDocumentMoniker": "IMS.Core\\Exceptions\\DatabaseBadRequestException.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\DatabaseBadRequestException.cs",
+              "RelativeToolTip": "IMS.Core\\Exceptions\\DatabaseBadRequestException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:51:02.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ResourceUniqueException.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\ResourceUniqueException.cs",
+              "RelativeDocumentMoniker": "IMS.Core\\Exceptions\\ResourceUniqueException.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\ResourceUniqueException.cs",
+              "RelativeToolTip": "IMS.Core\\Exceptions\\ResourceUniqueException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:50:43.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ResourceNotFoundException.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\ResourceNotFoundException.cs",
+              "RelativeDocumentMoniker": "IMS.Core\\Exceptions\\ResourceNotFoundException.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Core\\Exceptions\\ResourceNotFoundException.cs",
+              "RelativeToolTip": "IMS.Core\\Exceptions\\ResourceNotFoundException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:50:13.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Mappings\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "IMS.Business\\Mappings\\MappingProfile.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.Business\\Mappings\\MappingProfile.cs",
+              "RelativeToolTip": "IMS.Business\\Mappings\\MappingProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:46:22.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ExceptionMiddleware.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "IMS.API\\Middleware\\ExceptionMiddleware.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeToolTip": "IMS.API\\Middleware\\ExceptionMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:30:06.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "BaseApiController.cs",
+              "DocumentMoniker": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Controllers\\BaseApiController.cs",
+              "RelativeDocumentMoniker": "IMS.API\\Controllers\\BaseApiController.cs",
+              "ToolTip": "D:\\CS\\IMS-Mock-Project\\ims\\src\\server\\IMS\\IMS.API\\Controllers\\BaseApiController.cs",
+              "RelativeToolTip": "IMS.API\\Controllers\\BaseApiController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:27:23.093Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 167,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 475,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

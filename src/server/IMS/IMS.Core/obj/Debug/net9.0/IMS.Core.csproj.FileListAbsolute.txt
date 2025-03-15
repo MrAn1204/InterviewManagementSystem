@@ -1,0 +1,11 @@
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\bin\Debug\net9.0\IMS.Core.deps.json
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\bin\Debug\net9.0\IMS.Core.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\bin\Debug\net9.0\IMS.Core.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.AssemblyInfoInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.AssemblyInfo.cs
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.csproj.CoreCompileInputs.cache
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\refint\IMS.Core.dll
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\IMS.Core.pdb
+D:\CS\IMS-Mock-Project\ims\src\server\IMS\IMS.Core\obj\Debug\net9.0\ref\IMS.Core.dll
