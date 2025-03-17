@@ -1,0 +1,42 @@
+# 👉 Ignore compiled output
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# 👉 Ignore user-specific files
+*.user
+*.suo
+*.sln.docstates
+.vscode/
+.idea/
+*.swp
+
+# 👉 Ignore environment & secret files
+.env
+*.config.local
+appsettings.Development.json
+secrets.json
+
+# 👉 Ignore dependency folders
+node_modules/
+bower_components/
+packages/
+dist/
+
+# 👉 Ignore Angular build files
+*.angular/cache/
+.angular/
+.angular.json
+*.js.map
+*.tsbuildinfo
+
+# 👉 Ignore generated & temporary files
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

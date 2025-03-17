@@ -1,0 +1,4 @@
+Design tất cả các page với HTML, CSS, Tailwind
+Các bạn tự thiết kế với module mình phụ trách. 
+Chi tiết module tại : 
+https://docs.google.com/document/d/1kpDgkB0VKTmDRDd6eAyTgFkBSCSaKERW/edit

@@ -1,0 +1,5 @@
+Với mỗi 1 module các bạn pụ trách :
+Hãy vẽ đầy đủ chi tiết mô phỏng hành động 1 Usecase/model (cập nhật sau) , với các loại sơ đồ sau :
+- Biểu đồ Tuần tự 
+- Biểu đồ Hành động
+- Biêu đồ lớp (Optional)
