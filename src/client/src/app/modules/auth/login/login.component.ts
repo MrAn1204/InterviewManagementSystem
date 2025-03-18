@@ -7,7 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor() {
-    console.log('LoginComponent loaded!');
-  }
+
 }
