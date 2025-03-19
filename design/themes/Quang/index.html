@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+  </head>
+  <body>
+    <!-- Create, update Offer-->
+    <section class="bg-white dark:bg-gray-900">
+      <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+          Create Offer
+        </h2>
+        <form action="#">
+          <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div class="sm:col-span-2">
+              <label
+                for="candidatename"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Candidate <span class="text-red-500">*</span></label
+              >
+              <select
+                id="candidatename"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select Candidate Name</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="position"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Position <span class="text-red-500">*</span></label
+              >
+              <select
+                id="position"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a position</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="approver"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Approver <span class="text-red-500">*</span></label
+              >
+              <select
+                id="approver"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select an approver</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="interview"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Interview info</label
+              >
+              <select
+                id="interview"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select an interview schedule title</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="from"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Contract Period <span class="text-red-500">*</span></label
+              >
+              <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                <div class="flex">
+                  <label
+                    for="from"
+                    class="block font-semibold text-gray-800 dark:text-gray-200 me-2 text-md leading-[2.5rem]"
+                    >From</label
+                  >
+                  <div class="relative w-full">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      datepicker
+                      id="from"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Select date"
+                    />
+                  </div>
+                </div>
+                <div class="flex">
+                  <label
+                    for="to"
+                    class="block text-md font-semibold text-gray-800 dark:text-gray-200 me-2 leading-[2.5rem]"
+                    >To</label
+                  >
+                  <div class="relative w-full">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      datepicker
+                      id="to"
+                      type="text"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Select date"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full">
+              <label
+                for="contracttype"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Contract type <span class="text-red-500">*</span></label
+              >
+              <select
+                id="contracttype"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a type of contract</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="level"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Level <span class="text-red-500">*</span></label
+              >
+              <select
+                id="level"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a level</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="department"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Department <span class="text-red-500">*</span></label
+              >
+              <select
+                id="department"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a deparment</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="recruiter"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Recruiter Owner <span class="text-red-500">*</span></label
+              >
+              <select
+                id="recruiter"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected=""></option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="duedate"
+                class="block text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Due date <span class="text-red-500">*</span></label
+              >
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                >
+                  <svg
+                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  datepicker
+                  id="duedate"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Select date"
+                />
+              </div>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="salary"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Basic salary <span class="text-red-500">*</span></label
+              >
+              <input
+                type="text"
+                id="salary"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Enter basic salary"
+                required=""
+              />
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="note"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Note</label
+              >
+              <textarea
+                id="note"
+                rows="8"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type a note"
+              ></textarea>
+            </div>
+          </div>
+          <button
+            class="mt-10 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+          >
+            Submit
+          </button>
+          <button
+            class="px-6 py-3 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!--Create, Update User-->
+    <section class="bg-white dark:bg-gray-900">
+      <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
+        <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+          Create User
+        </h2>
+        <form action="#">
+          <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div class="sm:col-span-2">
+              <label
+                for="fullname"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Full Name <span class="text-red-500">*</span></label
+              >
+              <input
+                type="text"
+                id="fullname"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type a name..."
+                required=""
+              />
+            </div>
+            <div class="w-full">
+              <label
+                for="email"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Email <span class="text-red-500">*</span></label
+              >
+              <input
+                type="text"
+                id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type a email..."
+                required=""
+              />
+            </div>
+            <div class="w-full">
+              <label
+                for="dob"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >DOB</label
+              >
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none"
+                >
+                  <svg
+                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  datepicker
+                  id="dob"
+                  type="text"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Select date"
+                />
+              </div>
+            </div>
+            <div class="w-full">
+              <label
+                for="address"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Address</label
+              >
+              <input
+                type="text"
+                id="address"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type an address..."
+                required=""
+              />
+            </div>
+            <div class="w-full">
+              <label
+                for="phonenumber"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Phone number</label
+              >
+              <input
+                type="text"
+                id="phonenumber"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type a number..."
+                required=""
+              />
+            </div>
+            <div class="w-full">
+              <label
+                for="gender"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Gender <span class="text-red-500">*</span></label
+              >
+              <select
+                id="gender"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a gender</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="role"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Roles <span class="text-red-500">*</span></label
+              >
+              <select
+                id="role"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a position</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="department"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Department <span class="text-red-500">*</span></label
+              >
+              <select
+                id="department"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a department</option>
+              </select>
+            </div>
+            <div class="w-full">
+              <label
+                for="status"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Status <span class="text-red-500">*</span></label
+              >
+              <select
+                id="status"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="">Select a status</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label
+                for="note"
+                class="block mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                >Note</label
+              >
+              <textarea
+                id="note"
+                rows="8"
+                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type a note"
+              ></textarea>
+            </div>
+          </div>
+          <button
+            class="mt-10 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+          >
+            Submit
+          </button>
+          <button
+            class="px-6 py-3 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- User view detail -->
+    <section class="dark:from-gray-800 dark:to-gray-900 min-h-screen">
+      <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
+        <h2
+          class="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white text-center"
+        >
+          User Details
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="w-full">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Full Name:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">John Doe</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Email:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">john.doe@example.com</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              DOB:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">1990-01-01</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Address:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">123 Main St, City</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Phone Number:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">+1234567890</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Gender:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">Male</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Role:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">Admin</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Department:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">IT</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Status:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">Active</p>
+          </div>
+          <div class="w-full">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Note:
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              This user is an administrator.
+            </p>
+          </div>
+        </div>
+        <button
+          class="mt-10 px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+        >
+          Edit
+        </button>
+        <button
+          class="px-6 py-3 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
+        >
+          Delete
+        </button>
+        <button
+          class="px-6 py-3 text-white bg-yellow-400 rounded-lg hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer"
+        >
+          Inactive
+        </button>
+      </div>
+    </section>
+
+    <!-- Offer view detail -->
+    <section class="bg-white dark:bg-gray-900">
+      <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
+        <h2
+          class="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white text-center"
+        >
+          Offer Detail
+        </h2>
+
+        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <div class="col-span-2 flex justify-end *:mx-2">
+            <button class="px-6 py-3 text-white bg-green-600 rounded-lg hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 cursor-pointer ">Approve</button>
+            <button class="px-6 py-3 text-white bg-yellow-400 rounded-lg hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer">Reject</button>
+            <button class="px-6 py-3 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer">Cancel Offer</button>
+          </div>
+          <div class="col-span-2">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Candidate:
+            </p>
+            <p id="candidateName" class="text-gray-600 dark:text-gray-400">
+              John Doe
+            </p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Position:
+            </p>
+            <p id="position" class="text-gray-600 dark:text-gray-400">
+              Software Engineer
+            </p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Approver:
+            </p>
+            <p id="approver" class="text-gray-600 dark:text-gray-400">
+              Jane Smith
+            </p>
+          </div>
+
+          <div class="sm:col-span-2">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Interview Info:
+            </p>
+            <p id="interview" class="text-gray-600 dark:text-gray-400">
+              Technical Interview - 2023/12/05
+            </p>
+          </div>
+
+          <div class="sm:col-span-2">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Contract Period:
+            </p>
+            <p id="contractPeriod" class="text-gray-600 dark:text-gray-400">
+              2023/12/10 - 2024/12/10
+            </p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Contract Type:
+            </p>
+            <p id="contractType" class="text-gray-600 dark:text-gray-400">
+              Full-time
+            </p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Level:
+            </p>
+            <p id="level" class="text-gray-600 dark:text-gray-400">Senior</p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Department:
+            </p>
+            <p id="department" class="text-gray-600 dark:text-gray-400">IT</p>
+          </div>
+
+          <div>
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Recruiter Owner:
+            </p>
+            <p id="recruiter" class="text-gray-600 dark:text-gray-400">
+              Michael Johnson
+            </p>
+          </div>
+
+          <div class="w-full">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Due Date:
+            </p>
+            <p id="dueDate" class="text-gray-600 dark:text-gray-400">
+              2023/12/15
+            </p>
+          </div>
+
+          <div class="w-full">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Basic Salary:
+            </p>
+            <p id="salary" class="text-gray-600 dark:text-gray-400">
+              2000$
+            </p>
+          </div>
+
+          <div class="w-full">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Status:
+            </p>
+            <p id="salary" class="text-gray-600 dark:text-gray-400">
+              Waiting for approval
+            </p>
+          </div>
+
+          <div class="w-full">
+            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              Note:
+            </p>
+            <p id="note" class="text-gray-600 dark:text-gray-400">
+              Offer valid until the due date. Contact HR for more details.
+            </p>
+          </div>
+        </div>
+        <button
+          class="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+        >
+          Edit
+        </button>
+
+        <button
+          class="mt-10 px-6 py-3 text-white bg-red-500 rounded-lg hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
+        >
+          Cancel
+        </button>
+      </div>
+    </section>
+  </body>
+</html>
