@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IMS.Business.Services
+namespace IMS.Business.Services;
+
+public interface ITokenService
 {
-	public interface ITokenService
-	{
-	}
+	// TODO: Replace parameters with User
+	Task<JwtSecurityToken> GenerateAccessTokenAsync(string tempId, string tempUsername);
 }

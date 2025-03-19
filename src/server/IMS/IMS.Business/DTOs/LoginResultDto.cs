@@ -11,6 +11,4 @@ public class LoginResultDto
     public required string UserInfo { get; set; }
 
     public required DateTime ExpiresAt { get; set; }
-
-    public required DateTime IssuedAt { get; set; }
 }

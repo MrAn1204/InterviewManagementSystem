@@ -2,18 +2,23 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using IMS.Business.DTOs;
+using IMS.Business.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Business.Handlers;
 
-public class LoginCommandHandler(IConfiguration configuration) : IRequestHandler<LoginCommand, LoginResultDto>
+public class LoginCommandHandler(
+    ITokenService tokenService,
+    IConfiguration configuration
+) : IRequestHandler<LoginCommand, LoginResultDto>
 {
+    private readonly ITokenService _tokenService = tokenService;
     private readonly IConfiguration _configuration = configuration;
     
     // TODO: Replace hardcoded values when code can work with database
-    public Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         // TODO: Check if user exists on database
         if (!request.Username.Equals("admin"))
@@ -33,37 +38,20 @@ public class LoginCommandHandler(IConfiguration configuration) : IRequestHandler
         // TODO: Remove this after code can work with database
         var tempId = Guid.NewGuid().ToString();
 
-        // TODO: Add more information from database
-        var claims = new List<Claim>
-        {
-            new("id", tempId),
-            new("username", request.Username),
-        };
-
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
-
-        var token = new JwtSecurityToken(
-            issuer: _configuration[_configuration["Jwt:ValidIssuer"]!],
-            audience: _configuration[_configuration["Jwt:ValidAudience"]!],
-            claims: claims,
-            notBefore: DateTime.UtcNow,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpirationInMinutes"])),
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            
-        );
+        var token = await _tokenService.GenerateAccessTokenAsync(tempId, request.Username);
+        var tokenHandler = new JwtSecurityTokenHandler();
 
         // Temporary save access token in a file
-        File.WriteAllText("token.txt", new JwtSecurityTokenHandler().WriteToken(token));
+        await File.WriteAllTextAsync("token.txt", tokenHandler.WriteToken(token), cancellationToken);
 
         var loginResult = new LoginResultDto
         {
-            AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+            AccessToken = tokenHandler.WriteToken(token),
             UserId = tempId,
             UserInfo = userInfo,
-            ExpiresAt = token.ValidTo,
-            IssuedAt = token.ValidFrom,
+            ExpiresAt = token.ValidTo
         };
 
-        return Task.FromResult(loginResult);
+        return loginResult;
     }
 }
