@@ -12,7 +12,7 @@ public class AuthController(IMediator mediator) : ControllerBase
     private readonly IMediator _mediator = mediator;
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginQuery request)
+    public async Task<IActionResult> Login([FromBody] LoginCommand request)
     {
         if (!ModelState.IsValid)
         {

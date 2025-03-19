@@ -1,4 +1,3 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,19 +8,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Business.Handlers;
 
-public class LoginQuery : IRequest<LoginResultDto>
-{
-    public required string Username { get; set; }
-
-    public required string Password { get; set; }
-}
-
-public class LoginQueryHandler(IConfiguration configuration) : IRequestHandler<LoginQuery, LoginResultDto>
+public class LoginCommandHandler(IConfiguration configuration) : IRequestHandler<LoginCommand, LoginResultDto>
 {
     private readonly IConfiguration _configuration = configuration;
     
     // TODO: Replace hardcoded values when code can work with database
-    public Task<LoginResultDto> Handle(LoginQuery request, CancellationToken cancellationToken)
+    public Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         // TODO: Check if user exists on database
         if (!request.Username.Equals("admin"))
@@ -59,6 +51,9 @@ public class LoginQueryHandler(IConfiguration configuration) : IRequestHandler<L
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             
         );
+
+        // Temporary save access token in a file
+        File.WriteAllText("token.txt", new JwtSecurityTokenHandler().WriteToken(token));
 
         var loginResult = new LoginResultDto
         {
