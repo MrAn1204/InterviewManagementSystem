@@ -4,6 +4,7 @@ using IMS.API.Config;
 using IMS.API.Extensions;
 using IMS.API.Middleware;
 using IMS.Business.Handlers;
+using IMS.Business.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,6 +15,8 @@ var appSetting = builder.Configuration.Get<AppSetting>();
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
+
+builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));
 

@@ -1,6 +1,8 @@
 using IMS.Business.Handlers;
+using IMS.Business.Handlers.User;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
@@ -35,5 +37,18 @@ public class AuthController(IMediator mediator) : ControllerBase
         }
 
         return BadRequest(new { message = "User is not logged in" });
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> SendResetPassword([FromBody] ForgotPasswordCommand request)
+    {
+         if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        await _mediator.Send(request);
+
+        return Ok(new { message = "Password reset email has been sent" });
     }
 }

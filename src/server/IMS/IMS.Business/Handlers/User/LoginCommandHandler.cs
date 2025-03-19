@@ -10,12 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 namespace IMS.Business.Handlers;
 
 public class LoginCommandHandler(
-    ITokenService tokenService,
-    IConfiguration configuration
+    ITokenService tokenService
 ) : IRequestHandler<LoginCommand, LoginResultDto>
 {
     private readonly ITokenService _tokenService = tokenService;
-    private readonly IConfiguration _configuration = configuration;
     
     // TODO: Replace hardcoded values when code can work with database
     public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
