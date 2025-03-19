@@ -23,4 +23,17 @@ public class AuthController(IMediator mediator) : ControllerBase
 
         return Ok(result);
     }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var result = await _mediator.Send(new LogoutQuery());
+
+        if (result)
+        {
+            return Ok(new { message = "Logout successful" });
+        }
+
+        return BadRequest(new { message = "User is not logged in" });
+    }
 }
