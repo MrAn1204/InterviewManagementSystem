@@ -25,7 +25,7 @@ public class AuthController(IMediator mediator) : ControllerBase
 
         return Ok(result);
     }
-    
+
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
@@ -40,9 +40,9 @@ public class AuthController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    public async Task<IActionResult> SendResetPassword([FromBody] ForgotPasswordCommand request)
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand request)
     {
-         if (!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -50,5 +50,26 @@ public class AuthController(IMediator mediator) : ControllerBase
         await _mediator.Send(request);
 
         return Ok(new { message = "Password reset email has been sent" });
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        await _mediator.Send(request);
+
+        return Ok(new { message = "Your password has been reset." });
+    }
+
+    [HttpPost("revoke-token")]
+    public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenCommand request)
+    {
+        await _mediator.Send(request);
+
+        return Ok(new { message = "Refresh token has been revoked." });
     }
 }

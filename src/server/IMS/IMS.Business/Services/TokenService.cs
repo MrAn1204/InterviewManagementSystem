@@ -63,4 +63,23 @@ public class TokenService(IConfiguration configuration) : ITokenService
 
         return refreshToken;
     }
+
+    public async Task<bool> RevokeRefreshTokenAsync(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            throw new ArgumentException("Invalid refresh token");
+        }
+
+        // TODO: Also check if refresh token exists on database
+        if (!File.Exists("refreshToken.txt"))
+        {
+            throw new ArgumentException("Refresh token not found");
+        }
+
+        // TODO: Set IsRevoked to true on database instead
+        File.Delete("refreshToken.txt");
+
+        return true;
+    }
 }

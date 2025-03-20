@@ -14,4 +14,6 @@ public interface ITokenService
 	Task<JwtSecurityToken> GenerateAccessTokenAsync(Guid tempId, string tempUsername);
 
     Task<RefreshToken> GenerateRefreshTokenAsync(Guid userId);
+
+	Task<bool> RevokeRefreshTokenAsync(string token);
 }
