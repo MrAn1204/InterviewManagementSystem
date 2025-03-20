@@ -6,13 +6,15 @@ public class LogoutQueryHandler : IRequestHandler<LogoutQuery, bool>
 {
     public async Task<bool> Handle(LogoutQuery request, CancellationToken cancellationToken)
     {
-        // TODO: Remove refresh token instead
-        if (File.Exists("token.txt"))
+        if (!File.Exists("token.txt"))
         {
-            File.Delete("token.txt");
-            return true;
+            return false;
         }
+
+        // TODO: Remove refresh token from database
+        File.Delete("token.txt");
+        File.Delete("refreshToken.txt");
         
-        return false;
+        return true;
     }
 }

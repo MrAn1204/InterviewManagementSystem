@@ -30,24 +30,33 @@ public class LoginCommandHandler(
             throw new ArgumentException("Password is incorrect");
         }
 
-        // TODO: Consider adding user information from database and add to token
-        var userInfo = string.Empty;
-
         // TODO: Remove this after code can work with database
-        var tempId = Guid.NewGuid().ToString();
+        var tempId = Guid.NewGuid();
 
-        var token = await _tokenService.GenerateAccessTokenAsync(tempId, request.Username);
+        // TODO: Add user information from database instead
+        var userInfo = new UserInfo
+        {
+            Id = tempId,
+            Username = request.Username,
+            DisplayName = "Temporary User",
+            Email = "temp@domain.com",
+            Roles = ["Admin"]
+        };
+
+        var accessToken = await _tokenService.GenerateAccessTokenAsync(tempId, request.Username);
         var tokenHandler = new JwtSecurityTokenHandler();
 
+        var refreshToken = await _tokenService.GenerateRefreshTokenAsync(tempId);
+
         // Temporary save access token in a file
-        await File.WriteAllTextAsync("token.txt", tokenHandler.WriteToken(token), cancellationToken);
+        await File.WriteAllTextAsync("token.txt", tokenHandler.WriteToken(accessToken), cancellationToken);
 
         var loginResult = new LoginResultDto
         {
-            AccessToken = tokenHandler.WriteToken(token),
-            UserId = tempId,
+            AccessToken = tokenHandler.WriteToken(accessToken),
+            RefreshToken = refreshToken.Token,
             UserInfo = userInfo,
-            ExpiresAt = token.ValidTo
+            ExpiresAt = accessToken.ValidTo
         };
 
         return loginResult;

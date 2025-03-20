@@ -4,11 +4,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IMS.Models.Entities;
 
 namespace IMS.Business.Services;
 
 public interface ITokenService
 {
 	// TODO: Replace parameters with User
-	Task<JwtSecurityToken> GenerateAccessTokenAsync(string tempId, string tempUsername);
+	Task<JwtSecurityToken> GenerateAccessTokenAsync(Guid tempId, string tempUsername);
+
+    Task<RefreshToken> GenerateRefreshTokenAsync(Guid userId);
 }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using IMS.Models.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,12 +17,12 @@ public class TokenService(IConfiguration configuration) : ITokenService
     private readonly IConfiguration _configuration = configuration;
 
 	// TODO: Replace parameters with User
-    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(string tempId, string tempUsername)
+    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(Guid tempId, string tempUsername)
     {
         // TODO: Add more information from database
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.NameId, tempId),
+            new(JwtRegisteredClaimNames.NameId, tempId.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, tempUsername),
         };
 
@@ -37,5 +39,28 @@ public class TokenService(IConfiguration configuration) : ITokenService
         );
 
 		return token;
+    }
+
+    public async Task<RefreshToken> GenerateRefreshTokenAsync(Guid userId)
+    {
+        var randomBytes = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        var token = Convert.ToBase64String(randomBytes);
+
+        var duration = Convert.ToDouble(_configuration["Jwt:RefreshDuration"]!);
+
+        var refreshToken = new RefreshToken
+        {
+            Token = token,
+            UserId = userId,
+            IsRevoked = false,
+            ExpiryDate = DateTime.Now.AddDays(duration)
+        };
+
+        // TODO: Save refresh token to database instead
+        await File.WriteAllTextAsync("refreshToken.txt", refreshToken.Token);
+
+        return refreshToken;
     }
 }
