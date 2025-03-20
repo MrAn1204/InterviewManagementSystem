@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IMS.Models.Entities;
+using IMS.Domain.Entities;
 
 namespace IMS.Business.Services;
 

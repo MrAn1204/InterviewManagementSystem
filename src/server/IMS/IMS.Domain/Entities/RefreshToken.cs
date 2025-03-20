@@ -1,4 +1,4 @@
-namespace IMS.Models.Entities;
+namespace IMS.Domain.Entities;
 
 public class RefreshToken
 {
