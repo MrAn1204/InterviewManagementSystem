@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\IMS.Business\IMS.Business.csproj" />
     <ProjectReference Include="..\IMS.Data\IMS.Data.csproj" />
-    <ProjectReference Include="..\IMS.Domain\IMS.Models.csproj" />
+    <ProjectReference Include="..\IMS.Domain\IMS.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

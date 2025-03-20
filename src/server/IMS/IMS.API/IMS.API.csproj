@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -37,7 +37,7 @@
     <ProjectReference Include="..\IMS.Business\IMS.Business.csproj" />
     <ProjectReference Include="..\IMS.Core\IMS.Core.csproj" />
     <ProjectReference Include="..\IMS.Data\IMS.Data.csproj" />
-    <ProjectReference Include="..\IMS.Domain\IMS.Models.csproj" />
+    <ProjectReference Include="..\IMS.Domain\IMS.Domain.csproj" />
     <ProjectReference Include="..\IMS.Tests\IMS.Tests.csproj" />
   </ItemGroup>
 

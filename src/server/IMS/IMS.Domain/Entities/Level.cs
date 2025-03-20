@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace IMS.Domain.Entities;
 
-public class BaseEntity
+public class Level
 {
 	public int Id { get; set; }
 
-	public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+	public string LevelName { get; set; } = null!;
+	public string? Description { get; set; }
 
-	public DateTime? UpdatedDate { get; set; }
+	// N:N -> Job
+	public ICollection<JobLevel>? JobLevels { get; set; }
 }
