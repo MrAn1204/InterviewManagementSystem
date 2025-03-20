@@ -7,6 +7,7 @@ using IMS.Business.Handlers;
 using IMS.Business.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using IMS.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,11 @@ var app = builder.Build();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 	.WithOrigins("http://localhost:4200", "https://localhost:4200"));
+using (var scope = app.Services.CreateScope())
+{
+	var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+	SeedData.Seed(dbContext);
+}
 
 //app.UseMiddleware<ExceptionMiddleware>();
 

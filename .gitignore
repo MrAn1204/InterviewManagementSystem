@@ -14,6 +14,7 @@ obj/
 .vscode/
 .idea/
 *.swp
+.vs/
 
 # 👉 Ignore environment & secret files
 .env
