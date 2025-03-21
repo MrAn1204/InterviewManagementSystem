@@ -1,13 +1,52 @@
+using System.Reflection;
+using System.Text;
+using IMS.API.Config;
 using IMS.API.Extensions;
 using IMS.API.Middleware;
+using IMS.Business.Handlers;
+using IMS.Business.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using IMS.Data;
+using Microsoft.AspNetCore.Identity;
+using IMS.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<AppSetting>(builder.Configuration);
+var appSetting = builder.Configuration.Get<AppSetting>();
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
+builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSetting!.Jwt.Secret!)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddIdentity<User, Role>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+    options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
+
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 	.WithOrigins("http://localhost:4200", "https://localhost:4200"));
 using (var scope = app.Services.CreateScope())
@@ -21,6 +60,9 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseAuthentication();  
+app.UseAuthorization(); 
 
 app.MapControllers();
 
