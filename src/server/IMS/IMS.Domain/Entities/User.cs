@@ -2,20 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace IMS.Domain.Entities;
 
-public class User : BaseEntity
+public class User : IdentityUser<int>, IBaseEntity
 {
-	public string Username { get; set; } = null!;
 	public string Password { get; set; } = null!;
-	public string Email { get; set; } = null!;
 	public string FullName { get; set; } = null!;
-	public string? PhoneNumber { get; set; }
 	public string? Address { get; set; }
 	public string? Note { get; set; }
 	public DateTime? DOB { get; set; }
 	public bool IsActive { get; set; } = true;
+	public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+	public DateTime? UpdatedDate { get; set; }
 
 	// 1:N -> Department
 	public int DepartmentId { get; set; }

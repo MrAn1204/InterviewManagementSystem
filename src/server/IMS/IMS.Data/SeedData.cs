@@ -55,7 +55,7 @@ public static class SeedData
 			{
 				new User
 				{
-					Username = "nguyenvana",
+					UserName = "nguyenvana",
 					Password = "123", // Bảo mật, nên Hash password
                         Email = "vana@example.com",
 					FullName = "Nguyễn Văn A",
@@ -69,7 +69,7 @@ public static class SeedData
 				},
 				new User
 				{
-					Username = "tranthib",
+					UserName = "tranthib",
 					Password = "123",
 					Email = "thib@example.com",
 					FullName = "Trần Thị B",
@@ -87,8 +87,8 @@ public static class SeedData
 
 		// 4) Gán UserRole
 		// Ví dụ: user "nguyenvana" => Admin, Manager; user "tranthib" => Recruiter, Interviewer
-		var userA = context.Users.FirstOrDefault(u => u.Username == "nguyenvana");
-		var userB = context.Users.FirstOrDefault(u => u.Username == "tranthib");
+		var userA = context.Users.FirstOrDefault(u => u.UserName == "nguyenvana");
+		var userB = context.Users.FirstOrDefault(u => u.UserName == "tranthib");
 
 		var adminRole = context.Roles.FirstOrDefault(r => r.RoleName == "Admin");
 		var managerRole = context.Roles.FirstOrDefault(r => r.RoleName == "Manager");
