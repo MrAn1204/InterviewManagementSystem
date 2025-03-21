@@ -8,6 +8,8 @@ using IMS.Business.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using IMS.Data;
+using Microsoft.AspNetCore.Identity;
+using IMS.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+builder.Services.AddIdentity<User, Role>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+    options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

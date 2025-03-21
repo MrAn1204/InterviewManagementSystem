@@ -1,7 +1,7 @@
 using System;
 using MediatR;
 
-namespace IMS.Business.Handlers.User;
+namespace IMS.Business.Handlers;
 
 public class ForgotPasswordCommand : IRequest
 {

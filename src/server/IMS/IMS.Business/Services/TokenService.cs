@@ -6,27 +6,34 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Business.Services;
 
-public class TokenService(IConfiguration configuration) : ITokenService
+public class TokenService(
+    IConfiguration configuration,
+    IUnitOfWorks unitOfWorks) : ITokenService
 {
     private readonly IConfiguration _configuration = configuration;
 
-	// TODO: Replace parameters with User
-    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(Guid tempId, string tempUsername)
+    private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+
+    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(User user)
     {
-        // TODO: Add more information from database
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.NameId, tempId.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, tempUsername),
+            new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, user.UserName ?? string.Empty),
+            new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-		// TODO: Add role claims
+    var roles = user.UserRoles?.Select(x => x.Role) ?? [];
+
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role?.RoleName ?? string.Empty)));
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
 
@@ -41,7 +48,7 @@ public class TokenService(IConfiguration configuration) : ITokenService
 		return token;
     }
 
-    public async Task<RefreshToken> GenerateRefreshTokenAsync(Guid userId)
+    public async Task<RefreshToken> GenerateRefreshTokenAsync(int userId)
     {
         var randomBytes = new byte[64];
         using var rng = RandomNumberGenerator.Create();
@@ -57,9 +64,8 @@ public class TokenService(IConfiguration configuration) : ITokenService
             IsRevoked = false,
             ExpiryDate = DateTime.Now.AddDays(duration)
         };
-
-        // TODO: Save refresh token to database instead
-        await File.WriteAllTextAsync("refreshToken.txt", refreshToken.Token);
+        
+        _unitOfWorks.RefreshTokenRepository.Add(refreshToken);
 
         return refreshToken;
     }
@@ -71,14 +77,18 @@ public class TokenService(IConfiguration configuration) : ITokenService
             throw new ArgumentException("Invalid refresh token");
         }
 
-        // TODO: Also check if refresh token exists on database
-        if (!File.Exists("refreshToken.txt"))
+        var tokens = await _unitOfWorks.RefreshTokenRepository.GetAllAsync();
+
+        var removeToken = tokens.FirstOrDefault(x => x.Token == token);
+
+        if (removeToken == null)
         {
             throw new ArgumentException("Refresh token not found");
         }
 
-        // TODO: Set IsRevoked to true on database instead
-        File.Delete("refreshToken.txt");
+        removeToken.IsRevoked = true;
+
+        _unitOfWorks.RefreshTokenRepository.Update(removeToken);
 
         return true;
     }

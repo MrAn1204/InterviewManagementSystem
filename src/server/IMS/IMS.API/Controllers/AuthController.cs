@@ -1,5 +1,4 @@
 using IMS.Business.Handlers;
-using IMS.Business.Handlers.User;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
@@ -27,9 +26,9 @@ public class AuthController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost("logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout([FromBody] LogoutCommand request)
     {
-        var result = await _mediator.Send(new LogoutQuery());
+        var result = await _mediator.Send(request);
 
         if (result)
         {
@@ -60,7 +59,12 @@ public class AuthController(IMediator mediator) : ControllerBase
             return BadRequest(ModelState);
         }
 
-        await _mediator.Send(request);
+        var result = await _mediator.Send(request);
+
+        if (!result)
+        {
+            return BadRequest(new { message = "Password reset failed." });
+        }
 
         return Ok(new { message = "Your password has been reset." });
     }

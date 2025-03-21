@@ -10,10 +10,9 @@ namespace IMS.Business.Services;
 
 public interface ITokenService
 {
-	// TODO: Replace parameters with User
-	Task<JwtSecurityToken> GenerateAccessTokenAsync(Guid tempId, string tempUsername);
+	Task<JwtSecurityToken> GenerateAccessTokenAsync(User user);
 
-    Task<RefreshToken> GenerateRefreshTokenAsync(Guid userId);
+    Task<RefreshToken> GenerateRefreshTokenAsync(int userId);
 
 	Task<bool> RevokeRefreshTokenAsync(string token);
 }

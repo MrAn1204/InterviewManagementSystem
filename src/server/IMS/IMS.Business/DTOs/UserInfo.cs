@@ -2,7 +2,7 @@ namespace IMS.Business.DTOs;
 
 public class UserInfo
 {
-    public required Guid Id { get; set; }
+    public required int Id { get; set; }
 
     public required string Username { get; set; }
 

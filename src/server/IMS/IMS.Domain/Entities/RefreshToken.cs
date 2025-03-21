@@ -2,7 +2,7 @@ namespace IMS.Domain.Entities;
 
 public class RefreshToken
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     public required string Token { get; set; }
 
@@ -10,5 +10,5 @@ public class RefreshToken
 
     public bool IsRevoked { get; set; } = false;
 
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
 }

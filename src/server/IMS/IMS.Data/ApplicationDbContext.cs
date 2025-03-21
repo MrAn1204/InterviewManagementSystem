@@ -33,6 +33,7 @@ public class ApplicationDbContext : DbContext
 	public DbSet<JobSkill> JobSkills { get; set; } = null!;
 	public DbSet<JobLevel> JobLevels { get; set; } = null!;
 	public DbSet<OfferDepartment> OfferDepartments { get; set; } = null!;
+	public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

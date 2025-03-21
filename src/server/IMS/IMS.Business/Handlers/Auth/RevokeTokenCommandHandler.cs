@@ -1,7 +1,7 @@
 using IMS.Business.Services;
 using MediatR;
 
-namespace IMS.Business.Handlers.User;
+namespace IMS.Business.Handlers;
 
 public class RevokeTokenCommandHandler(ITokenService tokenService) : IRequestHandler<RevokeTokenCommand, bool>
 {

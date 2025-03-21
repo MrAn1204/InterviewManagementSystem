@@ -1,9 +1,14 @@
+using IMS.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace IMS.Business.Handlers.User;
+namespace IMS.Business.Handlers;
 
-public class ResetPasswordCommandHandler() : IRequestHandler<ResetPasswordCommand, bool>
+public class ResetPasswordCommandHandler(UserManager<User> userManager) : IRequestHandler<ResetPasswordCommand, bool>
 {
+    private readonly UserManager<User> _userManager = userManager;
+
     public async Task<bool> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
         if (!request.NewPassword.Equals(request.ConfirmNewPassword))
@@ -11,8 +16,15 @@ public class ResetPasswordCommandHandler() : IRequestHandler<ResetPasswordComman
             throw new ArgumentException("Passwords do not match");
         }
 
-        // TODO: Update password on database
+        var user = await _userManager.Users.FirstAsync(
+            x => x.Email == request.Email, cancellationToken);
+        
+        user.Password = request.NewPassword;
 
-        return true;
+        // UpdateAsync() requires SecurityStamp. Assign random value since user is not created with it.
+        user.SecurityStamp ??= Guid.NewGuid().ToString();
+        var result = await _userManager.UpdateAsync(user);
+
+        return result.Succeeded;
     }
 }
