@@ -4,5 +4,5 @@ export class LoginResponse {
     public accessToken!: string;
     public refreshToken!: string;
     public expiresAt!: Date;
-    public user!: UserInformation;
+    public userInfo!: UserInformation;
 }

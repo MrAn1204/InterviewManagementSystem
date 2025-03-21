@@ -9,8 +9,9 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService implements IAuthService {
-  private apiUrl: string = 'http://localhost:5176/api/auth';
+  private apiUrl: string = 'https://localhost:7287/api/auth';
   
   private _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -80,13 +81,14 @@ export class AuthService implements IAuthService {
       .post<LoginResponse>(this.apiUrl + '/login', loginRequest)
       .pipe(
         tap((response: LoginResponse) => {
+          console.log(response.expiresAt);
           localStorage.setItem('accessToken', response.accessToken);
           localStorage.setItem(
             'userInformation',
-            JSON.stringify(response.user)
+            JSON.stringify(response.userInfo)
           );
           this._isAuthenticated.next(true);
-          this._userInformation.next(response.user);
+          this._userInformation.next(response.userInfo);
         })
       );
   }
