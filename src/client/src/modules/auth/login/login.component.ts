@@ -1,33 +1,30 @@
 import { IAuthService } from './../../../services/auth/auth-service.interface';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public form!: FormGroup;
 
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
-    private router: Router
-  ) {
-    this.authService.isAuthenticated().subscribe((res) => {
-      if (res) {
-        this.router.navigate(['/']);
-      }
-    });
-  }
+    private router: Router,
+    private toastr: ToastrService // Inject ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -49,14 +46,25 @@ export class LoginComponent {
   }
 
   public onSubmit(): void {
+    if (this.form.invalid) {
+      this.toastr.warning('Please fill in all required fields!', 'Warning');
+      return;
+    }
+
     this.authService.login(this.form.value).subscribe({
       next: (response) => {
         console.log('Login Response:', response);
         if (response) {
+          this.toastr.success('Login successful!', 'Success');
           this.router.navigate(['/']);
+        } else {
+          this.toastr.error('Login failed!', 'Error');
         }
       },
-      error: (err) => console.error('Login Error:', err)
+      error: (err) => {
+        console.error('Login Error:', err);
+        this.toastr.error('Invalid username or password!', 'Error');
+      }
     });
   }
 }

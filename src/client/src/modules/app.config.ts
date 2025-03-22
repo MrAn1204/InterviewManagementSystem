@@ -1,3 +1,5 @@
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -17,5 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withFetch(),
     ),
+    provideAnimations(),
+    provideToastr(),
   ]
 };

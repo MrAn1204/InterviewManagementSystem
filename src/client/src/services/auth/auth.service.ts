@@ -5,13 +5,15 @@ import { LoginRequest } from '../../models/auth/login-request.model';
 import { LoginResponse } from '../../models/auth/login-response.model';
 import { UserInformation } from '../../models/auth/user-information.model';
 import { HttpClient } from '@angular/common/http';
+import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request.model';
+import { ResetPasswordRequest } from '../../models/auth/reset-password-request.model';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService implements IAuthService {
-  private apiUrl: string = 'https://localhost:7287/api/auth';
+  private apiUrl: string = 'http://localhost:5113/api/auth';
   
   private _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -27,14 +29,14 @@ export class AuthService implements IAuthService {
 
   constructor(private httpClient: HttpClient) {
     // Check if the access token is present in local storage
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      this._isAuthenticated.next(true);
-    }
-    const userInformation = localStorage.getItem('userInformation');
-    if (userInformation) {
-      this._userInformation.next(JSON.parse(userInformation));
-    }
+    // const accessToken = localStorage.getItem('accessToken');
+    // if (accessToken) {
+    //   this._isAuthenticated.next(true);
+    // }
+    // const userInformation = localStorage.getItem('userInformation');
+    // if (userInformation) {
+    //   this._userInformation.next(JSON.parse(userInformation));
+    // }
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -81,7 +83,6 @@ export class AuthService implements IAuthService {
       .post<LoginResponse>(this.apiUrl + '/login', loginRequest)
       .pipe(
         tap((response: LoginResponse) => {
-          console.log(response.expiresAt);
           localStorage.setItem('accessToken', response.accessToken);
           localStorage.setItem(
             'userInformation',
@@ -91,6 +92,15 @@ export class AuthService implements IAuthService {
           this._userInformation.next(response.userInfo);
         })
       );
+  }
+
+  public forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<any> {
+    console.log(forgotPasswordRequest);
+    return this.httpClient.post(`${this.apiUrl}/forgot-password`, forgotPasswordRequest);
+  }
+  
+  resetPassword(resetPasswordRequest: ResetPasswordRequest): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.apiUrl}/reset-password`, resetPasswordRequest);
   }
 
 }
