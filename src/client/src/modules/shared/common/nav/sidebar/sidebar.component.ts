@@ -1,11 +1,43 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, HostListener } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  IconDefinition, faGear, faUser,
+  faHome, faBriefcase, faCalendarAlt, faUsers,
+  faFileAlt,
+  faAngleDoubleLeft,
+  faAngleDoubleRight
+} from '@fortawesome/free-solid-svg-icons';
+import { SidebarService } from '../../../../../services/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  public faHome: IconDefinition = faHome;
+  public faGear: IconDefinition = faGear;
+  public faBriefcase: IconDefinition = faBriefcase;
+  public faFileAlt: IconDefinition = faFileAlt;
+  public faUser: IconDefinition = faUser;
+  public faUsers: IconDefinition = faUsers;
+  public faCalendarAlt: IconDefinition = faCalendarAlt;
+  public faAngleDoubleLeft: IconDefinition = faAngleDoubleLeft;
+  public faAngleDoubleRight: IconDefinition = faAngleDoubleRight;
 
+  constructor(public sidebarService: SidebarService) { }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if ((window.innerWidth < 768 && !this.sidebarService.isCollapsed) ||
+      (window.innerWidth >= 768 && this.sidebarService.isCollapsed)) {
+      this.toggleSidebar();
+    }
+  }
+
+  toggleSidebar(): void {
+    this.sidebarService.toggleSidebar();
+  }
 }

@@ -1,1 +1,27 @@
-<p>header works!</p>
+<header
+    class="h-20 flex justify-between items-center shadow-md bg-white text-black p-4 fixed top-0 right-0 z-50"
+    [ngClass]="(sidebarService.isCollapsed$ | async) ? 'left-24' : 'left-64'">
+    <nav class=" navbar flex justify-between items-center w-full mx-auto">
+    <div class="flex items-center max-md:relative max-md:w-full">
+        <h1 class="text-2xl font-semibold">
+            Homepage
+        </h1>
+    </div>
+    <ng-container>
+        <div class="profile-menu flex items-center relative h-full" (click)="toggleProfileDropdown($event)">
+            <div class="h-full flex items-center mr-4 cursor-pointer">
+                <img src="./assets/avatar.png" alt="User Avatar" class="h-10 w-10 rounded-full mr-2 bg-sky-500">
+                <div class="hidden md:block">
+                    <p class="text-xl">Nguyen Van A</p>
+                    <p class="text-sm text-gray-600">HR Department</p>
+                </div>
+            </div>
+            <div class="profile-dropdown absolute top-full right-0 bg-white *:text-black shadow-md w-[200px] rounded-md *:block *:p-4 *:hover:bg-blue-500 *:hover:text-white *:cursor-pointer"
+                [ngClass]="{'hidden': !isShowProfileDropdown}">
+                <a href="" class="border-b border-slate-100 hover:rounded-t-md">Account</a>
+                <button class="w-full text-left hover:rounded-b-md">Logout</button>
+            </div>
+        </div>
+    </ng-container>
+    </nav>
+</header>
