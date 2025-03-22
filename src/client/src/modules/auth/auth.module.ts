@@ -5,10 +5,10 @@ import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [],
   imports: [
     CommonModule
   ],
-  exports: [LoginComponent]
+  exports: []
 })
 export class AuthModule { }
