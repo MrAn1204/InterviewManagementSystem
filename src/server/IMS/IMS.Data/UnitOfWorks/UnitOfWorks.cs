@@ -12,6 +12,8 @@ namespace IMS.Data.UnitOfWorks
     {
 		private readonly ApplicationDbContext _context = context;
 		
-        public GenericRepository<RefreshToken> RefreshTokenRepository => new GenericRepository<RefreshToken>(_context);
+        public GenericRepository<RefreshToken> RefreshTokenRepository => new(_context);
+
+        public GenericRepository<ResetPasswordToken> ResetPasswordTokenRepository => new(_context);
     }
 }
