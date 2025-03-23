@@ -7,6 +7,7 @@
     <title>Tailwind Popup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./shared.css">
 </head>
 
 <body class="flex items-center justify-center h-screen bg-gray-100">
@@ -16,12 +17,12 @@
 
     <!-- Popup Modal -->
     <div id="popupModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-        <form class="flex flex-col gap-8 bg-white w-96 p-6 rounded-lg shadow-lg text-center">
+        <form class="flex flex-col space-y-8 bg-white w-96 p-8 rounded-lg shadow-lg text-center">
             <div>
                 <i class="fa-solid fa-file-export text-4xl text-green-500"></i>
                 <p class="text-2xl break-words">Export offer</p>
             </div>
-            <div class="flex flex-col md:flex-row md:justify-between *:text-left *:w-full md:space-x-4">
+            <div class="flex flex-col md:flex-row md:justify-between *:text-left *:w-full md:gap-4 gap-4">
                 <div>
                     <span>From</span>
                     <input type="date" id="export-from" name="exportFrom"
@@ -37,9 +38,9 @@
             </div>
             <div class="modal-buttons flex flex-wrap *:w-2/5 justify-evenly">
                 <button onclick="closePopup()"
-                    class="bg-gray-400 text-white font-bold py-2 rounded-md hover:bg-gray-600 text-center">Cancel</button>
+                    class="bg-dark-gray text-white font-semibold py-2 rounded-md hover:bg-gray-500 text-center">Cancel</button>
                 <button type="submit" onclick="closePopup()"
-                    class="bg-blue-500 text-white font-bold py-2 rounded-md hover:bg-blue-700">Export</button>
+                    class="bg-dark-blue text-white font-semibold py-2 rounded-md hover:bg-blue-500">Export</button>
             </div>
         </form>
     </div>
