@@ -11,5 +11,7 @@ namespace IMS.Data.UnitOfWorks
 	public interface IUnitOfWorks
 	{
 		GenericRepository<RefreshToken> RefreshTokenRepository { get; }
+
+		GenericRepository<ResetPasswordToken> ResetPasswordTokenRepository { get; }
 	}
 }

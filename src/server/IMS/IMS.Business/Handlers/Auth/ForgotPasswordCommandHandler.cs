@@ -1,17 +1,35 @@
 using IMS.Business.Services;
+using IMS.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class ForgotPasswordCommandHandler(IEmailService emailService) : IRequestHandler<ForgotPasswordCommand>
+public class ForgotPasswordCommandHandler(
+    IEmailService emailService,
+    ITokenService tokenService,
+    UserManager<User> userManager
+) : IRequestHandler<ForgotPasswordCommand>
 {
     private readonly IEmailService _emailService = emailService;
 
+    private readonly ITokenService _tokenService = tokenService;
+
+    private readonly UserManager<User> _userManager = userManager;
+
     public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        // TODO: Check if email exists on database
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+
+        if (user == null)
+        {
+            throw new ArgumentException("This email is not linked to any account.");
+        }
+
+        var token = await _tokenService.GenerateResetPasswordTokenAsync(user);
         
-        var resetLink = $"http://localhost:4200/reset-password?email={request.Email}";
+        var resetLink = $"http://localhost:4200/reset-password?token={token.Token}";
         string subject = "Password Reset";
         string message = $@"
             <html>

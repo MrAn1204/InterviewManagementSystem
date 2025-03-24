@@ -7,6 +7,8 @@ import { SidebarService } from '../../../../../services/sidebar/sidebar.service'
 import { UserInformation } from '../../../../../models/auth/user-information.model';
 import { IAuthService } from '../../../../../services/auth/auth-service.interface';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -20,16 +22,27 @@ export class HeaderComponent implements OnInit {
   public profileMenuElement!: HTMLElement;
   userInfo: UserInformation | null | undefined;
 
+
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
-    public sidebarService: SidebarService, private renderer: Renderer2) { }
+    public sidebarService: SidebarService,
+    private renderer: Renderer2,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.authService.getUserInformation().subscribe((data) => {
       this.userInfo = data;
     });
   }
-
+onLogout(): void {
+    // Gọi logout từ AuthService
+    this.authService.logout();
+    // Điều hướng về trang login (hoặc trang tuỳ ý)
+  this.router.navigate(['/login']);
+  this.toastr.warning('You were Logout');
+  }
   @HostListener('document:click', ['$event.target'])
   clickOutside(event: MouseEvent) {
     if (

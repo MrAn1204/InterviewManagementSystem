@@ -1,4 +1,5 @@
 ﻿using IMS.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +10,26 @@ namespace IMS.Data;
 
 public static class SeedData
 {
-	public static void Seed(ApplicationDbContext context)
+	public static void Seed(ApplicationDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
 	{
+		// Create transaction
+		using var transaction = context.Database.BeginTransaction();
+
 		// 1) Thêm 4 Role nếu chưa có
 		if (!context.Roles.Any())
 		{
 			var roles = new[]
 			{
-				new Role { RoleName = "Recruiter".ToUpper() },
-				new Role { RoleName = "Interviewer".ToUpper() },
-				new Role { RoleName = "Admin".ToUpper() },
-				new Role { RoleName = "Manager".ToUpper() }
+				new Role { Name = "Recruiter".ToUpper() },
+				new Role { Name = "Interviewer".ToUpper() },
+				new Role { Name = "Admin".ToUpper() },
+				new Role { Name = "Manager".ToUpper() }
 			};
-			context.Roles.AddRange(roles);
-			context.SaveChanges();
+
+			foreach (var role in roles)
+			{
+				roleManager.CreateAsync(role).Wait();
+			}
 		}
 
 		// 2) Thêm Department (VD: "Nhân Sự", "Kỹ Thuật") nếu cần
@@ -51,13 +58,14 @@ public static class SeedData
 			var deptHr = context.Departments.FirstOrDefault(d => d.DepartmentName == "Nhân Sự");
 			var deptIt = context.Departments.FirstOrDefault(d => d.DepartmentName == "Kỹ Thuật");
 
+			var passwordHasher = new PasswordHasher<User>();
+
 			var users = new[]
 			{
 				new User
 				{
 					UserName = "nguyenvana",
-					Password = "123", // Bảo mật, nên Hash password
-                        Email = "vana@example.com",
+					Email = "vana@example.com",
 					FullName = "Nguyễn Văn A",
 					PhoneNumber = "0901123456",
 					Address = "Hà Nội",
@@ -70,7 +78,6 @@ public static class SeedData
 				new User
 				{
 					UserName = "tranthib",
-					Password = "123",
 					Email = "thib@example.com",
 					FullName = "Trần Thị B",
 					PhoneNumber = "0902233445",
@@ -81,8 +88,12 @@ public static class SeedData
 					CreatedDate = DateTime.UtcNow
 				}
 			};
-			context.Users.AddRange(users);
-			context.SaveChanges();
+
+			foreach (var user in users)
+			{
+				user.PasswordHash = passwordHasher.HashPassword(user, "123");
+				userManager.CreateAsync(user).Wait();
+			}
 		}
 
 		// 4) Gán UserRole
@@ -90,23 +101,25 @@ public static class SeedData
 		var userA = context.Users.FirstOrDefault(u => u.UserName == "nguyenvana");
 		var userB = context.Users.FirstOrDefault(u => u.UserName == "tranthib");
 
-		var adminRole = context.Roles.FirstOrDefault(r => r.RoleName == "Admin");
-		var managerRole = context.Roles.FirstOrDefault(r => r.RoleName == "Manager");
-		var recruiterRole = context.Roles.FirstOrDefault(r => r.RoleName == "Recruiter");
-		var interviewerRole = context.Roles.FirstOrDefault(r => r.RoleName == "Interviewer");
+		var adminRole = context.Roles.FirstOrDefault(r => r.Name == "Admin");
+		var managerRole = context.Roles.FirstOrDefault(r => r.Name == "Manager");
+		var recruiterRole = context.Roles.FirstOrDefault(r => r.Name == "Recruiter");
+		var interviewerRole = context.Roles.FirstOrDefault(r => r.Name == "Interviewer");
 
-		if (userA != null && !context.UserRoles.Any(ur => ur.UserId == userA.Id))
-		{
-			context.UserRoles.Add(new UserRole { UserId = userA.Id, RoleId = adminRole!.Id });
-			context.UserRoles.Add(new UserRole { UserId = userA.Id, RoleId = managerRole!.Id });
-		}
+		var userRoles = new[] {
+			new { User = userA!, RoleName = adminRole!.Name },
+			new { User = userA!, RoleName = managerRole!.Name },
+			new { User = userB!, RoleName = recruiterRole!.Name },
+			new { User = userB!, RoleName = interviewerRole!.Name },
+		};
 
-		if (userB != null && !context.UserRoles.Any(ur => ur.UserId == userB.Id))
+		foreach (var userRole in userRoles)
 		{
-			context.UserRoles.Add(new UserRole { UserId = userB.Id, RoleId = recruiterRole!.Id });
-			context.UserRoles.Add(new UserRole { UserId = userB.Id, RoleId = interviewerRole!.Id });
+			userManager.AddToRoleAsync(userRole.User, userRole.RoleName!).Wait();
 		}
 
 		context.SaveChanges();
+
+		transaction.Commit();
 	}
 }

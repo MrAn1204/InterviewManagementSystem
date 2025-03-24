@@ -8,8 +8,6 @@ namespace IMS.Domain.Entities;
 
 public class Role : IdentityRole<int>
 {
-	public string RoleName { get; set; } = null!;
-
 	// Navigation
 	public ICollection<UserRole>? UserRoles { get; set; }
 }

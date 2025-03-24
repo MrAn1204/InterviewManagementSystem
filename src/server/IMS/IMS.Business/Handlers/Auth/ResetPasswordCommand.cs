@@ -2,9 +2,9 @@ using MediatR;
 
 namespace IMS.Business.Handlers;
 
-public class ResetPasswordCommand : IRequest<bool>
+public class ResetPasswordCommand : IRequest<string>
 {
-    public required string Email { get; set; }
+    public required string Token { get; set; }
 
     public required string NewPassword { get; set; }
 

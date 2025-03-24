@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,11 +17,15 @@ namespace IMS.Business.Services;
 
 public class TokenService(
     IConfiguration configuration,
-    IUnitOfWorks unitOfWorks) : ITokenService
+    IUnitOfWorks unitOfWorks,
+    UserManager<User> userManager) : ITokenService
 {
     private readonly IConfiguration _configuration = configuration;
 
     private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+
+    private readonly UserManager<User> _userManager = userManager;
+
 
     public async Task<JwtSecurityToken> GenerateAccessTokenAsync(User user)
     {
@@ -33,7 +39,7 @@ public class TokenService(
 
     var roles = user.UserRoles?.Select(x => x.Role) ?? [];
 
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role?.RoleName ?? string.Empty)));
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role?.Name ?? string.Empty)));
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
 
@@ -70,6 +76,22 @@ public class TokenService(
         return refreshToken;
     }
 
+    public async Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(User user)
+    {       
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+        var resetToken = new ResetPasswordToken
+        {
+            Token = token,
+            UserId = user.Id,
+            ExpiryDate = DateTime.UtcNow.AddDays(1),
+        };
+        
+        _unitOfWorks.ResetPasswordTokenRepository.Add(resetToken);
+
+        return resetToken;
+    }
+
     public async Task<bool> RevokeRefreshTokenAsync(string token)
     {
         if (string.IsNullOrEmpty(token))
@@ -79,17 +101,48 @@ public class TokenService(
 
         var tokens = await _unitOfWorks.RefreshTokenRepository.GetAllAsync();
 
-        var removeToken = tokens.FirstOrDefault(x => x.Token == token);
+        var revokeToken = tokens.FirstOrDefault(x => x.Token == token);
 
-        if (removeToken == null)
+        if (revokeToken == null)
         {
             throw new ArgumentException("Refresh token not found");
         }
 
-        removeToken.IsRevoked = true;
+        revokeToken.IsRevoked = true;
 
-        _unitOfWorks.RefreshTokenRepository.Update(removeToken);
+        _unitOfWorks.RefreshTokenRepository.Update(revokeToken);
 
         return true;
+    }
+
+    public async Task<bool> MarkUsedResetPasswordTokenAsync(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            throw new ArgumentException("Invalid token");
+        }
+
+        var tokens = await _unitOfWorks.ResetPasswordTokenRepository.GetAllAsync();
+
+        var revokeToken = tokens.FirstOrDefault(x => x.Token == token);
+
+        if (revokeToken == null)
+        {
+            throw new ArgumentException("Token not found");
+        }
+
+        revokeToken.IsUsed = true;
+
+        _unitOfWorks.ResetPasswordTokenRepository.Update(revokeToken);
+
+        return true;
+    }
+
+    public async Task<bool> ValidateResetPasswordAsync(string token)
+    {
+        var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
+            .FirstOrDefaultAsync(x => x.Token == token);
+
+        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow;
     }
 }
