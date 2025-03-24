@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ResetPasswordComponent implements OnInit {
   public resetPasswordForm!: FormGroup;
-  public email: string = '';
+  public token: string = '';
 
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.email = params['email'] || '';
+      this.token = params['token'] || '';
     });
 
     this.createForm();
@@ -53,7 +53,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     const requestData: ResetPasswordRequest = {
-      Email: this.email,
+      Token: encodeURIComponent(this.token),
       NewPassword: newPassword,
       ConfirmNewPassword: confirmNewPassword
     };

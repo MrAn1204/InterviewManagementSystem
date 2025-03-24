@@ -23,17 +23,17 @@ public class LoginCommandHandler(
 
     public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(
-            x => x.UserName == request.Username, cancellationToken: cancellationToken)
+        var user = await _userManager.FindByNameAsync(request.Username)
             ?? throw new ArgumentException("User with username not found");
         
-        // No hashed password
-        if (user.Password != request.Password)
+        var isCorrectPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+
+        if (!isCorrectPassword)
         {
             throw new ArgumentException("Password is incorrect");
         }
 
-        var roles = user.UserRoles ?? [];
+        var roles = await _userManager.GetRolesAsync(user);
 
         var userInfo = new UserInfo
         {
@@ -41,7 +41,7 @@ public class LoginCommandHandler(
             Username = user.UserName ?? string.Empty,
             DisplayName = user.FullName,
             Email = user.Email,
-            Roles = [.. roles.Select(x => x.Role?.RoleName ?? string.Empty)]
+            Roles = [.. roles]
         };
 
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user);

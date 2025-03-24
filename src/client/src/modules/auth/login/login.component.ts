@@ -31,40 +31,37 @@ export class LoginComponent implements OnInit {
   }
 
   public createForm() {
-    this.form = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(255),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20),
-      ]),
-    });
-  }
+  this.form = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
+    rememberMe: new FormControl(false)
+  });
+}
+
 
   public onSubmit(): void {
-    if (this.form.invalid) {
-      this.toastr.warning('Please fill in all required fields!', 'Warning');
-      return;
-    }
-
-    this.authService.login(this.form.value).subscribe({
-      next: (response) => {
-        console.log('Login Response:', response);
-        if (response) {
-          this.toastr.success('Login successful!', 'Success');
-          this.router.navigate(['/']);
-        } else {
-          this.toastr.error('Login failed!', 'Error');
-        }
-      },
-      error: (err) => {
-        console.error('Login Error:', err);
-        this.toastr.error('Invalid username or password!', 'Error');
-      }
-    });
+  if (this.form.invalid) {
+    this.toastr.warning('Please fill in all required fields!', 'Warning');
+    return;
   }
+
+  const loginRequest = {
+    username: this.form.value.username,
+    password: this.form.value.password
+  };
+
+  const rememberMe = this.form.value.rememberMe;
+
+  this.authService.login(loginRequest, rememberMe).subscribe({
+    next: (response) => {
+      this.toastr.success('Login successful!', 'Success');
+      this.router.navigate(['/admin']);
+    },
+    error: (err) => {
+      console.error('Login Error:', err);
+      this.toastr.error('Invalid username or password!', 'Error');
+    },
+  });
+}
+
 }

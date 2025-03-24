@@ -1,3 +1,7 @@
+using System.Net;
+using System.Web;
+using IMS.Business.Services;
+using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -5,26 +9,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class ResetPasswordCommandHandler(UserManager<User> userManager) : IRequestHandler<ResetPasswordCommand, bool>
+public class ResetPasswordCommandHandler(
+    UserManager<User> userManager,
+    IUnitOfWorks unitOfWorks
+) : IRequestHandler<ResetPasswordCommand, string>
 {
     private readonly UserManager<User> _userManager = userManager;
 
-    public async Task<bool> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+    private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+
+    public async Task<string> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
         if (!request.NewPassword.Equals(request.ConfirmNewPassword))
         {
             throw new ArgumentException("Passwords do not match");
         }
 
-        var user = await _userManager.Users.FirstAsync(
-            x => x.Email == request.Email, cancellationToken);
+        var decodedToken = WebUtility.UrlDecode(request.Token);
+        decodedToken = decodedToken.Replace(" ", "+");
+
+        var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
+            .FirstOrDefaultAsync(x => x.Token == decodedToken, cancellationToken)
+            ?? throw new InvalidOperationException("Reset password token is not found.");
         
-        user.Password = request.NewPassword;
+        if (resetToken.IsUsed || resetToken.ExpiryDate < DateTime.UtcNow)
+        {
+            throw new InvalidOperationException("This token has already been used or expired.");
+        }
 
-        // UpdateAsync() requires SecurityStamp. Assign random value since user is not created with it.
-        user.SecurityStamp ??= Guid.NewGuid().ToString();
-        var result = await _userManager.UpdateAsync(user);
+        var user = await _userManager.FindByIdAsync(resetToken.UserId.ToString());
+        
+        var result = await _userManager.ResetPasswordAsync(user!, resetToken.Token, request.NewPassword);
 
-        return result.Succeeded;
+        if (!result.Succeeded)
+        {
+            return result.Errors.First().Description;
+        }
+
+        return string.Empty;
     }
 }

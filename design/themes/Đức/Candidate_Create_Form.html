@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Create </title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1976d2',    // màu xanh dương
+                        secondary: '#424242', // xám đậm
+                        // bạn có thể bổ sung thêm nếu cần
+                    }
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header
+        class="h-20 flex justify-between items-center shadow-md bg-white text-black p-4 fixed top-0 left-64 right-0 z-50">
+        <div class="flex items-center max-md:relative max-md:w-full">
+            <h1 class="text-2xl font-semibold">
+                Homepage
+            </h1>
+        </div>
+        <div class="flex items-center relative h-full">
+            <div id="userDropdown" class="h-full flex items-center mr-4 cursor-pointer">
+                <img src="./avatar.png" alt="User Avatar" class="h-10 w-10 rounded-full mr-2 bg-sky-500">
+                <div class="hidden md:block">
+                    <p class="text-xl">Nguyen Van A</p>
+                    <p class="text-sm">HR Department</p>
+                </div>
+            </div>
+
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu"
+                class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                <ul class="py-2 text-sm text-gray-700">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Account</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex">
+        <aside class="flex flex-col h-full w-64 bg-[#121C3E] text-white fixed left-0 z-50" id="sidebar">
+            <div class="flex w-full mt-6 justify-center">
+                <a href="#">
+                    <img src="./logo-ims.png" alt="IMS Logo" class="h-10">
+                </a>
+            </div>
+            <div class="flex flex-col mt-6" id="menu-items">
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-home text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Homepage</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-user text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Candidate</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-briefcase text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Job</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-calendar-alt text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Interview</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-file-alt text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Offer</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-users text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">User</span>
+                </a>
+            </div>
+            <div class="mt-auto flex justify-between items-center text-center border-t border-slate-400"
+                id="menuBottom">
+                <a class="flex items-center grow w-full text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fa-solid fa-gear text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+                <a id="toggleCollapse"
+                    class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black cursor-pointer"
+                    href="#">
+                    <i id="collapseIcon" class="fa-solid fa-angles-left text-2xl w-8 mr-2"></i>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <div class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300" id="mainContent">
+            <!-- Container chính, max-width ~1200px, margin auto -->
+            <div class="container mx-auto max-w-screen-xl py-8 px-4">
+                <!-- Tiêu đề (giữ font-semibold) -->
+                <h1 class="text-4xl font-semibold mb-8">
+                    Create Candidate
+                </h1>
+                <div class="pb-8">
+                    <a class="text-xl" href=""><u>Candidate List</u></a> >
+                    <a class="text-xl" href=""><u>Create Candidate</u></a>
+                </div>
+
+                <!-- Card bao quanh form -->
+                <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+                    <!-- Phần I: Personal information -->
+                    <h2 class="text-2xl font-semibold mb-4">I. Personal information</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Full Name (required) -->
+                        <div>
+                            <label for="fullName" class="block text-lg mb-1 font-semibold">
+                                Full name
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Type a name..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required />
+                        </div>
+
+                        <!-- Email (required) -->
+                        <div>
+                            <label for="email" class="block text-lg mb-1 font-semibold">
+                                Email
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" placeholder="Type an email..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required />
+                        </div>
+
+                        <!-- D.O.A (Date of Appointment) -> datetime-local -->
+                        <div>
+                            <label for="doa" class="block text-lg mb-1 font-semibold">
+                                D.O.B
+                            </label>
+                            <input type="date" id="doa" name="dob"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Address -->
+                        <div>
+                            <label for="address" class="block text-lg mb-1 font-semibold">
+                                Address
+                            </label>
+                            <input type="text" id="address" name="address" placeholder="Type an address..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div>
+                            <label for="phoneNumber" class="block text-lg mb-1 font-semibold">
+                                Phone number
+                            </label>
+                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Type a number..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Gender (required) -->
+                        <div>
+                            <label for="gender" class="block text-lg mb-1 font-semibold">
+                                Gender
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <select id="gender" name="gender"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Phần II: Professional information -->
+                    <h2 class="text-2xl font-semibold mt-8 mb-4">II. Professional information</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- CV Attachment -->
+                        <div>
+                            <label for="cvAttachment" class="block text-lg mb-1 font-semibold">
+                                CV attachment
+                            </label>
+                            <input type="file" id="cvAttachment" name="cvAttachment"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Note -->
+                        <div>
+                            <label for="note" class="block text-lg mb-1 font-semibold">
+                                Note
+                            </label>
+                            <input type="text" id="note" name="note" placeholder="N/A"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Position -->
+                        <div>
+                            <label for="position" class="block text-lg mb-1 font-semibold">
+                                Position
+                            </label>
+                            <select id="position" name="position"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                <option value="">Select a position</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="fullstack">Fullstack Developer</option>
+                                <option value="qa">QA Engineer</option>
+                                <!-- ... -->
+                            </select>
+                        </div>
+
+                        <!-- Skills (multi-select) & required -->
+                        <div class="relative" id="skills-wrapper font-semibold">
+                            <label class="block text-lg mb-1">
+                                Skills
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <!-- Ô input hiển thị các kỹ năng đã chọn (chỉ đọc) -->
+                            <input type="text" id="skillsInput"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                                placeholder="Click to select skills" readonly required />
+                            <!-- Dropdown chứa danh sách checkbox -->
+                            <div id="skillsDropdown"
+                                class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
+                                <div class="p-2 max-h-48 overflow-y-auto">
+                                    <!-- Mỗi kỹ năng là 1 checkbox + label -->
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Java" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        Java
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value=".NET" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        .NET
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Node.js" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        Node.js
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="System Design" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        System Design
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="React" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        React
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Angular" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        Angular
+                                    </label>
+                                    <!-- ... Bổ sung thêm kỹ năng tuỳ ý ... -->
+                                </div>
+                            </div>
+                            <!-- Gợi ý cách chọn -->
+                            <small class="text-gray-500">
+                                Click vào ô để mở danh sách. Tích chọn nhiều kỹ năng tuỳ ý.
+                            </small>
+                            <!-- Hidden input để submit giá trị (nếu cần) -->
+                            <input type="hidden" name="skills" id="skillsHidden" required />
+                        </div>
+
+                        <!-- Status (required) -->
+                        <div>
+                            <label for="status" class="block text-lg mb-1 font-semibold">
+                                Status
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <select id="status" name="status"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required>
+                                <option value="">Select a status</option>
+                                <option value="1">Active</option>
+                                <option value="2">On hold</option>
+                                <option value="3">Archived</option>
+                            </select>
+                        </div>
+
+                        <!-- Recruiter (required) -->
+                        <div>
+                            <label for="recruiter" class="block text-lg mb-1 font-semibold">
+                                Recruiter
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="recruiter" name="recruiter" placeholder="Recruiter name"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required />
+                            <a class="text-xs" href="">
+                                <u>Assign me</u>
+                            </a>
+                        </div>
+
+                        <!-- Years of Experience -->
+                        <div>
+                            <label for="experience" class="block text-lg mb-1 font-semibold">
+                                Years of Experience
+                            </label>
+                            <input type="number" id="experience" name="experience" placeholder="Type a number..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
+
+                        <!-- Highest level (required) -->
+                        <div>
+                            <label for="highestLevel" class="block text-lg mb-1 font-semibold">
+                                Highest level
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <select id="highestLevel" name="highestLevel"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                required>
+                                <option value="">Select highest level...</option>
+                                <option value="bachelor">Bachelor</option>
+                                <option value="master">Master</option>
+                                <option value="phd">PhD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Nút Submit/Cancel -->
+                    <div class="mt-8 flex justify-end">
+                        <!-- Submit -->
+                        <button type="submit"
+                            class="mr-4 bg-primary text-white py-2 px-6 rounded-md hover:bg-[#125cb0]">
+                            Submit
+                        </button>
+                        <!-- Cancel -->
+                        <button type="button"
+                            class="border border-primary text-primary bg-white py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <script>
+        const skillsInput = document.getElementById('skillsInput');
+        const skillsDropdown = document.getElementById('skillsDropdown');
+        const skillsHidden = document.getElementById('skillsHidden');
+
+        // Khi click vào input => toggle hiển thị dropdown
+        skillsInput.addEventListener('click', (e) => {
+            e.stopPropagation(); // Ngăn chặn việc click ra ngoài tắt dropdown ngay
+            toggleSkillsDropdown();
+        });
+
+        // Đóng dropdown khi click ngoài
+        document.addEventListener('click', (e) => {
+            // Nếu click ngoài vùng "skills-wrapper" thì ẩn dropdown
+            const skillsWrapper = document.getElementById('skills-wrapper');
+            if (!skillsWrapper.contains(e.target)) {
+                skillsDropdown.classList.add('hidden');
+            }
+        });
+
+        function toggleSkillsDropdown() {
+            if (skillsDropdown.classList.contains('hidden')) {
+                skillsDropdown.classList.remove('hidden');
+            } else {
+                skillsDropdown.classList.add('hidden');
+            }
+        }
+
+        // Hàm cập nhật danh sách kỹ năng đã chọn
+        function updateSkillsSelected() {
+            // Lấy tất cả checkbox trong dropdown
+            const checkboxes = skillsDropdown.querySelectorAll('input[type="checkbox"]');
+            let selectedValues = [];
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    selectedValues.push(cb.value);
+                }
+            });
+            // Cập nhật hiển thị trên ô input
+            skillsInput.value = selectedValues.join(', ');
+            // Cập nhật hidden input để submit
+            skillsHidden.value = selectedValues.join(',');
+        }
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector("header");
+            const sidebar = document.getElementById('sidebar');
+            const menuItems = document.getElementById("menu-items");
+            const menuBottom = document.getElementById("menuBottom");
+            const userDropdown = document.getElementById("userDropdown");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+            const toggleCollapse = document.getElementById("toggleCollapse");
+            const collapseIcon = document.getElementById("collapseIcon");
+            const mainContent = document.getElementById("mainContent");
+            const menuTexts = document.querySelectorAll(".menu-text");
+            const menuBottomLinks = document.querySelectorAll("#menuBottom a");
+
+            let sidebarCollapsed = false;
+
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    sidebarCollapsed = true;
+                    menuItems.classList.add('*:justify-center');
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-24');
+                    header.classList.remove('left-64');
+                    header.classList.add('left-24');
+                    collapseIcon.classList.remove('fa-angles-left');
+                    collapseIcon.classList.add('fa-angles-right');
+                    mainContent.classList.remove('md:ml-64');
+                    mainContent.classList.add('ml-24');
+                    menuBottom.classList.add('flex-col');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.add('w-full');
+                        link.classList.add('justify-center');
+                    });
+
+                    menuTexts.forEach(text => {
+                        text.classList.add('hidden');
+                    });
+                } else {
+                    sidebarCollapsed = false;
+                    menuItems.classList.remove('*:justify-center');
+                    sidebar.classList.add('w-64');
+                    sidebar.classList.remove('w-24');
+                    header.classList.add('left-64');
+                    header.classList.remove('left-24');
+                    collapseIcon.classList.add('fa-angles-left');
+                    collapseIcon.classList.remove('fa-angles-right');
+                    mainContent.classList.add('md:ml-64');
+                    mainContent.classList.remove('ml-24');
+                    menuBottom.classList.remove('flex-col');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.remove('w-full');
+                        link.classList.remove('justify-center');
+                    });
+                    menuTexts.forEach(text => {
+                        text.classList.remove('hidden');
+                    });
+                }
+            }
+
+            function toggleSidebar() {
+
+                if (!sidebarCollapsed && window.innerWidth >= 768 || !sidebarCollapsed && window.innerWidth < 768) {
+                    menuItems.classList.add('*:justify-center');
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-24');
+                    collapseIcon.classList.remove('fa-angles-left');
+                    collapseIcon.classList.add('fa-angles-right');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('ml-24');
+                    header.classList.remove('left-64');
+                    header.classList.add('left-24');
+                    menuBottomLinks.forEach(link => {
+                        link.classList.add('w-full');
+                        link.classList.add('justify-center');
+                    });
+
+                    menuTexts.forEach(text => {
+                        text.classList.add('hidden');
+                    });
+                } else if (sidebarCollapsed && window.innerWidth < 768 || sidebarCollapsed && window.innerWidth >= 768) {
+                    menuItems.classList.remove('*:justify-center');
+                    sidebar.classList.add('w-64');
+                    sidebar.classList.remove('w-24');
+                    collapseIcon.classList.add('fa-angles-left');
+                    collapseIcon.classList.remove('fa-angles-right');
+                    mainContent.classList.add('ml-64');
+                    mainContent.classList.remove('ml-24');
+                    header.classList.add('left-64');
+                    header.classList.remove('left-24');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.remove('w-full');
+                        link.classList.remove('justify-center');
+                    });
+                    menuTexts.forEach(text => {
+                        text.classList.remove('hidden');
+                    });
+                }
+                sidebarCollapsed = !sidebarCollapsed;
+                menuBottom.classList.toggle('flex-col');
+            }
+
+            handleResize();
+
+            window.addEventListener('resize', handleResize);
+
+            toggleCollapse.addEventListener('click', toggleSidebar);
+
+            userDropdown.addEventListener("mouseenter", function () {
+                dropdownMenu.classList.remove("hidden");
+            });
+
+            userDropdown.addEventListener("mouseleave", function () {
+                setTimeout(() => {
+                    if (!dropdownMenu.matches(":hover")) {
+                        dropdownMenu.classList.add("hidden");
+                    }
+                }, 200);
+            });
+
+            dropdownMenu.addEventListener("mouseleave", function () {
+                dropdownMenu.classList.add("hidden");
+            });
+        });
+    </script>
+</body>
+
+</html>

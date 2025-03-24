@@ -14,5 +14,11 @@ public interface ITokenService
 
     Task<RefreshToken> GenerateRefreshTokenAsync(int userId);
 
+    Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(User user);
+
 	Task<bool> RevokeRefreshTokenAsync(string token);
+
+	Task<bool> MarkUsedResetPasswordTokenAsync(string token);
+
+	Task<bool> ValidateResetPasswordAsync(string token);
 }
