@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IMS Navigation Bar - Tailwind CSS & Font Awesome</title>
+    <title>Create User Form</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -14,7 +14,22 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1976d2", // màu xanh dương
+              secondary: "#424242", // xám đậm
+              // bạn có thể bổ sung thêm nếu cần
+            },
+            fontFamily: {
+              sans: ["Roboto", "Open Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
 
   <body class="bg-gray-100">
@@ -44,7 +59,7 @@
         <!-- Dropdown Menu -->
         <div
           id="dropdownMenu"
-          class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-md shadow-lg hidden"
+          class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden"
         >
           <ul class="py-2 text-sm text-gray-700">
             <li>
@@ -137,129 +152,256 @@
       </aside>
       <!-- Main Content Area -->
       <div
-        class="md:ml-64 ml-0 p-4 mt-16 transition-all duration-300 flex-1"
+        class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300"
         id="mainContent"
       >
-        <div class="container mx-auto">
-          <!-- User view detail -->
-          <section class="dark:from-gray-800 dark:to-gray-900 min-h-screen">
-            <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
-              <h2
-                class="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white text-center"
-              >
-                User Details
-              </h2>
-              <div class="grid gap-6 sm:grid-cols-2">
-                <div class="w-full">
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Full Name:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">John Doe</p>
+        <div class="container mx-auto max-w-screen-xl py-8 px-4">
+          <!-- Tiêu đề -->
+          <h1 class="text-4xl font-semibold mb-8">
+            <i class="fas fa-user-plus text-primary mr-2"></i>
+            Create User
+          </h1>
+
+          <!-- Breadcrumb -->
+          <div class="pb-8">
+            <a class="text-xl text-primary hover:underline" href=""
+              >User List</a
+            >
+            >
+            <a class="text-xl text-primary hover:underline" href=""
+              >Create User</a
+            >
+          </div>
+
+          <!-- Card bao quanh form -->
+          <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+            <form action="#">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Full Name -->
+                <div class="md:col-span-2">
+                  <label for="fullname" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-user mr-1"></i>Full Name
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="fullname"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Type a name..."
+                    required=""
+                  />
                 </div>
+
+                <!-- Email -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Email:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    john.doe@example.com
-                  </p>
+                  <label for="email" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-envelope mr-1"></i>Email
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="email"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Type an email..."
+                    required=""
+                  />
                 </div>
+
+                <!-- Date of Birth -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    DOB:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">1990-01-01</p>
+                  <label for="dob" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-calendar-day mr-1"></i>Date of Birth
+                  </label>
+                  <div class="relative">
+                    <input
+                      type="datetime-local"
+                      id="dob"
+                      name="dob"
+                      class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    />
+                  </div>
                 </div>
+
+                <!-- Address -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Address:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    123 Main St, City
-                  </p>
+                  <label for="address" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-map-marker-alt mr-1"></i>Address
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Type an address..."
+                  />
                 </div>
+
+                <!-- Phone Number -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  <label
+                    for="phonenumber"
+                    class="block text-sm font-medium mb-1"
                   >
-                    Phone Number:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">+1234567890</p>
+                    <i class="fas fa-phone mr-1"></i>Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    id="phonenumber"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Type a phone number..."
+                  />
                 </div>
+
+                <!-- Gender -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  <label for="gender" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-venus-mars mr-1"></i>Gender
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="gender"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    Gender:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">Male</p>
+                    <option selected="">Select a gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
+
+                <!-- Role -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  <label for="role" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-user-tag mr-1"></i>Role
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="role"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    Role:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">Admin</p>
+                    <option selected="">Select a role</option>
+                    <option value="admin">Admin</option>
+                    <option value="manager">Manager</option>
+                    <option value="employee">Employee</option>
+                  </select>
                 </div>
+
+                <!-- Department -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  <label
+                    for="department"
+                    class="block text-sm font-medium mb-1"
                   >
-                    Department:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">IT</p>
+                    <i class="fas fa-building mr-1"></i>Department
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="department"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option selected="">Select a department</option>
+                    <option value="hr">HR</option>
+                    <option value="it">IT</option>
+                    <option value="finance">Finance</option>
+                  </select>
                 </div>
+
+                <!-- Status -->
                 <div>
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  <label for="status" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-circle-check mr-1"></i>Status
+                    <span class="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="status"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    Status:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">Active</p>
+                    <option selected="">Select a status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="pending">Pending</option>
+                  </select>
                 </div>
-                <div class="w-full">
-                  <h3
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Note:
-                  </h3>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    This user is an administrator.
-                  </p>
+
+                <!-- Note -->
+                <div class="md:col-span-2">
+                  <label for="note" class="block text-sm font-medium mb-1">
+                    <i class="fas fa-sticky-note mr-1"></i>Note
+                  </label>
+                  <textarea
+                    id="note"
+                    rows="4"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Type a note..."
+                  ></textarea>
                 </div>
               </div>
-              <div class="flex justify-end mt-10 *:ml-5">
+
+              <!-- Nút Submit/Cancel -->
+              <div class="mt-8 flex justify-end">
+                <!-- Submit -->
                 <button
-                  class="px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
+                  type="submit"
+                  class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"
                 >
-                  Edit
+                  <i class="fas fa-check mr-2"></i>Submit
                 </button>
+                <!-- Cancel -->
                 <button
-                  class="px-6 py-3 text-white bg-red-500 rounded-md hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
+                  type="button"
+                  class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]"
                 >
-                  Delete
-                </button>
-                <button
-                  class="px-6 py-3 text-white bg-yellow-400 rounded-md hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer"
-                >
-                  Inactive
+                  <i class="fas fa-times mr-2"></i>Cancel
                 </button>
               </div>
-            </div>
-          </section>
+            </form>
+          </div>
         </div>
       </div>
     </main>
 
+    <script>
+      const interviewerInput = document.getElementById("interviewerInput");
+      const interviewerDropdown = document.getElementById(
+        "interviewerDropdown"
+      );
+      const interviewerHidden = document.getElementById("interviewerHidden");
+
+      interviewerInput.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleDropdown(interviewerDropdown);
+      });
+
+      document.addEventListener("click", (e) => {
+        // Nếu click ngoài vùng interviewer-wrapper => ẩn dropdown
+        if (
+          !document.getElementById("interviewer-wrapper")?.contains(e.target)
+        ) {
+          interviewerDropdown.classList.add("hidden");
+        }
+      });
+
+      function toggleDropdown(dropdown) {
+        if (dropdown.classList.contains("hidden")) {
+          dropdown.classList.remove("hidden");
+        } else {
+          dropdown.classList.add("hidden");
+        }
+      }
+
+      function updateInterviewerSelected() {
+        const checkboxes = interviewerDropdown.querySelectorAll(
+          'input[type="checkbox"]'
+        );
+        let selectedValues = [];
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            selectedValues.push(cb.value);
+          }
+        });
+        interviewerInput.value = selectedValues.join(", ");
+        interviewerHidden.value = selectedValues.join(",");
+      }
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const header = document.querySelector("header");

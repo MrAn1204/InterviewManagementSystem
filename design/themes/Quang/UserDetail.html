@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IMS Navigation Bar - Tailwind CSS & Font Awesome</title>
+    <title>User Details</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -14,7 +14,22 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1976d2", // màu xanh dương
+              secondary: "#424242", // xám đậm
+              // bạn có thể bổ sung thêm nếu cần
+            },
+            fontFamily: {
+              sans: ["Roboto", "Open Sans", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
 
   <body class="bg-gray-100">
@@ -44,7 +59,7 @@
         <!-- Dropdown Menu -->
         <div
           id="dropdownMenu"
-          class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-md shadow-lg hidden"
+          class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden"
         >
           <ul class="py-2 text-sm text-gray-700">
             <li>
@@ -137,201 +152,226 @@
       </aside>
       <!-- Main Content Area -->
       <div
-        class="md:ml-64 ml-0 p-4 mt-16 transition-all duration-300 flex-1"
+        class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300"
         id="mainContent"
       >
-        <div class="container mx-auto">
-          <!-- Offer view detail -->
-          <section class="bg-white dark:bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-5xl lg:py-16">
-              <h2
-                class="mb-8 text-3xl font-extrabold text-gray-900 dark:text-white text-center"
+        <div class="container mx-auto max-w-screen-xl py-8 px-4">
+          <!-- Tiêu đề -->
+          <h1 class="text-4xl font-semibold mb-8">
+            <i class="fas fa-user text-primary mr-2"></i>
+            User Detail
+          </h1>
+
+          <!-- Breadcrumb -->
+          <div class="pb-8 flex items-center justify-between">
+            <!-- Bên trái: Đường dẫn -->
+            <div>
+              <a class="text-xl text-primary hover:underline" href=""
+                >User List</a
               >
-                Offer Detail
-              </h2>
+              >
+              <a class="text-xl text-primary hover:underline" href=""
+                >User Detail</a
+              >
+            </div>
+            <!-- Bên phải: thông tin Created/Updated nếu muốn -->
+            <div class="text-sm text-gray-500">
+              <p>Created at: 2025-03-20</p>
+              <p>Last updated: 2025-03-28</p>
+            </div>
+          </div>
 
-              <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                <div class="col-span-2 flex justify-end *:ml-5">
-                  <button
-                    class="px-6 py-3 text-white bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 cursor-pointer"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    class="px-6 py-3 text-white bg-yellow-400 rounded-md hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200 cursor-pointer"
-                  >
-                    Reject
-                  </button>
-                  <button
-                    class="px-6 py-3 text-white bg-red-500 rounded-md hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
-                  >
-                    Cancel Offer
-                  </button>
-                </div>
-                <div class="col-span-2">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Candidate:
-                  </p>
-                  <p
-                    id="candidateName"
-                    class="text-gray-600 dark:text-gray-400"
-                  >
-                    John Doe
-                  </p>
-                </div>
+          <!-- Card bao quanh form -->
+          <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+            <!-- Phần I: User information -->
+            <h2 class="text-2xl font-semibold mb-4">User information</h2>
 
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Position:
-                  </p>
-                  <p id="position" class="text-gray-600 dark:text-gray-400">
-                    Software Engineer
-                  </p>
-                </div>
-
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Approver:
-                  </p>
-                  <p id="approver" class="text-gray-600 dark:text-gray-400">
-                    Jane Smith
-                  </p>
-                </div>
-
-                <div class="sm:col-span-2">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Interview Info:
-                  </p>
-                  <p id="interview" class="text-gray-600 dark:text-gray-400">
-                    Technical Interview - 2023/12/05
-                  </p>
-                </div>
-
-                <div class="sm:col-span-2">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Contract Period:
-                  </p>
-                  <p
-                    id="contractPeriod"
-                    class="text-gray-600 dark:text-gray-400"
-                  >
-                    2023/12/10 - 2024/12/10
-                  </p>
-                </div>
-
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Contract Type:
-                  </p>
-                  <p id="contractType" class="text-gray-600 dark:text-gray-400">
-                    Full-time
-                  </p>
-                </div>
-
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Level:
-                  </p>
-                  <p id="level" class="text-gray-600 dark:text-gray-400">
-                    Senior
-                  </p>
-                </div>
-
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Department:
-                  </p>
-                  <p id="department" class="text-gray-600 dark:text-gray-400">
-                    IT
-                  </p>
-                </div>
-
-                <div>
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Recruiter Owner:
-                  </p>
-                  <p id="recruiter" class="text-gray-600 dark:text-gray-400">
-                    Michael Johnson
-                  </p>
-                </div>
-
-                <div class="w-full">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Due Date:
-                  </p>
-                  <p id="dueDate" class="text-gray-600 dark:text-gray-400">
-                    2023/12/15
-                  </p>
-                </div>
-
-                <div class="w-full">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Basic Salary:
-                  </p>
-                  <p id="salary" class="text-gray-600 dark:text-gray-400">
-                    2000$
-                  </p>
-                </div>
-
-                <div class="w-full">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Status:
-                  </p>
-                  <p id="salary" class="text-gray-600 dark:text-gray-400">
-                    Waiting for approval
-                  </p>
-                </div>
-
-                <div class="w-full">
-                  <p
-                    class="text-lg font-semibold text-gray-800 dark:text-gray-200"
-                  >
-                    Note:
-                  </p>
-                  <p id="note" class="text-gray-600 dark:text-gray-400">
-                    Offer valid until the due date. Contact HR for more details.
-                  </p>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Full Name (chỉ đọc) -->
+              <div>
+                <label for="fullName" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-user mr-1"></i>Full Name
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="John Doe"
+                />
               </div>
-              <div class="flex justify-end mt-10 *:ml-5">
-                <button
-                  class="px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 cursor-pointer"
-                >
-                  Edit
-                </button>
 
-                <button
-                  class="px-6 py-3 text-white bg-red-500 rounded-md hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-red-300 cursor-pointer"
+              <!-- Email (chỉ đọc) -->
+              <div>
+                <label for="email" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-envelope mr-1"></i>Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="john.doe@example.com"
+                />
+              </div>
+
+              <!-- DOB (chỉ đọc) -->
+              <div>
+                <label for="dob" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-calendar-day mr-1"></i>Date of Birth
+                </label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="1990-01-01"
+                />
+              </div>
+
+              <!-- Address (chỉ đọc) -->
+              <div>
+                <label for="address" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-map-marker-alt mr-1"></i>Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="123 Main St, City"
+                />
+              </div>
+
+              <!-- Phone Number (chỉ đọc) -->
+              <div>
+                <label for="phone" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-phone mr-1"></i>Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="+1234567890"
+                />
+              </div>
+
+              <!-- Gender (chỉ đọc) -->
+              <div>
+                <label for="gender" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-venus-mars mr-1"></i>Gender
+                </label>
+                <input
+                  type="text"
+                  id="gender"
+                  name="gender"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="Male"
+                />
+              </div>
+
+              <!-- Role (chỉ đọc) -->
+              <div>
+                <label for="role" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-user-tag mr-1"></i>Role
+                </label>
+                <input
+                  type="text"
+                  id="role"
+                  name="role"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="Admin"
+                />
+              </div>
+
+              <!-- Department (chỉ đọc) -->
+              <div>
+                <label for="department" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-building mr-1"></i>Department
+                </label>
+                <input
+                  type="text"
+                  id="department"
+                  name="department"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="IT"
+                />
+              </div>
+
+              <!-- Status (chỉ xem) -->
+              <div>
+                <label for="status" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-circle mr-1"></i>Status
+                </label>
+
+                <input
+                  type="text"
+                  id="status"
+                  name="status"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
+                  value="Active"
+                />
+              </div>
+
+              <!-- Note (chỉ đọc) -->
+              <div class="md:col-span-2">
+                <label for="note" class="block text-sm font-medium mb-1">
+                  <i class="fas fa-sticky-note mr-1"></i>Note
+                </label>
+                <textarea
+                  id="note"
+                  name="note"
+                  rows="3"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+                  readonly
                 >
-                  Cancel
-                </button>
+This user is an administrator.</textarea
+                >
               </div>
             </div>
-          </section>
+
+            <!-- Nút Edit / Delete / Inactive / Back -->
+            <div class="mt-8 flex justify-end">
+              <!-- Edit -->
+              <button
+                type="button"
+                class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"
+              >
+                <i class="fas fa-edit mr-2"></i>Edit
+              </button>
+              <!-- Delete -->
+              <button
+                type="button"
+                class="mr-4 bg-red-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-400"
+              >
+                <i class="fas fa-trash mr-2"></i>Delete
+              </button>
+              <!-- Inactive -->
+              <button
+                type="button"
+                class="mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300"
+              >
+                <i class="fas fa-ban mr-2"></i>Inactive
+              </button>
+              <!-- Back -->
+              <button
+                type="button"
+                class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]"
+              >
+                <i class="fas fa-arrow-left mr-2"></i>Back
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
