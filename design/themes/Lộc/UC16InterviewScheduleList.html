@@ -1,30 +1,40 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Danh sách ứng viên</title>
+    <title>Interview Schedule List</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
-    <div class="p-6 bg-gray-100">
-        <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow">
-            <h2 class="text-2xl font-semibold mb-4 p-2">Interview Schedule List</h2>
-            
-            <div class="flex items-center gap-4 mb-4 p-2">
-                <div class="relative w-1/3">
-                    <input type="text" placeholder="Search" class="border p-2 rounded w-full pr-10">
+    <div class="p-8 bg-gray-100">
+        <div class="max-w-5xl mx-auto bg-white p-8 rounded shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-gray-900">Interview Schedule List</h2>
+
+            <div class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+                <div class="relative w-full md:w-1/3">
+                    <input type="text" placeholder="Search" class="border border-gray-300 p-3 rounded w-full pr-10 focus:outline-none focus:border-[#1976d2]">
                     <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                 </div>
-                <select class="border p-2 rounded w-1/4">
+                <select class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
                     <option>Interviewer</option>
                     <option>Waiting for interview</option>
                     <option>Open</option>
                     <option>Interviewed</option>
                     <option>Offered</option>
                 </select>
-                <select class="border p-2 rounded w-1/4">
+                <select class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
                     <option>Status</option>
                     <option>Waiting for interview</option>
                     <option>Open</option>
@@ -34,38 +44,38 @@
             </div>
 
             <div class="flex items-center justify-end mb-2">
-                <button class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">Search</button>
-                <button class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">Add new</button>
+                <button class="bg-[#1976d2] text-white px-4 py-2 mr-4 rounded font-semibold w-1/2 md:w-1/5">Search</button>
+                <button class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-1/2 md:w-1/5">Add new</button>
             </div>
-            
-            <div class="card-body overflow-x-auto">
+
+            <div class="overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
-                        <tr class="*:p-2 *:border *:border-gray-200 odd:bg-gray-100">
-                            <th class="border">Title</th>
-                            <th class="border">Candidate Name</th>
-                            <th class="border">Interviewer</th>
-                            <th class="border">Schedule</th>
-                            <th class="border">Result</th>
-                            <th class="border">Status</th>
-                            <th class="border">Job</th>
-                            <th class="border">Action</th>
+                        <tr class="*:p-4 *:border *:border-[#e0e0e0] bg-[#f5f5f5] text-gray-700 font-semibold text-left">
+                            <th>Title</th>
+                            <th>Candidate Name</th>
+                            <th>Interviewer</th>
+                            <th>Scheduled Date</th>
+                            <th>Result</th>
+                            <th>Status</th>
+                            <th>Job</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="*:p-2 *:border *:border-gray-200 even:bg-gray-100">
-                            <td class="border">Interview Senior Backend Developer</td>
-                            <td class="border">Nguyen Tat Loc</td>
-                            <td class="border">Nguyen Tat Loc</td>
-                            <td class="border">22/02/2022</td>
-                            <td class="border">N/A</td>
-                            <td class="border text-center">New</td>
-                            <td class="border text-center">Dev Ov</td>
-                            <td class="border text-center">
-                                <button class="text-blue-500">
+                        <tr class="*:p-4 *:border *:border-[#e0e0e0] even:bg-[#fafafa] hover:bg-gray-100">
+                            <td>Senior Backend Developer Interview</td>
+                            <td>John Doe</td>
+                            <td>Jane Smith</td>
+                            <td>22/02/2022</td>
+                            <td class="text-center">N/A</td>
+                            <td class="text-center text-[#1976d2] font-semibold">New</td>
+                            <td class="text-center">Dev Team</td>
+                            <td class="text-center">
+                                <button class="text-blue-500 hover:text-blue-700 mx-1">
                                     <i class="fa-regular fa-eye"></i>
                                 </button>
-                                <button class="text-green-500">
+                                <button class="text-green-500 hover:text-green-700 mx-1">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
                             </td>
@@ -74,11 +84,11 @@
                 </table>
             </div>
 
-            <div class="flex justify-end items-center mt-4 gap-4">
-                <span class="text-gray-700 text-sm">10/60 rows</span>
+            <div class="flex justify-end items-center mt-6">
+                <span class="text-[#757575] text-sm pr-2">10/60 rows</span>
                 <div class="flex gap-2">
-                    <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&lt;</button>
-                    <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&gt;</button>
+                    <button class="px-3 py-2 text-[#424242] rounded border border-[#e0e0e0]">&lt;</button>
+                    <button class="px-3 py-2 text-[#424242] rounded border border-[#e0e0e0]">&gt;</button>
                 </div>
             </div>
         </div>
