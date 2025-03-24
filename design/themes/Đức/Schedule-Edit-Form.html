@@ -110,10 +110,10 @@
         </aside>
         <!-- Main Content Area -->
         <div class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300" id="mainContent">
+            <!-- Container chính, max-width ~1200px, margin auto -->
             <div class="container mx-auto max-w-screen-xl py-8 px-4">
                 <!-- Tiêu đề -->
                 <h1 class="text-4xl font-semibold mb-8">
-                    <i class="fas fa-calendar-check text-primary mr-2"></i>
                     Edit Interview Schedule
                 </h1>
 
@@ -132,8 +132,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Schedule Title -->
                         <div>
-                            <label for="scheduleTitle" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-file-alt mr-1"></i>Schedule title
+                            <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
+                                Schedule title
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="scheduleTitle" name="scheduleTitle" placeholder="Type a title..."
@@ -143,8 +143,8 @@
 
                         <!-- Candidate name -->
                         <div>
-                            <label for="candidateName" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user mr-1"></i>Candidate name
+                            <label for="candidateName" class="block text-lg font-semibold mb-1">
+                                Candidate name
                                 <span class="text-red-500">*</span>
                             </label>
                             <select id="candidateName" name="candidateName"
@@ -160,11 +160,10 @@
 
                         <!-- Schedule Time -->
                         <div>
-                            <label for="scheduleTime" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-clock mr-1"></i>Schedule Time
+                            <label for="scheduleTime" class="block text-lg font-semibold mb-1">
+                                Schedule Time
                                 <span class="text-red-500">*</span>
                             </label>
-                            <!-- datetime-local -->
                             <input type="datetime-local" id="scheduleTime" name="scheduleTime"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                                 value="2025-04-15T09:30" />
@@ -172,8 +171,8 @@
 
                         <!-- Job -->
                         <div>
-                            <label for="job" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-briefcase mr-1"></i>Job
+                            <label for="job" class="block text-lg font-semibold mb-1">
+                                Job
                                 <span class="text-red-500">*</span>
                             </label>
                             <select id="job" name="job"
@@ -189,8 +188,8 @@
 
                         <!-- Interviewer (multi-select dropdown) -->
                         <div class="relative" id="interviewer-wrapper">
-                            <label class="block text-sm font-medium mb-1">
-                                <i class="fas fa-users mr-1"></i>Interviewer
+                            <label class="block text-lg font-semibold mb-1">
+                                Interviewer
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="interviewerInput"
@@ -226,8 +225,8 @@
 
                         <!-- Location -->
                         <div>
-                            <label for="location" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-map-marker-alt mr-1"></i>Location
+                            <label for="location" class="block text-lg font-semibold mb-1">
+                                Location
                             </label>
                             <input type="text" id="location" name="location" placeholder="Type a location"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -236,22 +235,22 @@
 
                         <!-- Recruiter owner -->
                         <div>
-                            <label for="recruiterOwner" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user-tie mr-1"></i>Recruiter owner
+                            <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
+                                Recruiter owner
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="recruiterOwner" name="recruiterOwner" placeholder="Recruiter name"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                                 value="Jane Smith" required />
                             <a class="text-xs text-primary hover:underline" href="">
-                                <i><u>Assign me</u></i>
+                                <u>Assign me</u>
                             </a>
                         </div>
 
                         <!-- Meeting ID -->
                         <div>
-                            <label for="meetingID" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-link mr-1"></i>Meeting ID
+                            <label for="meetingID" class="block text-lg font-semibold mb-1">
+                                Meeting ID
                             </label>
                             <input type="text" id="meetingID" name="meetingID" placeholder="meet.google.com/xyz-abc"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -260,8 +259,8 @@
 
                         <!-- Notes -->
                         <div>
-                            <label for="notes" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-sticky-note mr-1"></i>Notes
+                            <label for="notes" class="block text-lg font-semibold mb-1">
+                                Notes
                             </label>
                             <input type="text" id="notes" name="notes" placeholder="Type schedule note..."
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -274,16 +273,17 @@
                         <!-- Save Changes -->
                         <button type="submit"
                             class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-                            <i class="fas fa-save mr-2"></i>Save Changes
+                            Save Changes
                         </button>
                         <!-- Cancel -->
                         <button type="button"
                             class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-                            <i class="fas fa-times mr-2"></i>Cancel
+                            Cancel
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
