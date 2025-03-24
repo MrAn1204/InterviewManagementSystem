@@ -52,7 +52,9 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 using (var scope = app.Services.CreateScope())
 {
 	var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-	SeedData.Seed(dbContext);
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+	SeedData.Seed(dbContext, userManager, roleManager);
 }
 
 //app.UseMiddleware<ExceptionMiddleware>();

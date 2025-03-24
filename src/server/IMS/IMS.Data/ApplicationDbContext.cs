@@ -1,4 +1,6 @@
 ﻿using IMS.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,17 +10,13 @@ using System.Threading.Tasks;
 
 namespace IMS.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 {
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
 	{
 	}
 
 	// DbSet cho các entity
-	public DbSet<User> Users { get; set; } = null!;
-
-	public DbSet<Role> Roles { get; set; } = null!;
-	public DbSet<UserRole> UserRoles { get; set; } = null!;
 	public DbSet<Department> Departments { get; set; } = null!;
 	public DbSet<Candidate> Candidates { get; set; } = null!;
 	public DbSet<Skill> Skills { get; set; } = null!;
@@ -46,6 +44,19 @@ public class ApplicationDbContext : DbContext
 		modelBuilder.Entity<JobSkill>().HasKey(js => new { js.JobId, js.SkillId });
 		modelBuilder.Entity<JobLevel>().HasKey(jl => new { jl.JobId, jl.LevelId });
 		modelBuilder.Entity<OfferDepartment>().HasKey(od => new { od.OfferId, od.DepartmentId });
+
+		modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
+		modelBuilder.Entity<IdentityUserRole<int>>().HasKey(r => new { r.UserId, r.RoleId });
+		modelBuilder.Entity<IdentityUserToken<int>>().HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+
+				
+		modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<Role>().ToTable("Roles");
+        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
 
 		// 1:N => Department -> User
 		modelBuilder.Entity<User>()

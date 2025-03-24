@@ -61,16 +61,24 @@ public class AuthController(IMediator mediator) : ControllerBase
 
         var result = await _mediator.Send(request);
 
-        if (!result)
+        if (result.Length > 0)
         {
-            return BadRequest(new { message = "Password reset failed." });
+            return BadRequest(new { message = $"[FAILED] {result}" });
         }
 
-        return Ok(new { message = "Your password has been reset." });
+        return Ok(new { message = "[SUCCESS] Your password has been reset." });
     }
 
     [HttpPost("revoke-token")]
     public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenCommand request)
+    {
+        await _mediator.Send(request);
+
+        return Ok(new { message = "Refresh token has been revoked." });
+    }
+
+    [HttpGet("reset-password")]
+    public async Task<IActionResult> ValidateResetPassword([FromBody] ValidateResetPasswordCommand request)
     {
         await _mediator.Send(request);
 

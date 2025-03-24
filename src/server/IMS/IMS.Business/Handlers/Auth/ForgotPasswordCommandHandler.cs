@@ -27,7 +27,7 @@ public class ForgotPasswordCommandHandler(
             throw new ArgumentException("This email is not linked to any account.");
         }
 
-        var token = await _tokenService.GenerateResetPasswordTokenAsync(user.Id);
+        var token = await _tokenService.GenerateResetPasswordTokenAsync(user);
         
         var resetLink = $"http://localhost:4200/reset-password?token={token.Token}";
         string subject = "Password Reset";

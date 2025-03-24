@@ -10,7 +10,7 @@ public class ResetPasswordToken
 
     public required DateTime ExpiryDate { get; set; }
 
-    public bool IsRevoked { get; set; } = false;
+    public bool IsUsed { get; set; } = false;
 
     public required int UserId { get; set; }
 }

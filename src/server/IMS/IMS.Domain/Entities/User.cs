@@ -8,7 +8,6 @@ namespace IMS.Domain.Entities;
 
 public class User : IdentityUser<int>, IBaseEntity
 {
-	public string Password { get; set; } = null!;
 	public string FullName { get; set; } = null!;
 	public string? Address { get; set; }
 	public string? Note { get; set; }
