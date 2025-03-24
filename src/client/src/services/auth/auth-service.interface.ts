@@ -13,4 +13,5 @@ export interface IAuthService {
     getUserInformationFromAccessToken(): Observable<UserInformation | null>;
     forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<void>;
     resetPassword(resetPasswordRequest: ResetPasswordRequest): Observable<boolean>;
+    getAccessToken(): string;
 }

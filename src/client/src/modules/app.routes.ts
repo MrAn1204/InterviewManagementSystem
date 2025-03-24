@@ -5,14 +5,14 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { AdminLayoutComponent } from './shared/layout/admin-layout.component';
 
 export const routes: Routes = [
-    // { path: '', redirectTo: '/login', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'forget-password', component: ForgetPasswordComponent },
-    { path: 'reset-password', component: ResetPasswordComponent },
-    {
-        path: 'admin',
-        component: AdminLayoutComponent,
-        loadChildren: () =>
-            import('./admin/admin.module').then((m) => m.AdminModule),
-    },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // thêm dòng này
+  { path: 'login', component: LoginComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
 ];

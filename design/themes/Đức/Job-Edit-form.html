@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>job Edit form</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1976d2',    // màu xanh dương
+                        secondary: '#424242', // xám đậm
+                        // bạn có thể bổ sung thêm nếu cần
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Open Sans', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header
+        class="h-20 flex justify-between items-center shadow-md bg-white text-black p-4 fixed top-0 left-64 right-0 z-50">
+        <div class="flex items-center max-md:relative max-md:w-full">
+            <h1 class="text-2xl font-semibold">
+                Homepage
+            </h1>
+        </div>
+        <div class="flex items-center relative h-full">
+            <div id="userDropdown" class="h-full flex items-center mr-4 cursor-pointer">
+                <img src="./avatar.png" alt="User Avatar" class="h-10 w-10 rounded-full mr-2 bg-sky-500">
+                <div class="hidden md:block">
+                    <p class="text-xl">Nguyen Van A</p>
+                    <p class="text-sm">HR Department</p>
+                </div>
+            </div>
+
+            <!-- Dropdown Menu -->
+            <div id="dropdownMenu"
+                class="absolute top-full right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg hidden">
+                <ul class="py-2 text-sm text-gray-700">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Account</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sign out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex">
+        <aside class="flex flex-col h-full w-64 bg-[#121C3E] text-white fixed left-0 z-50" id="sidebar">
+            <div class="flex w-full mt-6 justify-center">
+                <a href="#">
+                    <img src="./logo-ims.png" alt="IMS Logo" class="h-10">
+                </a>
+            </div>
+            <div class="flex flex-col mt-6" id="menu-items">
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-home text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Homepage</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-user text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Candidate</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-briefcase text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Job</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-calendar-alt text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Interview</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-file-alt text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Offer</span>
+                </a>
+                <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fas fa-users text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">User</span>
+                </a>
+            </div>
+            <div class="mt-auto flex justify-between items-center text-center border-t border-slate-400"
+                id="menuBottom">
+                <a class="flex items-center grow w-full text-center p-4 hover:bg-[#FFC20E] hover:text-black" href="#">
+                    <i class="fa-solid fa-gear text-2xl w-8 mr-2"></i>
+                    <span class="menu-text">Settings</span>
+                </a>
+                <a id="toggleCollapse"
+                    class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black cursor-pointer"
+                    href="#">
+                    <i id="collapseIcon" class="fa-solid fa-angles-left text-2xl w-8 mr-2"></i>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <div class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300" id="mainContent">
+            <div class="container mx-auto max-w-screen-xl py-8 px-4">
+                <!-- Tiêu đề -->
+                <h1 class="text-4xl font-semibold mb-8">
+                    <i class="fas fa-briefcase text-primary mr-2"></i>
+                    Edit Job
+                </h1>
+
+                <!-- Breadcrumb -->
+                <div class="pb-8">
+                    <a class="text-xl text-primary hover:underline" href="">Job List</a>
+                    >
+                    <a class="text-xl text-primary hover:underline" href="">Edit job</a>
+                </div>
+
+                <!-- Card bao quanh form -->
+                <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+                    <!-- Phần I: Job information -->
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-semibold">
+                            Job information
+                        </h2>
+                        <!-- Ví dụ hiển thị Created at -->
+                        <div class="text-sm text-gray-500">
+                            <p>Created at: 2025-03-20</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Job Title (cho phép sửa) -->
+                        <div>
+                            <label for="jobTitle" class="block text-sm font-medium mb-1">
+                                <i class="fas fa-file-alt mr-1"></i>Job title
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="jobTitle" name="jobTitle" placeholder="Type a title..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                value="Senior Java Developer" />
+                        </div>
+
+                        <!-- Skills (multi-select dropdown, cho phép sửa) -->
+                        <div class="relative" id="skills-wrapper">
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-tools mr-1"></i>Skills
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="skillsInput"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                                placeholder="Click to select skills" readonly />
+                            <!-- Dropdown chứa danh sách checkbox -->
+                            <div id="skillsDropdown"
+                                class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
+                                <div class="p-2 max-h-48 overflow-y-auto">
+                                    <!-- Mỗi kỹ năng là 1 checkbox + label -->
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Java" class="mr-2"
+                                            onclick="updateSkillsSelected()" checked />
+                                        Java
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Flutter" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        Flutter
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Node.js" class="mr-2"
+                                            onclick="updateSkillsSelected()" checked />
+                                        Node.js
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="System design" class="mr-2"
+                                            onclick="updateSkillsSelected()" />
+                                        System design
+                                    </label>
+                                    <!-- ... Bổ sung thêm kỹ năng tuỳ ý ... -->
+                                </div>
+                            </div>
+                            <small class="text-gray-500">
+                                Click vào ô để mở danh sách. Tích chọn nhiều kỹ năng tuỳ ý.
+                            </small>
+                            <!-- Hidden -->
+                            <input type="hidden" name="skills" id="skillsHidden" />
+                        </div>
+
+                        <!-- Start Date (ví dụ readonly) -->
+                        <div>
+                            <label for="startDate" class="block text-sm font-medium mb-1">
+                                <i class="fas fa-calendar-alt mr-1"></i>Start Date
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" id="startDate" name="startDate"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+                                value="2025-03-25" />
+                        </div>
+
+                        <!-- End Date (cho phép sửa) -->
+                        <div>
+                            <label for="endDate" class="block text-sm font-medium mb-1">
+                                <i class="fas fa-calendar-alt mr-1"></i>End Date
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" id="endDate" name="endDate"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                value="2025-06-30" />
+                        </div>
+
+                        <!-- Salary range (From - To) -->
+                        <div>
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-dollar-sign mr-1"></i>Salary Range
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="number" id="salaryFrom" name="salaryFrom" placeholder="From"
+                                    class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    value="1000" />
+                                <input type="number" id="salaryTo" name="salaryTo" placeholder="To"
+                                    class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    value="2000" />
+                            </div>
+                        </div>
+
+                        <!-- Working Address (cho phép sửa) -->
+                        <div>
+                            <label for="workingAddress" class="block text-sm font-medium mb-1">
+                                <i class="fas fa-map-marker-alt mr-1"></i>Working address
+                            </label>
+                            <input type="text" id="workingAddress" name="workingAddress"
+                                placeholder="Type an address..."
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                value="Ho Chi Minh City" />
+                        </div>
+
+                        <!-- Benefits (multi-select dropdown, cho phép sửa) -->
+                        <div class="relative" id="benefits-wrapper">
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-gift mr-1"></i>Benefits
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="benefitsInput"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                                placeholder="Click to select benefits" readonly />
+                            <!-- Dropdown -->
+                            <div id="benefitsDropdown"
+                                class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
+                                <div class="p-2 max-h-48 overflow-y-auto">
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Health insurance" class="mr-2"
+                                            onclick="updateBenefitsSelected()" checked />
+                                        Health insurance
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Paid vacation" class="mr-2"
+                                            onclick="updateBenefitsSelected()" />
+                                        Paid vacation
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Lunch x3" class="mr-2"
+                                            onclick="updateBenefitsSelected()" />
+                                        Lunch x3
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Free parking" class="mr-2"
+                                            onclick="updateBenefitsSelected()" checked />
+                                        Free parking
+                                    </label>
+                                    <!-- ... -->
+                                </div>
+                            </div>
+                            <small class="text-gray-500">
+                                Click vào ô để mở danh sách. Tích chọn nhiều quyền lợi.
+                            </small>
+                            <input type="hidden" name="benefits" id="benefitsHidden" />
+                        </div>
+
+                        <!-- Level (multi-select dropdown, cho phép sửa) -->
+                        <div class="relative" id="level-wrapper">
+                            <label class="block text-sm font-medium mb-1">
+                                <i class="fas fa-layer-group mr-1"></i>Level
+                                <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="levelInput"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                                placeholder="Click to select levels" readonly />
+                            <!-- Dropdown -->
+                            <div id="levelDropdown"
+                                class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
+                                <div class="p-2 max-h-48 overflow-y-auto">
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Fresher" class="mr-2"
+                                            onclick="updateLevelSelected()" />
+                                        Fresher
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Junior" class="mr-2"
+                                            onclick="updateLevelSelected()" />
+                                        Junior
+                                    </label>
+                                    <label class="flex items-center mb-1 cursor-pointer">
+                                        <input type="checkbox" value="Senior" class="mr-2"
+                                            onclick="updateLevelSelected()" checked />
+                                        Senior
+                                    </label>
+                                    <!-- ... -->
+                                </div>
+                            </div>
+                            <small class="text-gray-500">
+                                Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
+                            </small>
+                            <input type="hidden" name="level" id="levelHidden" />
+                        </div>
+
+                        <!-- Description (cho phép sửa) -->
+                        <div class="md:col-span-2">
+                            <label for="description" class="block text-sm font-medium mb-1">
+                                <i class="fas fa-align-left mr-1"></i>Description
+                            </label>
+                            <textarea id="description" name="description" rows="4" placeholder="Type description"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">We are looking for a Senior Java Developer with Node.js experience.</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Nút Save Changes / Cancel -->
+                    <div class="mt-8 flex justify-end">
+                        <!-- Save Changes -->
+                        <button type="submit"
+                            class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                        <!-- Cancel -->
+                        <button type="button"
+                            class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+                            <i class="fas fa-times mr-2"></i>Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <!-- Script xử lý dropdown multi-select -->
+    <script>
+        // 1) Skills
+        const skillsInput = document.getElementById('skillsInput');
+        const skillsDropdown = document.getElementById('skillsDropdown');
+        const skillsHidden = document.getElementById('skillsHidden');
+
+        skillsInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown(skillsDropdown);
+        });
+
+        // 2) Benefits
+        const benefitsInput = document.getElementById('benefitsInput');
+        const benefitsDropdown = document.getElementById('benefitsDropdown');
+        const benefitsHidden = document.getElementById('benefitsHidden');
+
+        benefitsInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown(benefitsDropdown);
+        });
+
+        // 3) Level
+        const levelInput = document.getElementById('levelInput');
+        const levelDropdown = document.getElementById('levelDropdown');
+        const levelHidden = document.getElementById('levelHidden');
+
+        levelInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleDropdown(levelDropdown);
+        });
+
+        // Đóng dropdown khi click ngoài
+        document.addEventListener('click', (e) => {
+            // Nếu click ngoài các wrapper => ẩn dropdown
+            if (!document.getElementById('skills-wrapper')?.contains(e.target)) {
+                skillsDropdown.classList.add('hidden');
+            }
+            if (!document.getElementById('benefits-wrapper')?.contains(e.target)) {
+                benefitsDropdown.classList.add('hidden');
+            }
+            if (!document.getElementById('level-wrapper')?.contains(e.target)) {
+                levelDropdown.classList.add('hidden');
+            }
+        });
+
+        function toggleDropdown(dropdown) {
+            if (dropdown.classList.contains('hidden')) {
+                dropdown.classList.remove('hidden');
+            } else {
+                dropdown.classList.add('hidden');
+            }
+        }
+
+        // Hàm cập nhật Skills
+        function updateSkillsSelected() {
+            const checkboxes = skillsDropdown.querySelectorAll('input[type="checkbox"]');
+            let selectedValues = [];
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    selectedValues.push(cb.value);
+                }
+            });
+            skillsInput.value = selectedValues.join(', ');
+            skillsHidden.value = selectedValues.join(',');
+        }
+
+        // Hàm cập nhật Benefits
+        function updateBenefitsSelected() {
+            const checkboxes = benefitsDropdown.querySelectorAll('input[type="checkbox"]');
+            let selectedValues = [];
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    selectedValues.push(cb.value);
+                }
+            });
+            benefitsInput.value = selectedValues.join(', ');
+            benefitsHidden.value = selectedValues.join(',');
+        }
+
+        // Hàm cập nhật Level
+        function updateLevelSelected() {
+            const checkboxes = levelDropdown.querySelectorAll('input[type="checkbox"]');
+            let selectedValues = [];
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    selectedValues.push(cb.value);
+                }
+            });
+            levelInput.value = selectedValues.join(', ');
+            levelHidden.value = selectedValues.join(',');
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector("header");
+            const sidebar = document.getElementById('sidebar');
+            const menuItems = document.getElementById("menu-items");
+            const menuBottom = document.getElementById("menuBottom");
+            const userDropdown = document.getElementById("userDropdown");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+            const toggleCollapse = document.getElementById("toggleCollapse");
+            const collapseIcon = document.getElementById("collapseIcon");
+            const mainContent = document.getElementById("mainContent");
+            const menuTexts = document.querySelectorAll(".menu-text");
+            const menuBottomLinks = document.querySelectorAll("#menuBottom a");
+
+            let sidebarCollapsed = false;
+
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    sidebarCollapsed = true;
+                    menuItems.classList.add('*:justify-center');
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-24');
+                    header.classList.remove('left-64');
+                    header.classList.add('left-24');
+                    collapseIcon.classList.remove('fa-angles-left');
+                    collapseIcon.classList.add('fa-angles-right');
+                    mainContent.classList.remove('md:ml-64');
+                    mainContent.classList.add('ml-24');
+                    menuBottom.classList.add('flex-col');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.add('w-full');
+                        link.classList.add('justify-center');
+                    });
+
+                    menuTexts.forEach(text => {
+                        text.classList.add('hidden');
+                    });
+                } else {
+                    sidebarCollapsed = false;
+                    menuItems.classList.remove('*:justify-center');
+                    sidebar.classList.add('w-64');
+                    sidebar.classList.remove('w-24');
+                    header.classList.add('left-64');
+                    header.classList.remove('left-24');
+                    collapseIcon.classList.add('fa-angles-left');
+                    collapseIcon.classList.remove('fa-angles-right');
+                    mainContent.classList.add('md:ml-64');
+                    mainContent.classList.remove('ml-24');
+                    menuBottom.classList.remove('flex-col');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.remove('w-full');
+                        link.classList.remove('justify-center');
+                    });
+                    menuTexts.forEach(text => {
+                        text.classList.remove('hidden');
+                    });
+                }
+            }
+
+            function toggleSidebar() {
+
+                if (!sidebarCollapsed && window.innerWidth >= 768 || !sidebarCollapsed && window.innerWidth < 768) {
+                    menuItems.classList.add('*:justify-center');
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-24');
+                    collapseIcon.classList.remove('fa-angles-left');
+                    collapseIcon.classList.add('fa-angles-right');
+                    mainContent.classList.remove('ml-64');
+                    mainContent.classList.add('ml-24');
+                    header.classList.remove('left-64');
+                    header.classList.add('left-24');
+                    menuBottomLinks.forEach(link => {
+                        link.classList.add('w-full');
+                        link.classList.add('justify-center');
+                    });
+
+                    menuTexts.forEach(text => {
+                        text.classList.add('hidden');
+                    });
+                } else if (sidebarCollapsed && window.innerWidth < 768 || sidebarCollapsed && window.innerWidth >= 768) {
+                    menuItems.classList.remove('*:justify-center');
+                    sidebar.classList.add('w-64');
+                    sidebar.classList.remove('w-24');
+                    collapseIcon.classList.add('fa-angles-left');
+                    collapseIcon.classList.remove('fa-angles-right');
+                    mainContent.classList.add('ml-64');
+                    mainContent.classList.remove('ml-24');
+                    header.classList.add('left-64');
+                    header.classList.remove('left-24');
+
+                    menuBottomLinks.forEach(link => {
+                        link.classList.remove('w-full');
+                        link.classList.remove('justify-center');
+                    });
+                    menuTexts.forEach(text => {
+                        text.classList.remove('hidden');
+                    });
+                }
+                sidebarCollapsed = !sidebarCollapsed;
+                menuBottom.classList.toggle('flex-col');
+            }
+
+            handleResize();
+
+            window.addEventListener('resize', handleResize);
+
+            toggleCollapse.addEventListener('click', toggleSidebar);
+
+            userDropdown.addEventListener("mouseenter", function () {
+                dropdownMenu.classList.remove("hidden");
+            });
+
+            userDropdown.addEventListener("mouseleave", function () {
+                setTimeout(() => {
+                    if (!dropdownMenu.matches(":hover")) {
+                        dropdownMenu.classList.add("hidden");
+                    }
+                }, 200);
+            });
+
+            dropdownMenu.addEventListener("mouseleave", function () {
+                dropdownMenu.classList.add("hidden");
+            });
+        });
+    </script>
+</body>
+
+</html>
