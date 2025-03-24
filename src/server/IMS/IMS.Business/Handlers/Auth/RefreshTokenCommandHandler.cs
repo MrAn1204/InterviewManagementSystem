@@ -1,40 +1,40 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using IMS.Business.DTOs;
 using IMS.Business.Services;
+using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Business.Handlers;
 
-public class LoginCommandHandler(
+public class RefreshTokenCommandHandler(
+    IUnitOfWorks unitOfWorks,
     ITokenService tokenService,
     UserManager<User> userManager
-) : IRequestHandler<LoginCommand, LoginResultDto>
+) : IRequestHandler<RefreshTokenCommand, LoginResultDto>
 {
+    private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+
     private readonly ITokenService _tokenService = tokenService;
 
     private readonly UserManager<User> _userManager = userManager;
 
-    public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<LoginResultDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByNameAsync(request.Username)
-            ?? throw new ArgumentException("User with username not found");
-        
-        var isCorrectPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+        var refreshToken = _unitOfWorks.RefreshTokenRepository.GetQuery()
+            .FirstOrDefault(x => x.Token == request.RefreshToken);
 
-        if (!isCorrectPassword)
+        if (refreshToken == null || refreshToken.ExpiryDate < DateTime.UtcNow || refreshToken.IsRevoked)
         {
-            throw new ArgumentException("Password is incorrect");
+            throw new UnauthorizedAccessException("Invalid refresh token");
         }
 
+        var user = await _userManager.FindByIdAsync(refreshToken.UserId.ToString())
+            ?? throw new UnauthorizedAccessException("Invalid user");
+        
         var roles = await _userManager.GetRolesAsync(user);
-
+        
         var userInfo = new UserInfo
         {
             Id = user.Id,
@@ -44,10 +44,9 @@ public class LoginCommandHandler(
             Roles = [.. roles]
         };
 
-        var accessToken = await _tokenService.GenerateAccessTokenAsync(user.Id);
+        var accessToken = await _tokenService.GenerateAccessTokenAsync(refreshToken.UserId);
+        
         var tokenHandler = new JwtSecurityTokenHandler();
-
-        var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 
         var loginResult = new LoginResultDto
         {
