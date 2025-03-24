@@ -6,7 +6,7 @@ import { UserInformation } from "../../models/auth/user-information.model";
 import { ForgotPasswordRequest } from "../../models/auth/forgot-password-request.model";
 
 export interface IAuthService {
-    login(loginRequest: LoginRequest): Observable<LoginResponse>;
+    login(loginRequest: LoginRequest, remember : boolean): Observable<LoginResponse>;
     logout(): void;
     isAuthenticated(): Observable<boolean>;
     getUserInformation(): Observable<UserInformation | null>;
