@@ -9,12 +9,11 @@ import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request
 import { ResetPasswordRequest } from '../../models/auth/reset-password-request.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AuthService implements IAuthService {
   private apiUrl: string = 'http://localhost:5113/api/auth';
-  
+
   private _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
@@ -29,14 +28,17 @@ export class AuthService implements IAuthService {
 
   constructor(private httpClient: HttpClient) {
     // Check if the access token is present in local storage
-    // const accessToken = localStorage.getItem('accessToken');
-    // if (accessToken) {
-    //   this._isAuthenticated.next(true);
-    // }
-    // const userInformation = localStorage.getItem('userInformation');
-    // if (userInformation) {
-    //   this._userInformation.next(JSON.parse(userInformation));
-    // }
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      this._isAuthenticated.next(true);
+    }
+    const userInformation = localStorage.getItem('userInformation');
+    if (userInformation) {
+      this._userInformation.next(JSON.parse(userInformation));
+    }
+  }
+  getAccessToken(): string {
+    return localStorage.getItem('accessToken') || '';
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -94,13 +96,22 @@ export class AuthService implements IAuthService {
       );
   }
 
-  public forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<any> {
+  public forgotPassword(
+    forgotPasswordRequest: ForgotPasswordRequest
+  ): Observable<any> {
     console.log(forgotPasswordRequest);
-    return this.httpClient.post(`${this.apiUrl}/forgot-password`, forgotPasswordRequest);
-  }
-  
-  resetPassword(resetPasswordRequest: ResetPasswordRequest): Observable<boolean> {
-    return this.httpClient.post<boolean>(`${this.apiUrl}/reset-password`, resetPasswordRequest);
+    return this.httpClient.post(
+      `${this.apiUrl}/forgot-password`,
+      forgotPasswordRequest
+    );
   }
 
+  resetPassword(
+    resetPasswordRequest: ResetPasswordRequest
+  ): Observable<boolean> {
+    return this.httpClient.post<boolean>(
+      `${this.apiUrl}/reset-password`,
+      resetPasswordRequest
+    );
+  }
 }
