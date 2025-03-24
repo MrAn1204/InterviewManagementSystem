@@ -1,4 +1,5 @@
 ﻿using IMS.Business.Services;
+using IMS.Data;
 using IMS.Data.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,10 @@ namespace IMS.API.Extensions
 		IConfiguration config)
 		{
 			services.AddControllers();
-			//services.AddDbContext<DataContext>(opt =>
-			//{
-			//	opt.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-			//});
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(config.GetConnectionString("DefaultConnection"))
+			);
+
 			services.AddCors();
 			services.AddScoped<ITokenService, TokenService>();
 

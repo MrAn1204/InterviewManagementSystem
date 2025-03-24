@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Danh sách ứng viên</title>
+</head>
+<body>
+    <div class="p-6 bg-gray-100">
+        <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow">
+            <h2 class="text-2xl font-semibold mb-4 p-2">Job List</h2>
+            
+            <div class="flex items-center gap-4 mb-4 p-2">
+                <div class="relative w-1/3">
+                    <input type="text" placeholder="Search" class="border p-2 rounded w-full pr-10">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                </div>
+                <select class="border p-2 rounded w-1/4">
+                    <option>Status</option>
+                    <option>Waiting for interview</option>
+                    <option>Open</option>
+                    <option>Interviewed</option>
+                    <option>Offered</option>
+                </select>
+                <button class="bg-gray-800 text-white px-4 py-2 rounded">Search</button>
+            </div>
+
+            <div class="flex items-center justify-end mb-2">
+                <button class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">Add new</button>
+                <button class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">Import</button>
+            </div>
+            
+            <div class="card-body overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="*:p-2 *:border *:border-gray-200 odd:bg-gray-100">
+                            <th class="border">Job Title</th>
+                            <th class="border">Required Skills</th>
+                            <th class="border">Start date</th>
+                            <th class="border">End date</th>
+                            <th class="border">Level</th>
+                            <th class="border">Status</th>
+                            <th class="border">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="*:p-2 *:border *:border-gray-200 even:bg-gray-100">
+                            <td class="border">HR IT</td>
+                            <td class="border">Recruitment</td>
+                            <td class="border">22/02/2022</td>
+                            <td class="border">22/02/2022</td>
+                            <td class="border text-center">Junior</td>
+                            <td class="border text-center">Open</td>
+                            <td class="border text-center min-w-[75px]">
+                                <button class="text-blue-500">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                                <button class="text-green-500">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-red-500">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-end items-center mt-4 gap-4">
+                <span class="text-gray-700 text-sm">10/60 rows</span>
+                <div class="flex gap-2">
+                    <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&lt;</button>
+                    <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
