@@ -1,3 +1,5 @@
+using System.Net;
+using System.Web;
 using IMS.Business.Services;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
@@ -23,8 +25,11 @@ public class ResetPasswordCommandHandler(
             throw new ArgumentException("Passwords do not match");
         }
 
+        var decodedToken = WebUtility.UrlDecode(request.Token);
+        decodedToken = decodedToken.Replace(" ", "+");
+
         var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
-            .FirstOrDefaultAsync(x => x.Token == request.Token, cancellationToken)
+            .FirstOrDefaultAsync(x => x.Token == decodedToken, cancellationToken)
             ?? throw new InvalidOperationException("Reset password token is not found.");
         
         if (resetToken.IsUsed || resetToken.ExpiryDate < DateTime.UtcNow)
