@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { IAuthService } from './auth-service.interface';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LoginRequest } from '../../models/auth/login-request.model';
@@ -7,6 +6,8 @@ import { UserInformation } from '../../models/auth/user-information.model';
 import { HttpClient } from '@angular/common/http';
 import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request.model';
 import { ResetPasswordRequest } from '../../models/auth/reset-password-request.model';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
