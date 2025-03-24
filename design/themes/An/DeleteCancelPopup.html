@@ -6,7 +6,21 @@
     <title>Tailwind Popup</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="shared.css">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: "#1976d2",
+                secondary: "#424242",
+              },
+              fontFamily: {
+                sans: ["Roboto", "Open Sans", "sans-serif"],
+              },
+            },
+          },
+        };
+      </script>
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-100">
 
@@ -16,11 +30,11 @@
     <!-- Popup Modal -->
     <div id="popupModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
         <div class="flex flex-col gap-4 bg-white w-96 px-4 py-8 rounded-lg shadow-lg text-center">
-            <i class="fa-solid fa-circle-exclamation text-4xl text-dark-red"></i>
+            <i class="fa-solid fa-circle-exclamation text-4xl text-red-500"></i>
             <p class="pb-2 break-words">Are you sure you want to [action] this [entity]?</p>
             <div class="modal-buttons flex flex-wrap *:w-2/5 justify-evenly">
-                <button onclick="closePopup()" class="bg-dark-gray text-white font-semibold px-4 py-2 rounded-md hover:bg-gray-500">No</button>
-                <button onclick="closePopup()" class="bg-dark-red text-white font-semibold px-4 py-2 rounded-md hover:bg-red-500">Yes</button>
+                <button onclick="closePopup()" class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">No</button>
+                <button onclick="closePopup()" class="mr-4 bg-red-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-400">Yes</button>
             </div>
         </div>
     </div>
