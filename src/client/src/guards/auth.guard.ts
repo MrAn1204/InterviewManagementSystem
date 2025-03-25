@@ -19,21 +19,18 @@ import {
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    // Kiểm tra token trong localStorage (Remember me) hoặc sessionStorage
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    // Kiểm tra token
     const lsToken = localStorage.getItem('accessToken');
     const ssToken = sessionStorage.getItem('accessToken');
 
-    // Nếu có token ở 1 trong 2 nơi => người dùng đã đăng nhập
     if (lsToken || ssToken) {
+      // Đã đăng nhập => cho vào
       return true;
     } else {
-      // Chưa đăng nhập => chuyển hướng về /login
+      // Chưa đăng nhập => chuyển hướng /login
       this.router.navigate(['/login']);
       return false;
     }
