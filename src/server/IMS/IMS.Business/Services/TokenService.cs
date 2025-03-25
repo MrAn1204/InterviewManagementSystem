@@ -147,6 +147,6 @@ public class TokenService(
         var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
             .FirstOrDefaultAsync(x => x.Token == token);
 
-        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow;
+        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow && !resetToken.IsUsed;
     }
 }
