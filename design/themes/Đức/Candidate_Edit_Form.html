@@ -19,10 +19,7 @@
                         primary: '#1976d2',    // màu xanh dương
                         secondary: '#424242', // xám đậm
                         // bạn có thể bổ sung thêm nếu cần
-                    },
-                    fontFamily: {
-                        sans: ['Roboto', 'Open Sans', 'sans-serif'],
-                    },
+                    }
                 },
             },
         };
@@ -110,14 +107,14 @@
         </aside>
         <!-- Main Content Area -->
         <div class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300" id="mainContent">
+            <!-- Container chính, max-width ~1200px, margin auto -->
             <div class="container mx-auto max-w-screen-xl py-8 px-4">
                 <!-- Tiêu đề -->
                 <h1 class="text-4xl font-semibold mb-8">
-                    <i class="fas fa-user-edit text-primary mr-2"></i>
                     Edit Candidate
                 </h1>
 
-                <!-- Breadcrumb giả lập -->
+                <!-- Breadcrumb -->
                 <div class="pb-8">
                     <a class="text-xl text-primary hover:underline" href="">Candidate List</a>
                     >
@@ -132,8 +129,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Full Name (required) -->
                         <div>
-                            <label for="fullName" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user mr-1"></i>Full name
+                            <label for="fullName" class="block text-lg font-semibold mb-1">
+                                Full name
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="fullName" name="fullName" placeholder="Type a name..."
@@ -143,8 +140,8 @@
 
                         <!-- Email (required) -->
                         <div>
-                            <label for="email" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-envelope mr-1"></i>Email
+                            <label for="email" class="block text-lg font-semibold mb-1">
+                                Email
                                 <span class="text-red-500">*</span>
                             </label>
                             <input readonly type="email" id="email" name="email" placeholder="Type an email..."
@@ -152,21 +149,20 @@
                                 required value="john.doe@example.com" />
                         </div>
 
-                        <!-- D.O.A (Date of Appointment) -> datetime-local -->
+                        <!-- D.O.B -->
                         <div>
-                            <label for="doa" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-calendar-alt mr-1"></i>D.O.A
+                            <label for="doa" class="block text-lg font-semibold mb-1">
+                                D.O.B
                             </label>
-                            <!-- YYYY-MM-DDTHH:MM -->
-                            <input readonly type="datetime-local" id="doa" name="doa"
+                            <input readonly type="date" id="doa" name="doa"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                                 value="2025-03-24T09:30" />
                         </div>
 
                         <!-- Address -->
                         <div>
-                            <label for="address" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-map-marker-alt mr-1"></i>Address
+                            <label for="address" class="block text-lg font-semibold mb-1">
+                                Address
                             </label>
                             <input type="text" id="address" name="address" placeholder="Type an address..."
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -175,8 +171,8 @@
 
                         <!-- Phone Number -->
                         <div>
-                            <label for="phoneNumber" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-phone mr-1"></i>Phone number
+                            <label for="phoneNumber" class="block text-lg font-semibold mb-1">
+                                Phone number
                             </label>
                             <input readonly type="text" id="phoneNumber" name="phoneNumber"
                                 placeholder="Type a number..."
@@ -186,8 +182,8 @@
 
                         <!-- Gender (required) -->
                         <div>
-                            <label for="gender" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-venus-mars mr-1"></i>Gender
+                            <label for="gender" class="block text-lg font-semibold mb-1">
+                                Gender
                                 <span class="text-red-500">*</span>
                             </label>
                             <select id="gender" name="gender"
@@ -206,8 +202,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- CV Attachment -->
                         <div>
-                            <label for="cvAttachment" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-file-upload mr-1"></i>CV attachment
+                            <label for="cvAttachment" class="block text-lg font-semibold mb-1">
+                                CV attachment
                             </label>
                             <input type="file" id="cvAttachment" name="cvAttachment"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -219,8 +215,8 @@
 
                         <!-- Note -->
                         <div>
-                            <label for="note" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-sticky-note mr-1"></i>Note
+                            <label for="note" class="block text-lg font-semibold mb-1">
+                                Note
                             </label>
                             <input type="text" id="note" name="note" placeholder="N/A"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -229,8 +225,8 @@
 
                         <!-- Position -->
                         <div>
-                            <label for="position" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user-tie mr-1"></i>Position
+                            <label for="position" class="block text-lg font-semibold mb-1">
+                                Position
                             </label>
                             <select id="position" name="position"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
@@ -245,8 +241,8 @@
 
                         <!-- Status (required) -->
                         <div>
-                            <label for="status" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-info-circle mr-1"></i>Status
+                            <label for="status" class="block text-lg font-semibold mb-1">
+                                Status
                                 <span class="text-red-500">*</span>
                             </label>
                             <select id="status" name="status"
@@ -261,21 +257,18 @@
 
                         <!-- Skills (dropdown-checklist) -->
                         <div class="relative" id="skills-wrapper">
-                            <label class="block text-sm font-medium mb-1">
-                                <i class="fas fa-tools mr-1"></i>Skills
+                            <label class="block text-lg font-semibold mb-1">
+                                Skills
                                 <span class="text-red-500">*</span>
                             </label>
-
                             <!-- Ô input hiển thị các kỹ năng đã chọn (chỉ đọc) -->
                             <input type="text" id="skillsInput"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
                                 placeholder="Click to select skills" readonly required />
-
                             <!-- Dropdown chứa danh sách checkbox -->
                             <div id="skillsDropdown"
                                 class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
                                 <div class="p-2 max-h-48 overflow-y-auto">
-                                    <!-- Mỗi kỹ năng là 1 checkbox + label -->
                                     <label class="flex items-center mb-1 cursor-pointer">
                                         <input type="checkbox" value="Java" class="mr-2"
                                             onclick="updateSkillsSelected()" checked />
@@ -309,34 +302,32 @@
                                     <!-- ... Bổ sung thêm kỹ năng tuỳ ý ... -->
                                 </div>
                             </div>
-
                             <!-- Gợi ý cách chọn -->
                             <small class="text-gray-500">
                                 Click vào ô để mở danh sách. Tích chọn nhiều kỹ năng tuỳ ý.
                             </small>
-
                             <!-- Hidden input để submit giá trị (nếu cần) -->
                             <input type="hidden" name="skills" id="skillsHidden" required />
                         </div>
 
                         <!-- Recruiter (required) -->
                         <div>
-                            <label for="recruiter" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user-tie mr-1"></i>Recruiter
+                            <label for="recruiter" class="block text-lg font-semibold mb-1">
+                                Recruiter
                                 <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="recruiter" name="recruiter" placeholder="Recruiter name"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                                 required value="Jane Smith" />
                             <a class="text-xs text-primary hover:underline" href="">
-                                <i><u>Assign me</u></i>
+                                <u>Assign me</u>
                             </a>
                         </div>
 
                         <!-- Years of Experience -->
                         <div>
-                            <label for="experience" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-briefcase mr-1"></i>Years of Experience
+                            <label for="experience" class="block text-lg font-semibold mb-1">
+                                Years of Experience
                             </label>
                             <input type="number" id="experience" name="experience" placeholder="Type a number..."
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -345,8 +336,8 @@
 
                         <!-- Highest level (required) -->
                         <div>
-                            <label for="highestLevel" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-graduation-cap mr-1"></i>Highest level
+                            <label for="highestLevel" class="block text-lg font-semibold mb-1">
+                                Highest level
                                 <span class="text-red-500">*</span>
                             </label>
                             <select id="highestLevel" name="highestLevel"
@@ -362,19 +353,21 @@
 
                     <!-- Nút Submit/Cancel -->
                     <div class="mt-8 flex justify-end">
-                        <!-- Submit -->
+                        <!-- Save Changes -->
                         <button type="submit"
                             class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-                            <i class="fas fa-save mr-2"></i>Save Changes
+                            Save Changes
                         </button>
                         <!-- Cancel -->
                         <button type="button"
                             class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-                            <i class="fas fa-times mr-2"></i>Cancel
+                            Cancel
                         </button>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </main>
 

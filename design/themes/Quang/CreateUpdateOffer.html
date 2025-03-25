@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Details </title>
+    <title>Create Offer Form</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -19,7 +19,10 @@
                         primary: '#1976d2',    // màu xanh dương
                         secondary: '#424242', // xám đậm
                         // bạn có thể bổ sung thêm nếu cần
-                    }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'Open Sans', 'sans-serif'],
+                    },
                 },
             },
         };
@@ -111,186 +114,235 @@
             <div class="container mx-auto max-w-screen-xl py-8 px-4">
                 <!-- Tiêu đề -->
                 <h1 class="text-4xl font-semibold mb-8">
-                    Job Detail
+                    Create Offer
                 </h1>
 
                 <!-- Breadcrumb -->
-                <div class="pb-8 flex items-center justify-between">
-                    <!-- Bên trái: Đường dẫn -->
-                    <div>
-                        <a class="text-xl text-primary hover:underline" href="">Job List</a>
-                        >
-                        <a class="text-xl text-primary hover:underline" href="">Job Detail</a>
-                    </div>
-                    <!-- Bên phải: thông tin Created/Updated -->
-                    <div class="text-sm text-gray-500">
-                        <p>Created at: 2025-03-20</p>
-                        <p>Last updated: 2025-03-28</p>
-                    </div>
+                <div class="pb-8">
+                    <a class="text-xl text-primary hover:underline" href="">Offer List</a>
+                    >
+                    <a class="text-xl text-primary hover:underline" href="">Create Offer</a>
                 </div>
 
                 <!-- Card bao quanh form -->
                 <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-                    <!-- Phần I: Job information -->
-                    <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+                    <form action="#">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Candidate name -->
+                            <div class="md:col-span-2">
+                                <label for="candidatename" class="block text-lg font-semibold mb-1">
+                                    Candidate
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="candidatename"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select Candidate Name</option>
+                                </select>
+                            </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Job Title (chỉ đọc) -->
-                        <div>
-                            <label for="jobTitle" class="block text-gl font-medium mb-1">
-                                Job title
-                            </label>
-                            <input type="text" id="jobTitle" name="jobTitle"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-                                value="Senior Java Developer" />
-                        </div>
+                            <!-- Position -->
+                            <div>
+                                <label for="position" class="block text-lg font-semibold mb-1">
+                                    Position
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="position"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select a position</option>
+                                </select>
+                            </div>
 
-                        <!-- Skills (chỉ xem) -->
-                        <div>
-                            <label class="block text-gl font-medium mb-1">
-                                Skills
-                            </label>
-                            <div class="border border-gray-300 rounded-md p-3">
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Java" disabled checked class="mr-2" />
-                                    Java
+                            <!-- Approver -->
+                            <div>
+                                <label for="approver" class="block text-lg font-semibold mb-1">
+                                    Approver
+                                    <span class="text-red-500">*</span>
                                 </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Node.js" disabled checked class="mr-2" />
-                                    Node.js
+                                <select id="approver"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select an approver</option>
+                                </select>
+                            </div>
+
+                            <!-- Interview info -->
+                            <div class="md:col-span-2">
+                                <label for="interview" class="block text-lg font-semibold mb-1">
+                                    Interview info
                                 </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="System design" disabled class="mr-2" />
-                                    System design
+                                <select id="interview"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select an interview schedule title</option>
+                                </select>
+                            </div>
+
+                            <!-- Contract Period -->
+                            <div class="md:col-span-2">
+                                <label class="block text-lg font-semibold mb-1">
+                                    Contract Period
+                                    <span class="text-red-500">*</span>
                                 </label>
-                                <!-- ... -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-center">
+                                        <label for="from" class="block text-sm font-medium mr-2">
+                                            From
+                                        </label>
+                                        <input type="datetime-local" id="from" name="from"
+                                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                                    </div>
+                                    <div class="flex items-center">
+                                        <label for="to" class="block text-sm font-medium mr-2">
+                                            To
+                                        </label>
+                                        <input type="datetime-local" id="to" name="to"
+                                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Contract type -->
+                            <div>
+                                <label for="contracttype" class="block text-lg font-semibold mb-1">
+                                    Contract type
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="contracttype"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select a type of contract</option>
+                                </select>
+                            </div>
+
+                            <!-- Level -->
+                            <div>
+                                <label for="level" class="block text-lg font-semibold mb-1">
+                                    Level
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="level"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select a level</option>
+                                </select>
+                            </div>
+
+                            <!-- Department -->
+                            <div>
+                                <label for="department" class="block text-lg font-semibold mb-1">
+                                    Department
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="department"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected>Select a department</option>
+                                </select>
+                            </div>
+
+                            <!-- Recruiter Owner -->
+                            <div>
+                                <label for="recruiter" class="block text-lg font-semibold mb-1">
+                                    Recruiter Owner
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <select id="recruiter"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+                                    <option selected></option>
+                                </select>
+                            </div>
+
+                            <!-- Due date -->
+                            <div class="md:col-span-2">
+                                <label for="duedate" class="block text-lg font-semibold mb-1">
+                                    Due date
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <input type="datetime-local" id="duedate" name="duedate"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+                            </div>
+
+                            <!-- Basic salary -->
+                            <div class="md:col-span-2">
+                                <label for="salary" class="block text-lg font-semibold mb-1">
+                                    Basic salary
+                                    <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="salary"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder="Enter basic salary" required />
+                            </div>
+
+                            <!-- Note -->
+                            <div class="md:col-span-2">
+                                <label for="note" class="block text-lg font-semibold mb-1">
+                                    Note
+                                </label>
+                                <textarea id="note" rows="4"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    placeholder="Type a note"></textarea>
                             </div>
                         </div>
 
-                        <!-- Start Date (chỉ đọc) -->
-                        <div>
-                            <label for="startDate" class="block text-gl font-medium mb-1">
-                                Start Date
-                            </label>
-                            <input type="date" id="startDate" name="startDate"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-                                value="2025-03-25" />
+                        <!-- Nút Submit/Cancel -->
+                        <div class="mt-8 flex justify-end">
+                            <!-- Submit -->
+                            <button type="submit"
+                                class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+                                Submit
+                            </button>
+                            <!-- Cancel -->
+                            <button type="button"
+                                class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+                                Cancel
+                            </button>
                         </div>
-
-                        <!-- End Date (chỉ đọc) -->
-                        <div>
-                            <label for="endDate" class="block text-fl font-medium mb-1">
-                                End Date
-                            </label>
-                            <input type="date" id="endDate" name="endDate"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-                                value="2025-06-30" />
-                        </div>
-
-                        <!-- Salary range (chỉ xem) -->
-                        <div>
-                            <label class="block text-gl font-medium mb-1">
-                                Salary Range
-                            </label>
-                            <div class="flex gap-2">
-                                <label for="from" class="block text-sm content-center font-medium ">
-                                    From
-                                </label>
-                                <input type="number" id="salaryFrom" name="salaryFrom"
-                                    class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                                    readonly value="1000" />
-                                <label for="to" class="block text-sm content-center font-medium ">
-                                    to
-                                </label>
-                                <input type="number" id="salaryTo" name="salaryTo"
-                                    class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                                    readonly value="2000" />
-                            </div>
-                        </div>
-
-                        <!-- Working Address (chỉ đọc) -->
-                        <div>
-                            <label for="workingAddress" class="block text-gl font-medium mb-1">
-                                Working address
-                            </label>
-                            <input type="text" id="workingAddress" name="workingAddress"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-                                value="Ho Chi Minh City" />
-                        </div>
-
-                        <!-- Benefits (chỉ xem) -->
-                        <div>
-                            <label class="block text-gl font-medium mb-1">
-                                Benefits
-                            </label>
-                            <div class="border border-gray-300 rounded-md p-3">
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Health insurance" disabled checked class="mr-2" />
-                                    Health insurance
-                                </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Paid vacation" disabled class="mr-2" />
-                                    Paid vacation
-                                </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Free parking" disabled checked class="mr-2" />
-                                    Free parking
-                                </label>
-                                <!-- ... -->
-                            </div>
-                        </div>
-
-                        <!-- Level (chỉ xem) -->
-                        <div>
-                            <label class="block text-gl font-medium mb-1">
-                                Level
-                            </label>
-                            <div class="border border-gray-300 rounded-md p-3">
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Fresher" disabled class="mr-2" />
-                                    Fresher
-                                </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Junior" disabled class="mr-2" />
-                                    Junior
-                                </label>
-                                <label class="flex items-center mb-1 cursor-default">
-                                    <input type="checkbox" value="Senior" disabled checked class="mr-2" />
-                                    Senior
-                                </label>
-                                <!-- ... -->
-                            </div>
-                        </div>
-
-                        <!-- Description (chỉ đọc) -->
-                        <div class="md:col-span-2">
-                            <label for="description" class="block text-gl font-medium mb-1">
-                                Description
-                            </label>
-                            <textarea id="description" name="description" rows="4"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                                readonly>We are looking for a Senior Java Developer with Node.js experience.</textarea>
-                        </div>
-                    </div>
-
-                    <!-- Nút Edit / Back -->
-                    <div class="mt-8 flex justify-end">
-                        <!-- Edit -->
-                        <button type="button"
-                            class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-                            Edit
-                        </button>
-                        <!-- Back -->
-                        <button type="button"
-                            class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-                            Back
-                        </button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
         </div>
     </main>
+
+    <script>
+        const skillsInput = document.getElementById('skillsInput');
+        const skillsDropdown = document.getElementById('skillsDropdown');
+        const skillsHidden = document.getElementById('skillsHidden');
+
+        // Khi click vào input => toggle hiển thị dropdown
+        skillsInput.addEventListener('click', (e) => {
+            e.stopPropagation(); // Ngăn chặn việc click ra ngoài tắt dropdown ngay
+            toggleSkillsDropdown();
+        });
+
+        // Đóng dropdown khi click ngoài
+        document.addEventListener('click', (e) => {
+            // Nếu click ngoài vùng "skills-wrapper" thì ẩn dropdown
+            const skillsWrapper = document.getElementById('skills-wrapper');
+            if (!skillsWrapper.contains(e.target)) {
+                skillsDropdown.classList.add('hidden');
+            }
+        });
+
+        function toggleSkillsDropdown() {
+            if (skillsDropdown.classList.contains('hidden')) {
+                skillsDropdown.classList.remove('hidden');
+            } else {
+                skillsDropdown.classList.add('hidden');
+            }
+        }
+
+        // Hàm cập nhật danh sách kỹ năng đã chọn
+        function updateSkillsSelected() {
+            // Lấy tất cả checkbox trong dropdown
+            const checkboxes = skillsDropdown.querySelectorAll('input[type="checkbox"]');
+            let selectedValues = [];
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    selectedValues.push(cb.value);
+                }
+            });
+            // Cập nhật hiển thị trên ô input
+            skillsInput.value = selectedValues.join(', ');
+            // Cập nhật hidden input để submit
+            skillsHidden.value = selectedValues.join(',');
+        }
+    </script>
 
 
     <script>

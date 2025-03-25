@@ -19,10 +19,7 @@
                         primary: '#1976d2',    // màu xanh dương
                         secondary: '#424242', // xám đậm
                         // bạn có thể bổ sung thêm nếu cần
-                    },
-                    fontFamily: {
-                        sans: ['Roboto', 'Open Sans', 'sans-serif'],
-                    },
+                    }
                 },
             },
         };
@@ -110,10 +107,10 @@
         </aside>
         <!-- Main Content Area -->
         <div class="md:ml-64 ml-0 p-4 mt-16 grow transition-all duration-300" id="mainContent">
+            <!-- Container chính, max-width ~1200px, margin auto -->
             <div class="container mx-auto max-w-screen-xl py-8 px-4">
                 <!-- Tiêu đề -->
                 <h1 class="text-4xl font-semibold mb-8">
-                    <i class="fas fa-calendar-check text-primary mr-2"></i>
                     Interview Schedule Detail
                 </h1>
 
@@ -132,8 +129,8 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Schedule Title (chỉ đọc) -->
                         <div>
-                            <label for="scheduleTitle" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-file-alt mr-1"></i>Schedule title
+                            <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
+                                Schedule title
                             </label>
                             <input type="text" id="scheduleTitle" name="scheduleTitle"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -142,10 +139,9 @@
 
                         <!-- Candidate name (chỉ xem) -->
                         <div>
-                            <label class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user mr-1"></i>Candidate name
+                            <label class="block text-lg font-semibold mb-1">
+                                Candidate name
                             </label>
-                            <!-- Hiển thị dạng text hoặc select disabled -->
                             <input type="text"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
                                 value="John Doe" />
@@ -153,8 +149,8 @@
 
                         <!-- Schedule Time (chỉ đọc) -->
                         <div>
-                            <label for="scheduleTime" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-clock mr-1"></i>Schedule Time
+                            <label for="scheduleTime" class="block text-lg font-semibold mb-1">
+                                Schedule Time
                             </label>
                             <input type="datetime-local" id="scheduleTime" name="scheduleTime"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -163,8 +159,8 @@
 
                         <!-- Job (chỉ xem) -->
                         <div>
-                            <label class="block text-sm font-medium mb-1">
-                                <i class="fas fa-briefcase mr-1"></i>Job
+                            <label class="block text-lg font-semibold mb-1">
+                                Job
                             </label>
                             <input type="text"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -173,10 +169,9 @@
 
                         <!-- Interviewer (chỉ xem) -->
                         <div>
-                            <label class="block text-sm font-medium mb-1">
-                                <i class="fas fa-users mr-1"></i>Interviewer
+                            <label class="block text-lg font-semibold mb-1">
+                                Interviewer
                             </label>
-                            <!-- Thay vì dropdown-checklist, hiển thị checkbox disabled hoặc text -->
                             <div class="border border-gray-300 rounded-md p-3">
                                 <label class="flex items-center mb-1 cursor-default">
                                     <input type="checkbox" disabled checked class="mr-2" />
@@ -196,8 +191,8 @@
 
                         <!-- Location (chỉ đọc) -->
                         <div>
-                            <label for="location" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-map-marker-alt mr-1"></i>Location
+                            <label for="location" class="block text-lg font-semibold mb-1">
+                                Location
                             </label>
                             <input type="text" id="location" name="location"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -206,19 +201,18 @@
 
                         <!-- Recruiter owner (chỉ đọc) -->
                         <div>
-                            <label for="recruiterOwner" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-user-tie mr-1"></i>Recruiter owner
+                            <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
+                                Recruiter owner
                             </label>
                             <input type="text" id="recruiterOwner" name="recruiterOwner"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
                                 value="Jane Smith" />
-                            <!-- Không cần Assign me, vì chỉ đọc -->
                         </div>
 
                         <!-- Meeting ID (chỉ đọc) -->
                         <div>
-                            <label for="meetingID" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-link mr-1"></i>Meeting ID
+                            <label for="meetingID" class="block text-lg font-semibold mb-1">
+                                Meeting ID
                             </label>
                             <input type="text" id="meetingID" name="meetingID"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -227,8 +221,8 @@
 
                         <!-- Notes (chỉ đọc) -->
                         <div>
-                            <label for="notes" class="block text-sm font-medium mb-1">
-                                <i class="fas fa-sticky-note mr-1"></i>Notes
+                            <label for="notes" class="block text-lg font-semibold mb-1">
+                                Notes
                             </label>
                             <input type="text" id="notes" name="notes"
                                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
@@ -241,16 +235,17 @@
                         <!-- Edit -->
                         <button type="button"
                             class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-                            <i class="fas fa-edit mr-2"></i>Edit
+                            Edit
                         </button>
                         <!-- Back -->
                         <button type="button"
                             class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-                            <i class="fas fa-arrow-left mr-2"></i>Back
+                            Back
                         </button>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 
