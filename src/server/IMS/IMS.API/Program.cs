@@ -57,7 +57,7 @@ using (var scope = app.Services.CreateScope())
 	SeedData.Seed(dbContext, userManager, roleManager);
 }
 
-//app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseDefaultFiles();
