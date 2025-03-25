@@ -45,16 +45,25 @@ builder.Services.AddIdentity<User, Role>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-	.WithOrigins("http://localhost:4200", "https://localhost:4200"));
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 using (var scope = app.Services.CreateScope())
 {
-	var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
-	SeedData.Seed(dbContext, userManager, roleManager);
+    SeedData.Seed(dbContext, userManager, roleManager);
 }
 
 //app.UseMiddleware<ExceptionMiddleware>();
@@ -63,8 +72,8 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.UseAuthentication();  
-app.UseAuthorization(); 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
