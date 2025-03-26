@@ -1,4 +1,4 @@
-<div class="p-6 bg-gray-100 min-h-screen">
+<div class="p-6 bg-gray-100">
   <div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-2xl font-semibold mb-6">User List</h2>
 
@@ -17,9 +17,9 @@
     </div>
 
     <div class="flex items-center justify-end mb-2">
-      <button class="bg-[#1976d2] text-white px-4 py-2 mr-4 rounded font-semibold w-1/2 md:w-1/5">Search</button>
+      <button class="bg-[#1976d2] text-white px-4 py-2 mr-4 rounded font-semibold w-1/2 md:w-1/5 cursor-pointer">Search</button>
       <button routerLink="/admin/users/create"
-        class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-1/2 md:w-1/5">Add new</button>
+        class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-1/2 md:w-1/5 md:min-w-[100px] cursor-pointer">Add new</button>
     </div>
 
     <div class="card-body overflow-x-auto">
@@ -41,11 +41,11 @@
             <td class="border">0911583726</td>
             <td class="border text-center">Developer</td>
             <td class="border text-center">Active</td>
-            <td class="border text-center">
-              <button class="text-blue-500" routerLink="/admin/users/1/detail">
+            <td class="border text-center space-x-2">
+              <button class="text-blue-500 hover:text-blue-700 cursor-pointer" routerLink="/admin/users/1/detail">
                 <i class="fa-regular fa-eye"></i>
               </button>
-              <button class="text-green-500" routerLink="/admin/users/i/edit">
+              <button class="text-green-500 hover:text-green-700 cursor-pointer" routerLink="/admin/users/i/edit">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
             </td>
@@ -57,8 +57,8 @@
     <div class="flex justify-end items-center mt-6 gap-4">
       <span class="text-gray-700 text-sm">10/60 rows</span>
       <div class="flex gap-2">
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&lt;</button>
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300">&gt;</button>
+        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer">&lt;</button>
+        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer">&gt;</button>
       </div>
     </div>
   </div>
