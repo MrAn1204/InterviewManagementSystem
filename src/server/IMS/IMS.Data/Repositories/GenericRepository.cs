@@ -22,20 +22,17 @@ namespace IMS.Data.Repositories
 		public void Add(T entity)
 		{
 			_dbSet.Add(entity);
-			_context.SaveChanges();
 		}
 
 		public void Delete(Guid id)
 		{
 			var entity = GetById(id);
 			if (entity != null) _dbSet.Remove(entity);
-			_context.SaveChanges();
 		}
 
 		public void Delete(T entity)
 		{
 			_dbSet.Remove(entity);
-			_context.SaveChanges();
 		}
 
 		public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
@@ -78,7 +75,7 @@ namespace IMS.Data.Repositories
 
 		public IQueryable<T> GetQuery()
 		{
-			return _dbSet;
+			return _dbSet.AsQueryable();
 		}
 
 		public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
