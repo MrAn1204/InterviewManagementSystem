@@ -91,7 +91,7 @@ public static class SeedData
 
 			foreach (var user in users)
 			{
-				user.PasswordHash = passwordHasher.HashPassword(user, "123");
+				user.PasswordHash = passwordHasher.HashPassword(user, "Abc@123");
 				userManager.CreateAsync(user).Wait();
 			}
 		}

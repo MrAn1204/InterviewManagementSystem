@@ -27,8 +27,10 @@ public class TokenService(
     private readonly UserManager<User> _userManager = userManager;
 
 
-    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(User user)
+    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(int userId)
     {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
@@ -76,8 +78,10 @@ public class TokenService(
         return refreshToken;
     }
 
-    public async Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(User user)
+    public async Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(int userId)
     {       
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         var resetToken = new ResetPasswordToken
@@ -143,6 +147,6 @@ public class TokenService(
         var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
             .FirstOrDefaultAsync(x => x.Token == token);
 
-        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow;
+        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow && !resetToken.IsUsed;
     }
 }
