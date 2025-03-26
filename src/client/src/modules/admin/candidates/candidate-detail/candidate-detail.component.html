@@ -8,12 +8,14 @@
   <div class="pb-8 flex items-center justify-between">
     <!-- Breadcrumb -->
     <div>
-      <a routerLink="/admin/candidates" class="text-xl text-[#1976d2] hover:underline" href="">Candidate List</a>
+      <a routerLink="/admin/candidates" class="cursor-pointer not-odd:text-xl text-[#1976d2] hover:underline"
+        href="">Candidate List</a>
       >
-      <a class="text-xl text-[#1976d2] hover:underline" href="">Candidate Details</a>
+      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Candidate Details</a>
     </div>
     <!-- Nút Ban Candidate -->
-    <button type="button" class="border border-red-500 text-red-500 font-semibold py-2 px-4 rounded-md hover:bg-red-50">
+    <button type="button"
+      class="cursor-pointer border border-red-500 text-red-500 font-semibold py-2 px-4 rounded-md hover:bg-blue-50">
       Ban Candidate
     </button>
   </div>
@@ -205,12 +207,13 @@
     <!-- Nút Edit/Cancel -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
-      <button type="button" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+      <button type="button"
+        class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>
       <!-- Cancel -->
       <button routerLink="/admin/candidates" type="button"
-        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        class=" cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
         Cancel
       </button>
     </div>

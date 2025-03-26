@@ -35,7 +35,7 @@
   <div class="mt-auto flex justify-between items-center text-center border-t border-slate-400"
     [ngClass]="{'flex-col': (sidebarService.isCollapsed$ | async)}">
     <a class="flex items-center grow w-full text-center p-4 hover:bg-[#FFC20E] hover:text-black"
-      [ngClass]="{'w-full justify-center': (sidebarService.isCollapsed$ | async)}" href="#">
+      [ngClass]="{'w-full justify-center': (sidebarService.isCollapsed$ | async)}" routerLink="/home">
       <fa-icon [icon]="faGear" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Settings</span>
     </a>

@@ -1,13 +1,23 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AdminLayoutComponent } from "./shared/layout/admin-layout.component";
+import { NgxSpinnerComponent } from 'ngx-spinner';
+import { BusyLoadingService } from '../services/busy-loading.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgxSpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'client';
+  constructor(private busyService: BusyLoadingService) {}
+
+  ngOnInit(): void {
+    this.busyService.busy();
+
+    setTimeout(() => {
+      this.busyService.idle();
+    }, 700);
+  }
 }

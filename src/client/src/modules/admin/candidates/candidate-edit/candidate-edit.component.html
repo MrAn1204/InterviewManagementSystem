@@ -6,9 +6,10 @@
 
   <!-- Breadcrumb -->
   <div class="pb-8">
-    <a routerLink="/admin/candidates" class="text-xl text-[#1976d2] hover:underline" href="">Candidate List</a>
+    <a routerLink="/admin/candidates" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Candidate
+      List</a>
     >
-    <a class="text-xl text-[#1976d2] hover:underline" href="">Edit Candidate</a>
+    <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Edit Candidate</a>
   </div>
 
   <!-- Card bao quanh form -->
@@ -202,7 +203,7 @@
         <input type="text" id="recruiter" name="recruiter" placeholder="Recruiter name"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           required value="Jane Smith" />
-        <a class="text-xs text-[#1976d2] hover:underline" href="">
+        <a class="text-xs text-[#1976d2] hover:underline cursor-pointer">
           <u>Assign me</u>
         </a>
       </div>
@@ -237,12 +238,13 @@
     <!-- Nút Submit/Cancel -->
     <div class="mt-8 flex justify-end">
       <!-- Save Changes -->
-      <button type="submit" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+      <button type="submit"
+        class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0] cursor-pointer">
         Save Changes
       </button>
       <!-- Cancel -->
       <button type="button" routerLink="/admin/candidates"
-        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd] cursor-pointer">
         Cancel
       </button>
     </div>
