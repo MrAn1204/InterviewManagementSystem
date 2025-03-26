@@ -1,0 +1,134 @@
+<!-- Container chính, max-width ~1200px, margin auto -->
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    Interview Schedule Detail
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8">
+    <a routerLink="/admin/interviews" class="text-xl text-primary hover:underline" href="">Interview Schedule List</a>
+    >
+    <a class="text-xl text-primary hover:underline" href="">Interview Schedule Detail</a>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: Schedule information -->
+    <h2 class="text-2xl font-semibold mb-4">Schedule Information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Schedule Title (chỉ đọc) -->
+      <div>
+        <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
+          Schedule title
+        </label>
+        <input type="text" id="scheduleTitle" name="scheduleTitle"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Backend Interview Round 2" />
+      </div>
+
+      <!-- Candidate name (chỉ xem) -->
+      <div>
+        <label class="block text-lg font-semibold mb-1">
+          Candidate name
+        </label>
+        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="John Doe" />
+      </div>
+
+      <!-- Schedule Time (chỉ đọc) -->
+      <div>
+        <label for="scheduleTime" class="block text-lg font-semibold mb-1">
+          Schedule Time
+        </label>
+        <input type="datetime-local" id="scheduleTime" name="scheduleTime"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="2025-04-15T09:30" />
+      </div>
+
+      <!-- Job (chỉ xem) -->
+      <div>
+        <label class="block text-lg font-semibold mb-1">
+          Job
+        </label>
+        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Backend Developer" />
+      </div>
+
+      <!-- Interviewer (chỉ xem) -->
+      <div>
+        <label class="block text-lg font-semibold mb-1">
+          Interviewer
+        </label>
+        <div class="border border-gray-300 rounded-md p-3">
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" disabled checked class="mr-2" />
+            Thiệu P
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" disabled class="mr-2" />
+            Name B
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" disabled checked class="mr-2" />
+            John H
+          </label>
+          <!-- ... -->
+        </div>
+      </div>
+
+      <!-- Location (chỉ đọc) -->
+      <div>
+        <label for="location" class="block text-lg font-semibold mb-1">
+          Location
+        </label>
+        <input type="text" id="location" name="location"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Meeting Room 3" />
+      </div>
+
+      <!-- Recruiter owner (chỉ đọc) -->
+      <div>
+        <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
+          Recruiter owner
+        </label>
+        <input type="text" id="recruiterOwner" name="recruiterOwner"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Jane Smith" />
+      </div>
+
+      <!-- Meeting ID (chỉ đọc) -->
+      <div>
+        <label for="meetingID" class="block text-lg font-semibold mb-1">
+          Meeting ID
+        </label>
+        <input type="text" id="meetingID" name="meetingID"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="meet.google.com/abc-1234" />
+      </div>
+
+      <!-- Notes (chỉ đọc) -->
+      <div>
+        <label for="notes" class="block text-lg font-semibold mb-1">
+          Notes
+        </label>
+        <input type="text" id="notes" name="notes"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="This is the second round interview focusing on technical skills." />
+      </div>
+    </div>
+
+    <!-- Nút Edit / Back -->
+    <div class="mt-8 flex justify-end">
+      <!-- Edit -->
+      <button type="button" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Edit
+      </button>
+      <!-- Back -->
+      <button type="button" routerLink="/admin/interviews"
+        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Back
+      </button>
+    </div>
+  </div>
+</div>

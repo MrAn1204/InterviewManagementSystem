@@ -1,0 +1,144 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    User Detail
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8 flex items-center justify-between">
+    <!-- Bên trái: Đường dẫn -->
+    <div>
+      <a routerLink="/admin/users" class="text-xl text-primary hover:underline" href="">User List</a>
+      >
+      <a class="text-xl text-primary hover:underline" href="">User Detail</a>
+    </div>
+    <!-- Bên phải: thông tin Created/Updated nếu muốn -->
+    <div class="text-sm text-gray-500">
+      <p>Created at: 2025-03-20</p>
+      <p>Last updated: 2025-03-28</p>
+    </div>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: User information -->
+    <h2 class="text-2xl font-semibold mb-4">User information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Full Name (chỉ đọc) -->
+      <div>
+        <label for="fullName" class="block text-lg font-semibold mb-1">
+          Full Name
+        </label>
+        <input type="text" id="fullName" name="fullName"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="John Doe" />
+      </div>
+
+      <!-- Email (chỉ đọc) -->
+      <div>
+        <label for="email" class="block text-lg font-semibold mb-1">
+          Email
+        </label>
+        <input type="email" id="email" name="email"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="john.doe@example.com" />
+      </div>
+
+      <!-- DOB (chỉ đọc) -->
+      <div>
+        <label for="dob" class="block text-lg font-semibold mb-1">
+          Date of Birth
+        </label>
+        <input type="date" id="dob" name="dob"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="1990-01-01" />
+      </div>
+
+      <!-- Address (chỉ đọc) -->
+      <div>
+        <label for="address" class="block text-lg font-semibold mb-1">
+          Address
+        </label>
+        <input type="text" id="address" name="address"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="123 Main St, City" />
+      </div>
+
+      <!-- Phone Number (chỉ đọc) -->
+      <div>
+        <label for="phone" class="block text-lg font-semibold mb-1">
+          Phone Number
+        </label>
+        <input type="tel" id="phone" name="phone"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="+1234567890" />
+      </div>
+
+      <!-- Gender (chỉ đọc) -->
+      <div>
+        <label for="gender" class="block text-lg font-semibold mb-1">
+          Gender
+        </label>
+        <input type="text" id="gender" name="gender"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Male" />
+      </div>
+
+      <!-- Role (chỉ đọc) -->
+      <div>
+        <label for="role" class="block text-lg font-semibold mb-1">
+          Role
+        </label>
+        <input type="text" id="role" name="role"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Admin" />
+      </div>
+
+      <!-- Department (chỉ đọc) -->
+      <div>
+        <label for="department" class="block text-lg font-semibold mb-1">
+          Department
+        </label>
+        <input type="text" id="department" name="department"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="IT" />
+      </div>
+
+      <!-- Status (chỉ xem) -->
+      <div>
+        <label for="status" class="block text-lg font-semibold mb-1">
+          Status
+        </label>
+        <input type="text" id="status" name="status"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Active" />
+      </div>
+
+      <!-- Note (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="note" class="block text-lg font-semibold mb-1">
+          Note
+        </label>
+        <textarea id="note" name="note" rows="3"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+          readonly>This user is an administrator.</textarea>
+      </div>
+    </div>
+
+    <!-- Nút Edit / Delete / Inactive / Back -->
+    <div class="mt-8 flex justify-end">
+      <!-- Edit -->
+      <button type="button" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Edit
+      </button>
+      <!-- Delete -->
+      <button type="button" class="mr-4 bg-red-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-400">
+        Delete
+      </button>
+      <!-- Inactive -->
+      <button type="button"
+        class="mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
+        Inactive
+      </button>
+      <!-- Back -->
+      <button type="button" routerLink="/admin/users"
+        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Back
+      </button>
+    </div>
+  </div>
+</div>

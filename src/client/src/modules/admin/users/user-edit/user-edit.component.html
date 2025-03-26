@@ -1,0 +1,200 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    Edit User
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8">
+    <a routerLink="/admin/users" class="text-xl text-primary hover:underline" href="">User List</a>
+    >
+    <a class="text-xl text-primary hover:underline" href="">Edit User</a>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <form action="#">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Full Name -->
+        <div class="md:col-span-2">
+          <label for="fullname" class="block text-lg font-semibold mb-1">
+            Full Name
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="fullname"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type a name..." required />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-lg font-semibold mb-1">
+            Email
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="email"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type an email..." required />
+        </div>
+
+        <!-- Date of Birth -->
+        <div>
+          <label for="dob" class="block text-lg font-semibold mb-1">
+            Date of Birth
+          </label>
+          <div class="relative">
+            <input type="datetime-local" id="dob" name="dob"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label for="address" class="block text-lg font-semibold mb-1">
+            Address
+          </label>
+          <input type="text" id="address"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type an address..." />
+        </div>
+
+        <!-- Phone Number -->
+        <div>
+          <label for="phonenumber" class="block text-lg font-semibold mb-1">
+            Phone Number
+          </label>
+          <input type="text" id="phonenumber"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type a phone number..." />
+        </div>
+
+        <!-- Gender -->
+        <div>
+          <label for="gender" class="block text-lg font-semibold mb-1">
+            Gender
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="gender"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option selected>Select a gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-lg font-semibold mb-1">
+            Role
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="role"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option selected>Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="employee">Employee</option>
+          </select>
+        </div>
+
+        <!-- Department -->
+        <div>
+          <label for="department" class="block text-lg font-semibold mb-1">
+            Department
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="department"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option selected>Select a department</option>
+            <option value="hr">HR</option>
+            <option value="it">IT</option>
+            <option value="finance">Finance</option>
+          </select>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label for="status" class="block text-lg font-semibold mb-1">
+            Status
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="status"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            <option selected>Select a status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <!-- Note -->
+        <div class="md:col-span-2">
+          <label for="note" class="block text-lg font-semibold mb-1">
+            Note
+          </label>
+          <textarea id="note" rows="4"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Type a note..."></textarea>
+        </div>
+      </div>
+
+      <!-- Nút Submit/Cancel -->
+      <div class="mt-8 flex justify-end">
+        <!-- Submit -->
+        <button type="submit" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Submit
+        </button>
+        <!-- Cancel -->
+        <button type="button" routerLink="/admin/users"
+          class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const interviewerInput = document.getElementById("interviewerInput");
+  const interviewerDropdown = document.getElementById(
+    "interviewerDropdown"
+  );
+  const interviewerHidden = document.getElementById("interviewerHidden");
+
+  interviewerInput.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleDropdown(interviewerDropdown);
+  });
+
+  document.addEventListener("click", (e) => {
+    // Nếu click ngoài vùng interviewer-wrapper => ẩn dropdown
+    if (
+      !document.getElementById("interviewer-wrapper")?.contains(e.target)
+    ) {
+      interviewerDropdown.classList.add("hidden");
+    }
+  });
+
+  function toggleDropdown(dropdown) {
+    if (dropdown.classList.contains("hidden")) {
+      dropdown.classList.remove("hidden");
+    } else {
+      dropdown.classList.add("hidden");
+    }
+  }
+
+  function updateInterviewerSelected() {
+    const checkboxes = interviewerDropdown.querySelectorAll(
+      'input[type="checkbox"]'
+    );
+    let selectedValues = [];
+    checkboxes.forEach((cb) => {
+      if (cb.checked) {
+        selectedValues.push(cb.value);
+      }
+    });
+    interviewerInput.value = selectedValues.join(", ");
+    interviewerHidden.value = selectedValues.join(",");
+  }
+</script>

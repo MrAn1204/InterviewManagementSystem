@@ -1,0 +1,197 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    New Interview Schedule
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8">
+    <a routerLink="/admin/interviews" class="text-xl text-primary hover:underline" href="">Interview Schedule List</a>
+    >
+    <a class="text-xl text-primary hover:underline" href="">New Interview Schedule</a>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: Schedule information -->
+    <h2 class="text-2xl font-semibold mb-4">Schedule Information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Schedule Title -->
+      <div>
+        <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
+          Schedule title
+          <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="scheduleTitle" name="scheduleTitle" placeholder="Type a title..."
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+
+      <!-- Candidate name -->
+      <div>
+        <label for="candidateName" class="block text-lg font-semibold mb-1">
+          Candidate name
+          <span class="text-red-500">*</span>
+        </label>
+        <select id="candidateName" name="candidateName"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+          <option value="">Select candidate...</option>
+          <option value="c1">John Doe</option>
+          <option value="c2">Jane Smith</option>
+          <option value="c3">Michael Lee</option>
+          <!-- ... -->
+        </select>
+      </div>
+
+      <!-- Schedule Time -->
+      <div>
+        <label for="scheduleTime" class="block text-lg font-semibold mb-1">
+          Schedule Time
+          <span class="text-red-500">*</span>
+        </label>
+        <input type="datetime-local" id="scheduleTime" name="scheduleTime"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+
+      <!-- Job -->
+      <div>
+        <label for="job" class="block text-lg font-semibold mb-1">
+          Job
+          <span class="text-red-500">*</span>
+        </label>
+        <select id="job" name="job"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+          <option value="">Select a job...</option>
+          <option value="j1">Backend Developer</option>
+          <option value="j2">Frontend Developer</option>
+          <option value="j3">QA Engineer</option>
+          <!-- ... -->
+        </select>
+      </div>
+
+      <!-- Interviewer (multi-select dropdown) -->
+      <div class="relative" id="interviewer-wrapper">
+        <label class="block text-lg font-semibold mb-1">
+          Interviewer
+          <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="interviewerInput"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+          placeholder="Click to select interviewer(s)" readonly />
+        <!-- Dropdown -->
+        <div id="interviewerDropdown"
+          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
+          <div class="p-2 max-h-48 overflow-y-auto">
+            <label class="flex items-center mb-1 cursor-pointer">
+              <input type="checkbox" value="Thiệu P" class="mr-2" onclick="updateInterviewerSelected()" />
+              Thiệu P
+            </label>
+            <label class="flex items-center mb-1 cursor-pointer">
+              <input type="checkbox" value="Name B" class="mr-2" onclick="updateInterviewerSelected()" />
+              Name B
+            </label>
+            <label class="flex items-center mb-1 cursor-pointer">
+              <input type="checkbox" value="John H" class="mr-2" onclick="updateInterviewerSelected()" />
+              John H
+            </label>
+            <!-- ... -->
+          </div>
+        </div>
+        <small class="text-gray-500">
+          Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
+        </small>
+        <input type="hidden" name="interviewer" id="interviewerHidden" />
+      </div>
+
+      <!-- Location -->
+      <div>
+        <label for="location" class="block text-lg font-semibold mb-1">
+          Location
+        </label>
+        <input type="text" id="location" name="location" placeholder="Type a location"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+
+      <!-- Recruiter owner -->
+      <div>
+        <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
+          Recruiter owner
+          <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="recruiterOwner" name="recruiterOwner" placeholder="Recruiter name"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+        <a class="text-xs text-primary hover:underline" href="">
+          <u>Assign me</u>
+        </a>
+      </div>
+
+      <!-- Meeting ID -->
+      <div>
+        <label for="meetingID" class="block text-lg font-semibold mb-1">
+          Meeting ID
+        </label>
+        <input type="text" id="meetingID" name="meetingID" placeholder="meet.google.com/xyz-abc"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+
+      <!-- Notes -->
+      <div>
+        <label for="notes" class="block text-lg font-semibold mb-1">
+          Notes
+        </label>
+        <input type="text" id="notes" name="notes" placeholder="Type schedule note..."
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+    </div>
+
+    <!-- Nút Submit/Cancel -->
+    <div class="mt-8 flex justify-end">
+      <!-- Submit -->
+      <button type="submit" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Submit
+      </button>
+      <!-- Cancel -->
+      <button type="button" routerLink="/admin/interviews"
+        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  const interviewerInput = document.getElementById('interviewerInput');
+  const interviewerDropdown = document.getElementById('interviewerDropdown');
+  const interviewerHidden = document.getElementById('interviewerHidden');
+
+  interviewerInput.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown(interviewerDropdown);
+  });
+
+  document.addEventListener('click', (e) => {
+    // Nếu click ngoài vùng interviewer-wrapper => ẩn dropdown
+    if (!document.getElementById('interviewer-wrapper')?.contains(e.target)) {
+      interviewerDropdown.classList.add('hidden');
+    }
+  });
+
+  function toggleDropdown(dropdown) {
+    if (dropdown.classList.contains('hidden')) {
+      dropdown.classList.remove('hidden');
+    } else {
+      dropdown.classList.add('hidden');
+    }
+  }
+
+  function updateInterviewerSelected() {
+    const checkboxes = interviewerDropdown.querySelectorAll('input[type="checkbox"]');
+    let selectedValues = [];
+    checkboxes.forEach((cb) => {
+      if (cb.checked) {
+        selectedValues.push(cb.value);
+      }
+    });
+    interviewerInput.value = selectedValues.join(', ');
+    interviewerHidden.value = selectedValues.join(',');
+  }
+</script>

@@ -11,23 +11,23 @@
       <fa-icon [icon]="faHome" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="(sidebarService.isCollapsed$ | async) ? 'hidden' : 'block'">Homepage</span>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black">
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/candidates">
       <fa-icon [icon]="faUser" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Candidate</span>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black">
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/jobs">
       <fa-icon [icon]="faBriefcase" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Job</span>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black">
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/interviews">
       <fa-icon [icon]="faCalendarAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Interview</span>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black">
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/offers">
       <fa-icon [icon]="faFileAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Offer</span>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black">
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/users">
       <fa-icon [icon]="faUsers" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">User</span>
     </a>

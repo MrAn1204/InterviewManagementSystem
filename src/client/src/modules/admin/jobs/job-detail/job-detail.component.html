@@ -1,0 +1,175 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    Job Detail
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8 flex items-center justify-between">
+    <!-- Bên trái: Đường dẫn -->
+    <div>
+      <a routerLink="/admin/jobs" class="text-xl text-primary hover:underline" href="">Job List</a>
+      >
+      <a class="text-xl text-primary hover:underline" href="">Job Detail</a>
+    </div>
+    <!-- Bên phải: thông tin Created/Updated -->
+    <div class="text-sm text-gray-500">
+      <p>Created at: 2025-03-20</p>
+      <p>Last updated: 2025-03-28</p>
+    </div>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: Job information -->
+    <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Job Title (chỉ đọc) -->
+      <div>
+        <label for="jobTitle" class="block text-gl font-medium mb-1">
+          Job title
+        </label>
+        <input type="text" id="jobTitle" name="jobTitle"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Senior Java Developer" />
+      </div>
+
+      <!-- Skills (chỉ xem) -->
+      <div>
+        <label class="block text-gl font-medium mb-1">
+          Skills
+        </label>
+        <div class="border border-gray-300 rounded-md p-3">
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Java" disabled checked class="mr-2" />
+            Java
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Node.js" disabled checked class="mr-2" />
+            Node.js
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="System design" disabled class="mr-2" />
+            System design
+          </label>
+          <!-- ... -->
+        </div>
+      </div>
+
+      <!-- Start Date (chỉ đọc) -->
+      <div>
+        <label for="startDate" class="block text-gl font-medium mb-1">
+          Start Date
+        </label>
+        <input type="date" id="startDate" name="startDate"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2025-03-25" />
+      </div>
+
+      <!-- End Date (chỉ đọc) -->
+      <div>
+        <label for="endDate" class="block text-fl font-medium mb-1">
+          End Date
+        </label>
+        <input type="date" id="endDate" name="endDate"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2025-06-30" />
+      </div>
+
+      <!-- Salary range (chỉ xem) -->
+      <div>
+        <label class="block text-gl font-medium mb-1">
+          Salary Range
+        </label>
+        <div class="flex gap-2">
+          <label for="from" class="block text-sm content-center font-medium ">
+            From
+          </label>
+          <input type="number" id="salaryFrom" name="salaryFrom"
+            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="1000" />
+          <label for="to" class="block text-sm content-center font-medium ">
+            to
+          </label>
+          <input type="number" id="salaryTo" name="salaryTo"
+            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2000" />
+        </div>
+      </div>
+
+      <!-- Working Address (chỉ đọc) -->
+      <div>
+        <label for="workingAddress" class="block text-gl font-medium mb-1">
+          Working address
+        </label>
+        <input type="text" id="workingAddress" name="workingAddress"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Ho Chi Minh City" />
+      </div>
+
+      <!-- Benefits (chỉ xem) -->
+      <div>
+        <label class="block text-gl font-medium mb-1">
+          Benefits
+        </label>
+        <div class="border border-gray-300 rounded-md p-3">
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Health insurance" disabled checked class="mr-2" />
+            Health insurance
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Paid vacation" disabled class="mr-2" />
+            Paid vacation
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Free parking" disabled checked class="mr-2" />
+            Free parking
+          </label>
+          <!-- ... -->
+        </div>
+      </div>
+
+      <!-- Level (chỉ xem) -->
+      <div>
+        <label class="block text-gl font-medium mb-1">
+          Level
+        </label>
+        <div class="border border-gray-300 rounded-md p-3">
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Fresher" disabled class="mr-2" />
+            Fresher
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Junior" disabled class="mr-2" />
+            Junior
+          </label>
+          <label class="flex items-center mb-1 cursor-default">
+            <input type="checkbox" value="Senior" disabled checked class="mr-2" />
+            Senior
+          </label>
+          <!-- ... -->
+        </div>
+      </div>
+
+      <!-- Description (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="description" class="block text-gl font-medium mb-1">
+          Description
+        </label>
+        <textarea id="description" name="description" rows="4"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
+          readonly>We are looking for a Senior Java Developer with Node.js experience.</textarea>
+      </div>
+    </div>
+
+    <!-- Nút Edit / Back -->
+    <div class="mt-8 flex justify-end">
+      <!-- Edit -->
+      <button type="button" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Edit
+      </button>
+      <!-- Back -->
+      <button type="button" routerLink="/admin/jobs"
+        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Back
+      </button>
+    </div>
+  </div>
+</div>

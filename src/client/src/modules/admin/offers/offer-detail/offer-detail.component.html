@@ -1,0 +1,174 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    Offer Detail
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8 flex items-center justify-between">
+    <!-- Bên trái: Đường dẫn -->
+    <div>
+      <a routerLink="/admin/offers" class="text-xl text-primary hover:underline" href="">Offer List</a>
+      >
+      <a class="text-xl text-primary hover:underline" href="">Offer Detail</a>
+    </div>
+    <!-- Bên phải: thông tin Created/Updated nếu muốn -->
+    <div class="text-sm text-gray-500">
+      <p>Created at: 2023-12-01</p>
+      <p>Last updated: 2023-12-05</p>
+    </div>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: Offer information -->
+    <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Candidate (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="candidate" class="block text-lg font-semibold mb-1">
+          Candidate
+        </label>
+        <input type="text" id="candidate" name="candidate"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="John Doe" />
+      </div>
+
+      <!-- Position (chỉ đọc) -->
+      <div>
+        <label for="position" class="block text-lg font-semibold mb-1">
+          Position
+        </label>
+        <input type="text" id="position" name="position"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Software Engineer" />
+      </div>
+
+      <!-- Approver (chỉ đọc) -->
+      <div>
+        <label for="approver" class="block text-lg font-semibold mb-1">
+          Approver
+        </label>
+        <input type="text" id="approver" name="approver"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Jane Smith" />
+      </div>
+
+      <!-- Interview Info (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="interview" class="block text-lg font-semibold mb-1">
+          Interview Info
+        </label>
+        <input type="text" id="interview" name="interview"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Technical Interview - 2023/12/05" />
+      </div>
+
+      <!-- Contract Period (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="contractPeriod" class="block text-lg font-semibold mb-1">
+          Contract Period
+        </label>
+        <input type="text" id="contractPeriod" name="contractPeriod"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="2023/12/10 - 2024/12/10" />
+      </div>
+
+      <!-- Contract Type (chỉ đọc) -->
+      <div>
+        <label for="contractType" class="block text-lg font-semibold mb-1">
+          Contract Type
+        </label>
+        <input type="text" id="contractType" name="contractType"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Full-time" />
+      </div>
+
+      <!-- Level (chỉ đọc) -->
+      <div>
+        <label for="level" class="block text-lg font-semibold mb-1">
+          Level
+        </label>
+        <input type="text" id="level" name="level"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Senior" />
+      </div>
+
+      <!-- Department (chỉ đọc) -->
+      <div>
+        <label for="department" class="block text-lg font-semibold mb-1">
+          Department
+        </label>
+        <input type="text" id="department" name="department"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="IT" />
+      </div>
+
+      <!-- Recruiter Owner (chỉ đọc) -->
+      <div>
+        <label for="recruiter" class="block text-lg font-semibold mb-1">
+          Recruiter Owner
+        </label>
+        <input type="text" id="recruiter" name="recruiter"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Michael Johnson" />
+      </div>
+
+      <!-- Due Date (chỉ đọc) -->
+      <div>
+        <label for="dueDate" class="block text-lg font-semibold mb-1">
+          Due Date
+        </label>
+        <input type="text" id="dueDate" name="dueDate"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2023/12/15" />
+      </div>
+
+      <!-- Basic Salary (chỉ đọc) -->
+      <div>
+        <label for="salary" class="block text-lg font-semibold mb-1">
+          Basic Salary
+        </label>
+        <input type="text" id="salary" name="salary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2000$" />
+      </div>
+
+      <!-- Status (chỉ đọc) -->
+      <div>
+        <label for="status" class="block text-lg font-semibold mb-1">
+          Status
+        </label>
+        <input type="text" id="status" name="status"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
+          value="Waiting for approval" />
+      </div>
+
+      <!-- Note (chỉ đọc) -->
+      <div class="md:col-span-2">
+        <label for="note" class="block text-lg font-semibold mb-1">
+          Note
+        </label>
+        <textarea id="note" name="note" rows="3"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>
+      Offer valid until the due date. Contact HR for more details.</textarea>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="mt-8 flex justify-end">
+      <!-- Approve -->
+      <button type="button" class="mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
+        Approve
+      </button>
+      <!-- Reject -->
+      <button type="button"
+        class="mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
+        Reject
+      </button>
+      <!-- Edit -->
+      <button type="button" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Edit
+      </button>
+      <!-- Back -->
+      <button type="button" routerLink="/admin/offers"
+        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Back
+      </button>
+    </div>
+  </div>
+</div>
