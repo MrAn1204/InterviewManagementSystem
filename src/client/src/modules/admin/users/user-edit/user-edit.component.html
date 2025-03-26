@@ -6,9 +6,9 @@
 
   <!-- Breadcrumb -->
   <div class="pb-8">
-    <a routerLink="/admin/users" class="text-xl text-primary hover:underline" href="">User List</a>
+    <a routerLink="/admin/users" class="text-xl text-[#1976d2] hover:underline" href="">User List</a>
     >
-    <a class="text-xl text-primary hover:underline" href="">Edit User</a>
+    <a class="text-xl text-[#1976d2] hover:underline" href="">Edit User</a>
   </div>
 
   <!-- Card bao quanh form -->
@@ -22,7 +22,7 @@
             <span class="text-red-500">*</span>
           </label>
           <input type="text" id="fullname"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a name..." required />
         </div>
 
@@ -33,7 +33,7 @@
             <span class="text-red-500">*</span>
           </label>
           <input type="text" id="email"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type an email..." required />
         </div>
 
@@ -44,7 +44,7 @@
           </label>
           <div class="relative">
             <input type="datetime-local" id="dob" name="dob"
-              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
           </div>
         </div>
 
@@ -54,7 +54,7 @@
             Address
           </label>
           <input type="text" id="address"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type an address..." />
         </div>
 
@@ -64,7 +64,7 @@
             Phone Number
           </label>
           <input type="text" id="phonenumber"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a phone number..." />
         </div>
 
@@ -75,7 +75,7 @@
             <span class="text-red-500">*</span>
           </label>
           <select id="gender"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option selected>Select a gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -90,7 +90,7 @@
             <span class="text-red-500">*</span>
           </label>
           <select id="role"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option selected>Select a role</option>
             <option value="admin">Admin</option>
             <option value="manager">Manager</option>
@@ -105,7 +105,7 @@
             <span class="text-red-500">*</span>
           </label>
           <select id="department"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option selected>Select a department</option>
             <option value="hr">HR</option>
             <option value="it">IT</option>
@@ -120,7 +120,7 @@
             <span class="text-red-500">*</span>
           </label>
           <select id="status"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option selected>Select a status</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -134,7 +134,7 @@
             Note
           </label>
           <textarea id="note" rows="4"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a note..."></textarea>
         </div>
       </div>
@@ -142,12 +142,12 @@
       <!-- Nút Submit/Cancel -->
       <div class="mt-8 flex justify-end">
         <!-- Submit -->
-        <button type="submit" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        <button type="submit" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
           Submit
         </button>
         <!-- Cancel -->
         <button type="button" routerLink="/admin/users"
-          class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+          class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
           Cancel
         </button>
       </div>
