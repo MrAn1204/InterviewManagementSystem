@@ -7,9 +7,9 @@
 
   <!-- Breadcrumb -->
   <div class="pb-8">
-    <a routerLink="/admin/jobs" class="text-xl text-primary hover:underline" href="">Job List</a>
+    <a routerLink="/admin/jobs" class="text-xl text-[#1976d2] hover:underline" href="">Job List</a>
     >
-    <a class="text-xl text-primary hover:underline" href="">Create job</a>
+    <a class="text-xl text-[#1976d2] hover:underline" href="">Create job</a>
   </div>
 
   <!-- Card bao quanh form -->
@@ -25,7 +25,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="jobTitle" name="jobTitle" placeholder="Type a title..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
       </div>
 
       <!-- Skills (multi-select dropdown) -->
@@ -34,7 +34,7 @@
           Skills
         </label>
         <input type="text" id="skillsInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
           placeholder="Click to select skills" readonly />
         <!-- Dropdown chứa danh sách checkbox -->
         <div id="skillsDropdown"
@@ -69,7 +69,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="date" id="startDate" name="startDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
       </div>
 
       <!-- End Date -->
@@ -79,7 +79,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="date" id="endDate" name="endDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
       </div>
 
       <!-- Salary range (From - To) -->
@@ -93,12 +93,12 @@
             From
           </label>
           <input type="number" id="salaryFrom" name="salaryFrom" placeholder="From"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
           <label for="to" class="block content-center text-sm font-medium ">
             To
           </label>
           <input type="number" id="salaryTo" name="salaryTo" placeholder="To"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
         </div>
       </div>
 
@@ -108,7 +108,7 @@
           Working address
         </label>
         <input type="text" id="workingAddress" name="workingAddress" placeholder="Type an address..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
       </div>
 
       <!-- Benefits (multi-select dropdown) -->
@@ -118,7 +118,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="benefitsInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
           placeholder="Click to select benefits" readonly />
         <!-- Dropdown -->
         <div id="benefitsDropdown"
@@ -156,7 +156,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="levelInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
           placeholder="Click to select levels" readonly />
         <!-- Dropdown -->
         <div id="levelDropdown"
@@ -189,19 +189,19 @@
           Description
         </label>
         <textarea id="description" name="description" rows="4" placeholder="Type description"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"></textarea>
       </div>
     </div>
 
     <!-- Nút Submit/Cancel -->
     <div class="mt-8 flex justify-end">
       <!-- Submit -->
-      <button type="submit" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+      <button type="submit" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Submit
       </button>
       <!-- Cancel -->
       <button type="button" routerLink="/admin/jobs"
-        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
         Cancel
       </button>
     </div>

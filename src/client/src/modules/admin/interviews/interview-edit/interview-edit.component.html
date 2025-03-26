@@ -6,9 +6,9 @@
 
   <!-- Breadcrumb -->
   <div class="pb-8">
-    <a routerLink="/admin/interviews" class="text-xl text-primary hover:underline" href="">Interview Schedule List</a>
+    <a routerLink="/admin/interviews" class="text-xl text-[#1976d2] hover:underline" href="">Interview Schedule List</a>
     >
-    <a class="text-xl text-primary hover:underline" href="">Edit Interview Schedule</a>
+    <a class="text-xl text-[#1976d2] hover:underline" href="">Edit Interview Schedule</a>
   </div>
 
   <!-- Card bao quanh form -->
@@ -24,7 +24,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="scheduleTitle" name="scheduleTitle" placeholder="Type a title..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="Backend Interview Round 2" />
       </div>
 
@@ -35,7 +35,7 @@
           <span class="text-red-500">*</span>
         </label>
         <select id="candidateName" name="candidateName"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           required>
           <option value="">Select candidate...</option>
           <option value="c1" selected>John Doe</option>
@@ -52,7 +52,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="datetime-local" id="scheduleTime" name="scheduleTime"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="2025-04-15T09:30" />
       </div>
 
@@ -63,7 +63,7 @@
           <span class="text-red-500">*</span>
         </label>
         <select id="job" name="job"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           required>
           <option value="">Select a job...</option>
           <option value="j1" selected>Backend Developer</option>
@@ -80,7 +80,7 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="interviewerInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
           placeholder="Click to select interviewer(s)" readonly />
         <!-- Dropdown -->
         <div id="interviewerDropdown"
@@ -113,7 +113,7 @@
           Location
         </label>
         <input type="text" id="location" name="location" placeholder="Type a location"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="Meeting Room 3" />
       </div>
 
@@ -124,9 +124,9 @@
           <span class="text-red-500">*</span>
         </label>
         <input type="text" id="recruiterOwner" name="recruiterOwner" placeholder="Recruiter name"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="Jane Smith" required />
-        <a class="text-xs text-primary hover:underline" href="">
+        <a class="text-xs text-[#1976d2] hover:underline" href="">
           <u>Assign me</u>
         </a>
       </div>
@@ -137,7 +137,7 @@
           Meeting ID
         </label>
         <input type="text" id="meetingID" name="meetingID" placeholder="meet.google.com/xyz-abc"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="meet.google.com/abc-1234" />
       </div>
 
@@ -147,7 +147,7 @@
           Notes
         </label>
         <input type="text" id="notes" name="notes" placeholder="Type schedule note..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
           value="This is the second round interview focusing on technical skills." />
       </div>
     </div>
@@ -155,12 +155,12 @@
     <!-- Nút Save Changes / Cancel -->
     <div class="mt-8 flex justify-end">
       <!-- Save Changes -->
-      <button type="submit" class="mr-4 bg-primary text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+      <button type="submit" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Save Changes
       </button>
       <!-- Cancel -->
       <button type="button" routerLink="/admin/interviews"
-        class="border border-primary text-primary bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
         Cancel
       </button>
     </div>
