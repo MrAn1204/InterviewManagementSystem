@@ -2,7 +2,6 @@ using IMS.Business.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 
 namespace IMS.API.Controllers;
 
