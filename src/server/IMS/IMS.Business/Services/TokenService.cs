@@ -39,9 +39,9 @@ public class TokenService(
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-    var roles = user.UserRoles?.Select(x => x.Role) ?? [];
+        var roles = await _userManager.GetRolesAsync(user);
 
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role?.Name ?? string.Empty)));
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role ?? string.Empty)));
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
 

@@ -10,7 +10,7 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SidebarComponent, RouterOutlet,NgxSpinnerComponent],
+  imports: [CommonModule, HeaderComponent, SidebarComponent, RouterOutlet],
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']
 })
