@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using IMS.Data;
 using Microsoft.AspNetCore.Identity;
 using IMS.Domain.Entities;
+using IMS.Data.UnitOfWorks;
+using IMS.Business.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,9 @@ var appSetting = builder.Configuration.Get<AppSetting>();
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
 
@@ -44,6 +49,8 @@ builder.Services.AddIdentity<User, Role>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUnitOfWorks,UnitOfWorks>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
