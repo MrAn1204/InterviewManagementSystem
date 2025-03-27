@@ -32,13 +32,24 @@ export class SidebarComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    if ((window.innerWidth < 768 && !this.sidebarService.isCollapsed) ||
-      (window.innerWidth >= 768 && this.sidebarService.isCollapsed)) {
-      this.toggleSidebar();
+    if (window.innerWidth < 768 && !this.sidebarService.isMobile) {
+      this.switchMobile();
+      if (!this.sidebarService.isCollapsed) {
+        this.toggleSidebar();
+      }
+    }
+    else if (window.innerWidth >= 768 && this.sidebarService.isMobile) {
+      this.switchMobile()
+      if (this.sidebarService.isCollapsed) {
+        this.toggleSidebar();
+      }
     }
   }
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar();
+  }
+  switchMobile(): void {
+    this.sidebarService.switchMobile();
   }
 }

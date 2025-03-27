@@ -6,7 +6,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SidebarService } from '../../../../../services/sidebar/sidebar.service';
 import { UserInformation } from '../../../../../models/auth/user-information.model';
 import { IAuthService } from '../../../../../services/auth/auth-service.interface';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
