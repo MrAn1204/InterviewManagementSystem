@@ -30,8 +30,8 @@ namespace IMS.Data.UnitOfWorks
 		Task CommitTransactionAsync();
 
 		Task RollbackTransactionAsync();
-		GenericRepository<RefreshToken> RefreshTokenRepository { get; }
+		IGenericRepository<RefreshToken> RefreshTokenRepository { get; }
 
-		GenericRepository<ResetPasswordToken> ResetPasswordTokenRepository { get; }
+		IGenericRepository<ResetPasswordToken> ResetPasswordTokenRepository { get; }
 	}
 }
