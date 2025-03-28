@@ -8,6 +8,7 @@ import { UserInformation } from '../../../../../models/auth/user-information.mod
 import { IAuthService } from '../../../../../services/auth/auth-service.interface';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HeaderService } from '../../../../../services/header/header.service';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
     public sidebarService: SidebarService,
+    public headerService: HeaderService,
     private renderer: Renderer2,
     private router: Router,
     private toastr: ToastrService
