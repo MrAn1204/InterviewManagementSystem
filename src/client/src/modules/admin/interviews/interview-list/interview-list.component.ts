@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HeaderService } from '../../../../services/header/header.service';
 
 @Component({
   selector: 'app-interview-list',
@@ -8,5 +9,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './interview-list.component.css'
 })
 export class InterviewListComponent {
-
+    constructor(private headerService: HeaderService){}
+  
+    ngOnInit(): void {
+      this.headerService.setTitle('Interview');
+    }
+  
 }

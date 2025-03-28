@@ -7,7 +7,7 @@
     </a>
   </div>
   <div class="flex flex-col mt-6" [ngClass]="{'*:justify-center': (sidebarService.isCollapsed$ | async)}">
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/home"
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/dashboard"
       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faHome" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="(sidebarService.isCollapsed$ | async) ? 'hidden' : 'block'">Homepage</span>

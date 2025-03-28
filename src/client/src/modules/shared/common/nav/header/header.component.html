@@ -10,7 +10,7 @@
       <!-- Homepage, gần với faBars trên mobile -->
       <h1 class="text-2xl font-semibold ml-2 md:ml-0 md:flex-1 text-center"
         [ngClass]="{'absolute left-1/2 -translate-x-1/2': (sidebarService.isMobile$ | async )}">
-        Homepage
+        {{headerService.title$ | async}}
       </h1>
     </div>
 
