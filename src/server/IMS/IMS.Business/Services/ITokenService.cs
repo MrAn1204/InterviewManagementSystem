@@ -18,6 +18,8 @@ public interface ITokenService
 
 	Task<bool> RevokeRefreshTokenAsync(string token);
 
+	Task<int> RevokeAllRefreshTokenAsync(int userId);
+
 	Task<bool> MarkUsedResetPasswordTokenAsync(string token);
 
 	Task<bool> ValidateResetPasswordAsync(string token);

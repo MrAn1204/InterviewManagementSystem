@@ -1,9 +1,7 @@
 <app-header></app-header>
 <main class="flex h-[calc(100vh-56px)] *:bg-gray-100">
   <app-sidebar></app-sidebar>
-  <ngx-spinner>
-    <h3>Loading...</h3>
-  </ngx-spinner>
+
   <div class="main-content flex-grow p-4 mt-20 h-full overflow-y-auto"
     [ngClass]="(sidebarService.isCollapsed$ | async) ? 'ml-0' : 'ml-64'">
     <router-outlet></router-outlet>
