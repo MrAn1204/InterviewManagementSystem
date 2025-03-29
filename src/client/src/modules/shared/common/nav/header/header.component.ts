@@ -6,9 +6,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SidebarService } from '../../../../../services/sidebar/sidebar.service';
 import { UserInformation } from '../../../../../models/auth/user-information.model';
 import { IAuthService } from '../../../../../services/auth/auth-service.interface';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HeaderService } from '../../../../../services/header/header.service';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
     public sidebarService: SidebarService,
+    public headerService: HeaderService,
     private renderer: Renderer2,
     private router: Router,
     private toastr: ToastrService

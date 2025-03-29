@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HeaderService } from '../../../../services/header/header.service';
 
 @Component({
   selector: 'app-job-list',
@@ -8,5 +9,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './job-list.component.css'
 })
 export class JobListComponent {
+  constructor(private headerService: HeaderService) { }
+
+  ngOnInit(): void {
+    this.headerService.setTitle('Job');
+  }
 
 }

@@ -30,6 +30,7 @@ import { OfferCreateComponent } from './admin/offers/offer-create/offer-create.c
 import { OfferEditComponent } from './admin/offers/offer-edit/offer-edit.component';
 import { OfferDetailComponent } from './admin/offers/offer-detail/offer-detail.component';
 import { SimpleLayoutComponent } from './shared/common/simple-layout/simple-layout.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   // Redirect root '' về '/login'
@@ -52,6 +53,12 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: 'dashboard',
+        children: [
+          { path: '', component: DashboardComponent },
+        ]
+      },
       {
         path: 'users',
         children: [

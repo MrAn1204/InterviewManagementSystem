@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HeaderService } from '../../../../services/header/header.service';
 
 @Component({
   selector: 'app-user-list',
@@ -8,5 +9,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
+  constructor(private headerService: HeaderService) { }
+
+  ngOnInit(): void {
+    this.headerService.setTitle('User');
+  }
 
 }
