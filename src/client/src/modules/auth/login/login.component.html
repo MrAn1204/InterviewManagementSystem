@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <p *ngIf="form.invalid && form.touched" class="text-red-500 text-sm mb-4">Please fix the errors before submitting.
+      <p id="error-message" *ngIf="form.invalid && form.touched" class="text-red-500 text-sm mb-4">Please fix the errors before submitting.
       </p>
 
       <button type="submit" [disabled]="form.invalid"
