@@ -39,7 +39,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Benefits", (string)null);
+                    b.ToTable("Benefits");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Candidate", b =>
@@ -77,7 +77,7 @@ namespace IMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Gender")
+                    b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
                     b.Property<string>("Note")
@@ -86,6 +86,9 @@ namespace IMS.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RecruiterId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -96,7 +99,9 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Candidates", (string)null);
+                    b.HasIndex("RecruiterId");
+
+                    b.ToTable("Candidates");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.CandidateJob", b =>
@@ -114,7 +119,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("CandidateJobs", (string)null);
+                    b.ToTable("CandidateJobs");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.CandidateSkill", b =>
@@ -132,7 +137,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("CandidateSkills", (string)null);
+                    b.ToTable("CandidateSkills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Department", b =>
@@ -149,7 +154,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Interview", b =>
@@ -200,7 +205,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("Interviews", (string)null);
+                    b.ToTable("Interviews");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Job", b =>
@@ -251,7 +256,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("CreatedBy");
 
-                    b.ToTable("Jobs", (string)null);
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.JobBenefit", b =>
@@ -266,7 +271,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("BenefitId");
 
-                    b.ToTable("JobBenefits", (string)null);
+                    b.ToTable("JobBenefits");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.JobLevel", b =>
@@ -284,7 +289,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.ToTable("JobLevels", (string)null);
+                    b.ToTable("JobLevels");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.JobSkill", b =>
@@ -302,7 +307,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("JobSkills", (string)null);
+                    b.ToTable("JobSkills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Level", b =>
@@ -322,7 +327,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Levels", (string)null);
+                    b.ToTable("Levels");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Offer", b =>
@@ -391,7 +396,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("Offers", (string)null);
+                    b.ToTable("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.OfferDepartment", b =>
@@ -406,7 +411,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("OfferDepartments", (string)null);
+                    b.ToTable("OfferDepartments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.RefreshToken", b =>
@@ -432,7 +437,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.ResetPasswordToken", b =>
@@ -458,7 +463,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ResetPasswordTokens", (string)null);
+                    b.ToTable("ResetPasswordTokens");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Role", b =>
@@ -497,7 +502,7 @@ namespace IMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Skills", (string)null);
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.User", b =>
@@ -594,7 +599,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -690,6 +695,17 @@ namespace IMS.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.Candidate", b =>
+                {
+                    b.HasOne("IMS.Domain.Entities.User", "Recruiter")
+                        .WithMany()
+                        .HasForeignKey("RecruiterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recruiter");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.CandidateJob", b =>

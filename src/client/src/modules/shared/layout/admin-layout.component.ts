@@ -5,7 +5,6 @@ import { RouterOutlet } from '@angular/router';
 import { SidebarService } from '../../../services/sidebar/sidebar.service';
 import { HeaderComponent } from '../common/nav/header/header.component';
 import { SidebarComponent } from '../common/nav/sidebar/sidebar.component';
-import { NgxSpinnerComponent } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-layout',

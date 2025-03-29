@@ -86,7 +86,11 @@ namespace IMS.Data.Repositories
 		public void Update(T entity)
 		{
 			_dbSet.Update(entity);
-			_context.SaveChanges();
+		}
+
+		public void AddRange(T[] entities)
+		{
+			_dbSet.AddRange(entities);
 		}
 	}
 }

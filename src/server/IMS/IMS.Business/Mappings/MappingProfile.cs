@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IMS.Business.ViewModels.Level;
+using IMS.Business.ViewModels.Skill;
+using IMS.Business.ViewModels;
+using IMS.Domain.Entities;
 
-namespace IMS.Business.Mappings
+namespace IMS.Business.Mappings;
+
+public class MappingProfile : Profile
 {
-	public class MappingProfile : Profile
-	{
-	}
+  public MappingProfile()
+  {
+    CreateMap<SkillViewModel, Skill>().ReverseMap();
+    CreateMap<LevelViewModel, Level>().ReverseMap();
+    CreateMap<UserByRoleViewModel, User>().ReverseMap();
+  }
 }
