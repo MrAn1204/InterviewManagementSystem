@@ -10,7 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using IMS.Data;
 using Microsoft.AspNetCore.Identity;
 using IMS.Domain.Entities;
+using IMS.Data.UnitOfWorks;
+using IMS.Business.Mappings;
 using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +54,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+
 builder.Services.AddIdentity<User, Role>(options =>
 {
     options.SignIn.RequireConfirmedEmail = false;
@@ -58,6 +65,10 @@ builder.Services.AddIdentity<User, Role>(options =>
 }).AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IUnitOfWorks,UnitOfWorks>();
+builder.Services.AddScoped<IFileService,FileService>();
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));
