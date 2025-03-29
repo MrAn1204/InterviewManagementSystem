@@ -43,7 +43,6 @@
     <ProjectReference Include="..\IMS.Core\IMS.Core.csproj" />
     <ProjectReference Include="..\IMS.Data\IMS.Data.csproj" />
     <ProjectReference Include="..\IMS.Domain\IMS.Domain.csproj" />
-    <ProjectReference Include="..\IMS.Tests\IMS.Tests.csproj" />
   </ItemGroup>
 
 </Project>

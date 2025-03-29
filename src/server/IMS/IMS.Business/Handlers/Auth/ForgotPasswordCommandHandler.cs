@@ -20,7 +20,7 @@ public class ForgotPasswordCommandHandler(
 
     public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user == null)
         {
