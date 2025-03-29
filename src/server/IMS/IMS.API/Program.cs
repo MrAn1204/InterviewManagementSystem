@@ -51,6 +51,7 @@ builder.Services.AddIdentity<User, Role>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IUnitOfWorks,UnitOfWorks>();
+builder.Services.AddScoped<IFileService,FileService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

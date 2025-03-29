@@ -9,10 +9,11 @@ import { AuthService } from '../services/auth/auth.service';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from '../interceptors/loading.interceptor';
-import { CANDIDATE_SERVICE, LEVEL_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, LEVEL_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
 import { CandidateService } from '../services/candidate/candidate.service';
 import { SkillService } from '../services/skill/skill.service';
 import { LevelService } from '../services/level/level.service';
+import { DataForInputService } from '../services/data-for-input/data-for-input.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +34,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LEVEL_SERVICE,
       useClass: LevelService,
+    },
+    {
+      provide: DATA_FOR_INPUT_SERVICE,
+      useClass: DataForInputService,
     },
     provideHttpClient(
       withFetch(),

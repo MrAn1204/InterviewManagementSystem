@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SkillModel } from '../../models/skill/skill.modes';
+import { SkillModel } from '../../models/data-for-input/skill.modes';
 import { HttpClient } from '@angular/common/http';
 import { ISkillService } from './skill-service.interface';
 

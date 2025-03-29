@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CandidateService implements ICandidateService {
-  private readonly url = 'http://localhost:5176/api/category';
+  private readonly url = 'http://localhost:5113/api/Candidate';
   constructor(private httpClient: HttpClient) {}
   getAll(): Observable<CandidateModel[]> {
     throw new Error('Method not implemented.');
@@ -22,8 +22,18 @@ export class CandidateService implements ICandidateService {
   getById(id: number): Observable<CandidateModel> {
     throw new Error('Method not implemented.');
   }
-  create(data: CandidateCreateModel): Observable<boolean> {
-    return this.httpClient.post<boolean>(this.url, data);
+  create(candidate: any, cvAttachment: File): Observable<boolean> {
+    const formData = new FormData();
+    Object.keys(candidate).forEach((key) => {
+      if (key !== 'cvAttachment' && key!=='skills') {
+        formData.append(key, candidate[key as keyof typeof candidate]);
+      }
+    });
+    candidate.skills.forEach((skillId: number) => {
+      formData.append("Skills", skillId.toString());
+    });
+    formData.append('cvAttachment', cvAttachment);
+    return this.httpClient.post<boolean>(this.url, formData);
   }
   update(id: string, data: CandidateUpdateModel): Observable<boolean> {
     throw new Error('Method not implemented.');

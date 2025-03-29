@@ -1,4 +1,4 @@
-using IMS.Business.Handlers.Candidate;
+using IMS.Business.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

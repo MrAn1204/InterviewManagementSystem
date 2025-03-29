@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LevelModel } from '../../models/level/level.model';
+import { LevelModel } from '../../models/data-for-input/level.model';
 import { ILevelService } from './level-sevice.interface';
 
 @Injectable({
