@@ -1,8 +1,19 @@
-export class CandidateModel{
-    public fullName!:string;
-    public email!:string;
-    public phoneNumber!:string;
-    public currenPosition!:string;
-    public ownerHr!:string;
-    public status!:string;
+import { SkillModel } from '../data-for-input/skill.modes';
+import { UserForInputModel } from '../data-for-input/user-for-input.model';
+
+export class CandidateModel {
+  id!: number;
+  fullName!: string;
+  email!: string;
+  phoneNumber!: string;
+  address!: string;
+  gender?: boolean | null;
+  dateOfBirth?: string | null;
+  currentPosition?: string | null;
+  note?: string | null;
+  experience!: number;
+  cv?: string | null;
+  status!: string;
+  candidateSkills?: SkillModel[] | null;
+  recruiter!: UserForInputModel;
 }

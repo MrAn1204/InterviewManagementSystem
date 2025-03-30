@@ -13,5 +13,10 @@ public class MappingProfile : Profile
     CreateMap<SkillViewModel, Skill>().ReverseMap();
     CreateMap<LevelViewModel, Level>().ReverseMap();
     CreateMap<UserByRoleViewModel, User>().ReverseMap();
+    CreateMap<Candidate, CandidateViewModel>()
+            .ForPath(dest => dest.Recruiter.Id, opt => opt.MapFrom(src => src.Recruiter.Id))
+            .ForPath(dest => dest.Recruiter.FullName, opt => opt.MapFrom(src => src.Recruiter.FullName))
+            .ForPath(dest => dest.Recruiter.UserName, opt => opt.MapFrom(src => src.Recruiter.UserName))
+            .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkills.Select(cs => new SkillViewModel { Id = cs.SkillId, SkillName = cs.Skill.SkillName })));
   }
 }

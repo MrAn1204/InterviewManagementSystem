@@ -15,6 +15,8 @@ namespace IMS.Business.Handlers
 
 		public int PageNumber { get; set; } = 1;
 
+		public string Status { get; set; } = "";
+
 		public int PageSize { get; set; } = 10;
 
 		public string? OrderBy { get; set; } = "CreatedAt";
