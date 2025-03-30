@@ -1,5 +1,5 @@
 export class ResetPasswordRequest {
-    public Token!: String;
-    public NewPassword!: String;
-    public ConfirmNewPassword!: String;
+    public token!: String;
+    public newPassword!: String;
+    public confirmNewPassword!: String;
 }
