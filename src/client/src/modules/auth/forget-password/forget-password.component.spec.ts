@@ -15,6 +15,18 @@ describe('ForgetPasswordComponent', () => {
   let mockToastr: jasmine.SpyObj<ToastrService>;
   let router: Router;
 
+  const validEmail = {
+    email: 'user@domain.com'
+  };
+
+  const invalidEmail = {
+    email: 'invalid-email'
+  };
+
+  const unregisteredEmail = {
+    email: 'unregistered@user.com'
+  };
+
 
   beforeEach(async () => {
     mockAuthService = jasmine.createSpyObj('IAuthService', ['forgotPassword']);
@@ -51,9 +63,7 @@ describe('ForgetPasswordComponent', () => {
   });
 
   it('should be send email when valid', fakeAsync(() => {
-    component.forgetPasswordForm.setValue({
-      email: 'user@domain.com'
-    });
+    component.forgetPasswordForm.setValue(validEmail);
     expect(component.forgetPasswordForm.valid).toBeTrue();
 
     const navigateSpy = spyOn(router, 'navigate');
@@ -62,26 +72,22 @@ describe('ForgetPasswordComponent', () => {
     component.onSubmit();
     tick(3000);
 
-    expect(mockAuthService.forgotPassword).toHaveBeenCalledWith({ email: 'user@domain.com' });
+    expect(mockAuthService.forgotPassword).toHaveBeenCalledWith(validEmail);
     expect(mockToastr.success).toHaveBeenCalledWith('A password reset link has been sent to your email.', 'Success');
     expect(navigateSpy).toHaveBeenCalledWith(['/login']);
   }));
 
   it('should not send request with invalid email', () => {
-    component.forgetPasswordForm.setValue({
-      email: 'invalid-email'
-    });
+    component.forgetPasswordForm.setValue(invalidEmail);
     expect(component.forgetPasswordForm.valid).toBeFalse();
 
     component.onSubmit();
 
-    expect(mockAuthService.forgotPassword).not.toHaveBeenCalledWith({ email: 'invalid-email' });
+    expect(mockAuthService.forgotPassword).not.toHaveBeenCalledWith(invalidEmail);
   });
 
   it('should warn user with invalid email', fakeAsync(() => {
-    component.forgetPasswordForm.setValue({
-      email: 'unregistered@user.com'
-    });
+    component.forgetPasswordForm.setValue(unregisteredEmail);
     expect(component.forgetPasswordForm.valid).toBeTrue();
 
     mockAuthService.forgotPassword.and.returnValue(throwError(() => new Error()));
@@ -90,7 +96,7 @@ describe('ForgetPasswordComponent', () => {
     component.onSubmit();
     tick(3000);
 
-    expect(mockAuthService.forgotPassword).toHaveBeenCalledWith({ email: 'unregistered@user.com' });
+    expect(mockAuthService.forgotPassword).toHaveBeenCalledWith(unregisteredEmail);
     expect(mockToastr.error).toHaveBeenCalledWith('Failed to send password reset email. Please try again.', 'Error');
     expect(navigateSpy).not.toHaveBeenCalledWith(['/login']);
   }));

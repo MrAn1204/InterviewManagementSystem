@@ -16,6 +16,26 @@ describe('ResetPasswordComponent', () => {
   let mockToastr: jasmine.SpyObj<ToastrService>;
   let router: Router;
 
+  const validPasswordForm = {
+    newPassword: 'NewPassword@123',
+    confirmNewPassword: 'NewPassword@123',
+  };
+
+  const invalidPasswordForm = {
+    newPassword: 'password',
+    confirmNewPassword: 'password',
+  };
+
+  const missingMatchPasswordForm = {
+    newPassword: 'NewPassword@123',
+    confirmNewPassword: '',
+  }
+
+  const notMatchPasswordForm = {
+    newPassword: 'NewPassword@123',
+    confirmNewPassword: 'password',
+  };
+
   beforeEach(async () => {
     mockAuthService = jasmine.createSpyObj('IAuthService', ['resetPassword']);
     mockToastr = jasmine.createSpyObj('ToastrService', ['success', 'error', 'warning']);
@@ -52,10 +72,7 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should reset password when valid', () => {
-    component.resetPasswordForm.setValue({
-      newPassword: 'NewPassword@123',
-      confirmNewPassword: 'NewPassword@123',
-    });
+    component.resetPasswordForm.setValue(validPasswordForm);
     expect(component.resetPasswordForm.valid).toBeTrue();
 
     const navigateSpy = spyOn(router, 'navigate');
@@ -64,9 +81,8 @@ describe('ResetPasswordComponent', () => {
     component.onSubmit();
 
     const request: ResetPasswordRequest = {
-      Token: '',
-      NewPassword: 'NewPassword@123',
-      ConfirmNewPassword: 'NewPassword@123'
+      token: '',
+      ...validPasswordForm
     }
 
     expect(mockAuthService.resetPassword).toHaveBeenCalledWith(request);
@@ -75,10 +91,7 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should show warning message when invalid', () => {
-    component.resetPasswordForm.setValue({
-      newPassword: 'newpassword',
-      confirmNewPassword: 'newpassword',
-    });
+    component.resetPasswordForm.setValue(invalidPasswordForm);
     expect(component.resetPasswordForm.valid).toBeFalse();
 
     component.resetPasswordForm.controls['newPassword'].markAsTouched();
@@ -96,10 +109,7 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should show warning message when match password is empty', () => {
-    component.resetPasswordForm.setValue({
-      newPassword: 'NewPassword@123',
-      confirmNewPassword: '',
-    });
+    component.resetPasswordForm.setValue(missingMatchPasswordForm);
     expect(component.resetPasswordForm.valid).toBeFalse();
 
     component.resetPasswordForm.controls['confirmNewPassword'].markAsTouched();
@@ -117,10 +127,7 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should show warning message when not match password', () => {
-    component.resetPasswordForm.setValue({
-      newPassword: 'NewPassword@123',
-      confirmNewPassword: 'password',
-    });
+    component.resetPasswordForm.setValue(notMatchPasswordForm);
 
     mockAuthService.resetPassword.and.returnValue(throwError(() => new Error()));
 

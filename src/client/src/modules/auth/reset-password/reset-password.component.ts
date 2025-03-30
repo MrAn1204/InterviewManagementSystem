@@ -56,9 +56,9 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     const requestData: ResetPasswordRequest = {
-      Token: encodeURIComponent(this.token),
-      NewPassword: newPassword,
-      ConfirmNewPassword: confirmNewPassword
+      token: encodeURIComponent(this.token),
+      newPassword: newPassword,
+      confirmNewPassword: confirmNewPassword
     };
 
     this.authService.resetPassword(requestData).subscribe({

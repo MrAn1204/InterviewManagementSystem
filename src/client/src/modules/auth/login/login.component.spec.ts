@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { LoginResponse } from '../../../models/auth/login-response.model';
-import { By } from '@angular/platform-browser';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -14,6 +13,47 @@ describe('LoginComponent', () => {
   let mockAuthService: jasmine.SpyObj<IAuthService>;
   let mockToastr: jasmine.SpyObj<ToastrService>;
   let router: Router;
+
+  const emptyForm = {
+    username: '',
+    password: '',
+    rememberMe: false
+  };
+
+  const validForm = {
+    user: {
+      username: 'testuser',
+      password: 'password123',
+    },
+    rememberMe: true
+  };
+
+  const response: LoginResponse = {
+    accessToken: 'token',
+    refreshToken: 'refresh',
+    expiresAt: new Date(),
+    userInfo: {
+      id: "1",
+      username: 'testuser',
+      displayName: 'Test User',
+      email: 'test@example.com',
+      roles: ['admin']
+    }
+  }
+
+  const noPasswordForm = {
+    username: 'testuser',
+    password: '',
+    rememberMe: false
+  };
+
+  const wrongPasswordForm = {
+    user: {
+      username: 'testuser',
+      password: 'wrongpassword',
+    },
+    rememberMe: true
+  };
 
   beforeEach(async () => {
     mockAuthService = jasmine.createSpyObj('IAuthService', ['login']);
@@ -43,29 +83,26 @@ describe('LoginComponent', () => {
   });
 
   it('should create form with empty values', () => {
-    expect(component.form.value).toEqual({
-      username: '',
-      password: '',
-      rememberMe: false
-    });
+    expect(component.form.value).toEqual(emptyForm);
     expect(component.form.invalid).toBeTrue();
   });
 
   it('should be valid when username and password are provided', () => {
     component.form.setValue({
-      username: 'testuser',
-      password: 'password123',
-      rememberMe: true
+      ...validForm.user,
+      rememberMe: validForm.rememberMe
     });
     expect(component.form.valid).toBeTrue();
+
+    mockAuthService.login.and.returnValue(of(response));
+
+    component.onSubmit();
+
+    expect(mockAuthService.login).toHaveBeenCalledWith(validForm.user, validForm.rememberMe);
   });
 
   it('should warn user with invalid form submission', () => {
-    component.form.setValue({
-      username: 'testuser',
-      password: '',
-      rememberMe: false
-    });
+    component.form.setValue(noPasswordForm);
     component.form.markAllAsTouched();
     fixture.detectChanges();
   
@@ -80,34 +117,17 @@ describe('LoginComponent', () => {
   });
 
   it('should login with valid form submission', () => {
-    const loginResponse: LoginResponse = {
-      accessToken: 'token',
-      refreshToken: 'refresh',
-      expiresAt: new Date(),
-      userInfo: {
-        id: "1",
-        username: 'testuser',
-        displayName: 'Test User',
-        email: 'test@example.com',
-        roles: ['admin']
-      }
-    };
-
     component.form.setValue({
-      username: 'testuser',
-      password: 'password123',
-      rememberMe: true
+      ...validForm.user,
+      rememberMe: validForm.rememberMe
     });
 
-    mockAuthService.login.and.returnValue(of(loginResponse));
+    mockAuthService.login.and.returnValue(of(response));
     const navigateSpy = spyOn(router, 'navigate');
 
     component.onSubmit();
 
-    expect(mockAuthService.login).toHaveBeenCalledWith(
-      { username: 'testuser', password: 'password123' },
-      true
-    );
+    expect(mockAuthService.login).toHaveBeenCalledWith(validForm.user, validForm.rememberMe);
     expect(mockToastr.success).toHaveBeenCalledWith(
       'Login successful!',
       'Success'
@@ -117,9 +137,8 @@ describe('LoginComponent', () => {
 
   it('should show error on login failure', () => {
     component.form.setValue({
-      username: 'testuser',
-      password: 'wrongpass',
-      rememberMe: false
+      ...wrongPasswordForm.user,
+      rememberMe: wrongPasswordForm.rememberMe
     });
 
     mockAuthService.login.and.returnValue(throwError(() => new Error('Login failed')));
