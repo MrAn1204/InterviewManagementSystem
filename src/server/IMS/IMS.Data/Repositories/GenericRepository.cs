@@ -24,7 +24,7 @@ namespace IMS.Data.Repositories
 			_dbSet.Add(entity);
 		}
 
-		public void Delete(Guid id)
+		public void Delete(int id)
 		{
 			var entity = GetById(id);
 			if (entity != null) _dbSet.Remove(entity);
@@ -63,12 +63,12 @@ namespace IMS.Data.Repositories
 			return await _dbSet.ToListAsync();
 		}
 
-		public T? GetById(Guid id)
+		public T? GetById(int id)
 		{
 			return _dbSet.Find(id);
 		}
 
-		public async Task<T?> GetByIdAsync(Guid id)
+		public async Task<T?> GetByIdAsync(int id)
 		{
 			return await _dbSet.FindAsync(id);
 		}

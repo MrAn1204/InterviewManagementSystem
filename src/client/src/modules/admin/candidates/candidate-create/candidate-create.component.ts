@@ -21,7 +21,6 @@ import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { CommonModule } from '@angular/common';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
-import { log } from 'console';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 
 @Component({

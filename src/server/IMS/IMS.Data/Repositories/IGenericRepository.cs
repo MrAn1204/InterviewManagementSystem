@@ -13,15 +13,15 @@ namespace IMS.Data.Repositories
 
 		Task<IEnumerable<T>> GetAllAsync();
 
-		T? GetById(Guid id);
+		T? GetById(int id);
 
-		Task<T?> GetByIdAsync(Guid id);
+		Task<T?> GetByIdAsync(int id);
 
 		void Add(T entity);
 
 		void Update(T entity);
 
-		void Delete(Guid id);
+		void Delete(int id);
 
 		void Delete(T entity);
 
