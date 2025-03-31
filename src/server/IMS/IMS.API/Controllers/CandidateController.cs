@@ -21,7 +21,7 @@ public class CandidateController(IMediator mediator) : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var result = _mediator.Send(command);
+        var result =await _mediator.Send(command);
         return Ok(result);
     }
 
