@@ -20,8 +20,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
 
     public async Task<int> Handle(CandidateCreateCommand request, CancellationToken cancellationToken)
     {
-        // string filePath = await _fileService.UploadFileAsync(request.CvAttachment);
-        string filePath = "";
+        string filePath = await _fileService.UploadFileAsync(request.CvAttachment);
         Candidate newCandidate = new Candidate
         {
             FullName = request.FullName,
