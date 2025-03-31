@@ -33,10 +33,13 @@ export class CandidateService implements ICandidateService {
   create(candidate: any, cvAttachment: File): Observable<boolean> {
     const formData = new FormData();
     Object.keys(candidate).forEach((key) => {
-      if (key !== 'cvAttachment' && key !== 'skills') {
+      if (key !== 'cvAttachment' && key !== 'skills' && key !== 'gender') {
         formData.append(key, candidate[key as keyof typeof candidate]);
       }
     });
+    if (candidate.gender != null) {
+      formData.append('gender', candidate.gender);
+    }
     candidate.skills.forEach((skillId: number) => {
       formData.append('Skills', skillId.toString());
     });
