@@ -19,7 +19,7 @@ namespace IMS.Business.Handlers
 
 		public int PageSize { get; set; } = 10;
 
-		public string? OrderBy { get; set; } = "CreatedAt";
+		public string? OrderBy { get; set; } = "";
 
 		public OrderDirection OrderDirection { get; set; } = OrderDirection.ASC;
 	}

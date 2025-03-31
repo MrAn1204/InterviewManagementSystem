@@ -27,7 +27,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
             Address = request.Address,
-            Gender = request.Gender == null ? null : (request.Gender == 0 ? false : true),
+            Gender = request.Gender < 0 ? null : (request.Gender == 0 ? false : true),
             DateOfBirth = request.DOB,
             CurrentPosition = request.Position,
             Note = request.Note,
@@ -35,7 +35,8 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             Status = request.Status,
             CV = filePath,
             CreatedDate = DateTime.Now,
-            RecruiterId = request.Recruiter
+            RecruiterId = request.Recruiter,
+            LevelId=request.HighestLevel
         };
         _unitOfWork.CandidateRepository.Add(newCandidate);
         var result = await _unitOfWork.SaveChangesAsync();
