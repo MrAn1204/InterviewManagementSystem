@@ -1,4 +1,3 @@
-using System;
 using IMS.Business.Services;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
@@ -20,30 +19,30 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
 
     public async Task<int> Handle(CandidateCreateCommand request, CancellationToken cancellationToken)
     {
-        // string filePath = await _fileService.UploadFileAsync(request.CvAttachment);
-        string filePath = "";
+        string filePath = await _fileService.UploadFileAsync(request.CvAttachment);
         Candidate newCandidate = new Candidate
         {
             FullName = request.FullName,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
             Address = request.Address,
-            Gender = request.Gender == null ? null : (request.Gender == 0 ? false : true),
+            Gender = request.Gender < 0 ? null : (request.Gender == 0 ? false : true),
             DateOfBirth = request.DOB,
             CurrentPosition = request.Position,
             Note = request.Note,
-            Experience = request.YearOfExperience,
+            Experience = request.Experience,
             Status = request.Status,
             CV = filePath,
             CreatedDate = DateTime.Now,
-            RecruiterId = request.Recruiter
+            RecruiterId = request.Recruiter,
+            LevelId=request.HighestLevel
         };
         _unitOfWork.CandidateRepository.Add(newCandidate);
         var result = await _unitOfWork.SaveChangesAsync();
 
         if (result <= 0)
         {
-            throw new DatabaseBadRequestException("Create category failed");
+            throw new DatabaseBadRequestException("Create candidate failed");
         }
 
         int newCandidateId = newCandidate.Id;
@@ -58,7 +57,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
         result = await _unitOfWork.SaveChangesAsync();
         if (result <= 0)
         {
-            throw new DatabaseBadRequestException("Create category failed");
+            throw new DatabaseBadRequestException("Create candidate failed");
         }
 
         return result;

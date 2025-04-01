@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
@@ -14,7 +13,7 @@ public class GetCandidateByIdQueryHandler(IMapper mapper, IUnitOfWorks unitOfWor
     private readonly IUnitOfWorks _unitOfWork = unitOfWork;
     public async Task<CandidateViewModel> Handle(GetCandidateByIdQuery request, CancellationToken cancellationToken)
     {
-        var result = await _unitOfWork.CandidateRepository.GetQuery().Include(c=>c.Recruiter)
+        var result = await _unitOfWork.CandidateRepository.GetQuery().Include(c => c.Recruiter).Include(c => c.HighestLevel).Include(c => c.CandidateSkills).ThenInclude(cs => cs.Skill)
             .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken) ??
             throw new ResourceNotFoundException("Candidate not found");
 

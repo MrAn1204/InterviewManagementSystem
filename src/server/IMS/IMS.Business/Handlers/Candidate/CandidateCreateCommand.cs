@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Http;
 
 namespace IMS.Business.Handlers;
@@ -16,7 +15,7 @@ public class CandidateCreateCommand : BaseCreateCommand<int>
     public string? Position { get; set; }
     public string? Status { get; set; }
     public List<int>? Skills { get; set; }
-    public int YearOfExperience { get; set; }
+    public int Experience { get; set; }
     public int Recruiter { get; set; }
     public int HighestLevel { get; set; }
 

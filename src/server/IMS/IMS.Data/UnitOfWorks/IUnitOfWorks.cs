@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using IMS.Data.Repositories;
 using IMS.Domain.Entities;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IMS.Data.UnitOfWorks
@@ -15,8 +10,10 @@ namespace IMS.Data.UnitOfWorks
 		ApplicationDbContext Context { get; }
 
 		IGenericRepository<Candidate> CandidateRepository { get; }
+		IGenericRepository<Department> DepartmentRepository { get; }
 		IGenericRepository<Job> JobRepository { get; }
 		IGenericRepository<Offer> OfferRepository { get; }
+		// IGenericRepository<OfferDepartment> OfferDepartmentRepository { get; }
 		IGenericRepository<Interview> InterviewRepository { get; }
 
 		IGenericRepository<T> GenericRepository<T>() where T:class;

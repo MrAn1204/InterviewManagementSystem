@@ -44,7 +44,6 @@ export class CandidateCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.createForm;
     this.dataForInputService.getSkillData().subscribe((data) => {
       this.skillList = data;
     });

@@ -58,6 +58,8 @@ export class CandidateListComponent implements OnInit {
   }
 
   public search(): void {
+    console.log('okok');
+
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
@@ -71,10 +73,13 @@ export class CandidateListComponent implements OnInit {
   }
 
   public keywordChange(): void {
+    console.log('change keyword');
     this.filter.keyword = this.searchForm.value.keyword;
   }
 
   public statusChange(): void {
+    console.log('change status');
+
     this.filter.status = this.searchForm.value.status;
   }
 

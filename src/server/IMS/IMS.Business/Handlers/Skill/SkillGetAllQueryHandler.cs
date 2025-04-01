@@ -14,7 +14,7 @@ public class SkillGetAllQueryHandler : BaseHandler,
 
     public async Task<IEnumerable<SkillViewModel>> Handle(SkillGetAllQuery request, CancellationToken cancellationToken)
     {
-        var result=await _unitOfWork.GenericRepository<IMS.Domain.Entities.Skill>().GetAllAsync();
+        var result = await _unitOfWork.GenericRepository<IMS.Domain.Entities.Skill>().GetAllAsync();
         return _mapper.Map<IEnumerable<SkillViewModel>>(result);
     }
 }

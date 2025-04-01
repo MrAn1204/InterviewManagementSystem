@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace IMS.Domain.Entities;
 
@@ -33,7 +29,7 @@ public class Job : BaseEntity
 	public ICollection<JobLevel> JobLevels { get; set; } = [];
 
 	// 1:N -> Offer
-	public ICollection<Offer>? Offers { get; set; }
+	// public ICollection<Offer>? Offers { get; set; }
 
 	// 1:N -> Interview
 	public ICollection<Interview>? Interviews { get; set; }

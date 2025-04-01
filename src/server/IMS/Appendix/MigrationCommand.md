@@ -13,13 +13,13 @@ dotnet ef database update --project IMS.Data --startup-project IMS.MVC --context
 dotnet ef database update --project IMS.Data --startup-project IMS.API --context StorageDbContext
 ```
 
-### Roll back a migration
+### Roll back a migration 
 ```bash
 dotnet ef database update [MigrationName] --project IMS.Data --startup-project IMS.API --context ApplicationDbContext
 dotnet ef database update [MigrationName] --project IMS.Data --startup-project IMS.API --context StorageDbContext
 ```
 
-### Drop the database
+### Drop the database 
 ```bash
 dotnet ef database drop --project IMS.Data --startup-project IMS.API --context ApplicationDbContext
 dotnet ef database drop --project IMS.Data --startup-project IMS.API --context StorageDbContext
