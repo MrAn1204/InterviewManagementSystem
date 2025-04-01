@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using IMS.Data.Repositories;
 using IMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -31,6 +27,12 @@ namespace IMS.Data.UnitOfWorks
 
         private IGenericRepository<Interview>? _interviewRepository;
         public IGenericRepository<Interview> InterviewRepository => _interviewRepository ??= new GenericRepository<Interview>(_context);
+
+        private IGenericRepository<Department>? _departmentRepository;
+        public IGenericRepository<Department> DepartmentRepository => _departmentRepository ??= new GenericRepository<Department>(_context);
+
+        // private IGenericRepository<OfferDepartment>? _offerDepartmentRepository;
+        // public IGenericRepository<OfferDepartment> OfferDepartmentRepository => _offerDepartmentRepository ??= new GenericRepository<OfferDepartment>(_context);
 
         protected virtual void Dispose(bool disposing)
         {

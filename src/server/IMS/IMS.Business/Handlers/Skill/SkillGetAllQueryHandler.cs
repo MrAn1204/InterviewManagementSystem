@@ -1,9 +1,7 @@
-using System;
-using System.Numerics;
+
 using AutoMapper;
 using IMS.Business.ViewModels.Skill;
 using IMS.Data.UnitOfWorks;
-using IMS.Domain.Entities;
 using MediatR;
 
 namespace IMS.Business.Handlers.Skill;

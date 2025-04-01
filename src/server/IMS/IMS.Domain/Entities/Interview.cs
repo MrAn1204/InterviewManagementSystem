@@ -1,4 +1,4 @@
-﻿namespace IMS.Domain.Entities;
+namespace IMS.Domain.Entities;
 
 public class Interview : BaseEntity
 {

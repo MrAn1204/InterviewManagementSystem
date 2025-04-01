@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace IMS.Domain.Entities;
 
@@ -23,6 +21,7 @@ public class Candidate : BaseEntity
 	// N:N -> Skill
 	public ICollection<CandidateSkill>? CandidateSkills { get; set; }
 
+	public ICollection<Skill> Skills { get; set;}
 	// N:N -> Job (CandidateJob)
 	public ICollection<CandidateJob>? CandidateJobs { get; set; }
 
@@ -31,5 +30,9 @@ public class Candidate : BaseEntity
 
 	[ForeignKey(nameof(Recruiter))]
 	public int RecruiterId { get; set; }
-	public User Recruiter { get; set; }
+	public User? Recruiter { get; set; }
+
+	[ForeignKey(nameof(HighestLevel))]
+	public int LevelId { get; set; }
+	public Level? HighestLevel { get; set; }
 }

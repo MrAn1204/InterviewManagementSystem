@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ICandidateService } from './candidate-service.interface';
 import { Observable } from 'rxjs';
-import { CandidateCreateModel } from '../../models/candidate/candidate-create.model';
-import { CandidateUpdateModel } from '../../models/candidate/candidate-update.model';
 import { CandidateModel } from '../../models/candidate/candidate.model';
 import { PaginatedResult } from '../../models/candidate/paginated-result.model';
 import { HttpClient } from '@angular/common/http';
@@ -33,19 +31,42 @@ export class CandidateService implements ICandidateService {
   create(candidate: any, cvAttachment: File): Observable<boolean> {
     const formData = new FormData();
     Object.keys(candidate).forEach((key) => {
-      if (key !== 'cvAttachment' && key !== 'skills') {
+      if (key !== 'cvAttachment' && key !== 'skills' && key !== 'gender') {
         formData.append(key, candidate[key as keyof typeof candidate]);
       }
     });
+    if (candidate.gender != null) {
+      formData.append('gender', candidate.gender);
+    }
     candidate.skills.forEach((skillId: number) => {
-      formData.append('Skills', skillId.toString());
+      formData.append('skills', skillId.toString());
     });
     formData.append('cvAttachment', cvAttachment);
     return this.httpClient.post<boolean>(this.url, formData);
   }
 
-  update(id: string, data: CandidateUpdateModel): Observable<boolean> {
-    throw new Error('Method not implemented.');
+  update(
+    id: string,
+    candidate: any,
+    cvAttachment: File,
+    oldFilePath: string
+  ): Observable<boolean> {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('oldFilePath', oldFilePath);
+    Object.keys(candidate).forEach((key) => {
+      if (key !== 'cvAttachment' && key !== 'skills' && key !== 'gender') {
+        formData.append(key, candidate[key as keyof typeof candidate]);
+      }
+    });
+    if (candidate.gender != null) {
+      formData.append('gender', candidate.gender);
+    }
+    candidate.skills.forEach((skillId: number) => {
+      formData.append('skills', skillId.toString());
+    });
+    formData.append('cvAttachment', cvAttachment);
+    return this.httpClient.post<boolean>(`${this.url}/update`, formData);
   }
 
   delete(id: string): Observable<boolean> {
