@@ -28,6 +28,12 @@ namespace IMS.Data.UnitOfWorks
         private IGenericRepository<Interview>? _interviewRepository;
         public IGenericRepository<Interview> InterviewRepository => _interviewRepository ??= new GenericRepository<Interview>(_context);
 
+        private IGenericRepository<Department>? _departmentRepository;
+        public IGenericRepository<Department> DepartmentRepository => _departmentRepository ??= new GenericRepository<Department>(_context);
+
+        // private IGenericRepository<OfferDepartment>? _offerDepartmentRepository;
+        // public IGenericRepository<OfferDepartment> OfferDepartmentRepository => _offerDepartmentRepository ??= new GenericRepository<OfferDepartment>(_context);
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
