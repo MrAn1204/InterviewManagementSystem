@@ -23,19 +23,19 @@ public class InterviewViewModel : BaseViewModel
 
     public string Result { get; set; } = "N/A";
 
-    public required int CandidateId { get; set; }
+    public int? CandidateId { get; set; }
     
-    public required string CandidateName { get; set; }
+    public string? CandidateName { get; set; }
     
-    public required int JobId { get; set; }
+    public int? JobId { get; set; }
     
-    public required string JobName { get; set; }
+    public string? JobName { get; set; }
     
-    public required ICollection<int> InterviewersId { get; set; }
+    public ICollection<int>? InterviewersId { get; set; }
     
-    public required ICollection<string> InterviewersName { get; set; }
+    public ICollection<string>? InterviewersName { get; set; }
     
-    public required int RecruiterId { get; set; }
+    public int? RecruiterId { get; set; }
     
     public string? RecruiterName { get; set; }
 }

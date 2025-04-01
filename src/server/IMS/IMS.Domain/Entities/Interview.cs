@@ -33,12 +33,12 @@ public class Interview : BaseEntity
 	#region Navigation Properties
 	public User? UserCreated { get; set; }
 
-	public Candidate? Candidate { get; set; }
+	public virtual Candidate? Candidate { get; set; }
 
-	public Job? Job { get; set; }
+	public virtual Job? Job { get; set; }
 
-	public ICollection<User>? Interviewers { get; set; }
+	public virtual ICollection<User>? Interviewers { get; set; }
 
-	public User? Recruiter { get; set; }
+	public virtual User? Recruiter { get; set; }
 	#endregion
 }
