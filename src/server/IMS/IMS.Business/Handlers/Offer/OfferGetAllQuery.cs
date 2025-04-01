@@ -1,7 +1,7 @@
 using System;
-using IMS.Business.ViewModels.Offer;
+using IMS.Business.ViewModels;
 
-namespace IMS.Business.Handlers.Offer;
+namespace IMS.Business.Handlers;
 
 public class OfferGetAllQuery : BaseGetAllQuery<OfferViewModel>
 {

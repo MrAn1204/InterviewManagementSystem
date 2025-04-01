@@ -1,4 +1,4 @@
-using IMS.Business.Handlers.Offer;
+using IMS.Business.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +24,26 @@ namespace IMS.API.Controllers
         {
             var result =await _mediator.Send(new OfferGetByIdQuery { Id = id });
             return Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromForm] OfferCreateCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result =await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditOffer([FromBody] OfferUpdateCommand command)
+        {
+            var updatedOffer = await _mediator.Send(command);
+            return Ok(updatedOffer);
         }
     }
 }
