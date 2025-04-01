@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Data.UnitOfWorks;
