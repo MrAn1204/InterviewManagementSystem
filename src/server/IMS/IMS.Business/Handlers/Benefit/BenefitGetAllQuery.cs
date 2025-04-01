@@ -1,8 +1,6 @@
-using System;
-using IMS.Business.ViewModels.Benefit;
-using MediatR;
+using IMS.Business.ViewModels;
 
-namespace IMS.Business.Handlers.Benefit;
+namespace IMS.Business.Handlers;
 
 public class BenefitGetAllQuery : BaseGetAllQuery<BenefitViewModel>
 {

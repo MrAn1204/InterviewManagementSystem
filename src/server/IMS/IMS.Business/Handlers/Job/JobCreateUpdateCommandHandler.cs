@@ -1,20 +1,103 @@
-using System;
 using AutoMapper;
 using IMS.Business.ViewModels;
+using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace IMS.Business.Handlers.Job;
+namespace IMS.Business.Handlers;
 
 public class JobCreateUpdateCommandHandler : BaseHandler,
-    IRequestHandler<JobCreateAndUpdateCommand, JobViewModel>
+    IRequestHandler<JobCreateUpdateCommand, JobViewModel>
 {
     public JobCreateUpdateCommandHandler(IUnitOfWorks unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
-    public Task<JobViewModel> Handle(JobCreateAndUpdateCommand request, CancellationToken cancellationToken)
+    public Task<JobViewModel> Handle(JobCreateUpdateCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return request.Id.HasValue
+            ? Update(request, cancellationToken)
+            : Create(request, cancellationToken);
+    }
+
+    private async Task<JobViewModel> Create(JobCreateUpdateCommand request, CancellationToken cancellationToken)
+    {
+        var entity = new Job
+        {
+            Title = request.Title,
+            WorkingAddress = request.WorkingAddress,
+            CreatedBy = request.CreatedBy,
+            CreatedDate = DateTime.UtcNow,
+            SalaryMin = request.SalaryMin,
+            SalaryMax = request.SalaryMax,
+            Description = request.Description,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
+            Status = request.Status ?? "Draft",
+            JobLevels = request.Levels?.Select(levelId => new JobLevel
+            {
+                LevelId = levelId,
+            }).ToList() ?? [],
+            JobBenefits = request.Benefits?.Select(benefitId => new JobBenefit
+            {
+                BenefitId = benefitId,
+            }).ToList() ?? [],
+            JobSkills = request.Skills?.Select(skillId => new JobSkill
+            {
+                SkillId = skillId,
+            }).ToList() ?? [],
+        };
+
+        _unitOfWork.JobRepository.Add(entity);
+        var result = await _unitOfWork.SaveChangesAsync();
+
+        if (result <= 0)
+        {
+            throw new DatabaseBadRequestException("Failed to create job");
+        }
+
+        var createdEntity = await _unitOfWork.JobRepository.GetQuery()
+            .Include(x => x.UserCreated)
+            .Include(x => x.JobLevels)
+                .ThenInclude(x => x.Level)
+            .Include(x => x.JobBenefits)
+                .ThenInclude(x => x.Benefit)
+            .Include(x => x.JobSkills)
+                .ThenInclude(x => x.Skill)
+            .FirstOrDefaultAsync(x => x.Id == entity.Id, cancellationToken) ??
+            throw new ResourceNotFoundException($"Job with ID {entity.Id} not found");
+
+        return _mapper.Map<JobViewModel>(createdEntity);
+    }
+
+    private async Task<JobViewModel> Update(JobCreateUpdateCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _unitOfWork.JobRepository.GetByIdAsync(request.Id!.Value) ??
+            throw new ResourceNotFoundException($"Job with {request.Id} is not found");
+
+        _mapper.Map(request, entity);
+
+        _unitOfWork.JobRepository.Update(entity);
+        var result = await _unitOfWork.SaveChangesAsync();
+
+        if (result <= 0)
+        {
+            throw new DatabaseBadRequestException("Update category failed");
+        }
+
+        var updatedEntity = await _unitOfWork.JobRepository.GetQuery()
+                .Include(x => x.UserCreated)
+                .Include(x => x.JobLevels)
+                    .ThenInclude(x => x.Level)
+                .Include(x => x.JobBenefits)
+                    .ThenInclude(x => x.Benefit)
+                .Include(x => x.JobSkills)
+                    .ThenInclude(x => x.Skill)
+                .FirstOrDefaultAsync(x => x.Id == entity.Id, cancellationToken) ??
+                throw new ResourceNotFoundException($"Job with ID {entity.Id} not found");
+
+        return _mapper.Map<JobViewModel>(updatedEntity);
     }
 }

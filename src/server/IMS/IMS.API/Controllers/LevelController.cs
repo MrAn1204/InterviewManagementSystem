@@ -1,6 +1,5 @@
-using IMS.Business.Handlers.Level;
+using IMS.Business.Handlers;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
@@ -10,10 +9,11 @@ namespace IMS.API.Controllers;
 public class LevelController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
-    
+
     [HttpGet]
-    public async Task<IActionResult> GetAll(){
-        var result=await _mediator.Send(new LevelGetAllQuery());
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new LevelGetAllQuery());
         return Ok(result);
     }
 }

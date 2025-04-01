@@ -5,7 +5,7 @@ using IMS.Data.UnitOfWorks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMS.Business.Handlers.Job;
+namespace IMS.Business.Handlers;
 
 public class JobGetAllQueryHandler : BaseHandler, 
     IRequestHandler<JobGetAllQuery, IEnumerable<JobViewModel>>

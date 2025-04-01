@@ -1,18 +1,15 @@
 using AutoMapper;
-using IMS.Business.ViewModels.Benefit;
+using IMS.Business.ViewModels;
 using IMS.Data.UnitOfWorks;
 using MediatR;
 
-namespace IMS.Business.Handlers.Benefit;
+namespace IMS.Business.Handlers;
 
-public class BenefitGetAllQueryHandler : IRequestHandler<BenefitGetAllQuery, IEnumerable<BenefitViewModel>>
+public class BenefitGetAllQueryHandler : BaseHandler,
+    IRequestHandler<BenefitGetAllQuery, IEnumerable<BenefitViewModel>>
 {
-    private IUnitOfWorks _unitOfWork;
-    private IMapper _mapper;
-    public BenefitGetAllQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper)
+    public BenefitGetAllQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
     }
 
     public async Task<IEnumerable<BenefitViewModel>> Handle(BenefitGetAllQuery request, CancellationToken cancellationToken)

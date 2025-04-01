@@ -1,6 +1,6 @@
 using System;
 
-namespace IMS.Business.ViewModels.Benefit;
+namespace IMS.Business.ViewModels;
 
 public class BenefitViewModel
 {

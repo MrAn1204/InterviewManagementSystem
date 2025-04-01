@@ -1,6 +1,4 @@
-using System;
-
-namespace IMS.Business.ViewModels.Skill;
+namespace IMS.Business.ViewModels;
 
 public class SkillViewModel
 {

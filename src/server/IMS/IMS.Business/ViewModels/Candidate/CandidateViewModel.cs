@@ -1,5 +1,5 @@
 using System;
-using IMS.Business.ViewModels.Skill;
+using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
 
 namespace IMS.Business.ViewModels;

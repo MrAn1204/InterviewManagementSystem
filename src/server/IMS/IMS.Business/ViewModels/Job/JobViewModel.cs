@@ -1,9 +1,3 @@
-using System;
-using IMS.Business.ViewModels.Benefit;
-using IMS.Business.ViewModels.Level;
-using IMS.Business.ViewModels.Skill;
-using IMS.Domain.Entities;
-
 namespace IMS.Business.ViewModels;
 
 public class JobViewModel
