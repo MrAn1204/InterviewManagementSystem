@@ -26,7 +26,6 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 	public DbSet<Level> Levels { get; set; } = null!;
 	public DbSet<JobSkill> JobSkills { get; set; } = null!;
 	public DbSet<JobLevel> JobLevels { get; set; } = null!;
-	public DbSet<OfferDepartment> OfferDepartments { get; set; } = null!;
 	public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 	public DbSet<ResetPasswordToken> ResetPasswordTokens { get; set; } = null!;
 
@@ -39,7 +38,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 		modelBuilder.Entity<JobBenefit>().HasKey(jb => new { jb.JobId, jb.BenefitId });
 		modelBuilder.Entity<JobSkill>().HasKey(js => new { js.JobId, js.SkillId });
 		modelBuilder.Entity<JobLevel>().HasKey(jl => new { jl.JobId, jl.LevelId });
-		modelBuilder.Entity<OfferDepartment>().HasKey(od => new { od.OfferId, od.DepartmentId });
+		// modelBuilder.Entity<OfferDepartment>().HasKey(od => new { od.OfferId, od.DepartmentId });
 
 		modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
 		modelBuilder.Entity<IdentityUserRole<int>>().HasKey(r => new { r.UserId, r.RoleId });
@@ -90,11 +89,11 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.OnDelete(DeleteBehavior.Restrict);
 
 		// 1:N => Offer -> Job
-		modelBuilder.Entity<Offer>()
-			.HasOne(o => o.Job)
-			.WithMany(j => j.Offers)
-			.HasForeignKey(o => o.JobId)
-			.OnDelete(DeleteBehavior.Restrict);
+		// modelBuilder.Entity<Offer>()
+		// 	.HasOne(o => o.Job)
+		// 	.WithMany(j => j.Offers)
+		// 	.HasForeignKey(o => o.JobId)
+		// 	.OnDelete(DeleteBehavior.Restrict);
 
 		// 1:N => Interview -> Job
 		modelBuilder.Entity<Interview>()
@@ -115,6 +114,13 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.HasOne(o => o.Interview)
 			.WithMany(i => i.Offers!)
 			.HasForeignKey(o => o.InterviewId)
+			.OnDelete(DeleteBehavior.Restrict);
+
+		// 1:N => Department -> Offer
+		modelBuilder.Entity<Offer>()
+			.HasOne(o => o.Department)
+			.WithMany(d => d.Offers!)
+			.HasForeignKey(o => o.DepartmentId)
 			.OnDelete(DeleteBehavior.Restrict);
 
 		// ...

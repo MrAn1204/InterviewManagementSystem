@@ -4,6 +4,7 @@ using IMS.Business.Handlers;
 using IMS.Business.Services;
 using IMS.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ public class LoginHandlerTest
 {
     private Mock<ITokenService> _mockTokenService;
     private Mock<UserManager<User>> _mockUserManager;
+    private Mock<SignInManager<User>> _mockSignInManager;
     private LoginCommandHandler _handler;
 
     [SetUp]
@@ -39,8 +41,17 @@ public class LoginHandlerTest
             new Mock<ILogger<UserManager<User>>>().Object
         );
 
+        // Mock SignInManager
+        _mockSignInManager = new Mock<SignInManager<User>>(
+            _mockUserManager.Object, 
+            new Mock<IHttpContextAccessor>().Object, 
+            new Mock<IUserClaimsPrincipalFactory<User>>().Object, 
+            new Mock<IOptions<IdentityOptions>>().Object, 
+            new Mock<ILogger<SignInManager<User>>>().Object
+        );
+
         _mockTokenService = new Mock<ITokenService>();
-        _handler = new LoginCommandHandler(_mockTokenService.Object, _mockUserManager.Object);
+        _handler = new LoginCommandHandler(_mockTokenService.Object, _mockUserManager.Object,_mockSignInManager.Object);
     }
 
     [Test]
