@@ -1,4 +1,3 @@
-using System;
 
 namespace IMS.API.Config;
 

@@ -1,8 +1,6 @@
-using System;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 

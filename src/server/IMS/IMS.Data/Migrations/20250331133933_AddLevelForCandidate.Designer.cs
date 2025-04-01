@@ -4,6 +4,7 @@ using IMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250331133933_AddLevelForCandidate")]
+    partial class AddLevelForCandidate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -501,16 +504,11 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CandidateId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SkillName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CandidateId");
 
                     b.ToTable("Skills");
                 });
@@ -910,13 +908,6 @@ namespace IMS.Data.Migrations
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("IMS.Domain.Entities.Skill", b =>
-                {
-                    b.HasOne("IMS.Domain.Entities.Candidate", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("CandidateId");
-                });
-
             modelBuilder.Entity("IMS.Domain.Entities.User", b =>
                 {
                     b.HasOne("IMS.Domain.Entities.Department", "Department")
@@ -959,8 +950,6 @@ namespace IMS.Data.Migrations
                     b.Navigation("CandidateSkills");
 
                     b.Navigation("Offers");
-
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Department", b =>

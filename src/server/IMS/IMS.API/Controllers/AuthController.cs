@@ -1,7 +1,5 @@
 using IMS.Business.Handlers;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;

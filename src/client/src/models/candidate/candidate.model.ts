@@ -1,3 +1,4 @@
+import { LevelModel } from '../data-for-input/level.model';
 import { SkillModel } from '../data-for-input/skill.modes';
 import { UserForInputModel } from '../data-for-input/user-for-input.model';
 
@@ -7,7 +8,7 @@ export class CandidateModel {
   email!: string;
   phoneNumber!: string;
   address!: string;
-  gender?: boolean | null;
+  gender?: number | null;
   dateOfBirth?: string | null;
   currentPosition?: string | null;
   note?: string | null;
@@ -16,4 +17,5 @@ export class CandidateModel {
   status!: string;
   candidateSkills?: SkillModel[] | null;
   recruiter!: UserForInputModel;
+  highestLevel!: LevelModel;
 }

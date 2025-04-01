@@ -1,5 +1,4 @@
-using System;
-using Amazon.Runtime.Internal;
+
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
@@ -7,8 +6,6 @@ using IMS.Core.ViewModels;
 using IMS.Data.UnitOfWorks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Math.EC.Rfc7748;
-
 namespace IMS.Business.Handlers;
 
 public class SearchCandidateQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper) : IRequestHandler<SearchCandidateQuery, PaginatedResult<CandidateViewModel>>
