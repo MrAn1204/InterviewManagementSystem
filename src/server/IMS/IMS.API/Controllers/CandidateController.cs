@@ -45,4 +45,10 @@ public class CandidateController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("update")]
+    public async Task<IActionResult>Update([FromForm] CandidateUpdateCommand command){
+        var result=await _mediator.Send(command);
+        return Ok(result);
+    }
+
 }

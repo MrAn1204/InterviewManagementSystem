@@ -30,7 +30,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             DateOfBirth = request.DOB,
             CurrentPosition = request.Position,
             Note = request.Note,
-            Experience = request.YearOfExperience,
+            Experience = request.Experience,
             Status = request.Status,
             CV = filePath,
             CreatedDate = DateTime.Now,
@@ -42,7 +42,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
 
         if (result <= 0)
         {
-            throw new DatabaseBadRequestException("Create category failed");
+            throw new DatabaseBadRequestException("Create candidate failed");
         }
 
         int newCandidateId = newCandidate.Id;
@@ -57,7 +57,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
         result = await _unitOfWork.SaveChangesAsync();
         if (result <= 0)
         {
-            throw new DatabaseBadRequestException("Create category failed");
+            throw new DatabaseBadRequestException("Create candidate failed");
         }
 
         return result;
