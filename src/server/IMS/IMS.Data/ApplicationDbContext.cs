@@ -49,14 +49,14 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 		modelBuilder.Entity<IdentityUserRole<int>>().HasKey(r => new { r.UserId, r.RoleId });
 		modelBuilder.Entity<IdentityUserToken<int>>().HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
 
-				
+
 		modelBuilder.Entity<User>().ToTable("Users");
-        modelBuilder.Entity<Role>().ToTable("Roles");
-        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
-        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
-        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
-        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
-        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
+		modelBuilder.Entity<Role>().ToTable("Roles");
+		modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+		modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+		modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+		modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+		modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
 
 		// 1:N => Department -> User
 		modelBuilder.Entity<User>()
@@ -114,11 +114,21 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.HasForeignKey(i => i.CandidateId)
 			.OnDelete(DeleteBehavior.Restrict);
 
-		// 1:N => Offer -> Interview
-		modelBuilder.Entity<Offer>()
-			.HasOne(o => o.Interview)
-			.WithMany(i => i.Offers!)
-			.HasForeignKey(o => o.InterviewId)
+		// N:N => Interview <-> Users (Interviewers)
+		modelBuilder.Entity<Interview>()
+			.HasMany(i => i.Interviewers)
+			.WithMany()
+			.UsingEntity<Dictionary<string, object>>(
+				"InterviewInterviewers", 
+				j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+				j => j.HasOne<Interview>().WithMany().HasForeignKey("InterviewId")
+			);
+
+		// 1:N => Recruiter -> Interview
+		modelBuilder.Entity<Interview>()
+			.HasOne(i => i.Recruiter)
+			.WithMany()
+			.HasForeignKey(i => i.RecruiterId)
 			.OnDelete(DeleteBehavior.Restrict);
 
 		// ...
