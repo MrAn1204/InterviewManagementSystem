@@ -15,8 +15,10 @@ namespace IMS.Data.UnitOfWorks
 		ApplicationDbContext Context { get; }
 
 		IGenericRepository<Candidate> CandidateRepository { get; }
+		IGenericRepository<Department> DepartmentRepository { get; }
 		IGenericRepository<Job> JobRepository { get; }
 		IGenericRepository<Offer> OfferRepository { get; }
+		IGenericRepository<OfferDepartment> OfferDepartmentRepository { get; }
 		IGenericRepository<Interview> InterviewRepository { get; }
 
 		IGenericRepository<T> GenericRepository<T>() where T:class;

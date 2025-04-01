@@ -366,8 +366,8 @@ namespace IMS.Data.Migrations
                     b.Property<int?>("InterviewId")
                         .HasColumnType("int");
 
-                    b.Property<int>("JobId")
-                        .HasColumnType("int");
+                    // b.Property<int?>("JobId")
+                    //     .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -394,7 +394,7 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("InterviewId");
 
-                    b.HasIndex("JobId");
+                    // b.HasIndex("JobId");
 
                     b.ToTable("Offers");
                 });
@@ -858,17 +858,13 @@ namespace IMS.Data.Migrations
                         .HasForeignKey("InterviewId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("IMS.Domain.Entities.Job", "Job")
-                        .WithMany("Offers")
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    // b.HasOne("IMS.Domain.Entities.Job", null)
+                    //     .WithMany("Offers")
+                    //     .HasForeignKey("JobId");
 
                     b.Navigation("Candidate");
 
                     b.Navigation("Interview");
-
-                    b.Navigation("Job");
 
                     b.Navigation("UserApproved");
                 });

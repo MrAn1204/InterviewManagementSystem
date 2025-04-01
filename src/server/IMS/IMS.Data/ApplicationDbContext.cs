@@ -94,11 +94,11 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.OnDelete(DeleteBehavior.Restrict);
 
 		// 1:N => Offer -> Job
-		modelBuilder.Entity<Offer>()
-			.HasOne(o => o.Job)
-			.WithMany(j => j.Offers)
-			.HasForeignKey(o => o.JobId)
-			.OnDelete(DeleteBehavior.Restrict);
+		// modelBuilder.Entity<Offer>()
+		// 	.HasOne(o => o.Job)
+		// 	.WithMany(j => j.Offers)
+		// 	.HasForeignKey(o => o.JobId)
+		// 	.OnDelete(DeleteBehavior.Restrict);
 
 		// 1:N => Interview -> Job
 		modelBuilder.Entity<Interview>()

@@ -9,7 +9,7 @@ namespace IMS.Domain.Entities;
 public class Offer : BaseEntity
 {
 	public int CandidateId { get; set; }
-	public int JobId { get; set; }
+	// public int JobId { get; set; }
 	public int? InterviewId { get; set; } // 1 Interview -> N Offer
 
 	public string Position { get; set; } = null!;
@@ -27,7 +27,7 @@ public class Offer : BaseEntity
 	// Navigation
 	public Candidate? Candidate { get; set; }
 
-	public Job? Job { get; set; }
+	// public Job? Job { get; set; }
 	public Interview? Interview { get; set; } // 1:N => Offer
 	public User? UserApproved { get; set; }
 
