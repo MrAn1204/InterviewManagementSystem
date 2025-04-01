@@ -1,4 +1,3 @@
-using System;
 
 namespace IMS.Business.ViewModels.Skill;
 

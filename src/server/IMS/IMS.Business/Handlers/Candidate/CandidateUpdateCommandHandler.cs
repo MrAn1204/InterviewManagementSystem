@@ -68,24 +68,6 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
             candidate.CandidateSkills = new List<CandidateSkill>();
         }
 
-        // Candidate newCandidate = new Candidate
-        // {
-        //     FullName = request.FullName,
-        //     Email = request.Email,
-        //     PhoneNumber = request.PhoneNumber,
-        //     Address = request.Address,
-        //     Gender = request.Gender < 0 ? null : (request.Gender == 0 ? false : true),
-        //     DateOfBirth = request.DOB,
-        //     CurrentPosition = request.Position,
-        //     Note = request.Note,
-        //     Experience = request.YearOfExperience,
-        //     Status = request.Status,
-        //     CV = filePath,
-        //     CreatedDate = DateTime.Now,
-        //     RecruiterId = request.Recruiter,
-        //     LevelId=request.HighestLevel
-        // };
-
         var candidateSkills = request.Skills.Select(skillId => new CandidateSkill
         {
             SkillId = skillId,
