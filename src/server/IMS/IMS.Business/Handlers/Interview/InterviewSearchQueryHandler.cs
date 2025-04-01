@@ -10,11 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper, UserManager<User> userManager)
+public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper)
     : BaseHandler(unitOfWork, mapper), IRequestHandler<InterviewSearchQuery, PaginatedResult<InterviewViewModel>>
 {
-    private readonly UserManager<User> _userManager = userManager;
-
     public async Task<PaginatedResult<InterviewViewModel>> Handle(InterviewSearchQuery request, CancellationToken cancellationToken)
     {
         var query = _unitOfWork.InterviewRepository.GetQuery();
@@ -24,15 +22,14 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
             query = query.Where(interview => interview.Title.Contains(request.Keyword));
         }
 
-        if (request.InterviewerId != null)
+        // Despite InterviewerId is nullable, ASP.NET Core assigns 0 to int? by default
+        if (request.InterviewerId > 0)
         {
-            var interviewer = await _userManager.FindByIdAsync(request.InterviewerId.ToString()!);
-            
-            query = query.Where(
-                interview => interview.Interviewers != null 
-                && interview.Interviewers.Contains(interviewer!));
+            query = query.Where(i => i.Interviewers!
+                .Select(u => u.Id)
+                .Contains(request.InterviewerId!.Value));
         }
-        
+
         if (request.InterviewStatus != null)
         {
             query = query.Where(interview => interview.Status == request.InterviewStatus);

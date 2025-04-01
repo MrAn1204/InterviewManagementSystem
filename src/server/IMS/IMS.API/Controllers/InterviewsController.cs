@@ -1,19 +1,23 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using IMS.Business.Handlers;
 using IMS.Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class InterviewsController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromForm] InterviewCreateUpdateCommand request)
+    [HttpPost()]
+    public async Task<IActionResult> Create([FromBody] InterviewCreateUpdateCommand request)
     {
         if (!ModelState.IsValid)
         {
@@ -40,7 +44,7 @@ public class InterviewsController(IMediator mediator) : ControllerBase
 
     [HttpGet("search")]
     public async Task<IActionResult> Search(
-        [FromQuery] string keyword,
+        [FromQuery] string? keyword,
         [FromQuery] int interviewerId,
         [FromQuery] InterviewStatus interviewStatus,
         [FromQuery] int pageNumber = 1,
