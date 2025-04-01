@@ -21,8 +21,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkills.Select(cs => new SkillViewModel { Id = cs.SkillId, SkillName = cs.Skill.SkillName })));
     
     CreateMap<Offer, OfferViewModel>()
-            .ForMember(dest => dest.DepartmentNames, opt => opt.MapFrom(src =>
-                src.OfferDepartments.Select(od => od.Department.DepartmentName)));
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
+
 
   }
 }

@@ -22,8 +22,7 @@ public class OfferGetAllQueryHandler : IRequestHandler<OfferGetAllQuery, IEnumer
     {
         var query = _unitOfWork.OfferRepository.GetQuery();
 
-        var result = await query.Include(o => o.OfferDepartments)
-            .ThenInclude(od => od.Department).ToListAsync(cancellationToken);
+        var result = await query.Include(o => o.Department).ToListAsync();
 
         return _mapper.Map<IEnumerable<OfferViewModel>>(result);
     }

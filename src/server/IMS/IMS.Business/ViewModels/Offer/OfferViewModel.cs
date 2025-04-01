@@ -20,7 +20,7 @@ public class OfferViewModel
 	public string? Note { get; set; }
 	public DateTime? DueDate { get; set; }
 
-    // public string? DepartmentName { get; set; }
+    public string? DepartmentName { get; set; }
 
-    public List<string> DepartmentNames { get; set; } = new List<string>();
+    // public List<string> DepartmentNames { get; set; } = new List<string>();
 }

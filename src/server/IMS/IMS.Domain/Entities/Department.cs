@@ -13,6 +13,6 @@ public class Department
 	// 1:N -> User
 	public ICollection<User>? Users { get; set; }
 
-	// N:N -> Offer (OfferDepartment) (nếu vẫn cần)
-	public ICollection<OfferDepartment>? OfferDepartments { get; set; }
+	// 1:N -> Offer
+	public ICollection<Offer>? Offers { get; set; }
 }
