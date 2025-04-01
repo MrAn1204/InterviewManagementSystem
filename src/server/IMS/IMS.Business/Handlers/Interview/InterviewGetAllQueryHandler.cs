@@ -11,11 +11,11 @@ public class InterviewGetAllQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
 {
     public async Task<IEnumerable<InterviewViewModel>> Handle(InterviewGetAllQuery request, CancellationToken cancellationToken)
     {
-        var query = _unitOfWork.InterviewRepository.GetQuery();
-
-        var interviews = await query.Include(interview => interview.Candidate)
+        var interviews = await _unitOfWork.InterviewRepository.GetQuery()
+            .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
+            .Include(interview => interview.Job)
             .ToListAsync(cancellationToken);
 
         return _mapper.Map<IEnumerable<InterviewViewModel>>(interviews);

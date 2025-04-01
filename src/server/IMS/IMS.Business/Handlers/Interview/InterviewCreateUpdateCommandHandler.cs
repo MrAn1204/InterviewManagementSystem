@@ -1,16 +1,22 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class InterviewCreateUpdateCommandHandler(IUnitOfWorks unitOfWork, IMapper mapper)
+public class InterviewCreateUpdateCommandHandler(
+    IUnitOfWorks unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor)
     : BaseHandler(unitOfWork, mapper), IRequestHandler<InterviewCreateUpdateCommand, InterviewViewModel>
 {
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+
     public Task<InterviewViewModel> Handle(InterviewCreateUpdateCommand request, CancellationToken cancellationToken)
     {
         if (request.Id.HasValue)
@@ -24,8 +30,22 @@ public class InterviewCreateUpdateCommandHandler(IUnitOfWorks unitOfWork, IMappe
     }
 
     private async Task<InterviewViewModel> Create(InterviewCreateUpdateCommand request, CancellationToken cancellationToken)
-    {
-        var newInterview = _mapper.Map<Interview>(request);
+    {        
+        if (_httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("HttpContext is null");
+        }
+
+        var currentUser = _httpContextAccessor.HttpContext.User;
+
+        var usersList = await _unitOfWork.Context.Users.ToListAsync(cancellationToken);
+
+        var newInterview = _mapper.Map<Interview>(request, opts =>
+        {
+            opts.Items["Users"] = usersList;
+        });
+
+        newInterview.CreatedBy = Convert.ToInt32(currentUser.FindFirstValue(ClaimTypes.NameIdentifier));
 
         _unitOfWork.InterviewRepository.Add(newInterview);
         var result = await _unitOfWork.SaveChangesAsync();
@@ -39,6 +59,7 @@ public class InterviewCreateUpdateCommandHandler(IUnitOfWorks unitOfWork, IMappe
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
+            .Include(interview => interview.Job)
             .FirstOrDefaultAsync(interview => interview.Id == newInterview.Id, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
@@ -63,6 +84,7 @@ public class InterviewCreateUpdateCommandHandler(IUnitOfWorks unitOfWork, IMappe
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
+            .Include(interview => interview.Job)
             .FirstOrDefaultAsync(interview => interview.Id == existedInterview.Id, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 

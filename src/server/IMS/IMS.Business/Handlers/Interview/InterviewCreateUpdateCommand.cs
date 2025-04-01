@@ -31,4 +31,6 @@ public class InterviewCreateUpdateCommand : BaseCreateUpdateCommand<InterviewVie
     public InterviewStatus Status { get; set; } = InterviewStatus.New;
 
     public InterviewResult? Result { get; set; }
+
+    public int CreatedBy { get; set; }
 }

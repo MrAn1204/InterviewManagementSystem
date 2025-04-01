@@ -44,6 +44,7 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
+            .Include(interview => interview.Job)
             .ToListAsync(cancellationToken);
 
         var result = _mapper.Map<IEnumerable<InterviewViewModel>>(items);

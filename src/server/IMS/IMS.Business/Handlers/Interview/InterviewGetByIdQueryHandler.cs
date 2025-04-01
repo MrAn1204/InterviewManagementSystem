@@ -16,6 +16,7 @@ public class InterviewGetByIdQueryHandler(IUnitOfWorks unitOfWork, IMapper mappe
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
+            .Include(interview => interview.Job)
             .FirstOrDefaultAsync(interview => interview.Id == request.Id, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
