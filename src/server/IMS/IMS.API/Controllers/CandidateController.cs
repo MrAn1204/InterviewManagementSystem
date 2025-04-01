@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using Microsoft.VisualBasic;
 
 namespace IMS.API.Controllers;
 
@@ -44,6 +45,12 @@ public class CandidateController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Search([FromBody] SearchCandidateQuery query)
     {
         var result= await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult>Update([FromForm] CandidateUpdateCommand command){
+        var result=await _mediator.Send(command);
         return Ok(result);
     }
 

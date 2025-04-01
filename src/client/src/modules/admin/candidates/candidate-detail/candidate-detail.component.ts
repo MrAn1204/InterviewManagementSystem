@@ -33,6 +33,8 @@ export class CandidateDetailComponent {
   public levelList: LevelModel[] = [];
   public usersInput: UserForInputModel[] = [];
   public selectableCandidateStatuses: CandidateStatusModel[] = [];
+  public cvFilePath!: string;
+  public oldFilePath: string = '';
   constructor(
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
@@ -63,7 +65,7 @@ export class CandidateDetailComponent {
       this.form.patchValue({
         fullName: res.fullName,
         email: res.email,
-        dob: res.dateOfBirth,
+        dob: this.convertDateFormat(res.dateOfBirth || ''),
         address: res.address,
         phoneNumber: res.phoneNumber,
         gender: res.gender,
@@ -72,8 +74,11 @@ export class CandidateDetailComponent {
         status: res.status,
         recruiter: res.recruiter.id,
         experience: res.experience,
-        highestLevel: res.highestLevel?.id, // Kiểm tra optional chaining
+        highestLevel: res.highestLevel?.id,
       });
+      console.log(this.form.value.dob);
+
+      this.cvFilePath = res.cv || '';
 
       // Xử lý riêng FormArray skills
       const skillsArray = this.form.get('skills') as FormArray;
@@ -106,7 +111,12 @@ export class CandidateDetailComponent {
   onSubmit() {
     console.log(this.form.value);
     this.candidateService
-      .create(this.form.value, this.form.value.cvAttachment)
+      .update(
+        this.candidateId.toString(),
+        this.form.value,
+        this.form.value.cvAttachment,
+        this.oldFilePath
+      )
       .subscribe((data) => {
         console.log(data);
       });
@@ -156,6 +166,8 @@ export class CandidateDetailComponent {
   }
 
   onFileSelected(event: Event) {
+    this.oldFilePath = this.cvFilePath;
+    this.cvFilePath = '';
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.form.patchValue({ cvAttachment: fileInput.files[0] });
@@ -163,6 +175,19 @@ export class CandidateDetailComponent {
   }
 
   removeFile() {
+    this.oldFilePath = this.cvFilePath;
+    this.cvFilePath = '';
     this.form.patchValue({ cvAttachment: null });
+  }
+
+  getFileName(filePath: string): string {
+    return filePath.split('/').pop() || 'CV File';
+  }
+
+  convertDateFormat(dateString: string): string {
+    if (!dateString) return '';
+
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${year}-${month}-${day}`;
   }
 }

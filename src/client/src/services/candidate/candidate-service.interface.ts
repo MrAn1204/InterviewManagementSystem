@@ -13,7 +13,12 @@ export interface ICandidateService {
 
   create(candidate: any, cvAttachment: File): Observable<boolean>;
 
-  update(id: string, data: CandidateUpdateModel): Observable<boolean>;
+  update(
+    id: string,
+    candidate: any,
+    cvAttachment: File,
+    oldFilePath: string
+  ): Observable<boolean>;
 
   delete(id: string): Observable<boolean>;
 }
