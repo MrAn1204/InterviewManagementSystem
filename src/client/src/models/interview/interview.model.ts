@@ -1,19 +1,21 @@
-import { CandidateModel } from "../candidate/candidate.model";
-
-// TODO: uncomment unavailable fields
 export class InterviewModel {
     title!: string;
-    status!: InterviewStatus;
-    location!: string;
-    schedule!: string;
-    meetingId?: number;
+    interviewDate!: string;
+    startTime!: string;
+    endTime!: string;
     note?: string;
-    createdBy!: string;
-    candidate!: string;
-    interviewers!: string[];
-    recruiter!: string;
-    job!: string;
-    result?: InterviewResult;
+    location?: string;
+    meetingId?: number;
+    status!: InterviewStatus;
+    result!: InterviewResult;
+    candidateId?: number;
+    candidateName?: string;
+    interviewersId?: number[];
+    interviewersName?: string[];
+    recruiterId?: number;
+    recruiterName?: string;
+    jobId?: number;
+    jobName?: string;
 }
 
 export enum InterviewStatus {
