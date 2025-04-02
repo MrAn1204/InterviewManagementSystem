@@ -1,10 +1,12 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { Router, RouterLink } from '@angular/router';
+import { CANDIDATE_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InterviewModel } from '../../../../models/interview/interview.model';
+import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
+import { CandidateModel } from '../../../../models/candidate/candidate.model';
 
 @Component({
   selector: 'app-interview-create',
@@ -15,31 +17,79 @@ import { InterviewModel } from '../../../../models/interview/interview.model';
 export class InterviewCreateComponent implements OnInit {
   public form!: FormGroup;
   public interviewerInput!: number[];
-  public interviewerList = ['Thiệu P', 'Name B', 'John H'];
   public selectedInterviewers: string[] = [];
   public dropdownVisible = false;
+  
+  private selectedInterviewersId: number[] = [];
+  
+  // TODO: Replace with real data from database
+  public interviewerList = [
+    {
+      id: 2,
+      username: 'tranthib',
+      fullname: 'Trần Thị B'
+    },
+    {
+      id: 3,
+      username: 'imsG2',
+      fullname: 'John Doe'
+    }
+  ];
+  
+  public jobList = [
+    {
+      id: 3,
+      title: 'Data Analysis',
+    },
+    {
+      id: 5,
+      title: 'Project Manager',
+    },
+    {
+      id: 10,
+      title: 'Java Developer',
+    }
+  ];
+
+  public recruiterList = [
+    {
+      id: 2,
+      username: 'tranthib',
+      fullname: 'Trần Thị B'
+    },
+    {
+      id: 3,
+      username: 'imsG2',
+      fullname: 'John Doe'
+    }
+  ];
+
+  public candidateList!: CandidateModel[];
 
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
+    @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.candidateService.getAll().subscribe((res) => this.candidateList = res);
   }
 
   public createForm() {
     this.form = new FormGroup({
-      title: new FormControl('', []),
-      candidateId: new FormControl(0, []),
-      interviewDate: new FormControl('', []),
-      startTime: new FormControl('', []),
-      endTime: new FormControl('', []),
-      jobId: new FormControl(0, []),
-      interviewersId: new FormControl([], []),
-      location: new FormControl('', []),
-      recruiterId: new FormControl(0, []),
-      meetingId: new FormControl('', []),
-      note: new FormControl('', []),
+      title: new FormControl<string>('', []),
+      candidateId: new FormControl<number>(0, []),
+      interviewDate: new FormControl<string>('', []),
+      startTime: new FormControl<string>('', []),
+      endTime: new FormControl<string>('', []),
+      jobId: new FormControl<number>(0, []),
+      interviewersId: new FormControl<number[]>([], []),
+      location: new FormControl<string>('', []),
+      recruiterId: new FormControl<number>(0, []),
+      meetingId: new FormControl<string>('', []),
+      note: new FormControl<string>('', []),
     });
   }
 
@@ -54,37 +104,39 @@ export class InterviewCreateComponent implements OnInit {
     this.interviewService.create(data).subscribe((res) => {
       if (res) {
         console.log('Create success');
+        this.router.navigate(['/admin/interviews']);
       } else {
         console.log('Create failed');
       }
     });
   }
-  
+
   toggleDropdown(): void {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  public updateInterviewerSelected(interviewer: string): void {
-    const index = this.selectedInterviewers.indexOf(interviewer);
-    if (index === -1) {
-      this.selectedInterviewers.push(interviewer); // Add to selected interviewers
+  public updateInterviewerSelected(id: number, name: string): void {
+    const idIndex = this.selectedInterviewersId.indexOf(id);
+    const nameIndex = this.selectedInterviewers.indexOf(name);
+
+    if (idIndex === -1) {
+      this.selectedInterviewersId.push(id);
+      this.selectedInterviewers.push(name); 
     } else {
-      this.selectedInterviewers.splice(index, 1); // Remove from selected interviewers
+      this.selectedInterviewersId.splice(idIndex, 1);
+      this.selectedInterviewers.splice(nameIndex, 1);
     }
 
     this.form.patchValue({
-      interviewersId: this.selectedInterviewers.join(', ')
+      interviewersId: this.selectedInterviewersId
     });
-
-    console.log(this.selectedInterviewers);
-    
   }
 
   @HostListener('document:click', ['$event'])
   closeDropdownOnClickOutside(event: MouseEvent): void {
     const dropdownElement = document.getElementById('interviewerDropdown');
-    const inputElement = document.getElementById('interviewersId');
-    
+    const inputElement = document.getElementById('interviewers');
+
     // Check if the clicked element is outside the dropdown and the input element
     if (dropdownElement && inputElement && !dropdownElement.contains(event.target as Node) && !inputElement.contains(event.target as Node)) {
       this.dropdownVisible = false;

@@ -56,78 +56,84 @@
 
         <!-- Candidate name -->
         <div>
-          <label for="candidateId" class="block text-lg font-semibold mb-1">
+          <label for="candidate" class="block text-lg font-semibold mb-1">
             Candidate name
             <span class="text-red-500">*</span>
           </label>
-          <select id="candidateId" formControlName="candidateId"
+          <select id="candidate" formControlName="candidateId" [value]="0"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="">Select candidate...</option>
-            <option value="1">John Doe</option>
-            <option value="1">Jane Smith</option>
-            <option value="1">Michael Lee</option>
-            <!-- ... -->
+            <option value="0" disabled hidden>Select candidate...</option>
+            <option *ngFor="let candidate of candidateList" [value]="candidate.id">
+              {{ candidate.fullName }}
+            </option>
           </select>
         </div>
 
         <!-- Job -->
         <div>
-          <label for="jobId" class="block text-lg font-semibold mb-1">
+          <label for="job" class="block text-lg font-semibold mb-1">
             Job
             <span class="text-red-500">*</span>
           </label>
-          <select id="jobId" formControlName="jobId"
+          <select id="job" formControlName="jobId" [value]="0"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="">Select a job...</option>
-            <option value="9">Backend Developer</option>
-            <option value="9">Frontend Developer</option>
-            <option value="9">QA Engineer</option>
-            <!-- ... -->
+            <option value="0" disabled hidden>Select a job...</option>
+            <option *ngFor="let job of jobList" [value]="job.id">
+              {{ job.title }}
+            </option>
           </select>
         </div>
 
         <!-- Interviewer (multi-select dropdown) -->
         <div class="relative" id="interviewer-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="interviewers" class="block text-lg font-semibold mb-1">
             Interviewer
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="interviewersId" formControlName="interviewersId"
+          <input type="text" id="interviewers" formControlName="interviewersId" [value]="selectedInterviewers"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()" />
+            placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()" [value]="selectedInterviewers.join(', ')"  />
           <!-- Dropdown -->
           <div id="interviewerDropdown" *ngIf="dropdownVisible"
             class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
             <div class="p-2 max-h-48 overflow-y-auto">
-              <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer">
-                <input type="checkbox" [value]="1" (change)="updateInterviewerSelected(interviewer)" [checked]="selectedInterviewers.includes(interviewer)"/>
-                {{ interviewer }}
+              <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
+                <input type="checkbox" [value]="interviewer.id"
+                  (change)="updateInterviewerSelected(interviewer.id, interviewer.username)"
+                  [checked]="selectedInterviewers.includes(interviewer.username)" />
+                {{ `${interviewer.fullname} - ${interviewer.username}` }}
               </label>
             </div>
           </div>
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
           </small>
-          <input type="hidden" formControlName="interviewersId" id="interviewersId" />
+          <input type="hidden" formControlName="interviewersId" id="interviewersHidden" [value]="selectedInterviewers"/>
         </div>
 
         <!-- Recruiter owner -->
         <div>
-          <label for="recruiterId" class="block text-lg font-semibold mb-1">
+          <label for="recruiter" class="block text-lg font-semibold mb-1">
             Recruiter owner
             <span class="text-red-500">*</span>
           </label>
-          <select id="recruiterId" formControlName="recruiterId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="">Select a job...</option>
-            <option value="1">Backend Developer</option>
-            <option value="1">Frontend Developer</option>
-            <option value="1">QA Engineer</option>
-            <!-- ... -->
-          </select>
-          <a class="text-xs text-[#1976d2] hover:underline" href="">
-            <u>Assign me</u>
-          </a>
+          <div class="flex">
+            <!-- Select Dropdown -->
+            <select id="recruiter" formControlName="recruiterId" [value]="0"
+              class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+              <option value="0" disabled hidden>Select a recruiter...</option>
+              <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
+                {{ `${recruiter.fullname} - ${recruiter.username}` }}
+              </option>
+            </select>
+
+            <!-- Button -->
+            <button type="button" routerLink="/admin/interviews" (click)="onSubmit()" 
+              class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold 
+                rounded-r-md hover:bg-[#e3f2fd]">
+              Assign me
+            </button>
+          </div>
         </div>
 
         <!-- Location -->
