@@ -3,13 +3,13 @@
     <h2 class="text-[24px] font-semibold mb-4 p-2">Candidate List</h2>
 
     <div class="flex items-center gap-4 mb-4 p-2 md:flex-row flex-col">
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" class="flex flex-col md:flex-row md:items-center md:gap-4 mb-6 w-full">
         <div class="relative w-full md:w-1/3">
           <input
             formControlName="keyword"
             type="text"
             placeholder="Search"
-            class="border border-[#ccc] p-2 rounded w-full pr-10 focus:border-[#1976d2]"
+            class="border border-[#ccc] p-3 rounded w-full pr-10 focus:border-[#1976d2]"
             (change)="keywordChange()"
           />
           <i
@@ -20,7 +20,7 @@
           (change)="statusChange()"
           formGroupName="status"
           title="statusSearch"
-          class="border border-[#ccc] p-2 rounded w-full md:w-1/3 focus:border-[#1976d2]"
+          class="border border-[#ccc] p-3 rounded w-full md:w-1/4 focus:border-[#1976d2] mt-2 md:mt-0"
         >
           <option value="">Status</option>
           <option *ngFor="let status of statusList" [value]="status.name">
@@ -85,13 +85,6 @@
                 [routerLink]="['/admin/candidates', item.id, 'detail']"
               >
                 <i class="fa-regular fa-eye"></i>
-              </button>
-              <button
-                title="buttonEdit"
-                class="text-green-500 hover:text-green-700 cursor-pointer"
-                routerLink="/admin/candidates/1/edit"
-              >
-                <i class="fa-regular fa-pen-to-square"></i>
               </button>
               <button
                 title="buttonDelete"

@@ -1,6 +1,6 @@
 using System;
 
-namespace IMS.Business.ViewModels.Offer;
+namespace IMS.Business.ViewModels;
 
 public class OfferViewModel
 {

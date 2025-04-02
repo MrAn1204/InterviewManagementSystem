@@ -1,8 +1,10 @@
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using IMS.Business.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using OfficeOpenXml;
 
 namespace IMS.Business.Services;
 
@@ -78,5 +80,35 @@ public class FileService : IFileService
 
         await _s3Client.DeleteObjectAsync(deleteRequest);
         return true;
+    }
+
+    public async Task<byte[]> GenerateOfferExcelFile(List<OfferExcelDto> offerExcels)
+    {
+        // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        ExcelPackage.License.SetNonCommercialPersonal("My Name");
+
+        using var package = new ExcelPackage();
+        var worksheet = package.Workbook.Worksheets.Add("Offers list");
+
+        // Ghi tiêu đề
+        worksheet.Cells[1, 1].Value = "Candidate Name";
+        worksheet.Cells[1, 2].Value = "Email";
+        worksheet.Cells[1, 3].Value = "Approver";
+        worksheet.Cells[1, 4].Value = "Department";
+        worksheet.Cells[1, 5].Value = "Notes";
+        worksheet.Cells[1, 6].Value = "Status";
+
+        // Ghi dữ liệu từ offerExcels
+        for (int i = 0; i < offerExcels.Count; i++)
+        {
+            worksheet.Cells[i + 2, 1].Value = offerExcels[i].candidateName ?? "N/A";
+            worksheet.Cells[i + 2, 2].Value = offerExcels[i].email ?? "N/A";
+            worksheet.Cells[i + 2, 3].Value = offerExcels[i].approver ?? "N/A";
+            worksheet.Cells[i + 2, 4].Value = offerExcels[i].department ?? "N/A";
+            worksheet.Cells[i + 2, 5].Value = offerExcels[i].notes ?? "N/A";
+            worksheet.Cells[i + 2, 6].Value = offerExcels[i].status ?? "N/A";
+        }
+
+        return package.GetAsByteArray();
     }
 }

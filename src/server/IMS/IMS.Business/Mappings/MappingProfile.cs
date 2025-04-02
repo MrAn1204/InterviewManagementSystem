@@ -3,7 +3,6 @@ using IMS.Business.ViewModels.Level;
 using IMS.Business.ViewModels.Skill;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
-using IMS.Business.ViewModels.Offer;
 using IMS.Business.Handlers;
 
 namespace IMS.Business.Mappings;
