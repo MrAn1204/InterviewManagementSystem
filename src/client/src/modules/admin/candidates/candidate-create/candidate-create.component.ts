@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-candidate-create',
@@ -38,9 +39,11 @@ export class CandidateCreateComponent implements OnInit {
   public usersInput: UserForInputModel[] = [];
   public selectableCandidateStatuses: CandidateStatusModel[] = [];
   constructor(
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    @Inject(CANDIDATE_SERVICE)
+    private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
-    private dataForInputService: IDataForInputService
+    private readonly dataForInputService: IDataForInputService,
+    @Inject('IAuthService') private readonly authService: IAuthService
   ) {}
 
   ngOnInit(): void {
@@ -143,5 +146,11 @@ export class CandidateCreateComponent implements OnInit {
 
   removeFile() {
     this.form.patchValue({ cvAttachment: null });
+  }
+
+  assignMe(): void {
+    this.authService.getUserInformation().subscribe((res) => {
+      this.form.patchValue({ recruiter: res?.id });
+    });
   }
 }
