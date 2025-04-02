@@ -59,7 +59,14 @@ public class CandidateController(IMediator mediator) : ControllerBase
     [HttpPost("status")]
     public async Task<IActionResult> ChangeStastus([FromBody] CandidateChangeStatusCommand command)
     {
-        var result =await _mediator.Send(command);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("delete")]
+    public async Task<IActionResult> Delete([FromBody] CandidateDeleteCommand command)
+    {
+        var result = await _mediator.Send(command);
         return Ok(result);
     }
 

@@ -300,19 +300,25 @@
             Recruiter
             <span class="text-red-500">*</span>
           </label>
-          <select
-            id="recruiter"
-            formControlName="recruiter"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-            required
-          >
-            <option *ngFor="let user of usersInput" [value]="user.id">
-              User name: {{ user.userName }} - Full name: {{ user.fullName }}
-            </option>
-          </select>
-          <a class="text-xs" href="">
-            <u>Assign me</u>
-          </a>
+          <div class="flex">
+            <select
+              id="recruiter"
+              formControlName="recruiter"
+              class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+              required
+            >
+              <option *ngFor="let user of usersInput" [value]="user.id">
+                User name: {{ user.userName }} - Full name: {{ user.fullName }}
+              </option>
+            </select>
+            <button
+              type="button"
+              (click)="assignMe()"
+              class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold rounded-r-md hover:bg-[#e3f2fd]"
+            >
+              Assign me
+            </button>
+          </div>
         </div>
 
         <!-- Years of Experience -->
