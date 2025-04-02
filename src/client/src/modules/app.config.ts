@@ -9,11 +9,14 @@ import { AuthService } from '../services/auth/auth.service';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from '../interceptors/loading.interceptor';
-import { BENEFIT_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, JOB_SERVICE, LEVEL_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
+import { BENEFIT_SERVICE, JOB_SERVICE, AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, LEVEL_SERVICE, PERMISSION_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
 import { CandidateService } from '../services/candidate/candidate.service';
 import { SkillService } from '../services/skill/skill.service';
 import { LevelService } from '../services/level/level.service';
 import { DataForInputService } from '../services/data-for-input/data-for-input.service';
+import { InterviewService } from '../services/interview/interview.service';
+import { authInterceptor } from '../interceptors/auth.interceptor';
+import { PermissionService } from '../services/permission/permission.service';
 import { BenefitService } from '../services/benefit/benefit.service';
 import { JobService } from '../services/job/job.service';
 
@@ -23,6 +26,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), provideClientHydration(withEventReplay()),
     {
       provide: 'IAuthService',
+      useClass: AuthService,
+    },
+    {
+      provide: AUTH_SERVICE,
       useClass: AuthService,
     },
     {
@@ -49,9 +56,17 @@ export const appConfig: ApplicationConfig = {
       provide: DATA_FOR_INPUT_SERVICE,
       useClass: DataForInputService,
     },
+    {
+      provide: INTERVIEW_SERVICE,
+      useClass: InterviewService
+    },
+    {
+      provide: PERMISSION_SERVICE,
+      useClass: PermissionService
+    },
     provideHttpClient(
       withFetch(),
-      withInterceptors([loadingInterceptor])
+      withInterceptors([loadingInterceptor, authInterceptor]),
     ),
     provideAnimations(),
     provideToastr(),
