@@ -1,9 +1,9 @@
 using System;
-using MediatR;
+using IMS.Business.ViewModels;
 
 namespace IMS.Business.Handlers;
 
-public class OfferCreateCommand : BaseCreateCommand<int>
+public class OfferUpdateCommand : BaseUpdateCommand<OfferViewModel>
 {
     public int CandidateId { get; set; }
 	public int? InterviewId { get; set; }

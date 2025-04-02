@@ -1,10 +1,10 @@
 using System;
-using IMS.Business.ViewModels;
 using MediatR;
+
 
 namespace IMS.Business.Handlers;
 
-public class OfferGetByIdQuery : IRequest<OfferViewModel>
+public class CandidateDeleteCommand : IRequest<bool>
 {
     public int Id { get; set; }
 }
