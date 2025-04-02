@@ -19,7 +19,7 @@ public class CandidateController(IMediator mediator) : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        var result =await _mediator.Send(command);
+        var result = await _mediator.Send(command);
         return Ok(result);
     }
 
@@ -27,27 +27,39 @@ public class CandidateController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll()
     {
-        var result =await _mediator.Send(new GetAllCandidateQuery());
+        var result = await _mediator.Send(new GetAllCandidateQuery());
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var result =await _mediator.Send(new GetCandidateByIdQuery { Id = id });
+        var result = await _mediator.Send(new GetCandidateByIdQuery { Id = id });
         return Ok(result);
     }
 
     [HttpPost("search")]
     public async Task<IActionResult> Search([FromBody] SearchCandidateQuery query)
     {
-        var result= await _mediator.Send(query);
+        var result = await _mediator.Send(query);
         return Ok(result);
     }
 
     [HttpPost("update")]
-    public async Task<IActionResult>Update([FromForm] CandidateUpdateCommand command){
-        var result=await _mediator.Send(command);
+    public async Task<IActionResult> Update([FromForm] CandidateUpdateCommand command)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("status")]
+    public async Task<IActionResult> ChangeStastus([FromBody] CandidateChangeStatusCommand command)
+    {
+        var result =await _mediator.Send(command);
         return Ok(result);
     }
 
