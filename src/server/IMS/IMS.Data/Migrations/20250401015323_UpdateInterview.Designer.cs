@@ -4,6 +4,7 @@ using IMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250401015323_UpdateInterview")]
+    partial class UpdateInterview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +83,6 @@ namespace IMS.Data.Migrations
                     b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LevelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -101,8 +101,6 @@ namespace IMS.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LevelId");
 
                     b.HasIndex("RecruiterId");
 
@@ -381,13 +379,13 @@ namespace IMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("InterviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobId")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
@@ -413,11 +411,26 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("CandidateId");
 
-                    b.HasIndex("DepartmentId");
-
                     b.HasIndex("InterviewId");
 
+                    b.HasIndex("JobId");
+
                     b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.OfferDepartment", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OfferId", "DepartmentId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("OfferDepartments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.RefreshToken", b =>
@@ -502,16 +515,11 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CandidateId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SkillName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CandidateId");
 
                     b.ToTable("Skills");
                 });
@@ -725,19 +733,11 @@ namespace IMS.Data.Migrations
 
             modelBuilder.Entity("IMS.Domain.Entities.Candidate", b =>
                 {
-                    b.HasOne("IMS.Domain.Entities.Level", "HighestLevel")
-                        .WithMany()
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("IMS.Domain.Entities.User", "Recruiter")
                         .WithMany()
                         .HasForeignKey("RecruiterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("HighestLevel");
 
                     b.Navigation("Recruiter");
                 });
@@ -894,29 +894,42 @@ namespace IMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("IMS.Domain.Entities.Department", "Department")
-                        .WithMany("Offers")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("IMS.Domain.Entities.Interview", "Interview")
                         .WithMany()
                         .HasForeignKey("InterviewId");
 
+                    b.HasOne("IMS.Domain.Entities.Job", "Job")
+                        .WithMany("Offers")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Candidate");
 
-                    b.Navigation("Department");
-
                     b.Navigation("Interview");
+
+                    b.Navigation("Job");
 
                     b.Navigation("UserApproved");
                 });
 
-            modelBuilder.Entity("IMS.Domain.Entities.Skill", b =>
+            modelBuilder.Entity("IMS.Domain.Entities.OfferDepartment", b =>
                 {
-                    b.HasOne("IMS.Domain.Entities.Candidate", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("CandidateId");
+                    b.HasOne("IMS.Domain.Entities.Department", "Department")
+                        .WithMany("OfferDepartments")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Domain.Entities.Offer", "Offer")
+                        .WithMany("OfferDepartments")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.User", b =>
@@ -976,13 +989,11 @@ namespace IMS.Data.Migrations
                     b.Navigation("CandidateSkills");
 
                     b.Navigation("Offers");
-
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Department", b =>
                 {
-                    b.Navigation("Offers");
+                    b.Navigation("OfferDepartments");
 
                     b.Navigation("Users");
                 });
@@ -998,11 +1009,18 @@ namespace IMS.Data.Migrations
                     b.Navigation("JobLevels");
 
                     b.Navigation("JobSkills");
+
+                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Level", b =>
                 {
                     b.Navigation("JobLevels");
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.Offer", b =>
+                {
+                    b.Navigation("OfferDepartments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Role", b =>
