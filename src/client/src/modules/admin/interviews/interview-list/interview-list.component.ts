@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { OrderDirection, SearchModel } from '../../../../models/search.model';
@@ -11,6 +11,8 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TableComponent } from '../../../shared/common/table/table.component';
 import { TableColumn } from '../../../shared/common/table/table-column.model';
+import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 
 @Component({
   selector: 'app-interview-list',
@@ -35,40 +37,27 @@ export class InterviewListComponent {
   public searchForm!: FormGroup;
 
   public columns: TableColumn[] = [
-    { name: "Title", value: "name" },
-    { name: "Candidate Name", value: "candidate" },
-    { name: "Interviewers", value: "interviewers" },
+    { name: "Title", value: "title" },
+    { name: "Candidate Name", value: "candidateName" },
+    { name: "Interviewers", value: "interviewersName" },
     { name: "Schedule", value: "schedule" },
     { name: "Result", value: "result" },
     { name: "Status", value: "status" },
-    { name: "Job", value: "job" },
+    { name: "Job", value: "jobName" },
   ];
 
-  public data: PaginatedResult<InterviewModel> = {
-    items: [
-      {
-        title: "Senior Java Developer",
-        candidate: "John Doe",
-        interviewers: ["John Doe", "Jane Doe"],
-        schedule: "2023-01-01 10:00 AM",
-        result: InterviewResult.Passed,
-        status: InterviewStatus.New,
-        job: "Software Engineer",
-        location: "New York",
-        createdBy: "John Doe",
-        recruiter: "Jane Doe", 
-      }
-    ],
-    pageNumber: 1,
-    pageSize: 5,
-    totalCount: 1,
-    totalPages: 1
-  }
+  public data!: PaginatedResult<InterviewModel>
 
-  constructor(private headerService: HeaderService){}
+  constructor(
+    private readonly headerService: HeaderService, 
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService)
+  {}
   
     ngOnInit(): void {
       this.headerService.setTitle('Interview');
+      this.interviewService.search(this.filter).subscribe((res) => {
+        this.data = res;
+      });
     }
   
 }
