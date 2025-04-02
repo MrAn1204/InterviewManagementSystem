@@ -9,7 +9,7 @@ public class Offer : BaseEntity
 	public int? DepartmentId { get; set; } // 1 Department -> N Offer
 
 	public string Position { get; set; } = null!;
-	public string ContractType { get; set; } = "FullTime"; // or use ENUM
+	public string ContractType { get; set; } = "Trial 2 months"; // or use ENUM
 	public DateTime ContractStart { get; set; }
 	public DateTime? ContractEnd { get; set; }
 	public string Status { get; set; } = "WaitingForApproval"; // or use ENUM

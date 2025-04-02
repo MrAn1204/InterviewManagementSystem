@@ -1,12 +1,12 @@
 using System;
 using AutoMapper;
-using IMS.Business.ViewModels.Offer;
+using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMS.Business.Handlers.Offer;
+namespace IMS.Business.Handlers;
 
 public class OfferGetByIdQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : IRequestHandler<OfferGetByIdQuery, OfferViewModel>
 {
