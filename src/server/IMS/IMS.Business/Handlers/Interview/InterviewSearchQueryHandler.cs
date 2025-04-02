@@ -37,7 +37,7 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
 
         var total = await query.CountAsync(cancellationToken);
 
-        var items = await query.Skip(request.PageSize * (request.PageNumber - 1))
+        var items = await query.Skip(request.PageSize * (request.PageNumber - 1)).Take(request.PageSize)
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Recruiter)
             .Include(interview => interview.Interviewers)
