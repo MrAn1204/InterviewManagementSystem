@@ -18,28 +18,27 @@ import { IBenefitService } from '../../../../services/benefit/benefit-service.in
   styleUrl: './job-create.component.css'
 })
 export class JobCreateComponent implements OnInit {
-  jobForm!: FormGroup;
+  public jobForm!: FormGroup;
 
-  skillsDropdownOpen = false;
-  benefitsDropdownOpen = false;
-  levelDropdownOpen = false;
+  public skillsDropdownOpen = false;
+  public benefitsDropdownOpen = false;
+  public levelDropdownOpen = false;
+  public skills: SkillModel[] = [];
+  public levels: LevelModel[] = [];
+  public benefits: BenefitModel[] = [];
 
-  skills: SkillModel[] = [];
-  levels: LevelModel[] = [];
-  benefits: BenefitModel[] = [];
-
-  loading = false;
-  loadingError = false;
+  public loading = false;
+  public loadingError = false;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    @Inject(LEVEL_SERVICE) private levelService: ILevelService,
-    @Inject(SKILL_SERVICE) private skillService: ISkillService,
-    @Inject(BENEFIT_SERVICE) private benefitService: IBenefitService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    @Inject(LEVEL_SERVICE) private readonly levelService: ILevelService,
+    @Inject(SKILL_SERVICE) private readonly skillService: ISkillService,
+    @Inject(BENEFIT_SERVICE) private readonly benefitService: IBenefitService,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
     this.loadData();
 
@@ -58,7 +57,7 @@ export class JobCreateComponent implements OnInit {
     });
   }
 
-  initForm(): void {
+  private initForm(): void {
     this.jobForm = this.fb.group({
       jobTitle: ['', Validators.required],
       skills: [''],
@@ -73,7 +72,7 @@ export class JobCreateComponent implements OnInit {
     });
   }
 
-  loadData(): void {
+  private loadData(): void {
     this.loading = true;
     this.loadingError = false;
 
@@ -128,7 +127,7 @@ export class JobCreateComponent implements OnInit {
       });
   }
 
-  toggleDropdown(dropdown: string, event: Event): void {
+  public toggleDropdown(dropdown: string, event: Event): void {
     event.stopPropagation();
 
     switch (dropdown) {
@@ -150,7 +149,7 @@ export class JobCreateComponent implements OnInit {
     }
   }
 
-  updateSelection(type: string, index: number): void {
+  public updateSelection(type: string, index: number): void {
     switch (type) {
       case 'skills':
         this.skills[index].selected = !this.skills[index].selected;
@@ -167,7 +166,7 @@ export class JobCreateComponent implements OnInit {
     }
   }
 
-  updateFormControl(type: string): void {
+  public updateFormControl(type: string): void {
     let selectedIds: number[] = [];
     let selectedValues: string = '';
 
@@ -201,7 +200,7 @@ export class JobCreateComponent implements OnInit {
     this.jobForm.get(type)?.setValue(selectedValues);
   }
 
-  getSelectedItemsText(type: string): string {
+  public getSelectedItemsText(type: string): string {
     switch (type) {
       case 'skills':
         return this.skills
@@ -223,7 +222,7 @@ export class JobCreateComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.jobForm.valid) {
       console.log('Form submitted:', this.jobForm.value);
       // Send data to backend
@@ -246,7 +245,7 @@ export class JobCreateComponent implements OnInit {
     }
   }
 
-  cancel(): void {
+  public cancel(): void {
     this.router.navigate(['/admin/jobs']);
   }
 }

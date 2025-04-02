@@ -30,4 +30,8 @@ public class JobViewModel
 	public ICollection<SkillViewModel>? Skills { get; set; }
 
 	public ICollection<LevelViewModel>? Levels { get; set; }
+
+    public DateTime? CreatedDate { get; set; }
+
+    public DateTime? UpdatedDate { get; set; }
 }

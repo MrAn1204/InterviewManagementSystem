@@ -1,93 +1,97 @@
 <!-- Generic Table List Component -->
 <div class="card bg-white my-4 rounded-md shadow-md">
     <!-- List Items -->
-    <div class="card-body p-4">
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-gray-50 *:p-3 *:border *:border-gray-200">
-                    <th *ngIf="isShowNumber" class="text-left">No</th>
-                    <th *ngFor="let item of columns" class="text-left">
-                        {{item.name}}
-                    </th>
-                    <th class="text-center">Actions</th>
+    <table class="w-full border-collapse">
+        <thead>
+            <tr class="bg-gray-50 *:p-3 *:border *:border-gray-200">
+                <th *ngIf="isShowNumber" class="text-left">No</th>
+                <th *ngFor="let item of columns" class="text-left">
+                    {{item.name}}
+                </th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="data && data.items.length!=0; else emptyData">
+                <tr *ngFor="let item of data.items; let i = index"
+                    class="even:bg-gray-50 hover:bg-gray-100 *:p-3 *:border *:border-gray-200">
+                    <td *ngIf="isShowNumber">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
+                    <td *ngFor="let column of columns">
+                        {{ column.formatter ? column.formatter(item, column) : item[column.value] }}
+                    </td>
+                    <td>
+                        <div class="flex space-x-3 justify-center *:cursor-pointer">
+                            <button class="border-0" title="View" type="button" (click)="onView.emit(item.id)">
+                                <fa-icon [icon]="faEye" class="text-blue-500 hover:text-blue-700"></fa-icon>
+                            </button>
+                            <button class="border-0" title="Edit" type="button" (click)="onEdit.emit(item.id)">
+                                <fa-icon [icon]="faEdit" class="text-green-500 hover:text-green-700"></fa-icon>
+                            </button>
+                            <button class="border-0" title="Delete" type="button" (click)="openModal()">
+                                <fa-icon [icon]="faTrash" class="text-red-500 hover:text-red-700"></fa-icon>
+                            </button>
+                        </div>
+                        <app-confirm-modal [isOpen]="isModalOpen" (onClose)="handleModalClose()"
+                            (onConfirm)="handleDelete()">
+                        </app-confirm-modal>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngIf="data && data.items.length!=0; else emptyData">
-                    <tr *ngFor="let item of data.items; let i = index" class="even:bg-gray-50 hover:bg-gray-100 *:p-3 *:border *:border-gray-200">
-                        <td *ngIf="isShowNumber">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
-                        <td *ngFor="let column of columns">
-                            {{column.formatter ? column.formatter(item) : item[column.value]}}
-                        </td>
-                        <td>
-                            <div class="flex space-x-3 justify-center *:cursor-pointer">
-                                <button class="border-0" title="View" type="button" (click)="onView.emit(item.id)">
-                                    <fa-icon [icon]="faEye" class="text-blue-500 hover:text-blue-700"></fa-icon>
-                                </button>
-                                <button class="border-0" title="Edit" type="button" (click)="onEdit.emit(item.id)">
-                                    <fa-icon [icon]="faEdit" class="text-green-500 hover:text-green-700"></fa-icon>
-                                </button>
-                                <button class="border-0" title="Delete" type="button" (click)="onDelete.emit(item.id)">
-                                    <fa-icon [icon]="faTrash" class="text-red-500 hover:text-red-700"></fa-icon>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-container>
-                <ng-template #emptyData>
-                    <tr>
-                        <td [attr.colspan]="columns.length + (isShowNumber ? 2 : 1)" class="text-center p-4">No data found</td>
-                    </tr>
-                </ng-template>
-            </tbody>
-        </table>
+            </ng-container>
+            <ng-template #emptyData>
+                <tr>
+                    <td [attr.colspan]="columns.length + (isShowNumber ? 2 : 1)" class="text-center p-4">No data
+                        found</td>
+                </tr>
+            </ng-template>
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination -->
+<div class="card-footer p-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- Page Size -->
+    <div class="page-size">
+        <label for="page-size" class="mr-2">Items per page:</label>
+        <select id="page-size" class="p-2 border border-gray-200 rounded-sm" [(ngModel)]="currentPageSize"
+            (change)="onPageSizeChange.emit($event)">
+            <option *ngFor="let item of pageSizeOptions" [value]="item">{{item}}</option>
+        </select>
     </div>
 
-    <!-- Pagination -->
-    <div class="card-footer p-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
-        <!-- Page Size -->
-        <div class="page-size">
-            <label for="page-size" class="mr-2">Items per page:</label>
-            <select id="page-size" class="p-2 border border-gray-200 rounded-sm" [(ngModel)]="currentPageSize"
-                (change)="onPageSizeChange.emit($event)">
-                <option *ngFor="let item of pageSizeOptions" [value]="item">{{item}}</option>
-            </select>
-        </div>
-        
-        <!-- Page Items -->
-        <nav class="page-items flex items-center space-x-2 text-slate-500 *:w-10 *:h-10 *:hover:bg-blue-500 *:hover:text-white *:rounded-full *:border *:border-blue-500 *:flex *:items-center *:justify-center *:cursor-pointer">
-            <button (click)="onPageChange.emit(1)"
+    <!-- Page Items -->
+    <nav
+        class="page-items flex items-center space-x-2 text-slate-500 *:w-10 *:h-10 *:hover:bg-blue-500 *:hover:text-white *:rounded-full *:border *:border-blue-500 *:flex *:items-center *:justify-center *:cursor-pointer">
+        <button (click)="onPageChange.emit(1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="First" type="button" [disabled]="currentPage==1">
+            <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
+        </button>
+        <button (click)="onPageChange.emit(currentPage-1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Previous" type="button" [disabled]="currentPage==1">
+            <fa-icon [icon]="faAngleLeft"></fa-icon>
+        </button>
+        <ng-container *ngFor="let item of generatePageItems()">
+            <button (click)="onPageChange.emit(item)"
                 class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-                title="First" type="button" [disabled]="currentPage==1">
-                <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
+                title="Page {{item}}" type="button" [ngClass]="{'bg-blue-500 text-white': item==currentPage}">
+                {{item}}
             </button>
-            <button (click)="onPageChange.emit(currentPage-1)"
-                class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-                title="Previous" type="button" [disabled]="currentPage==1">
-                <fa-icon [icon]="faAngleLeft"></fa-icon>
-            </button>
-            <ng-container *ngFor="let item of generatePageItems()">
-                <button (click)="onPageChange.emit(item)"
-                    class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-                    title="Page {{item}}" type="button" [ngClass]="{'bg-blue-500 text-white': item==currentPage}">
-                    {{item}}
-                </button>
-            </ng-container>
-            <button (click)="onPageChange.emit(currentPage+1)"
-                class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-                title="Next" type="button" [disabled]="data && currentPage===data.totalPages">
-                <fa-icon [icon]="faAngleRight"></fa-icon>
-            </button>
-            <button (click)="onPageChange.emit(data.totalPages)"
-                class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-                title="Last" type="button" [disabled]="data && currentPage===data.totalPages">
-                <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
-            </button>
-        </nav>
-        
-        <!-- Page Info -->
-        <div class="page-info">
-            {{generatePageInfo()}}
-        </div>
+        </ng-container>
+        <button (click)="onPageChange.emit(currentPage+1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Next" type="button" [disabled]="data && currentPage===data.totalPages">
+            <fa-icon [icon]="faAngleRight"></fa-icon>
+        </button>
+        <button (click)="onPageChange.emit(data.totalPages)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Last" type="button" [disabled]="data && currentPage===data.totalPages">
+            <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
+        </button>
+    </nav>
+
+    <!-- Page Info -->
+    <div class="page-info">
+        {{generatePageInfo()}}
     </div>
 </div>

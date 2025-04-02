@@ -33,6 +33,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkills.Select(cs => new SkillViewModel { Id = cs.SkillId, SkillName = cs.Skill.SkillName })));
 
     CreateMap<JobViewModel, Job>().ReverseMap()
+    .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate))
+    .ForMember(dest => dest.UpdatedDate, opt => opt.MapFrom(src => src.UpdatedDate))
     .ForMember(dest => dest.UserCreatedName, opt => opt.MapFrom(src =>
         src.UserCreated != null ? src.UserCreated.FullName : ""))
     .ForMember(dest => dest.Benefits, opt => opt.MapFrom(src =>

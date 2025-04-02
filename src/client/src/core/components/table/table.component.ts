@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
@@ -19,10 +19,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../../../models/paginated-result.model';
 import { TableColumn } from '../../models/table/table-column.model';
+import { ConfirmModalComponent } from '../../../modules/modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule, ConfirmModalComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
@@ -50,7 +51,7 @@ export class TableComponent {
 
   @Input() public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
 
-  @Output() onView = new EventEmitter<number>();
+  @Output() public onView = new EventEmitter<number>();
 
   @Output() public onEdit: EventEmitter<number> = new EventEmitter<number>();
 
@@ -62,6 +63,10 @@ export class TableComponent {
   @Output() public onPageChange: EventEmitter<number> =
     new EventEmitter<number>();
 
+  @ViewChild('deleteModal') deleteModal!: ConfirmModalComponent;
+  
+  isModalOpen: boolean = false;
+
   public generatePageItems(): number[] {
     if (!this.data) {
       return [];
@@ -71,14 +76,27 @@ export class TableComponent {
     return Array.from({ length: totalPage }, (_, i) => i + 1);
   }
 
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  handleModalClose() {
+    this.isModalOpen = false; // Close the modal
+  }
+
+  handleDelete() {
+    // Perform the delete action here
+    console.log('Item deleted');
+    this.isModalOpen = false; // Close the modal after deletion
+  }
+
   public generatePageInfo(): string {
     if (this.data) {
       return `Page ${this.currentPageSize * (this.data.pageNumber - 1) + 1} -
-      ${
-        this.currentPageSize * this.data.pageNumber > this.data.totalCount
+      ${this.currentPageSize * this.data.pageNumber > this.data.totalCount
           ? this.data.totalCount
           : this.currentPageSize * this.data.pageNumber
-      } of ${this.data.totalCount}`;
+        } of ${this.data.totalCount}`;
     }
 
     return '';

@@ -21,7 +21,6 @@ export class MasterDataListComponent<T> {
   //#endregion
 
   public isShowDetail: boolean = false;
-  public selectedItem!: T | undefined | null;
   public filter: SearchModel = {
     keyword: '',
     status: '',

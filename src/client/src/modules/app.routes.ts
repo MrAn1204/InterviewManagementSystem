@@ -81,9 +81,9 @@ export const routes: Routes = [
         path: 'jobs',
         children: [
           { path: '', component: JobListComponent },
-          { path: 'create', component: JobCreateComponent },
-          { path: ':id/edit', component: JobEditComponent },
-          { path: ':id/detail', component: JobDetailComponent }
+          { path: 'create', component: JobCreateComponent},
+          { path: ':id/edit', component: JobEditComponent},
+          { path: ':id/detail', component: JobDetailComponent}
         ]
       },
       {

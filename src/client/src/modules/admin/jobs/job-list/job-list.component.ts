@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,23 +26,30 @@ import { ToastrService } from 'ngx-toastr';
 export class JobListComponent
   extends MasterDataListComponent<JobModel>
   implements OnInit {
-  public statusList: JobStatusModel[] = [{ id: 1, name: 'Draft' }, { id: 2, name: 'Open' }, { id: 3, name: 'Closed' }];
+    
+  public statusList: JobStatusModel[] = [{ id: 1, name: 'Draft' },
+     { id: 2, name: 'Open' }, { id: 3, name: 'Closed' }];
+
   public override columns: TableColumn[] = [
     { name: 'Job Title', value: 'title' },
     { name: 'Required Skills', value: 'skillsDisplay', formatter: this.formatSkills.bind(this) },
-    { name: 'Start Date', value: 'startDate' },
-    { name: 'End Date', value: 'endDate' },
+    { name: 'Start Date', value: 'startDate', formatter: this.formatDate.bind(this) },
+    { name: 'End Date', value: 'endDate', formatter: this.formatDate.bind(this) },
     { name: 'Level', value: 'levelsDisplay', formatter: this.formatLevels.bind(this) },
     { name: 'Status', value: 'status' }
   ];
+  
 
   constructor(
-    private headerService: HeaderService,
-    @Inject(JOB_SERVICE) private jobService: IJobService,
-    private toastr: ToastrService,
+    private readonly headerService: HeaderService,
+    @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    private readonly toastr: ToastrService,
+    private readonly router: Router
   ) {
     super();
   }
+
+
 
   public override ngOnInit(): void {
     this.createForm();
@@ -54,33 +61,13 @@ export class JobListComponent
   protected override searchData(): void {
     this.jobService.search(this.filter).subscribe({
       next: (response) => {
-        // Process each job item to ensure display properties
-        const processedItems = response.items.map(job => {
-          return {
-            ...job,
-            skillsDisplay: this.formatSkills(job),
-            levelsDisplay: this.formatLevels(job)
-          };
-        });
-
-        this.data = {
-          ...response,
-          items: processedItems
-        };
+        this.data = response;
       },
       error: (error) => {
         this.toastr.error('Failed to load jobs', 'Error');
         console.error('Error loading jobs:', error);
       }
     });
-  }
-
-  public getSkillNames(job: JobModel): string {
-    return job.skills?.map(skill => skill.skillName).join(', ') || '';
-  }
-
-  public getLevelNames(job: JobModel): string {
-    return job.levels?.map(level => level.levelName).join(', ') || '';
   }
 
   protected override createForm(): void {
@@ -90,12 +77,26 @@ export class JobListComponent
     });
   }
 
-  formatSkills(job: JobModel): string {    
+  private formatSkills(job: JobModel): string {
     return job.skills?.map(skill => skill.skillName).join(', ') || 'N/A';
-  }  
+  }
 
-  formatLevels(job: JobModel): string {
+  private formatLevels(job: JobModel): string {
     return job.levels?.map(level => level.levelName).join(', ') || 'N/A';
+  }
+
+  private formatDate(job: JobModel, column: TableColumn): string {
+    const dateValue = job[column.value as keyof JobModel];
+    if (dateValue) {
+      const formatter = new Intl.DateTimeFormat('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      });
+      const date = new Date(dateValue as string);
+      return formatter.format(date);
+    }
+    return 'Invalid Date';
   }
 
   public keywordChange(): void {
@@ -108,39 +109,25 @@ export class JobListComponent
 
   public delete(id: number): void {
     this.jobService.delete(id).subscribe((data) => {
-      // Neu xoa duoc thi goi lai ham getData de load lai du lieu
       if (data) {
         this.searchData();
       }
     });
-  }
-  search(): void {
-    this.currentPage = 1; // Reset to first page on new search
-    this.searchData();
-  }
-
-  handlePageChange(page: number): void {
-    this.currentPage = page;
-    this.searchData();
-  }
-
-  handlePageSizeChange(event: any): void {
-    this.currentPageSize = event.target.value;
-    this.currentPage = 1; // Reset to first page when changing page size
-    this.searchData();
-  }
+  }  
 
   public edit(id: number): void {
-    setTimeout(() => {
-      this.selectedItem = this.data.items.find((x) => x.id === id);
-      // Scroll into view
+    setTimeout(() => {      
+      this.router.navigate(['/admin/jobs', id, 'edit']);
     }, 150);
   }
 
   public create(): void {
     setTimeout(() => {
-      this.selectedItem = null;
-      // Scroll into view
+      this.router.navigate(['/admin/jobs/create']);
     }, 150);
+  }
+
+  public viewDetail(id: number): void {
+    this.router.navigate(['/admin/jobs', id, 'detail']);
   }
 }

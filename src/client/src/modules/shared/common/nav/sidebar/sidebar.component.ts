@@ -31,7 +31,7 @@ export class SidebarComponent {
   constructor(public sidebarService: SidebarService) { }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  public onResize(event: any) {
     if (window.innerWidth < 768 && !this.sidebarService.isMobile) {
       this.switchMobile();
       if (!this.sidebarService.isCollapsed) {
@@ -46,10 +46,11 @@ export class SidebarComponent {
     }
   }
 
-  toggleSidebar(): void {
+  public toggleSidebar(): void {
     this.sidebarService.toggleSidebar();
   }
-  switchMobile(): void {
+
+  public switchMobile(): void {
     this.sidebarService.switchMobile();
   }
 }

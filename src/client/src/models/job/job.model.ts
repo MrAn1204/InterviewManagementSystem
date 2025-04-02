@@ -1,3 +1,4 @@
+import { BenefitModel } from "../data-for-input/benefit.modes";
 import { LevelModel } from "../data-for-input/level.model";
 import { SkillModel } from "../data-for-input/skill.modes";
 
@@ -14,4 +15,7 @@ export class JobModel {
   createdBy!: number;
   skills!: SkillModel[];
   levels!: LevelModel[];
+  benefits!: BenefitModel[];
+  createdDate!: Date;
+  updatedDate?: Date;
 }

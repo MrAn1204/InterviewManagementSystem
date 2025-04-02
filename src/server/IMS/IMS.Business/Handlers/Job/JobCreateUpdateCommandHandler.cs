@@ -78,6 +78,7 @@ public class JobCreateUpdateCommandHandler : BaseHandler,
             throw new ResourceNotFoundException($"Job with {request.Id} is not found");
 
         _mapper.Map(request, entity);
+        entity.UpdatedDate = DateTime.UtcNow;
 
         _unitOfWork.JobRepository.Update(entity);
         var result = await _unitOfWork.SaveChangesAsync();
