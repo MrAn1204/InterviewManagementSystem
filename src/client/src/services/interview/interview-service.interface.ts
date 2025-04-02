@@ -9,12 +9,12 @@ export interface IInterviewService {
 
     getById(id: number): Observable<InterviewModel>;
 
-    create(interview: any): Observable<boolean>;
+    create(interview: any): Observable<InterviewModel>;
 
     update(
         id: number,
         interview: any
-    ): Observable<boolean>;
+    ): Observable<InterviewModel>;
 
     delete(id: number): Observable<boolean>;
 }

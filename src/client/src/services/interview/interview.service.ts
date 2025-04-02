@@ -21,10 +21,10 @@ export class InterviewService implements IInterviewService {
   getById(id: number): Observable<InterviewModel> {
     throw new Error('Method not implemented.');
   }
-  create(interview: any): Observable<boolean> {
-    throw new Error('Method not implemented.');
+  create(interview: any): Observable<InterviewModel> {
+    return this.httpClient.post<InterviewModel>(this.url, interview);
   }
-  update(id: number, interview: any): Observable<boolean> {
+  update(id: number, interview: any): Observable<InterviewModel> {
     throw new Error('Method not implemented.');
   }
   delete(id: number): Observable<boolean> {
