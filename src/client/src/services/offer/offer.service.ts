@@ -15,8 +15,12 @@ export class OfferService implements IOffService {
   getAll(): Observable<OfferModel[]> {
     return this.httpClient.get<OfferModel[]>(this.url);
   }
-  search(filter: any): Observable<PaginatedResult<OfferModel>> {
-    throw new Error('Method not implemented.');
+  
+  search(filter: any): Observable<OfferModel[]> {
+      return this.httpClient.post<OfferModel[]>(
+        `${this.url}/search`,
+        filter
+      );
   }
   getById(id: number): Observable<OfferModel> {
     return this.httpClient.get<OfferModel>(`${this.url}/${id}`);

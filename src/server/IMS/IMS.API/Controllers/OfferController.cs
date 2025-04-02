@@ -46,8 +46,8 @@ namespace IMS.API.Controllers
             return Ok(updatedOffer);
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchOffers([FromQuery] OfferSearchQuery searchQuery)
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchOffers([FromBody] OfferSearchQuery searchQuery)
         {
             var result = await _mediator.Send(searchQuery);
             return Ok(result);

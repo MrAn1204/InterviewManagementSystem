@@ -1,18 +1,21 @@
 export class OfferModel {
   id!: number;
   candidateId!: number;
-  interviewId!: number;
+  candidateName?: string;
+  candidateEmail?: string;
+  interviewId?: number;
+  interviewTitle?: string;
   position!: string;
-  contracType!: string;
-  contractStart?: string | null;
-  contractEnd?: string | null;
+  contractType!: string;
+  contractStart!: Date;
+  contractEnd?: Date;
   status!: string;
   approvedBy!: number;
-  approvedDate?: string | null;
-  salaryBasic?: string | null;
-  note?: string | null;
-  dueDate?: string | null;
-  createdDate?: string | null;
-  updatedDate?: string | null;
-  departmentId!: number;
+  approver!: string;
+  approvedDate?: Date;
+  salaryBasic!: number;
+  note?: string;
+  dueDate?: Date;
+  departmentId?: number;
+  departmentName?: string;
 }
