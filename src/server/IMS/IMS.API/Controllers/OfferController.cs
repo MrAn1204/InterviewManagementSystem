@@ -46,6 +46,13 @@ namespace IMS.API.Controllers
             return Ok(updatedOffer);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchOffers([FromQuery] OfferSearchQuery searchQuery)
+        {
+            var result = await _mediator.Send(searchQuery);
+            return Ok(result);
+        }
+
 
         [HttpPost("export")]
         public async Task<IActionResult> ExportOfferExcel([FromBody] OfferExportExcelCommand command, CancellationToken cancellationToken)
