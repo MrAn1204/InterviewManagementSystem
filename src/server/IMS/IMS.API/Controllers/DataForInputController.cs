@@ -38,10 +38,10 @@ public class DataForInputController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetSelectableCandidateStatuses()
     {
         var selectableStatuses = new List<CandidateStatus>
-    {
+        {
         CandidateStatus.Open,
         CandidateStatus.Banned,
-    };
+        };
 
         var response = selectableStatuses
                        .Select(s => new { Id = (int)s, Name = s.ToString() })
