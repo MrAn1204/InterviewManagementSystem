@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using IMS.Business.ViewModels.Level;
-using IMS.Business.ViewModels.Skill;
+using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
-using IMS.Business.Handlers;
+using IMS.Business.ViewModels.Department;
+
 
 namespace IMS.Business.Mappings;
 
@@ -13,6 +13,8 @@ public class MappingProfile : Profile
   {
     CreateMap<SkillViewModel, Skill>().ReverseMap();
     CreateMap<LevelViewModel, Level>().ReverseMap();
+    CreateMap<DepartmentViewModel, Department>().ReverseMap();
+    CreateMap<BenefitViewModel, Benefit>().ReverseMap();
     CreateMap<UserByRoleViewModel, User>().ReverseMap();
         _ = CreateMap<Candidate, CandidateViewModel>()
                 .ForPath(dest => dest.Recruiter.Id, opt => opt.MapFrom(src => src.Recruiter.Id))
@@ -25,7 +27,10 @@ public class MappingProfile : Profile
     CreateMap<Offer, OfferViewModel>()
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
 
-
+    CreateMap<User, UserDetailViewModel>()
+            .ForMember(dest => dest.DepartmentName, 
+                opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
+            .ForMember(dest => dest.Roles, opt => opt.Ignore());
 
     CreateMap<Interview, InterviewViewModel>()
       .ForMember(dest => dest.CandidateId, opt => opt.MapFrom<int?>(
@@ -58,5 +63,74 @@ public class MappingProfile : Profile
               .Where(u => u != null)]
           : new List<User>()))
       .ReverseMap();
+    CreateMap<Candidate, CandidateViewModel>()
+            .ForPath(dest => dest.Recruiter.Id, opt => opt.MapFrom(src => src.Recruiter.Id))
+            .ForPath(dest => dest.Recruiter.FullName, opt => opt.MapFrom(src => src.Recruiter.FullName))
+            .ForPath(dest => dest.Recruiter.UserName, opt => opt.MapFrom(src => src.Recruiter.UserName))
+            .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkills.Select(cs => new SkillViewModel { Id = cs.SkillId, SkillName = cs.Skill.SkillName })));
+
+    CreateMap<JobViewModel, Job>().ReverseMap()
+    .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate))
+    .ForMember(dest => dest.UpdatedDate, opt => opt.MapFrom(src => src.UpdatedDate))
+    .ForMember(dest => dest.UserCreatedName, opt => opt.MapFrom(src =>
+        src.UserCreated != null ? src.UserCreated.FullName : ""))
+    .ForMember(dest => dest.Benefits, opt => opt.MapFrom(src =>
+        src.JobBenefits != null
+        ? src.JobBenefits.Select(jb => new BenefitViewModel
+        {
+          Id = jb.BenefitId,
+          BenefitName = jb.Benefit != null ? jb.Benefit.BenefitName : "",
+          Description = jb.Benefit != null ? jb.Benefit.Description : ""
+        }).ToList()
+        : new List<BenefitViewModel>()
+    ))
+    .ForMember(dest => dest.Skills, opt => opt.MapFrom(src =>
+        src.JobSkills != null
+        ? src.JobSkills.Select(js => new SkillViewModel
+        {
+          Id = js.SkillId,
+          SkillName = js.Skill != null ? js.Skill.SkillName : ""
+        }).ToList()
+        : new List<SkillViewModel>()
+    ))
+    .ForMember(dest => dest.Levels, opt => opt.MapFrom(src =>
+        src.JobLevels != null
+        ? src.JobLevels.Select(jl => new LevelViewModel
+        {
+          Id = jl.LevelId,
+          LevelName = jl.Level != null ? jl.Level.LevelName : "",
+          Description = jl.Level != null ? jl.Level.Description : ""
+        }).ToList()
+        : new List<LevelViewModel>()
+    ));
+
+    CreateMap<JobCreateUpdateCommand, Job>().ReverseMap()
+      .ForMember(dest => dest.Levels, opt => opt.MapFrom(src =>
+        src.JobLevels != null
+        ? src.JobLevels.Select(x => new LevelViewModel
+        {
+          Id = x.LevelId,
+          LevelName = x.Level != null ? x.Level.LevelName : "",
+          Description = x.Level != null ? x.Level.Description : ""
+        }).ToList()
+        : new List<LevelViewModel>()))
+      .ForMember(dest => dest.Benefits, opt => opt.MapFrom(src =>
+        src.JobBenefits != null
+        ? src.JobBenefits.Select(x => new BenefitViewModel
+        {
+          Id = x.BenefitId,
+          BenefitName = x.Benefit != null ? x.Benefit.BenefitName : "",
+          Description = x.Benefit != null ? x.Benefit.Description : ""
+        }).ToList()
+        : new List<BenefitViewModel>()))
+      .ForMember(dest => dest.Skills, opt => opt.MapFrom(src =>
+        src.JobSkills != null
+        ? src.JobSkills.Select(x => new SkillViewModel
+        {
+          Id = x.SkillId,
+          SkillName = x.Skill != null ? x.Skill.SkillName : ""
+        }).ToList()
+        : new List<SkillViewModel>())
+      );
   }
 }

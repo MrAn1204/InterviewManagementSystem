@@ -1,5 +1,4 @@
-
-namespace IMS.Business.ViewModels.Level;
+namespace IMS.Business.ViewModels;
 
 public class LevelViewModel
 {

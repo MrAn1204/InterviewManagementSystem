@@ -80,6 +80,9 @@ namespace IMS.Data.Migrations
                     b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 

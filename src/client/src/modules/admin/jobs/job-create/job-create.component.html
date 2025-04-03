@@ -1,4 +1,4 @@
-<!-- Container chính, max-width ~1200px, margin auto -->
+<!-- Container chính -->
 <div class="container mx-auto max-w-screen-xl py-8 px-4">
   <!-- Tiêu đề -->
   <h1 class="text-4xl font-semibold mb-8">
@@ -7,297 +7,286 @@
 
   <!-- Breadcrumb -->
   <div class="pb-8">
-    <a routerLink="/admin/jobs" class="text-xl text-[#1976d2] hover:underline cursor-pointer" href="">Job List</a>
+    <a routerLink="/admin/jobs" class="text-xl text-[#1976d2] hover:underline cursor-pointer">Job List</a>
     >
-    <a class="text-xl text-[#1976d2] hover:underline cursor-pointer" href="">Create job</a>
+    <a class="text-xl text-[#1976d2] hover:underline cursor-pointer">Create job</a>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="flex justify-center my-4">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1976d2]"></div>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="loadingError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+    <strong class="font-bold">Error!</strong>
+    <span class="block sm:inline"> Failed to load data. Please try again later.</span>
   </div>
 
   <!-- Card bao quanh form -->
-  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: Job information -->
-    <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+  <div *ngIf="!loading && !loadingError" class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Form with reactive form approach -->
+    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+      <!-- Phần I: Job information -->
+      <h2 class="text-2xl font-semibold mb-4">Job information</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Job Title -->
-      <div>
-        <label for="jobTitle" class="block text-lg font-semibold mb-1">
-          Job title
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="Type a title..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-      </div>
-
-      <!-- Skills (multi-select dropdown) -->
-      <div class="relative" id="skills-wrapper">
-        <label class="block text-lg font-semibold mb-1">
-          Skills
-        </label>
-        <input type="text" id="skillsInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-          placeholder="Click to select skills" readonly />
-        <!-- Dropdown chứa danh sách checkbox -->
-        <div id="skillsDropdown"
-          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
-          <div class="p-2 max-h-48 overflow-y-auto">
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Java" class="mr-2" onclick="updateSkillsSelected()" />
-              Java
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Flutter" class="mr-2" onclick="updateSkillsSelected()" />
-              Flutter
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Node.js" class="mr-2" onclick="updateSkillsSelected()" />
-              Node.js
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="System design" class="mr-2" onclick="updateSkillsSelected()" />
-              System design
-            </label>
-            <!-- ... Bổ sung thêm kỹ năng tuỳ ý ... -->
-          </div>
-        </div>
-        <input type="hidden" name="skills" id="skillsHidden" />
-      </div>
-
-      <!-- Start Date -->
-      <div>
-        <label for="startDate" class="block text-lg font-semibold mb-1">
-          Start Date
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="date" id="startDate" name="startDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-      </div>
-
-      <!-- End Date -->
-      <div>
-        <label for="endDate" class="block text-lg font-semibold mb-1">
-          End Date
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="date" id="endDate" name="endDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-      </div>
-
-      <!-- Salary range (From - To) -->
-      <div>
-        <label class="block text-lg font-semibold mb-1">
-          Salary Range
-        </label>
-
-        <div class="flex gap-2">
-          <label for="from" class="block text-sm content-center font-medium ">
-            From
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Job Title -->
+        <div>
+          <label for="jobTitle" class="block text-lg font-semibold mb-1">
+            Job title
+            <span class="text-red-500">*</span>
           </label>
-          <input type="number" id="salaryFrom" name="salaryFrom" placeholder="From"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-          <label for="to" class="block content-center text-sm font-medium ">
-            To
+          <input 
+            type="text" 
+            id="jobTitle" 
+            formControlName="jobTitle" 
+            placeholder="Type a title..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('jobTitle')?.invalid && jobForm.get('jobTitle')?.touched}" 
+          />
+          <div *ngIf="jobForm.get('jobTitle')?.invalid && jobForm.get('jobTitle')?.touched" class="text-red-500 text-sm mt-1">
+            Job title is required
+          </div>
+        </div>
+
+        <!-- Skills (multi-select dropdown) -->
+        <div class="relative" id="skills-wrapper">
+          <label class="block text-lg font-semibold mb-1">
+            Skills
           </label>
-          <input type="number" id="salaryTo" name="salaryTo" placeholder="To"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <input 
+            type="text" 
+            [value]="getSelectedItemsText('skills')"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
+            placeholder="Click to select skills" 
+            readonly
+            (click)="toggleDropdown('skills', $event)"
+          />
+          <!-- Dropdown chứa danh sách checkbox -->
+          <div 
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !skillsDropdownOpen}"
+          >
+            <div class="p-2 max-h-48 overflow-y-auto">
+              <label 
+                *ngFor="let skill of skills; let i = index" 
+                class="flex items-center mb-1 cursor-pointer"
+              >
+                <input 
+                  type="checkbox" 
+                  [checked]="skill.selected"
+                  (change)="updateSelection('skills', i)"
+                  class="mr-2" 
+                />
+                {{ skill.skillName }}
+              </label>
+            </div>
+          </div>
+          <input type="hidden" formControlName="skills" />
         </div>
-      </div>
 
-      <!-- Working Address -->
-      <div>
-        <label for="workingAddress" class="block text-lg font-semibold mb-1">
-          Working address
-        </label>
-        <input type="text" id="workingAddress" name="workingAddress" placeholder="Type an address..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-      </div>
-
-      <!-- Benefits (multi-select dropdown) -->
-      <div class="relative" id="benefits-wrapper">
-        <label class="block text-lg font-semibold mb-1">
-          Benefits
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="benefitsInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-          placeholder="Click to select benefits" readonly />
-        <!-- Dropdown -->
-        <div id="benefitsDropdown"
-          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
-          <div class="p-2 max-h-48 overflow-y-auto">
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Health insurance" class="mr-2" onclick="updateBenefitsSelected()" />
-              Health insurance
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Paid vacation" class="mr-2" onclick="updateBenefitsSelected()" />
-              Paid vacation
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Lunch x3" class="mr-2" onclick="updateBenefitsSelected()" />
-              Lunch x3
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Free parking" class="mr-2" onclick="updateBenefitsSelected()" />
-              Free parking
-            </label>
-            <!-- ... -->
+        <!-- Start Date -->
+        <div>
+          <label for="startDate" class="block text-lg font-semibold mb-1">
+            Start Date
+            <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="date" 
+            id="startDate" 
+            formControlName="startDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched}" 
+          />
+          <div *ngIf="jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched" class="text-red-500 text-sm mt-1">
+            Start date is required
           </div>
         </div>
-        <small class="text-gray-500">
-          Click vào ô để mở danh sách. Tích chọn nhiều quyền lợi.
-        </small>
-        <input type="hidden" name="benefits" id="benefitsHidden" />
-      </div>
 
-      <!-- Level (multi-select dropdown) -->
-      <div class="relative" id="level-wrapper">
-        <label class="block text-lg font-semibold mb-1">
-          Level
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="levelInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-          placeholder="Click to select levels" readonly />
-        <!-- Dropdown -->
-        <div id="levelDropdown"
-          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
-          <div class="p-2 max-h-48 overflow-y-auto">
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Fresher" class="mr-2" onclick="updateLevelSelected()" />
-              Fresher
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Junior" class="mr-2" onclick="updateLevelSelected()" />
-              Junior
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Senior" class="mr-2" onclick="updateLevelSelected()" />
-              Senior
-            </label>
-            <!-- ... -->
+        <!-- End Date -->
+        <div>
+          <label for="endDate" class="block text-lg font-semibold mb-1">
+            End Date
+            <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="date" 
+            id="endDate" 
+            formControlName="endDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched}" 
+          />
+          <div *ngIf="jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched" class="text-red-500 text-sm mt-1">
+            End date is required
           </div>
         </div>
-        <small class="text-gray-500">
-          Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
-        </small>
-        <input type="hidden" name="level" id="levelHidden" />
+
+        <!-- Salary range (From - To) -->
+        <div>
+          <label class="block text-lg font-semibold mb-1">
+            Salary Range
+          </label>
+
+          <div class="flex gap-2">
+            <label for="salaryFrom" class="block text-sm content-center font-medium ">
+              From
+            </label>
+            <input 
+              type="number" 
+              id="salaryFrom" 
+              formControlName="salaryFrom" 
+              placeholder="From"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
+            />
+            <label for="salaryTo" class="block content-center text-sm font-medium ">
+              To
+            </label>
+            <input 
+              type="number" 
+              id="salaryTo" 
+              formControlName="salaryTo" 
+              placeholder="To"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
+            />
+          </div>
+        </div>
+
+        <!-- Working Address -->
+        <div>
+          <label for="workingAddress" class="block text-lg font-semibold mb-1">
+            Working address
+          </label>
+          <input 
+            type="text" 
+            id="workingAddress" 
+            formControlName="workingAddress" 
+            placeholder="Type an address..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
+          />
+        </div>
+
+        <!-- Benefits (multi-select dropdown) -->
+        <div class="relative" id="benefits-wrapper">
+          <label class="block text-lg font-semibold mb-1">
+            Benefits
+            <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            [value]="getSelectedItemsText('benefits')"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
+            placeholder="Click to select benefits" 
+            readonly
+            (click)="toggleDropdown('benefits', $event)"
+            [ngClass]="{'border-red-500': jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched}"
+          />
+          <!-- Dropdown -->
+          <div 
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !benefitsDropdownOpen}"
+          >
+            <div class="p-2 max-h-48 overflow-y-auto">
+              <label 
+                *ngFor="let benefit of benefits; let i = index" 
+                class="flex items-center mb-1 cursor-pointer"
+              >
+                <input 
+                  type="checkbox" 
+                  [checked]="benefit.selected"
+                  (change)="updateSelection('benefits', i)"
+                  class="mr-2" 
+                />
+                {{ benefit.benefitName }}
+              </label>
+            </div>
+          </div>
+          <small class="text-gray-500">
+            Click vào ô để mở danh sách. Tích chọn nhiều quyền lợi.
+          </small>
+          <div *ngIf="jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched" class="text-red-500 text-sm mt-1">
+            Benefits selection is required
+          </div>
+          <input type="hidden" formControlName="benefits" />
+        </div>
+
+        <!-- Level (multi-select dropdown) -->
+        <div class="relative" id="level-wrapper">
+          <label class="block text-lg font-semibold mb-1">
+            Level
+            <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            [value]="getSelectedItemsText('level')"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
+            placeholder="Click to select levels" 
+            readonly
+            (click)="toggleDropdown('level', $event)"
+            [ngClass]="{'border-red-500': jobForm.get('level')?.invalid && jobForm.get('level')?.touched}"
+          />
+          <!-- Dropdown -->
+          <div 
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !levelDropdownOpen}"
+          >
+            <div class="p-2 max-h-48 overflow-y-auto">
+              <label 
+                *ngFor="let level of levels; let i = index"
+                class="flex items-center mb-1 cursor-pointer"
+              >
+                <input 
+                  type="checkbox" 
+                  [checked]="level.selected"
+                  (change)="updateSelection('level', i)" 
+                  class="mr-2" 
+                />
+                {{ level.levelName }}
+              </label>
+            </div>
+          </div>
+          <small class="text-gray-500">
+            Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
+          </small>
+          <div *ngIf="jobForm.get('level')?.invalid && jobForm.get('level')?.touched" class="text-red-500 text-sm mt-1">
+            Level selection is required
+          </div>
+          <input type="hidden" formControlName="level" />
+        </div>
+
+        <!-- Description (textarea) -->
+        <div class="md:col-span-2">
+          <label for="description" class="block text-lg font-semibold mb-1">
+            Description
+          </label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            rows="4" 
+            placeholder="Type description"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+          ></textarea>
+        </div>
       </div>
 
-      <!-- Description (textarea) -->
-      <div class="md:col-span-2">
-        <label for="description" class="block text-lg font-semibold mb-1">
-          Description
-        </label>
-        <textarea id="description" name="description" rows="4" placeholder="Type description"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"></textarea>
+      <!-- Nút Submit/Cancel -->
+      <div class="mt-8 flex justify-end">
+        <!-- Submit -->
+        <button 
+          type="submit"
+          class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"
+        >
+          Submit
+        </button>
+        <!-- Cancel -->
+        <button 
+          type="button" 
+          (click)="cancel()"
+          class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]"
+        >
+          Cancel
+        </button>
       </div>
-    </div>
-
-    <!-- Nút Submit/Cancel -->
-    <div class="mt-8 flex justify-end">
-      <!-- Submit -->
-      <button type="submit"
-        class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-        Submit
-      </button>
-      <!-- Cancel -->
-      <button type="button" routerLink="/admin/jobs"
-        class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-        Cancel
-      </button>
-    </div>
+    </form>
   </div>
 </div>
-
-<script>
-  // 1) Skills
-  const skillsInput = document.getElementById('skillsInput');
-  const skillsDropdown = document.getElementById('skillsDropdown');
-  const skillsHidden = document.getElementById('skillsHidden');
-
-  skillsInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleDropdown(skillsDropdown);
-  });
-
-  // 2) Benefits
-  const benefitsInput = document.getElementById('benefitsInput');
-  const benefitsDropdown = document.getElementById('benefitsDropdown');
-  const benefitsHidden = document.getElementById('benefitsHidden');
-
-  benefitsInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleDropdown(benefitsDropdown);
-  });
-
-  // 3) Level
-  const levelInput = document.getElementById('levelInput');
-  const levelDropdown = document.getElementById('levelDropdown');
-  const levelHidden = document.getElementById('levelHidden');
-
-  levelInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleDropdown(levelDropdown);
-  });
-
-  // Đóng dropdown khi click ngoài
-  document.addEventListener('click', (e) => {
-    // Nếu click ngoài các wrapper => ẩn dropdown
-    if (!document.getElementById('skills-wrapper')?.contains(e.target)) {
-      skillsDropdown.classList.add('hidden');
-    }
-    if (!document.getElementById('benefits-wrapper')?.contains(e.target)) {
-      benefitsDropdown.classList.add('hidden');
-    }
-    if (!document.getElementById('level-wrapper')?.contains(e.target)) {
-      levelDropdown.classList.add('hidden');
-    }
-  });
-
-  function toggleDropdown(dropdown) {
-    if (dropdown.classList.contains('hidden')) {
-      dropdown.classList.remove('hidden');
-    } else {
-      dropdown.classList.add('hidden');
-    }
-  }
-
-  // Hàm cập nhật Skills
-  function updateSkillsSelected() {
-    const checkboxes = skillsDropdown.querySelectorAll('input[type="checkbox"]');
-    let selectedValues = [];
-    checkboxes.forEach((cb) => {
-      if (cb.checked) {
-        selectedValues.push(cb.value);
-      }
-    });
-    skillsInput.value = selectedValues.join(', ');
-    skillsHidden.value = selectedValues.join(',');
-  }
-
-  // Hàm cập nhật Benefits
-  function updateBenefitsSelected() {
-    const checkboxes = benefitsDropdown.querySelectorAll('input[type="checkbox"]');
-    let selectedValues = [];
-    checkboxes.forEach((cb) => {
-      if (cb.checked) {
-        selectedValues.push(cb.value);
-      }
-    });
-    benefitsInput.value = selectedValues.join(', ');
-    benefitsHidden.value = selectedValues.join(',');
-  }
-
-  // Hàm cập nhật Level
-  function updateLevelSelected() {
-    const checkboxes = levelDropdown.querySelectorAll('input[type="checkbox"]');
-    let selectedValues = [];
-    checkboxes.forEach((cb) => {
-      if (cb.checked) {
-        selectedValues.push(cb.value);
-      }
-    });
-    levelInput.value = selectedValues.join(', ');
-    levelHidden.value = selectedValues.join(',');
-  }
-</script>

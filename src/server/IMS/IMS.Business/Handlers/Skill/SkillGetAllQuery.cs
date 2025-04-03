@@ -1,6 +1,6 @@
-using IMS.Business.ViewModels.Skill;
+using IMS.Business.ViewModels;
 
-namespace IMS.Business.Handlers.Skill;
+namespace IMS.Business.Handlers;
 
 public class SkillGetAllQuery:BaseGetAllQuery<SkillViewModel>
 {

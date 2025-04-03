@@ -1,143 +1,106 @@
 <div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
-    User Detail
-  </h1>
+  <h1 class="text-4xl font-semibold mb-8">User Detail</h1>
 
-  <!-- Breadcrumb -->
   <div class="pb-8 flex items-center justify-between">
-    <!-- Bên trái: Đường dẫn -->
     <div>
-      <a routerLink="/admin/users" class="cursor-pointer not-even:text-xl text-[#1976d2] hover:underline" href="">User
-        List</a>
-      >
-      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">User Detail</a>
+      <a routerLink="/admin/users" class="cursor-pointer text-xl text-[#1976d2] hover:underline">User List</a>
+      > <span class="text-xl text-gray-500">User Detail</span>
     </div>
-    <!-- Bên phải: thông tin Created/Updated nếu muốn -->
-    <div class="text-sm text-gray-500">
-      <p>Created at: 2025-03-20</p>
-      <p>Last updated: 2025-03-28</p>
+    <div class="text-sm text-gray-500" *ngIf="userDetail">
+      <p>Created at: {{ userDetail.createdDate | date:'yyyy-MM-dd HH:mm' }}</p>
+      <p *ngIf="userDetail.updatedDate">Last updated: {{ userDetail.updatedDate | date:'yyyy-MM-dd HH:mm' }}</p>
     </div>
   </div>
 
-  <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: User information -->
     <h2 class="text-2xl font-semibold mb-4">User information</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Full Name (chỉ đọc) -->
+    <div *ngIf="isLoading" class="text-center py-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+    </div>
+
+    <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Full Name -->
       <div>
-        <label for="fullName" class="block text-lg font-semibold mb-1">
-          Full Name
-        </label>
-        <input type="text" id="fullName" name="fullName"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="John Doe" />
+        <label class="block text-lg font-semibold mb-1">Full Name</label>
+        <input type="text" [value]="userDetail.fullName"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Email (chỉ đọc) -->
+      <!-- Email -->
       <div>
-        <label for="email" class="block text-lg font-semibold mb-1">
-          Email
-        </label>
-        <input type="email" id="email" name="email"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="john.doe@example.com" />
+        <label class="block text-lg font-semibold mb-1">Email</label>
+        <input type="email" [value]="userDetail.email"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- DOB (chỉ đọc) -->
+      <!-- Date of Birth -->
       <div>
-        <label for="dob" class="block text-lg font-semibold mb-1">
-          Date of Birth
-        </label>
-        <input type="date" id="dob" name="dob"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="1990-01-01" />
+        <label class="block text-lg font-semibold mb-1">Date of Birth</label>
+        <input type="date" [value]="userDetail.dob | date:'yyyy-MM-dd'"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Address (chỉ đọc) -->
+      <!-- Address -->
       <div>
-        <label for="address" class="block text-lg font-semibold mb-1">
-          Address
-        </label>
-        <input type="text" id="address" name="address"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="123 Main St, City" />
+        <label class="block text-lg font-semibold mb-1">Address</label>
+        <input type="text" [value]="userDetail.address"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Phone Number (chỉ đọc) -->
+      <!-- Phone Number -->
       <div>
-        <label for="phone" class="block text-lg font-semibold mb-1">
-          Phone Number
-        </label>
-        <input type="tel" id="phone" name="phone"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="+1234567890" />
+        <label class="block text-lg font-semibold mb-1">Phone Number</label>
+        <input type="tel" [value]="userDetail.phoneNumber"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Gender (chỉ đọc) -->
+      <!-- Gender -->
       <div>
-        <label for="gender" class="block text-lg font-semibold mb-1">
-          Gender
-        </label>
-        <input type="text" id="gender" name="gender"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Male" />
+        <label class="block text-lg font-semibold mb-1">Gender</label>
+        <input type="text" [value]="userDetail.gender"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Role (chỉ đọc) -->
+      <!-- Roles -->
       <div>
-        <label for="role" class="block text-lg font-semibold mb-1">
-          Role
-        </label>
-        <input type="text" id="role" name="role"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Admin" />
+        <label class="block text-lg font-semibold mb-1">Roles</label>
+        <input type="text" [value]="userDetail.roles.join(', ')"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Department (chỉ đọc) -->
+      <!-- Department -->
       <div>
-        <label for="department" class="block text-lg font-semibold mb-1">
-          Department
-        </label>
-        <input type="text" id="department" name="department"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="IT" />
+        <label class="block text-lg font-semibold mb-1">Department</label>
+        <input type="text" [value]="userDetail.departmentName"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Status (chỉ xem) -->
+      <!-- Status -->
       <div>
-        <label for="status" class="block text-lg font-semibold mb-1">
-          Status
-        </label>
-        <input type="text" id="status" name="status"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Active" />
+        <label class="block text-lg font-semibold mb-1">Status</label>
+        <input type="text" [value]="getStatusText(userDetail.isActive)"
+               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
       </div>
 
-      <!-- Note (chỉ đọc) -->
+      <!-- Note -->
       <div class="md:col-span-2">
-        <label for="note" class="block text-lg font-semibold mb-1">
-          Note
-        </label>
-        <textarea id="note" name="note" rows="3"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-          readonly>This user is an administrator.</textarea>
+        <label class="block text-lg font-semibold mb-1">Note</label>
+        <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50"
+                  rows="3" readonly>{{ userDetail.note }}</textarea>
       </div>
     </div>
 
-    <!-- Nút Edit / Delete / Inactive / Back -->
     <div class="mt-8 flex justify-end">
-      <!-- Edit -->
-      <button type="button"
-        class=" cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+      <button type="button" (click)="onEdit()"
+        class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>
-      <!-- Delete -->
       <button type="button"
-        class=" cursor-pointer mr-4 bg-red-500 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-400">
-        Delete
-      </button>
-      <!-- Inactive -->
-      <button type="button"
-        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
-        Inactive
-      </button>
-      <!-- Back -->
+              class="mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
+              Inactive
+            </button>
+
       <button type="button" routerLink="/admin/users"
         class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
         Back

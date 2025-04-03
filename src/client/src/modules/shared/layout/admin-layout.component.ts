@@ -9,7 +9,8 @@ import { SidebarComponent } from '../common/nav/sidebar/sidebar.component';
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, SidebarComponent, RouterOutlet],
+  imports: [CommonModule, HeaderComponent, 
+    SidebarComponent, RouterOutlet],
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']
 })

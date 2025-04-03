@@ -1,165 +1,113 @@
-<div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
-    Job Detail
-  </h1>
-
-  <!-- Breadcrumb -->
-  <div class="pb-8 flex items-center justify-between">
-    <!-- Bên trái: Đường dẫn -->
-    <div>
-      <a routerLink="/admin/jobs" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Job List</a>
-      >
-      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Job Detail</a>
+<div class="container mx-auto py-8 px-4">
+  <!-- Ngày tạo / cập nhật -->
+  <ng-container *ngIf="data; else createUpdateDate">
+    <!-- Ngày tạo / cập nhật -->
+    <div class="flex justify-end mb-3">
+      <div class="text-sm text-gray-500">
+        <p>Created at: {{ data.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p>Last updated: {{ data.updatedDate ? (data.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet"
+          }}
+        </p>
+      </div>
     </div>
-    <!-- Bên phải: thông tin Created/Updated -->
-    <div class="text-sm text-gray-500">
-      <p>Created at: 2025-03-20</p>
-      <p>Last updated: 2025-03-28</p>
+  </ng-container>
+  <ng-template #createUpdateDate>
+    <div class="flex justify-end mb-3">
+      <div class="text-sm text-gray-500">
+        <p>Created at: Loading ...</p>
+        <p>Last updated: Loading ...</p>
+      </div>
     </div>
-  </div>
-
-  <!-- Card bao quanh form -->
+  </ng-template>
+  <!-- Card chứa form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: Job information -->
-    <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+    <!-- Tiêu đề -->
+    <h2 class="text-2xl font-semibold mb-6">Job Information</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Job Title (chỉ đọc) -->
-      <div>
-        <label for="jobTitle" class="block text-gl font-medium mb-1">
-          Job title
-        </label>
-        <input type="text" id="jobTitle" name="jobTitle"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Senior Java Developer" />
-      </div>
+    <ng-container *ngIf="data; else loading">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <!-- Skills (chỉ xem) -->
-      <div>
-        <label class="block text-gl font-medium mb-1">
-          Skills
-        </label>
-        <div class="border border-gray-300 rounded-md p-3">
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Java" disabled checked class="mr-2" />
-            Java
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Node.js" disabled checked class="mr-2" />
-            Node.js
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="System design" disabled class="mr-2" />
-            System design
-          </label>
-          <!-- ... -->
+        <!-- Job Title -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Job Title</h3>
+          <p class=" rounded-md ">{{ data.title }}</p>
         </div>
-      </div>
 
-      <!-- Start Date (chỉ đọc) -->
-      <div>
-        <label for="startDate" class="block text-gl font-medium mb-1">
-          Start Date
-        </label>
-        <input type="date" id="startDate" name="startDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2025-03-25" />
-      </div>
-
-      <!-- End Date (chỉ đọc) -->
-      <div>
-        <label for="endDate" class="block text-fl font-medium mb-1">
-          End Date
-        </label>
-        <input type="date" id="endDate" name="endDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2025-06-30" />
-      </div>
-
-      <!-- Salary range (chỉ xem) -->
-      <div>
-        <label class="block text-gl font-medium mb-1">
-          Salary Range
-        </label>
-        <div class="flex gap-2">
-          <label for="from" class="block text-sm content-center font-medium ">
-            From
-          </label>
-          <input type="number" id="salaryFrom" name="salaryFrom"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="1000" />
-          <label for="to" class="block text-sm content-center font-medium ">
-            to
-          </label>
-          <input type="number" id="salaryTo" name="salaryTo"
-            class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2000" />
+        <!-- Skills -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Skills</h3>
+          <p class=" rounded-md ">
+            {{ data.skills.length ? getSkillNames(data.skills) : "No skills specified" }}
+          </p>
         </div>
-      </div>
 
-      <!-- Working Address (chỉ đọc) -->
-      <div>
-        <label for="workingAddress" class="block text-gl font-medium mb-1">
-          Working address
-        </label>
-        <input type="text" id="workingAddress" name="workingAddress"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Ho Chi Minh City" />
-      </div>
-
-      <!-- Benefits (chỉ xem) -->
-      <div>
-        <label class="block text-gl font-medium mb-1">
-          Benefits
-        </label>
-        <div class="border border-gray-300 rounded-md p-3">
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Health insurance" disabled checked class="mr-2" />
-            Health insurance
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Paid vacation" disabled class="mr-2" />
-            Paid vacation
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Free parking" disabled checked class="mr-2" />
-            Free parking
-          </label>
-          <!-- ... -->
+        <!-- Start Date -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Start Date</h3>
+          <p class=" rounded-md ">
+            {{ data.startDate ? (data.startDate | date: 'dd/MM/yyyy') : "No start date" }}
+          </p>
         </div>
-      </div>
 
-      <!-- Level (chỉ xem) -->
-      <div>
-        <label class="block text-gl font-medium mb-1">
-          Level
-        </label>
-        <div class="border border-gray-300 rounded-md p-3">
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Fresher" disabled class="mr-2" />
-            Fresher
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Junior" disabled class="mr-2" />
-            Junior
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" value="Senior" disabled checked class="mr-2" />
-            Senior
-          </label>
-          <!-- ... -->
+        <!-- End Date -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">End Date</h3>
+          <p class=" rounded-md ">
+            {{ data.endDate ? (data.endDate | date: 'dd/MM/yyyy') : "No end date" }}
+          </p>
         </div>
-      </div>
 
-      <!-- Description (chỉ đọc) -->
-      <div class="md:col-span-2">
-        <label for="description" class="block text-gl font-medium mb-1">
-          Description
-        </label>
-        <textarea id="description" name="description" rows="4"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-          readonly>We are looking for a Senior Java Developer with Node.js experience.</textarea>
-      </div>
-    </div>
+        <!-- Salary Range -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Salary Range</h3>
+          <div class="flex gap-2 *:">
+            <span class="text-gray-600">From:</span>
+            <span class="rounded-md w-1/2 ">{{ data.salaryMin }}</span>
+            <span class="text-gray-600">To:</span>
+            <span class="rounded-md w-1/2">{{ data.salaryMax }}</span>
+          </div>
+        </div>
 
-    <!-- Nút Edit / Back -->
+        <!-- Working Address -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Working Address</h3>
+          <p class=" rounded-md ">{{ data.workingAddress }}</p>
+        </div>
+
+        <!-- Benefits -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Benefits</h3>
+          <p class=" rounded-md ">
+            {{ data.benefits.length ? getBenefitNames(data.benefits) : "No benefits specified" }}
+          </p>
+        </div>
+
+        <!-- Levels -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Levels</h3>
+          <p class="rounded-md ">
+            {{ data.levels.length ? getLevelNames(data.levels) : "No levels specified" }}
+          </p>
+        </div>
+
+        <!-- Description -->
+        <div class="md:col-span-2">
+          <label for="description" class="block text-lg font-medium mb-1">
+            Description
+          </label>
+          <textarea id="description" name="description" rows="4"
+            class="w-full border border-gray-300 rounded-md  focus:outline-none"
+            readonly>{{data.description}}</textarea>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <p class="text-yellow-500 text-lg font-semibold">Loading ...</p>
+    </ng-template>
+
+    <!-- Buttons -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
       <button type="button"
