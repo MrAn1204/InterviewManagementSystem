@@ -20,32 +20,32 @@ export class HeaderComponent implements OnInit {
   public faBars: IconDefinition = faBars;
   public isShowProfileDropdown: boolean = false;
   public profileMenuElement!: HTMLElement;
-  userInfo: UserInformation | null | undefined;
+  public userInfo: UserInformation | null | undefined;
 
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
+    @Inject('IAuthService') private readonly authService: IAuthService,
     public sidebarService: SidebarService,
     public headerService: HeaderService,
-    private renderer: Renderer2,
-    private router: Router,
-    private toastr: ToastrService
+    private readonly renderer: Renderer2,
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.authService.getUserInformation().subscribe((data) => {
       this.userInfo = data;
     });
   }
-onLogout(): void {
+  public onLogout(): void {
     // Gọi logout từ AuthService
     this.authService.logout();
     // Điều hướng về trang login (hoặc trang tuỳ ý)
-  this.router.navigate(['/login']);
-  this.toastr.warning('You were Logout');
+    this.router.navigate(['/login']);
+    this.toastr.warning('You were Logout');
   }
   @HostListener('document:click', ['$event.target'])
-  clickOutside(event: MouseEvent) {
+  public clickOutside(event: MouseEvent) {
     if (
       this.profileMenuElement &&
       !this.profileMenuElement.contains(event.target as Node)
@@ -54,17 +54,16 @@ onLogout(): void {
     }
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     const profileMenu = this.renderer.selectRootElement('.profile-menu', true);
     if (profileMenu) {
       this.profileMenuElement = profileMenu;
     }
   }
 
-  toggleProfileDropdown(event: Event): void {
+  public toggleProfileDropdown(event: Event): void {
     event.stopPropagation();
     this.isShowProfileDropdown = !this.isShowProfileDropdown;
   }
-
 
 }

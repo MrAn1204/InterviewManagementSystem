@@ -8,16 +8,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './confirm-modal.component.css'
 })
 export class ConfirmModalComponent {
-  @Input() isOpen: boolean = false; // Controls modal visibility
-  @Output() onClose = new EventEmitter<void>(); // Emits when modal is closed
-  @Output() onConfirm = new EventEmitter<void>(); // Emits when delete is confirmed
+  @Input() isOpen: boolean = false; 
+  @Output() onClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onConfirm: EventEmitter<void> = new EventEmitter<void>(); 
 
-  closeModal() {
-    this.onClose.emit(); // Notify parent to close the modal
+  public closeModal() {
+    this.onClose.emit(); 
   }
 
-  confirmDelete() {
-    this.onConfirm.emit(); // Notify parent to proceed with deletion
-    this.closeModal(); // Optionally close the modal after confirming
+  public confirmDelete() {
+    this.onConfirm.emit(); 
+    this.closeModal();
   }
 }

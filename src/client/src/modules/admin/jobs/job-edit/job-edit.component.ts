@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BENEFIT_SERVICE, JOB_SERVICE, LEVEL_SERVICE, SKILL_SERVICE } from '../../../../constants/injection/injection.constant';
 import { BenefitModel } from '../../../../models/data-for-input/benefit.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
@@ -8,11 +8,12 @@ import { JobModel } from '../../../../models/job/job.model';
 import { HeaderService } from '../../../../services/header/header.service';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBenefitService } from '../../../../services/benefit/benefit-service.interface';
 import { ILevelService } from '../../../../services/level/level-sevice.interface';
 import { ISkillService } from '../../../../services/skill/skill-service.interface';
-import { finalize } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-job-edit',
@@ -20,7 +21,7 @@ import { finalize } from 'rxjs';
   templateUrl: './job-edit.component.html',
   styleUrl: './job-edit.component.css'
 })
-export class JobEditComponent {
+export class JobEditComponent implements OnInit {
   public data!: JobModel;
   public jobForm!: FormGroup;
 
@@ -30,25 +31,25 @@ export class JobEditComponent {
   public skills: SkillModel[] = [];
   public levels: LevelModel[] = [];
   public benefits: BenefitModel[] = [];
+  public isLoading = true;
 
   constructor(
     private readonly headerService: HeaderService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly toastr: ToastrService,
     @Inject(LEVEL_SERVICE) private readonly levelService: ILevelService,
     @Inject(SKILL_SERVICE) private readonly skillService: ISkillService,
     @Inject(BENEFIT_SERVICE) private readonly benefitService: IBenefitService,
-  ) {
+  ) {}
 
-  }
-
-  public ngOnInit(): void {
-    this.initForm();
-    this.loadData();
-    
+  public ngOnInit(): void {    
     this.headerService.setTitle('Job Detail');
-    this.getJobDetail();
+    this.createEmptyForm();
+    this.loadAllData();
+    
     document.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
       if (!target.closest('#skills-wrapper')) {
@@ -63,79 +64,79 @@ export class JobEditComponent {
     });
   }
 
-  private initForm(): void {
+  private createEmptyForm(): void {
     this.jobForm = this.fb.group({
-      jobTitle: ['', Validators.required],
-      skills: [''],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      salaryFrom: [''],
-      salaryTo: [''],
-      workingAddress: [''],
-      benefits: ['', Validators.required],
-      level: ['', Validators.required],
-      description: ['']
+      title: new FormControl('', Validators.required),
+      skills: new FormControl('', Validators.required),
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
+      salaryMin: new FormControl(null),
+      salaryMax: new FormControl(null),
+      workingAddress: new FormControl(''),
+      benefits: new FormControl('', Validators.required),
+      levels: new FormControl('', Validators.required),
+      description: new FormControl('')
+    });
+  }
+  
+  private loadAllData(): void {
+    const jobId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!jobId) {
+      console.error('No job ID provided in route parameters.');
+      this.isLoading = false;
+      return;
+    }
+    
+    forkJoin({
+      job: this.jobService.getById(jobId),
+      skills: this.skillService.getAll(),
+      levels: this.levelService.getAll(),
+      benefits: this.benefitService.getAll()
+    }).subscribe({
+      next: (results) => {
+        this.data = results.job;
+        
+        this.skills = results.skills.map(skill => ({
+          ...skill,
+          selected: this.data.skills.some(s => s.id === skill.id)
+        }));
+        
+        this.levels = results.levels.map(level => ({
+          ...level,
+          selected: this.data.levels.some(l => l.id === level.id)
+        }));
+        
+        this.benefits = results.benefits.map(benefit => ({
+          ...benefit,
+          selected: this.data.benefits.some(b => b.id === benefit.id)
+        }));
+        
+        this.initForm();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading data:', error);
+        this.isLoading = false;
+      }
     });
   }
 
-  private getJobDetail(): void {
-    const jobId = Number(this.route.snapshot.paramMap.get('id'));
-    if (jobId) {
-      this.jobService.getById(jobId).subscribe({
-        next: (response) => {
-          this.data = response;
-        },
-        error: (error) => {
-          console.error('Error fetching job detail:', error);
-        }
+  private initForm(): void {
+    if (this.data) {
+      this.jobForm.patchValue({
+        title: this.data.title,
+        startDate: this.data.startDate,
+        endDate: this.data.endDate,
+        salaryMin: this.data.salaryMin,
+        salaryMax: this.data.salaryMax,
+        workingAddress: this.data.workingAddress,
+        description: this.data.description
       });
-    } else {
-      console.error('No job ID provided in route parameters.');
+      
+      this.updateFormControl('skills');
+      this.updateFormControl('benefits');
+      this.updateFormControl('levels');
     }
-  }
-
-  private loadData(): void {
-    // Load skills
-    this.skillService.getAll()      
-      .subscribe({
-        next: (data) => {
-          this.skills = data.map(skill => ({
-            ...skill,
-            selected: false
-          }));
-        },
-        error: (error) => {
-          console.error('Error loading skills:', error);
-        }
-      });
-
-    // Load levels
-    this.levelService.getAll()
-      .subscribe({
-        next: (data) => {
-          this.levels = data.map(level => ({
-            ...level,
-            selected: false
-          }));
-        },
-        error: (error) => {
-          console.error('Error loading levels:', error);
-        }
-      });
-
-    // Load benefits
-    this.benefitService.getAll()
-      .subscribe({
-        next: (data) => {
-          this.benefits = data.map(benefit => ({
-            ...benefit,
-            selected: false
-          }));
-        },
-        error: (error) => {
-          console.error('Error loading benefits:', error);
-        }
-      });
   }
 
   public toggleDropdown(dropdown: string, event: Event): void {
@@ -152,7 +153,7 @@ export class JobEditComponent {
         this.skillsDropdownOpen = false;
         this.levelDropdownOpen = false;
         break;
-      case 'level':
+      case 'levels':
         this.levelDropdownOpen = !this.levelDropdownOpen;
         this.skillsDropdownOpen = false;
         this.benefitsDropdownOpen = false;
@@ -170,45 +171,37 @@ export class JobEditComponent {
         this.benefits[index].selected = !this.benefits[index].selected;
         this.updateFormControl('benefits');
         break;
-      case 'level':
+      case 'levels':
         this.levels[index].selected = !this.levels[index].selected;
-        this.updateFormControl('level');
+        this.updateFormControl('levels');
         break;
     }
   }
 
   public updateFormControl(type: string): void {
-    let selectedIds: number[] = [];
-    let selectedValues: string = '';
-
     switch (type) {
-      case 'skills':
-        selectedIds = this.skills
-          .filter(item => item.selected)
-          .map(item => item.id);
-        selectedValues = this.skills
+      case 'skills': {
+        const selectedSkillIds = this.skills
           .filter(item => item.selected)
           .map(item => item.id)
-          .join(',');
+        this.jobForm.get('skills')?.setValue(selectedSkillIds);
         break;
-      case 'level':
-        selectedIds = this.levels
-          .filter(item => item.selected)
-          .map(item => item.id);
-        selectedValues = this.levels
+      }
+      case 'levels': {
+        const selectedLevelIds = this.levels
           .filter(item => item.selected)
           .map(item => item.id)
-          .join(',');
+        this.jobForm.get('levels')?.setValue(selectedLevelIds);
         break;
-      case 'benefits':
-        selectedValues = this.benefits
+      }
+      case 'benefits': {
+        const selectedBenefitIds = this.benefits
           .filter(item => item.selected)
-          .map(item => item.benefitName)
-          .join(',');
+          .map(item => item.id)
+        this.jobForm.get('benefits')?.setValue(selectedBenefitIds);
         break;
+      }
     }
-
-    this.jobForm.get(type)?.setValue(selectedValues);
   }
 
   public getSelectedItemsText(type: string): string {
@@ -223,13 +216,39 @@ export class JobEditComponent {
           .filter(item => item.selected)
           .map(item => item.benefitName)
           .join(', ');
-      case 'level':
+      case 'levels':
         return this.levels
           .filter(item => item.selected)
           .map(item => item.levelName)
           .join(', ');
       default:
         return '';
+    }
+  }
+
+  public onSubmit(): void {
+    if (this.jobForm.valid) {
+      console.log('Form submitted:', this.jobForm.value);
+
+      const jobId = Number(this.route.snapshot.paramMap.get('id'));
+      if (jobId) {
+        this.data = { ...this.data, ...this.jobForm.value };        
+        console.log('Updated data:', this.data);
+        
+        this.jobService.update(jobId, this.data).subscribe({
+          next: (response) => {
+            this.toastr.success('Update successful!', 'Success');
+            this.router.navigate(['/admin/jobs']);
+          },
+          error: (err) => {
+            this.toastr.error('Update Error!', 'Error');
+          },
+        });
+      }
+    } else {
+      Object.keys(this.jobForm.controls).forEach(key => {
+        this.jobForm.get(key)?.markAsTouched();
+      });
     }
   }
 

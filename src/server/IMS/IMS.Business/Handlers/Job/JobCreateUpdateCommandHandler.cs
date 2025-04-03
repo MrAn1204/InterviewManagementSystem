@@ -74,11 +74,42 @@ public class JobCreateUpdateCommandHandler : BaseHandler,
 
     private async Task<JobViewModel> Update(JobCreateUpdateCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _unitOfWork.JobRepository.GetByIdAsync(request.Id!.Value) ??
-            throw new ResourceNotFoundException($"Job with {request.Id} is not found");
+        var entity = await _unitOfWork.JobRepository.GetQuery()
+                    .Include(x => x.JobLevels)
+                    .Include(x => x.JobSkills)
+                    .Include(x => x.JobBenefits)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id!.Value, cancellationToken) ??
+                    throw new ResourceNotFoundException($"Job with {request.Id} is not found");
+        entity.JobLevels.Clear();
+        entity.JobSkills.Clear();
+        entity.JobBenefits.Clear();
 
         _mapper.Map(request, entity);
         entity.UpdatedDate = DateTime.UtcNow;
+
+        if (request.Levels != null)
+        {
+            foreach (var levelId in request.Levels)
+            {
+                entity.JobLevels.Add(new JobLevel { LevelId = levelId, JobId = entity.Id });
+            }
+        }
+
+        if (request.Skills != null)
+        {
+            foreach (var skillId in request.Skills)
+            {
+                entity.JobSkills.Add(new JobSkill { SkillId = skillId, JobId = entity.Id });
+            }
+        }
+
+        if (request.Benefits != null)
+        {
+            foreach (var benefitId in request.Benefits)
+            {
+                entity.JobBenefits.Add(new JobBenefit { BenefitId = benefitId, JobId = entity.Id });
+            }
+        }
 
         _unitOfWork.JobRepository.Update(entity);
         var result = await _unitOfWork.SaveChangesAsync();
@@ -90,10 +121,10 @@ public class JobCreateUpdateCommandHandler : BaseHandler,
 
         var updatedEntity = await _unitOfWork.JobRepository.GetQuery()
                 .Include(x => x.UserCreated)
-                .Include(x => x.JobLevels)
-                    .ThenInclude(x => x.Level)
                 .Include(x => x.JobBenefits)
                     .ThenInclude(x => x.Benefit)
+                .Include(x => x.JobLevels)
+                    .ThenInclude(x => x.Level)
                 .Include(x => x.JobSkills)
                     .ThenInclude(x => x.Skill)
                 .FirstOrDefaultAsync(x => x.Id == entity.Id, cancellationToken) ??

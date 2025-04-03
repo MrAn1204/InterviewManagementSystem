@@ -1,6 +1,7 @@
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain.Entities;
 using MediatR;
 
 namespace IMS.Business.Handlers;
