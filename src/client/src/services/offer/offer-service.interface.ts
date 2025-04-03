@@ -12,4 +12,6 @@ export interface IOffService {
   create(candidate: any, cvAttachment: File): Observable<boolean>;
 
   delete(id: string): Observable<boolean>;
+
+  exportOffers(data: any): Observable<Blob>;
 }

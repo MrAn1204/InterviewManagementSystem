@@ -10,12 +10,13 @@ public class OfferViewModel
     public string? CandidateEmail { get; set; }
 	public int? InterviewId { get; set; }
 	public string? InterviewTitle { get; set; }
-
+	public int MyProperty { get; set; }
 	public string Position { get; set; } = null!;
 	public string ContractType { get; set; } = "FullTime"; // or use ENUM
 	public DateTime ContractStart { get; set; }
 	public DateTime? ContractEnd { get; set; }
 	public string Status { get; set; } = "WaitingForApproval"; // or use ENUM
+	public string Level { get; set; }
 	public int ApprovedBy { get; set; }
 	public string Approver { get; set; }
 

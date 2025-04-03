@@ -34,4 +34,12 @@ export class OfferService implements IOffService {
   delete(id: string): Observable<boolean> {
     throw new Error('Method not implemented.');
   }
+
+  exportOffers(data: any) {
+    return this.httpClient.post<Blob>(
+      `${this.url}/export`,
+      data,
+      { responseType: 'blob' as 'json' }
+    );
+  }
 }

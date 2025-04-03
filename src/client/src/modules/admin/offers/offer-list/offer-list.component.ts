@@ -6,10 +6,11 @@ import { IOffService } from '../../../../services/offer/offer-service.interface'
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
 import { CommonModule } from '@angular/common';
+import { ExportOfferModalComponent } from '../../../modals/export-offer-modal/export-offer-modal.component';
 
 @Component({
   selector: 'app-offer-list',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, ExportOfferModalComponent],
   templateUrl: './offer-list.component.html',
   styleUrl: './offer-list.component.css'
 })
@@ -37,10 +38,12 @@ export class OfferListComponent {
 
   openExportModal() {
     this.isExportModalOpen = true;
+    console.log('Modal Open:', this.isExportModalOpen);
   }
 
   closeExportModal() {
     this.isExportModalOpen = false;
+    console.log('Modal Close:', this.isExportModalOpen);
   }
   
   constructor(

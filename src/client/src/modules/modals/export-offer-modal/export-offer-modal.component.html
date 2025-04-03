@@ -1,6 +1,6 @@
-<div
+<div *ngIf="isOpen"
   id="export-modal"
-  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+  class="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-50"
 >
   <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md relative">
     <h2 class="text-2xl text-center font-semibold text-gray-800 mb-4">
@@ -27,6 +27,7 @@
               title="start-date"
               type="date"
               id="start-date"
+              [(ngModel)]="startDate"
               class="w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -44,6 +45,7 @@
               title="end-date"
               type="date"
               id="end-date"
+              [(ngModel)]="endDate"
               class="w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -51,22 +53,22 @@
       </div>
 
       <!-- Selected Range Display -->
-      <div class="mt-4 p-3 bg-blue-50 rounded-md">
+      <!-- <div class="mt-4 p-3 bg-blue-50 rounded-md">
         <p class="text-blue-800">
           <span class="font-medium">Khoảng thời gian đã chọn:</span>
           <span id="selected-range">Chưa chọn</span>
         </p>
-      </div>
+      </div> -->
 
       <!-- Submit & Cancel Buttons -->
       <div class="flex justify-center mt-2 space-x-4">
-        <button
+        <button (click)="exportOffer()"
           id="submit-button"
           class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition"
         >
           Submit
         </button>
-        <button
+        <button (click)="close()"
           id="cancel-button"
           class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
         >
