@@ -15,6 +15,7 @@ namespace IMS.Data.UnitOfWorks
 		IGenericRepository<Offer> OfferRepository { get; }
 		// IGenericRepository<OfferDepartment> OfferDepartmentRepository { get; }
 		IGenericRepository<Interview> InterviewRepository { get; }
+		IGenericRepository<User> UserRepository { get; }
 
 		IGenericRepository<T> GenericRepository<T>() where T:class;
 

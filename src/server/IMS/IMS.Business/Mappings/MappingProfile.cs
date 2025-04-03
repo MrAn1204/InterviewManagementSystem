@@ -4,6 +4,8 @@ using IMS.Business.ViewModels.Skill;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
 using IMS.Business.Handlers;
+using IMS.Business.ViewModels.Department;
+
 
 namespace IMS.Business.Mappings;
 
@@ -13,6 +15,8 @@ public class MappingProfile : Profile
   {
     CreateMap<SkillViewModel, Skill>().ReverseMap();
     CreateMap<LevelViewModel, Level>().ReverseMap();
+    CreateMap<DepartmentViewModel, Department>().ReverseMap();
+
     CreateMap<UserByRoleViewModel, User>().ReverseMap();
         _ = CreateMap<Candidate, CandidateViewModel>()
                 .ForPath(dest => dest.Recruiter.Id, opt => opt.MapFrom(src => src.Recruiter.Id))
@@ -25,7 +29,10 @@ public class MappingProfile : Profile
     CreateMap<Offer, OfferViewModel>()
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
 
-
+    CreateMap<User, UserDetailViewModel>()
+            .ForMember(dest => dest.DepartmentName, 
+                opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
+            .ForMember(dest => dest.Roles, opt => opt.Ignore());
 
     CreateMap<Interview, InterviewViewModel>()
       .ForMember(dest => dest.CandidateId, opt => opt.MapFrom<int?>(

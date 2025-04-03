@@ -7,7 +7,7 @@ namespace IMS.Data.Repositories
 	public interface IGenericRepository<T> where T : class
 	{
 		IEnumerable<T> GetAll();
-
+		IQueryable<T> GetAllQuery();
 		Task<IEnumerable<T>> GetAllAsync();
 
 		T? GetById(int id);
