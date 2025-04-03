@@ -5,11 +5,11 @@ import { Department } from '../../../../models/Department';
 import { UserService } from '../../../../services/user/user.service';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-edit',
-  imports: [RouterLink, ReactiveFormsModule, NgIf],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './user-edit.component.html',
   styleUrl: './user-edit.component.css'
 })
@@ -17,7 +17,7 @@ export class UserEditComponent implements OnInit {
   userId!: number;
   userForm: FormGroup;
   departments: Department[] = [];
-  roles = ['ADMIN', 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
+  roles = [ 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
   selectedRoles: string[] = [];
   isLoading = true;
 

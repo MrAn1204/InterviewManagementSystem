@@ -11,13 +11,7 @@ import { BusyLoadingService } from '../services/busy-loading.service';
 })
 export class AppComponent {
   title = 'client';
-  constructor(private busyService: BusyLoadingService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.busyService.busy();
 
-    setTimeout(() => {
-      this.busyService.idle();
-    }, 700);
-  }
 }

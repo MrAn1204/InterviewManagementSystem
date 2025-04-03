@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user/user.service';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgFor } from '@angular/common';
 import { PaginatedResult, User } from '../../../../models/User';
+import { HeaderService } from '../../../../services/header/header.service';
 
 @Component({
   selector: 'app-user-list',
@@ -13,6 +14,7 @@ import { PaginatedResult, User } from '../../../../models/User';
   styleUrl: './user-list.component.css'
 })
 export class UserListComponent implements OnInit {
+  headerService = inject(HeaderService);
   users: User[] = [];
   roles: string[] = ['ADMIN', 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
   searchQuery: string = '';
@@ -25,6 +27,7 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
+    this.headerService.setTitle('User Management')
   }
 
   loadUsers(): void {

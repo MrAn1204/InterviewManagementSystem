@@ -2,7 +2,6 @@
 using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
-using IMS.Business.Handlers;
 using IMS.Business.ViewModels.Department;
 
 
@@ -14,6 +13,7 @@ public class MappingProfile : Profile
   {
     CreateMap<SkillViewModel, Skill>().ReverseMap();
     CreateMap<LevelViewModel, Level>().ReverseMap();
+    CreateMap<DepartmentViewModel, Department>().ReverseMap();
     CreateMap<BenefitViewModel, Benefit>().ReverseMap();
     CreateMap<UserByRoleViewModel, User>().ReverseMap();
         _ = CreateMap<Candidate, CandidateViewModel>()

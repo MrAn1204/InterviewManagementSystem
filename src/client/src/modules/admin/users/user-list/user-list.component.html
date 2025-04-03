@@ -33,7 +33,7 @@
     <table class="w-full border-collapse">
       <thead>
         <tr class="bg-gray-100 *:p-3 *:border *:border-gray-200">
-          <th>Username</th>
+          <th>FullName</th>
           <th>Email</th>
           <th>Address</th>
           <th>Roles</th>
@@ -43,7 +43,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of users" class="*:p-3 *:border *:border-gray-200 even:bg-gray-50">
-          <td>{{ user.userName || "null" }}</td>
+          <td>{{ user.fullName }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.address || 'N/A' }}</td>
           <td>
@@ -77,14 +77,14 @@
 
     <!-- Phân trang -->
     <div class="mt-4 flex justify-between items-center">
-      <span>Hiển thị {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize > totalCount ? totalCount : page * pageSize }} của {{ totalCount }} mục</span>
+      <span>View {{ (page - 1) * pageSize + 1 }} - {{ page * pageSize > totalCount ? totalCount : page * pageSize }} of {{ totalCount }} Items</span>
       <div class="flex gap-2">
         <button (click)="previousPage()" [disabled]="page === 1"
-                class="px-3 py-1 border rounded disabled:opacity-50">
+                class="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer">
           &lt;
         </button>
         <button (click)="nextPage()" [disabled]="page * pageSize >= totalCount"
-                class="px-3 py-1 border rounded disabled:opacity-50">
+                class="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer">
           &gt;
         </button>
       </div>
