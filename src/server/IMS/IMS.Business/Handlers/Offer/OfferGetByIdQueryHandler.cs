@@ -18,7 +18,10 @@ public class OfferGetByIdQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) :
     {
         var query = _unitOfWork.OfferRepository.GetQuery();
 
-        var result = await query.Include(o => o.Department).FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken)
+        var result = await query.Include(o => o.Department)
+            .Include(o => o.Candidate)
+            .Include(o => o.Interview)
+            .Include(o => o.UserApproved).FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken)
             ?? throw new ResourceNotFoundException("Offer not found");
 
         return _mapper.Map<OfferViewModel>(result);

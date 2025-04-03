@@ -3,10 +3,8 @@ import { RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
-import { OrderDirection, SearchModel } from '../../../../models/search.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { PaginatedResult } from '../../../../models/candidate/paginated-result.model';
 import { CommonModule } from '@angular/common';
 
 @Component({

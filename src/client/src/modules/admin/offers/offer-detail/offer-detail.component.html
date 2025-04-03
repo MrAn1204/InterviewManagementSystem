@@ -31,7 +31,7 @@
           Candidate
         </label>
         <input type="text" id="candidate" name="candidate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="John Doe" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.candidateName}}" />
       </div>
 
       <!-- Position (chỉ đọc) -->
@@ -41,7 +41,7 @@
         </label>
         <input type="text" id="position" name="position"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Software Engineer" />
+          value="{{offer.position}}" />
       </div>
 
       <!-- Approver (chỉ đọc) -->
@@ -50,7 +50,7 @@
           Approver
         </label>
         <input type="text" id="approver" name="approver"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Jane Smith" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.approver}}" />
       </div>
 
       <!-- Interview Info (chỉ đọc) -->
@@ -60,7 +60,7 @@
         </label>
         <input type="text" id="interview" name="interview"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Technical Interview - 2023/12/05" />
+          value="{{offer.interviewTitle}}" />
       </div>
 
       <!-- Contract Period (chỉ đọc) -->
@@ -70,7 +70,7 @@
         </label>
         <input type="text" id="contractPeriod" name="contractPeriod"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="2023/12/10 - 2024/12/10" />
+          value="From {{offer.contractStart}}  To {{offer.contractEnd}}" />
       </div>
 
       <!-- Contract Type (chỉ đọc) -->
@@ -79,7 +79,7 @@
           Contract Type
         </label>
         <input type="text" id="contractType" name="contractType"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Full-time" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.contractType}}" />
       </div>
 
       <!-- Level (chỉ đọc) -->
@@ -97,7 +97,7 @@
           Department
         </label>
         <input type="text" id="department" name="department"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="IT" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.departmentName}}" />
       </div>
 
       <!-- Recruiter Owner (chỉ đọc) -->
@@ -116,7 +116,7 @@
           Due Date
         </label>
         <input type="text" id="dueDate" name="dueDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2023/12/15" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.dueDate}}" />
       </div>
 
       <!-- Basic Salary (chỉ đọc) -->
@@ -125,7 +125,7 @@
           Basic Salary
         </label>
         <input type="text" id="salary" name="salary"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="2000$" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.salaryBasic}}" />
       </div>
 
       <!-- Status (chỉ đọc) -->
@@ -135,7 +135,7 @@
         </label>
         <input type="text" id="status" name="status"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Waiting for approval" />
+          value="{{offer.status}}" />
       </div>
 
       <!-- Note (chỉ đọc) -->
@@ -144,8 +144,7 @@
           Note
         </label>
         <textarea id="note" name="note" rows="3"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>
-      Offer valid until the due date. Contact HR for more details.</textarea>
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>{{offer.note}}</textarea>
       </div>
     </div>
 
