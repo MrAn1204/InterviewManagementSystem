@@ -1,18 +1,18 @@
 // user.model.ts
-export class User {
-  id!: number;
-  userName!: string;
-  email!: string;
-  fullName!: string;
+export interface User {
+  id: number;
+  userName: string;
+  email: string;
+  fullName: string;
   address?: string;
-  phoneNumber! : string;
+  phoneNumber : string;
   dob?: string; // Đổi thành string nếu API trả về dạng ISO
-  isActive!: boolean; // Thay đổi từ 'status' sang 'isActive'
-  createdDate!: string;
-  gender!:string;
+  isActive: boolean; // Thay đổi từ 'status' sang 'isActive'
+  createdDate: string;
+  gender? :string;
   updatedDate?: string;
   departmentName?: string;
-  roles!: string[];
+  roles: string[];
   note ?: string
 }
 

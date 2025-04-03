@@ -14,6 +14,7 @@ import { PaginatedResult } from '../../../../models/candidate/paginated-result.m
 import { CommonModule } from '@angular/common';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { fileURLToPath } from 'url';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-candidate-list',
@@ -27,8 +28,8 @@ export class CandidateListComponent implements OnInit {
     status: '',
     pageNumber: 1,
     pageSize: 5,
-    orderBy: '',
-    orderDirection: OrderDirection.ASC,
+    orderBy: 'CreatedDate',
+    orderDirection: OrderDirection.DESC,
   };
   public currentPage: number = 1;
   public currentPageSize: number = 5;
@@ -40,10 +41,12 @@ export class CandidateListComponent implements OnInit {
   public statusList!: CandidateStatusModel[];
 
   constructor(
-    private headerService: HeaderService,
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    private readonly headerService: HeaderService,
+    @Inject(CANDIDATE_SERVICE)
+    private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
-    private dataForInputService: IDataForInputService
+    private readonly dataForInputService: IDataForInputService,
+    private readonly toastService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +61,6 @@ export class CandidateListComponent implements OnInit {
   }
 
   public search(): void {
-    console.log('okok');
-
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
@@ -73,13 +74,12 @@ export class CandidateListComponent implements OnInit {
   }
 
   public keywordChange(): void {
-    console.log('change keyword');
+    console.log(this.searchForm.value.keyword);
     this.filter.keyword = this.searchForm.value.keyword;
   }
 
   public statusChange(): void {
-    console.log('change status');
-
+    console.log(this.searchForm.value.status);
     this.filter.status = this.searchForm.value.status;
   }
 
@@ -91,6 +91,18 @@ export class CandidateListComponent implements OnInit {
     }
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
+    });
+  }
+
+  public deleteItem(id: number): void {
+    this.candidateService.delete(id).subscribe({
+      next: (res) => {
+        this.data.items = this.data.items.filter((item) => item.id != id);
+        this.toastService.success('Delete successful!', 'Success');
+      },
+      error: () => {
+        this.toastService.error('Delete unsuccessful!', 'Error');
+      },
     });
   }
 }

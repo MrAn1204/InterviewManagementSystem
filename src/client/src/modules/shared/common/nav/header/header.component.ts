@@ -44,11 +44,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
     this.toastr.warning('You were Logout');
   }
-  @HostListener('document:click', ['$event.target'])
-  public clickOutside(event: MouseEvent) {
+  @HostListener('document:click', ['$event'])
+  public clickOutside(event: Event) {
     if (
       this.profileMenuElement &&
-      !this.profileMenuElement.contains(event.target as Node)
+      event.target instanceof Node &&
+      !this.profileMenuElement.contains(event.target)
     ) {
       this.isShowProfileDropdown = false;
     }

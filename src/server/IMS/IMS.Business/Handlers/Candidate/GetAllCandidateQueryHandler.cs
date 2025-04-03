@@ -14,7 +14,7 @@ public class GetAllCandidateQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork
     public async Task<IEnumerable<CandidateViewModel>> Handle(GetAllCandidateQuery request, CancellationToken cancellationToken)
     {
         var query = _unitOfWork.CandidateRepository.GetQuery();
-        var result = query.Include(c => c.Recruiter);
+        var result = query.Where(c => c.IsDelete == false).Include(c => c.Recruiter);
         return _mapper.Map<IEnumerable<CandidateViewModel>>(result);
     }
 }

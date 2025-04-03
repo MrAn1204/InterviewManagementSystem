@@ -80,6 +80,9 @@ namespace IMS.Data.Migrations
                     b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 
@@ -185,6 +188,9 @@ namespace IMS.Data.Migrations
                     b.Property<DateOnly>("InterviewDate")
                         .HasColumnType("date");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("JobId")
                         .HasColumnType("int");
 
@@ -248,6 +254,9 @@ namespace IMS.Data.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("SalaryMax")
                         .HasColumnType("decimal(18,2)");
@@ -389,6 +398,9 @@ namespace IMS.Data.Migrations
 
                     b.Property<int?>("InterviewId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -552,7 +564,13 @@ namespace IMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
