@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
@@ -63,9 +63,8 @@ export class TableComponent {
   @Output() public onPageChange: EventEmitter<number> =
     new EventEmitter<number>();
 
-  @ViewChild('deleteModal') deleteModal!: ConfirmModalComponent;
-  
-  isModalOpen: boolean = false;
+  public isModalOpen: boolean = false;
+  public selectedId!: number | null;
 
   public generatePageItems(): number[] {
     if (!this.data) {
@@ -76,18 +75,21 @@ export class TableComponent {
     return Array.from({ length: totalPage }, (_, i) => i + 1);
   }
 
-  openModal() {
+  public openModal(id: number) {
+    this.selectedId = id;
     this.isModalOpen = true;
   }
 
-  handleModalClose() {
-    this.isModalOpen = false; // Close the modal
+  public handleModalClose() {
+    this.isModalOpen = false;
+    this.selectedId = null;
   }
 
-  handleDelete() {
-    // Perform the delete action here
-    console.log('Item deleted');
-    this.isModalOpen = false; // Close the modal after deletion
+  public handleDelete() {
+    if (this.selectedId != null) {
+      this.onDelete.emit(this.selectedId);
+    }
+    this.handleModalClose();
   }
 
   public generatePageInfo(): string {

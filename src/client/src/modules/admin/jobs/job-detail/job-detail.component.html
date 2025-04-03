@@ -110,7 +110,7 @@
     <!-- Buttons -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
-      <button type="button"
+      <button *ngIf="data && data.id" type="button" [routerLink]="['/admin/jobs/' + data.id + '/edit']"
         class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>

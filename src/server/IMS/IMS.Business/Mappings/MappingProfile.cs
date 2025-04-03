@@ -105,7 +105,11 @@ public class MappingProfile : Profile
         : new List<LevelViewModel>()
     ));
 
-    CreateMap<JobCreateUpdateCommand, Job>().ReverseMap()
+    CreateMap<JobCreateUpdateCommand, Job>()
+      .ForMember(dest => dest.JobLevels, opt => opt.Ignore()) 
+            .ForMember(dest => dest.JobBenefits, opt => opt.Ignore())
+            .ForMember(dest => dest.JobSkills, opt => opt.Ignore())
+      .ReverseMap()
       .ForMember(dest => dest.Levels, opt => opt.MapFrom(src =>
         src.JobLevels != null
         ? src.JobLevels.Select(x => new LevelViewModel

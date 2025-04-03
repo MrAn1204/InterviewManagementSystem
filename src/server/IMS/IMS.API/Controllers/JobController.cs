@@ -2,10 +2,11 @@ using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ViVuStore.Business.Handlers;
 
 namespace IMS.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/jobs")]
 [ApiController]
 public class JobController(IMediator mediator) : ControllerBase
 {
@@ -14,7 +15,7 @@ public class JobController(IMediator mediator) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create([FromForm] JobCreateUpdateCommand command)
+    public async Task<IActionResult> Create(JobCreateUpdateCommand command)
     {
         if (!ModelState.IsValid)
         {
@@ -72,6 +73,16 @@ public class JobController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Search([FromBody] JobSearchQuery query)
     {
         var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command = new JobDeleteByIdCommand { Id = id };
+        var result = await _mediator.Send(command);
         return Ok(result);
     }
 

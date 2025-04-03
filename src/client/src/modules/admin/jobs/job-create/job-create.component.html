@@ -1,88 +1,69 @@
-<!-- Container chính -->
-<div class="container mx-auto max-w-screen-xl py-8 px-4">
+<div class="container mx-auto py-8 px-4">
   <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
-    Create Job
-  </h1>
+  <h2 class="text-4xl font-semibold mb-8">
+    Job Create
+  </h2>
 
   <!-- Breadcrumb -->
-  <div class="pb-8">
-    <a routerLink="/admin/jobs" class="text-xl text-[#1976d2] hover:underline cursor-pointer">Job List</a>
-    >
-    <a class="text-xl text-[#1976d2] hover:underline cursor-pointer">Create job</a>
-  </div>
-
-  <!-- Loading indicator -->
-  <div *ngIf="loading" class="flex justify-center my-4">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1976d2]"></div>
-  </div>
-
-  <!-- Error message -->
-  <div *ngIf="loadingError" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-    <strong class="font-bold">Error!</strong>
-    <span class="block sm:inline"> Failed to load data. Please try again later.</span>
+  <div class="pb-8 flex items-center justify-between">
+    <!-- Bên trái: Đường dẫn -->
+    <div>
+      <a routerLink="/admin/jobs" class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job List</a>
+      >
+      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job Create</a>
+    </div>
   </div>
 
   <!-- Card bao quanh form -->
-  <div *ngIf="!loading && !loadingError" class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Form with reactive form approach -->
-    <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+    <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
       <!-- Phần I: Job information -->
       <h2 class="text-2xl font-semibold mb-4">Job information</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Job Title -->
         <div>
-          <label for="jobTitle" class="block text-lg font-semibold mb-1">
+          <label for="title" class="block text-lg font-semibold mb-1">
             Job title
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="text" 
-            id="jobTitle" 
-            formControlName="jobTitle" 
-            placeholder="Type a title..."
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-            [ngClass]="{'border-red-500': jobForm.get('jobTitle')?.invalid && jobForm.get('jobTitle')?.touched}" 
-          />
-          <div *ngIf="jobForm.get('jobTitle')?.invalid && jobForm.get('jobTitle')?.touched" class="text-red-500 text-sm mt-1">
+          <input type="text" id="title" formControlName="title" placeholder="Type a title..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('title')?.invalid && jobForm.get('title')?.touched}" />
+          <div *ngIf="jobForm.get('title')?.invalid && jobForm.get('title')?.touched"
+            class="text-red-500 text-sm mt-1">
             Job title is required
           </div>
         </div>
 
         <!-- Skills (multi-select dropdown) -->
         <div class="relative" id="skills-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="skills" class="block text-lg font-semibold mb-1">
             Skills
+            <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="text" 
-            [value]="getSelectedItemsText('skills')"
+          <input type="text" [value]="getSelectedItemsText('skills')" id="skills"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select skills" 
-            readonly
-            (click)="toggleDropdown('skills', $event)"
-          />
+            placeholder="Click to select skills" readonly (click)="toggleDropdown('skills', $event)" />
           <!-- Dropdown chứa danh sách checkbox -->
-          <div 
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
-            [ngClass]="{'hidden': !skillsDropdownOpen}"
-          >
+          <div class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !skillsDropdownOpen}">
             <div class="p-2 max-h-48 overflow-y-auto">
-              <label 
-                *ngFor="let skill of skills; let i = index" 
-                class="flex items-center mb-1 cursor-pointer"
-              >
-                <input 
-                  type="checkbox" 
-                  [checked]="skill.selected"
-                  (change)="updateSelection('skills', i)"
-                  class="mr-2" 
-                />
+              <label *ngFor="let skill of skills; let i = index" class="flex items-center mb-1 cursor-pointer">
+                <input type="checkbox" [checked]="skill.selected" (change)="updateSelection('skills', i)"
+                  class="mr-2" />
                 {{ skill.skillName }}
               </label>
             </div>
           </div>
+          <small class="text-gray-500">
+            Click vào ô để mở danh sách. Tích chọn nhiều kĩ năng.
+          </small>
+          <div *ngIf="jobForm.get('skills')?.invalid && jobForm.get('skills')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Skills selection is required
+          </div>
+          <input type="hidden" formControlName="benefits" />
           <input type="hidden" formControlName="skills" />
         </div>
 
@@ -92,14 +73,11 @@
             Start Date
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="date" 
-            id="startDate" 
-            formControlName="startDate"
+          <input type="date" id="startDate" formControlName="startDate"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-            [ngClass]="{'border-red-500': jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched}" 
-          />
-          <div *ngIf="jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched" class="text-red-500 text-sm mt-1">
+            [ngClass]="{'border-red-500': jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched}" />
+          <div *ngIf="jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched"
+            class="text-red-500 text-sm mt-1">
             Start date is required
           </div>
         </div>
@@ -110,21 +88,18 @@
             End Date
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="date" 
-            id="endDate" 
-            formControlName="endDate"
+          <input type="date" id="endDate" formControlName="endDate"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-            [ngClass]="{'border-red-500': jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched}" 
-          />
-          <div *ngIf="jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched" class="text-red-500 text-sm mt-1">
+            [ngClass]="{'border-red-500': jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched}" />
+          <div *ngIf="jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched"
+            class="text-red-500 text-sm mt-1">
             End date is required
           </div>
         </div>
 
         <!-- Salary range (From - To) -->
         <div>
-          <label class="block text-lg font-semibold mb-1">
+          <label for="salaryFrom" class="block text-lg font-semibold mb-1">
             Salary Range
           </label>
 
@@ -132,23 +107,13 @@
             <label for="salaryFrom" class="block text-sm content-center font-medium ">
               From
             </label>
-            <input 
-              type="number" 
-              id="salaryFrom" 
-              formControlName="salaryFrom" 
-              placeholder="From"
-              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
-            />
+            <input type="number" id="salaryFrom" formControlName="salaryMin" placeholder="From"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
             <label for="salaryTo" class="block content-center text-sm font-medium ">
               To
             </label>
-            <input 
-              type="number" 
-              id="salaryTo" 
-              formControlName="salaryTo" 
-              placeholder="To"
-              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
-            />
+            <input type="number" id="salaryTo" formControlName="salaryMax" placeholder="To"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
           </div>
         </div>
 
@@ -157,46 +122,27 @@
           <label for="workingAddress" class="block text-lg font-semibold mb-1">
             Working address
           </label>
-          <input 
-            type="text" 
-            id="workingAddress" 
-            formControlName="workingAddress" 
-            placeholder="Type an address..."
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" 
-          />
+          <input type="text" id="workingAddress" formControlName="workingAddress" placeholder="Type an address..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
         </div>
 
         <!-- Benefits (multi-select dropdown) -->
         <div class="relative" id="benefits-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="benefits" class="block text-lg font-semibold mb-1">
             Benefits
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="text" 
-            [value]="getSelectedItemsText('benefits')"
+          <input type="text" [value]="getSelectedItemsText('benefits')" id="benefits"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select benefits" 
-            readonly
-            (click)="toggleDropdown('benefits', $event)"
-            [ngClass]="{'border-red-500': jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched}"
-          />
+            placeholder="Click to select benefits" readonly (click)="toggleDropdown('benefits', $event)"
+            [ngClass]="{'border-red-500': jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched}" />
           <!-- Dropdown -->
-          <div 
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
-            [ngClass]="{'hidden': !benefitsDropdownOpen}"
-          >
+          <div class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !benefitsDropdownOpen}">
             <div class="p-2 max-h-48 overflow-y-auto">
-              <label 
-                *ngFor="let benefit of benefits; let i = index" 
-                class="flex items-center mb-1 cursor-pointer"
-              >
-                <input 
-                  type="checkbox" 
-                  [checked]="benefit.selected"
-                  (change)="updateSelection('benefits', i)"
-                  class="mr-2" 
-                />
+              <label *ngFor="let benefit of benefits; let i = index" class="flex items-center mb-1 cursor-pointer">
+                <input type="checkbox" [checked]="benefit.selected" (change)="updateSelection('benefits', i)"
+                  class="mr-2" />
                 {{ benefit.benefitName }}
               </label>
             </div>
@@ -204,7 +150,8 @@
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều quyền lợi.
           </small>
-          <div *ngIf="jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched"
+            class="text-red-500 text-sm mt-1">
             Benefits selection is required
           </div>
           <input type="hidden" formControlName="benefits" />
@@ -212,35 +159,20 @@
 
         <!-- Level (multi-select dropdown) -->
         <div class="relative" id="level-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="levels" class="block text-lg font-semibold mb-1">
             Level
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="text" 
-            [value]="getSelectedItemsText('level')"
+          <input type="text" [value]="getSelectedItemsText('levels')" id="levels"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select levels" 
-            readonly
-            (click)="toggleDropdown('level', $event)"
-            [ngClass]="{'border-red-500': jobForm.get('level')?.invalid && jobForm.get('level')?.touched}"
-          />
+            placeholder="Click to select levels" readonly (click)="toggleDropdown('levels', $event)"
+            [ngClass]="{'border-red-500': jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched}" />
           <!-- Dropdown -->
-          <div 
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
-            [ngClass]="{'hidden': !levelDropdownOpen}"
-          >
+          <div class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !levelDropdownOpen}">
             <div class="p-2 max-h-48 overflow-y-auto">
-              <label 
-                *ngFor="let level of levels; let i = index"
-                class="flex items-center mb-1 cursor-pointer"
-              >
-                <input 
-                  type="checkbox" 
-                  [checked]="level.selected"
-                  (change)="updateSelection('level', i)" 
-                  class="mr-2" 
-                />
+              <label *ngFor="let level of levels; let i = index" class="flex items-center mb-1 cursor-pointer">
+                <input type="checkbox" [checked]="level.selected" (change)="updateSelection('levels', i)" class="mr-2" />
                 {{ level.levelName }}
               </label>
             </div>
@@ -248,10 +180,10 @@
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
           </small>
-          <div *ngIf="jobForm.get('level')?.invalid && jobForm.get('level')?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched" class="text-red-500 text-sm mt-1">
             Level selection is required
           </div>
-          <input type="hidden" formControlName="level" />
+          <input type="hidden" formControlName="levels" />
         </div>
 
         <!-- Description (textarea) -->
@@ -259,34 +191,23 @@
           <label for="description" class="block text-lg font-semibold mb-1">
             Description
           </label>
-          <textarea 
-            id="description" 
-            formControlName="description" 
-            rows="4" 
-            placeholder="Type description"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          ></textarea>
+          <textarea id="description" formControlName="description" rows="4" placeholder="Type description"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"></textarea>
         </div>
       </div>
 
-      <!-- Nút Submit/Cancel -->
       <div class="mt-8 flex justify-end">
-        <!-- Submit -->
-        <button 
-          type="submit"
-          class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"
-        >
-          Submit
+        <!-- Save Changes -->
+        <button type="submit"
+          class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Save Changes
         </button>
         <!-- Cancel -->
-        <button 
-          type="button" 
-          (click)="cancel()"
-          class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]"
-        >
+        <button type="button" routerLink="/admin/jobs"
+          class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
           Cancel
         </button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>    
 </div>
