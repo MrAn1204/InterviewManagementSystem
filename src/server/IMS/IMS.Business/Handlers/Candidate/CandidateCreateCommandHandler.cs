@@ -6,7 +6,7 @@ using MediatR;
 
 namespace IMS.Business.Handlers;
 
-public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateCommand, int>
+public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateCommand, bool>
 {
     private readonly IUnitOfWorks _unitOfWork;
     private readonly IFileService _fileService;
@@ -17,7 +17,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
         _fileService = fileService;
     }
 
-    public async Task<int> Handle(CandidateCreateCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(CandidateCreateCommand request, CancellationToken cancellationToken)
     {
         string filePath = await _fileService.UploadFileAsync(request.CvAttachment);
         Candidate newCandidate = new Candidate
@@ -35,7 +35,7 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             CV = filePath,
             CreatedDate = DateTime.Now,
             RecruiterId = request.Recruiter,
-            LevelId=request.HighestLevel
+            LevelId = request.HighestLevel
         };
         _unitOfWork.CandidateRepository.Add(newCandidate);
         var result = await _unitOfWork.SaveChangesAsync();
@@ -60,6 +60,6 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             throw new DatabaseBadRequestException("Create candidate failed");
         }
 
-        return result;
+        return result > 0;
     }
 }

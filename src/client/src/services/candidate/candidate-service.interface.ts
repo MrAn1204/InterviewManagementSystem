@@ -20,5 +20,5 @@ export interface ICandidateService {
     oldFilePath: string
   ): Observable<boolean>;
 
-  delete(id: string): Observable<boolean>;
+  delete(id: number): Observable<boolean>;
 }

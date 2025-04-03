@@ -33,6 +33,15 @@ export class OfferListComponent {
 
   public searchForm!: FormGroup;
   public data!: OfferModel[];
+  isExportModalOpen = false;
+
+  openExportModal() {
+    this.isExportModalOpen = true;
+  }
+
+  closeExportModal() {
+    this.isExportModalOpen = false;
+  }
   
   constructor(
     private fb: FormBuilder,

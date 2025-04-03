@@ -58,9 +58,9 @@
         <label for="interview" class="block text-lg font-semibold mb-1">
           Interview Info
         </label>
-        <input type="text" id="interview" name="interview"
+        <textarea type="text" id="interview" name="interview"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="{{offer.interviewTitle}}" />
+          [value]="interviewer" ></textarea>
       </div>
 
       <!-- Contract Period (chỉ đọc) -->
@@ -88,7 +88,7 @@
           Level
         </label>
         <input type="text" id="level" name="level"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Senior" />
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.level}}" />
       </div>
 
       <!-- Department (chỉ đọc) -->
@@ -107,7 +107,7 @@
         </label>
         <input type="text" id="recruiter" name="recruiter"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Michael Johnson" />
+          [value]="recruiter"/>
       </div>
 
       <!-- Due Date (chỉ đọc) -->

@@ -19,6 +19,8 @@ public class SearchCandidateQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
         // Tao query
         var query = _unitOfWork.CandidateRepository.GetQuery();
 
+        query = query.Where(c => c.IsDelete == false);
+
         // Check keyword not null or empty, then filter
         if (!string.IsNullOrEmpty(request.Keyword))
         {
@@ -27,7 +29,7 @@ public class SearchCandidateQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
 
         if (!string.IsNullOrEmpty(request.Status))
         {
-            query.Where(x => x.Status == request.Status);
+            query = query.Where(x => x.Status == request.Status);
         }
 
         // Dem so luong

@@ -109,11 +109,21 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.HasForeignKey(i => i.CandidateId)
 			.OnDelete(DeleteBehavior.Restrict);
 
-		// 1:N => Offer -> Interview
-		modelBuilder.Entity<Offer>()
-			.HasOne(o => o.Interview)
-			.WithMany(i => i.Offers!)
-			.HasForeignKey(o => o.InterviewId)
+		// N:N => Interview <-> Users (Interviewers)
+		modelBuilder.Entity<Interview>()
+			.HasMany(i => i.Interviewers)
+			.WithMany()
+			.UsingEntity<Dictionary<string, object>>(
+				"InterviewInterviewers", 
+				j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+				j => j.HasOne<Interview>().WithMany().HasForeignKey("InterviewId")
+			);
+
+		// 1:N => Recruiter -> Interview
+		modelBuilder.Entity<Interview>()
+			.HasOne(i => i.Recruiter)
+			.WithMany()
+			.HasForeignKey(i => i.RecruiterId)
 			.OnDelete(DeleteBehavior.Restrict);
 
 		// 1:N => Department -> Offer

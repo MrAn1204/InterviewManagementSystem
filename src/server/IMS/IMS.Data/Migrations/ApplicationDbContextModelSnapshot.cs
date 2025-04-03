@@ -80,6 +80,9 @@ namespace IMS.Data.Migrations
                     b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 
@@ -179,6 +182,12 @@ namespace IMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly>("InterviewDate")
+                        .HasColumnType("date");
+
                     b.Property<int?>("JobId")
                         .HasColumnType("int");
 
@@ -191,9 +200,17 @@ namespace IMS.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("RecruiterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Result")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -209,6 +226,8 @@ namespace IMS.Data.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("JobId");
+
+                    b.HasIndex("RecruiterId");
 
                     b.ToTable("Interviews");
                 });
@@ -597,6 +616,21 @@ namespace IMS.Data.Migrations
                     b.ToTable("UserRole");
                 });
 
+            modelBuilder.Entity("InterviewInterviewers", b =>
+                {
+                    b.Property<int>("InterviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InterviewId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InterviewInterviewers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -767,9 +801,16 @@ namespace IMS.Data.Migrations
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("IMS.Domain.Entities.User", "Recruiter")
+                        .WithMany()
+                        .HasForeignKey("RecruiterId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Candidate");
 
                     b.Navigation("Job");
+
+                    b.Navigation("Recruiter");
 
                     b.Navigation("UserCreated");
                 });
@@ -862,9 +903,8 @@ namespace IMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("IMS.Domain.Entities.Interview", "Interview")
-                        .WithMany("Offers")
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("InterviewId");
 
                     b.Navigation("Candidate");
 
@@ -912,6 +952,21 @@ namespace IMS.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("InterviewInterviewers", b =>
+                {
+                    b.HasOne("IMS.Domain.Entities.Interview", null)
+                        .WithMany()
+                        .HasForeignKey("InterviewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("IMS.Domain.Entities.Benefit", b =>
                 {
                     b.Navigation("JobBenefits");
@@ -933,11 +988,6 @@ namespace IMS.Data.Migrations
                     b.Navigation("Offers");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("IMS.Domain.Entities.Interview", b =>
-                {
-                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Job", b =>

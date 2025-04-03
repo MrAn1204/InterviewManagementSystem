@@ -10,6 +10,7 @@ export class OfferModel {
   contractStart!: Date;
   contractEnd?: Date;
   status!: string;
+  level!: string;
   approvedBy!: number;
   approver!: string;
   approvedDate?: Date;

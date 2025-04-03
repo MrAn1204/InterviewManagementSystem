@@ -69,7 +69,7 @@ export class CandidateService implements ICandidateService {
     return this.httpClient.post<boolean>(`${this.url}/update`, formData);
   }
 
-  delete(id: string): Observable<boolean> {
-    throw new Error('Method not implemented.');
+  delete(id: number): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.url}/delete`, { id: id });
   }
 }

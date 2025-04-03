@@ -14,6 +14,7 @@ import { PaginatedResult } from '../../../../models/candidate/paginated-result.m
 import { CommonModule } from '@angular/common';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { fileURLToPath } from 'url';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-candidate-list',
@@ -40,10 +41,12 @@ export class CandidateListComponent implements OnInit {
   public statusList!: CandidateStatusModel[];
 
   constructor(
-    private headerService: HeaderService,
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    private readonly headerService: HeaderService,
+    @Inject(CANDIDATE_SERVICE)
+    private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
-    private dataForInputService: IDataForInputService
+    private readonly dataForInputService: IDataForInputService,
+    private readonly toastService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +94,18 @@ export class CandidateListComponent implements OnInit {
     }
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
+    });
+  }
+
+  public deleteItem(id: number): void {
+    this.candidateService.delete(id).subscribe({
+      next: (res) => {
+        this.data.items = this.data.items.filter((item) => item.id != id);
+        this.toastService.success('Delete successful!', 'Success');
+      },
+      error: () => {
+        this.toastService.error('Delete unsuccessful!', 'Error');
+      },
     });
   }
 }

@@ -20,13 +20,13 @@ public class Job : BaseEntity
 	public ICollection<CandidateJob>? CandidateJobs { get; set; }
 
 	// N:N -> Benefit (JobBenefit)
-	public ICollection<JobBenefit>? JobBenefits { get; set; }
+	public ICollection<JobBenefit> JobBenefits { get; set; } = [];
 
 	// N:N -> Skill (JobSkill)
-	public ICollection<JobSkill>? JobSkills { get; set; }
+	public ICollection<JobSkill> JobSkills { get; set; } = [];
 
 	// N:N -> Level (JobLevel)
-	public ICollection<JobLevel>? JobLevels { get; set; }
+	public ICollection<JobLevel> JobLevels { get; set; } = [];
 
 	// 1:N -> Offer
 	// public ICollection<Offer>? Offers { get; set; }

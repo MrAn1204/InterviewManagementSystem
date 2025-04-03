@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace IMS.Business.Handlers;
 
-public class CandidateCreateCommand : BaseCreateCommand<int>
+public class CandidateCreateCommand : BaseCreateCommand<bool>
 {
     public string? FullName { get; set; }
     public string? Email { get; set; }

@@ -18,6 +18,8 @@ import {
 } from '../../../../constants/injection/injection.constant';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { AuthService } from '../../../../services/auth/auth.service';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-candidate-detail',
@@ -36,10 +38,12 @@ export class CandidateDetailComponent {
   public cvFilePath!: string;
   public oldFilePath: string = '';
   constructor(
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    @Inject(CANDIDATE_SERVICE)
+    private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
-    private dataForInputService: IDataForInputService,
-    private route: ActivatedRoute
+    private readonly dataForInputService: IDataForInputService,
+    private readonly route: ActivatedRoute,
+    @Inject('IAuthService') private readonly authService: IAuthService
   ) {}
 
   ngOnInit(): void {
@@ -189,5 +193,11 @@ export class CandidateDetailComponent {
 
     const [year, month, day] = dateString.split('T')[0].split('-');
     return `${year}-${month}-${day}`;
+  }
+
+  assignMe(): void {
+    this.authService.getUserInformation().subscribe((res) => {
+      this.form.patchValue({ recruiter: res?.id });
+    });
   }
 }

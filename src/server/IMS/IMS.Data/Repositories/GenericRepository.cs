@@ -89,5 +89,10 @@ namespace IMS.Data.Repositories
 		{
 			_dbSet.AddRange(entities);
 		}
-	}
+
+        public IQueryable<T> GetAllQuery()
+        {
+            return _dbSet.AsQueryable();
+        }
+    }
 }

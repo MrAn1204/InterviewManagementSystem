@@ -21,7 +21,7 @@ public class Candidate : BaseEntity
 	// N:N -> Skill
 	public ICollection<CandidateSkill>? CandidateSkills { get; set; }
 
-	public ICollection<Skill> Skills { get; set;}
+	public ICollection<Skill> Skills { get; set; }
 	// N:N -> Job (CandidateJob)
 	public ICollection<CandidateJob>? CandidateJobs { get; set; }
 
@@ -35,4 +35,5 @@ public class Candidate : BaseEntity
 	[ForeignKey(nameof(HighestLevel))]
 	public int LevelId { get; set; }
 	public Level? HighestLevel { get; set; }
+	public bool IsDelete { get; set; } = false;
 }
