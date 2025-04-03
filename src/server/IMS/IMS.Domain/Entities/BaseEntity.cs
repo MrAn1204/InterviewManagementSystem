@@ -9,4 +9,6 @@ public class BaseEntity : IBaseEntity
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedDate { get; set; }
+
+    public bool IsDelete {get; set;}
 }

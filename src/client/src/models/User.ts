@@ -9,7 +9,7 @@ export interface User {
   dob?: string; // Đổi thành string nếu API trả về dạng ISO
   isActive: boolean; // Thay đổi từ 'status' sang 'isActive'
   createdDate: string;
-  gender:string;
+  gender? :string;
   updatedDate?: string;
   departmentName?: string;
   roles: string[];
