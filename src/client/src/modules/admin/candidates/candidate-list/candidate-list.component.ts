@@ -28,8 +28,8 @@ export class CandidateListComponent implements OnInit {
     status: '',
     pageNumber: 1,
     pageSize: 5,
-    orderBy: '',
-    orderDirection: OrderDirection.ASC,
+    orderBy: 'CreatedDate',
+    orderDirection: OrderDirection.DESC,
   };
   public currentPage: number = 1;
   public currentPageSize: number = 5;

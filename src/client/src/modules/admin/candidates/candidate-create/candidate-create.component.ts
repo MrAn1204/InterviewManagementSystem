@@ -6,16 +6,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   CANDIDATE_SERVICE,
   DATA_FOR_INPUT_SERVICE,
-  LEVEL_SERVICE,
-  SKILL_SERVICE,
 } from '../../../../constants/injection/injection.constant';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
-import { ISkillService } from '../../../../services/skill/skill-service.interface';
-import { ILevelService } from '../../../../services/level/level-sevice.interface';
 import { SkillModel } from '../../../../models/data-for-input/skill.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { CommonModule } from '@angular/common';
@@ -23,6 +19,7 @@ import { IDataForInputService } from '../../../../services/data-for-input/data-f
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-candidate-create',
@@ -43,7 +40,9 @@ export class CandidateCreateComponent implements OnInit {
     private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
     private readonly dataForInputService: IDataForInputService,
-    @Inject('IAuthService') private readonly authService: IAuthService
+    @Inject('IAuthService') private readonly authService: IAuthService,
+    private readonly toastService: ToastrService,
+    private readonly route: Router
   ) {}
 
   ngOnInit(): void {
@@ -89,8 +88,14 @@ export class CandidateCreateComponent implements OnInit {
     console.log(this.form.value);
     this.candidateService
       .create(this.form.value, this.form.value.cvAttachment)
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe({
+        next: (res) => {
+          this.toastService.success('Add candidate successfully!', 'success');
+          this.route.navigate(['/admin/candidates']);
+        },
+        error:()=>{
+          this.toastService.error('Add candidate unsuccessfully!', 'error');
+        }
       });
   }
 

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SkillModel } from '../../../../models/data-for-input/skill.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
@@ -20,6 +20,7 @@ import { ICandidateService } from '../../../../services/candidate/candidate-serv
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-candidate-detail',
@@ -43,7 +44,9 @@ export class CandidateDetailComponent {
     @Inject(DATA_FOR_INPUT_SERVICE)
     private readonly dataForInputService: IDataForInputService,
     private readonly route: ActivatedRoute,
-    @Inject('IAuthService') private readonly authService: IAuthService
+    @Inject('IAuthService') private readonly authService: IAuthService,
+    private readonly toastService: ToastrService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -121,8 +124,13 @@ export class CandidateDetailComponent {
         this.form.value.cvAttachment,
         this.oldFilePath
       )
-      .subscribe((data) => {
-        console.log(data);
+      .subscribe({
+        next:(res) => {
+          this.toastService.success('Update candidate successfully!', 'success');
+        },
+        error:()=>{
+          this.toastService.error('Update candidate unsuccessfully!', 'error');
+        }
       });
   }
 
@@ -199,5 +207,5 @@ export class CandidateDetailComponent {
     this.authService.getUserInformation().subscribe((res) => {
       this.form.patchValue({ recruiter: res?.id });
     });
-  }
+  } 
 }
