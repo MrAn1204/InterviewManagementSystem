@@ -33,6 +33,19 @@ export class InterviewListComponent {
   public currentPageSize: number = 5;
   public pageSizeOptions: number[] = [5, 10, 20, 50];
   public isShowNumber?: boolean = true
+  public interviewerList = [
+    {
+      id: 2,
+      username: 'tranthib',
+      fullname: 'Trần Thị B'
+    },
+    {
+      id: 3,
+      username: 'imsG2',
+      fullname: 'John Doe'
+    }
+  ];
+  public statusList: string[] = Object.keys(InterviewStatus).filter(key => isNaN(Number(key)));
 
   public searchForm!: FormGroup;
 
@@ -63,7 +76,9 @@ export class InterviewListComponent {
 
     private createForm(): void {
       this.searchForm = new FormGroup({
-        keyword: new FormControl(''),
+        keyword: new FormControl<string>(''),
+        status: new FormControl<string>(''),
+        interviewerId: new FormControl<number>(0),
       });
     }
   

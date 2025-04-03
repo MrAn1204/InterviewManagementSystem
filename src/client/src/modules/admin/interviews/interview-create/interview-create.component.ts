@@ -1,12 +1,14 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { CANDIDATE_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InterviewModel } from '../../../../models/interview/interview.model';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
+import { IJobService } from '../../../../services/job/job-service.interface';
+import { JobModel } from '../../../../models/job/job.model';
 
 @Component({
   selector: 'app-interview-create',
@@ -36,20 +38,7 @@ export class InterviewCreateComponent implements OnInit {
     }
   ];
   
-  public jobList = [
-    {
-      id: 3,
-      title: 'Data Analysis',
-    },
-    {
-      id: 5,
-      title: 'Project Manager',
-    },
-    {
-      id: 10,
-      title: 'Java Developer',
-    }
-  ];
+  public jobList!: JobModel[];
 
   public recruiterList = [
     {
@@ -69,12 +58,14 @@ export class InterviewCreateComponent implements OnInit {
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
     this.createForm();
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
+    this.jobService.getAll().subscribe((res) => this.jobList = res);
   }
 
   public createForm() {

@@ -3,10 +3,12 @@ import { Component, HostListener, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { CANDIDATE_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel } from '../../../../models/interview/interview.model';
+import { JobModel } from '../../../../models/job/job.model';
+import { IJobService } from '../../../../services/job/job-service.interface';
 
 @Component({
   selector: 'app-interview-edit',
@@ -38,20 +40,7 @@ export class InterviewEditComponent {
     }
   ];
 
-  public jobList = [
-    {
-      id: 3,
-      title: 'Data Analysis',
-    },
-    {
-      id: 5,
-      title: 'Project Manager',
-    },
-    {
-      id: 10,
-      title: 'Java Developer',
-    }
-  ];
+  public jobList!: JobModel[] ;
 
   public recruiterList = [
     {
@@ -71,6 +60,7 @@ export class InterviewEditComponent {
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) { }
@@ -96,6 +86,7 @@ export class InterviewEditComponent {
     });
 
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
+    this.jobService.getAll().subscribe((res) => this.jobList = res);
   }
 
   public createForm(interview: InterviewModel) {
