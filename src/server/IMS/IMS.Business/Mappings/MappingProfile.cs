@@ -3,6 +3,8 @@ using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
 using IMS.Business.Handlers;
+using IMS.Business.ViewModels.Department;
+
 
 namespace IMS.Business.Mappings;
 
@@ -25,7 +27,10 @@ public class MappingProfile : Profile
     CreateMap<Offer, OfferViewModel>()
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
 
-
+    CreateMap<User, UserDetailViewModel>()
+            .ForMember(dest => dest.DepartmentName, 
+                opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
+            .ForMember(dest => dest.Roles, opt => opt.Ignore());
 
     CreateMap<Interview, InterviewViewModel>()
       .ForMember(dest => dest.CandidateId, opt => opt.MapFrom<int?>(
