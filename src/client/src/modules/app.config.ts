@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from '../interceptors/loading.interceptor';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, LEVEL_SERVICE, PERMISSION_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
+import { BENEFIT_SERVICE, JOB_SERVICE, AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, LEVEL_SERVICE, PERMISSION_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
 import { CandidateService } from '../services/candidate/candidate.service';
 import { SkillService } from '../services/skill/skill.service';
 import { LevelService } from '../services/level/level.service';
@@ -17,6 +17,8 @@ import { DataForInputService } from '../services/data-for-input/data-for-input.s
 import { InterviewService } from '../services/interview/interview.service';
 import { authInterceptor } from '../interceptors/auth.interceptor';
 import { PermissionService } from '../services/permission/permission.service';
+import { BenefitService } from '../services/benefit/benefit.service';
+import { JobService } from '../services/job/job.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,12 +37,20 @@ export const appConfig: ApplicationConfig = {
       useClass: CandidateService,
     },
     {
+      provide: JOB_SERVICE,
+      useClass: JobService,
+    },
+    {
       provide: SKILL_SERVICE,
       useClass: SkillService,
     },
     {
       provide: LEVEL_SERVICE,
       useClass: LevelService,
+    },
+    {
+      provide: BENEFIT_SERVICE,
+      useClass: BenefitService,
     },
     {
       provide: DATA_FOR_INPUT_SERVICE,

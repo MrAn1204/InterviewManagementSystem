@@ -1,6 +1,4 @@
 using IMS.Business.Handlers;
-using IMS.Business.Handlers.Level;
-using IMS.Business.Handlers.Skill;
 using IMS.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
