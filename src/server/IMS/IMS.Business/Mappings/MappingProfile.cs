@@ -28,9 +28,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
 
     CreateMap<User, UserDetailViewModel>()
-            .ForMember(dest => dest.DepartmentName, 
+            .ForMember(dest => dest.DepartmentName,
                 opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
-            .ForMember(dest => dest.Roles, opt => opt.Ignore());
+            .ForMember(dest => dest.Roles, opt => opt.Ignore())
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender));;
 
     CreateMap<Interview, InterviewViewModel>()
       .ForMember(dest => dest.CandidateId, opt => opt.MapFrom<int?>(
