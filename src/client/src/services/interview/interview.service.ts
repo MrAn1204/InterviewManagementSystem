@@ -19,13 +19,13 @@ export class InterviewService implements IInterviewService {
     return this.httpClient.get<PaginatedResult<InterviewModel>>(`${this.url}/search`, { params: filter });
   }
   getById(id: number): Observable<InterviewModel> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.get<InterviewModel>(`${this.url}/${id}`);
   }
   create(interview: any): Observable<InterviewModel> {
     return this.httpClient.post<InterviewModel>(this.url, interview);
   }
   update(id: number, interview: any): Observable<InterviewModel> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.put<InterviewModel>(`${this.url}/${id}`, interview);
   }
   delete(id: number): Observable<boolean> {
     throw new Error('Method not implemented.');

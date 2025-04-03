@@ -5,6 +5,7 @@ import { PaginatedResult } from '../../../../models/candidate/paginated-result.m
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TableColumn } from './table-column.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -25,4 +26,13 @@ export class TableComponent {
 
   @Input() public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
 
+  constructor (private readonly router: Router) { }
+
+  public edit(id: string): void {
+    this.router.navigate([`/admin/interviews/${id}/edit`])
+  }
+
+  public view(id: string): void {
+    this.router.navigate([`/admin/interviews/${id}/detail`])
+  }
 }

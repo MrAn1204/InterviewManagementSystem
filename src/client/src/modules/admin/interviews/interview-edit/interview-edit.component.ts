@@ -1,12 +1,166 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, HostListener, Inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CandidateModel } from '../../../../models/candidate/candidate.model';
+import { CANDIDATE_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { IInterviewService } from '../../../../services/interview/interview-service.interface';
+import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
+import { InterviewModel } from '../../../../models/interview/interview.model';
 
 @Component({
   selector: 'app-interview-edit',
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './interview-edit.component.html',
   styleUrl: './interview-edit.component.css'
 })
 export class InterviewEditComponent {
+  public form!: FormGroup;
+  public interviewerInput!: number[];
+  public selectedInterviewers: string[] = [];
+  public dropdownVisible = false;
+  public interview!: InterviewModel;
 
+  private interviewId!: number;
+  public selectedInterviewersId: number[] = [];
+
+  // TODO: Replace with real data from database
+  public interviewerList = [
+    {
+      id: 2,
+      username: 'tranthib',
+      fullname: 'Trần Thị B'
+    },
+    {
+      id: 3,
+      username: 'imsG2',
+      fullname: 'John Doe'
+    }
+  ];
+
+  public jobList = [
+    {
+      id: 3,
+      title: 'Data Analysis',
+    },
+    {
+      id: 5,
+      title: 'Project Manager',
+    },
+    {
+      id: 10,
+      title: 'Java Developer',
+    }
+  ];
+
+  public recruiterList = [
+    {
+      id: 2,
+      username: 'tranthib',
+      fullname: 'Trần Thị B'
+    },
+    {
+      id: 3,
+      username: 'imsG2',
+      fullname: 'John Doe'
+    }
+  ];
+
+  public candidateList!: CandidateModel[];
+
+  constructor(
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
+    @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      this.interviewId = Number(params.get('id'));
+      this.interviewService.getById(this.interviewId).subscribe((res) => {
+        this.interview = res;
+        
+        // delays execution until after Angular's change detection cycle finishes
+        setTimeout(() => {
+          this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
+          this.selectedInterviewers = [... this.interview.interviewersName ?? []];
+        }, 0);
+        
+        this.createForm(res);
+
+        this.form.patchValue({
+          interviewersId: this.selectedInterviewersId
+        });
+      });
+    });
+
+    this.candidateService.getAll().subscribe((res) => this.candidateList = res);
+  }
+
+  public createForm(interview: InterviewModel) {
+    this.form = new FormGroup({
+      title: new FormControl<string>(interview.title, []),
+      candidateId: new FormControl<number>(interview.candidateId ?? 0, []),
+      interviewDate: new FormControl<string>(interview.interviewDate, []),
+      startTime: new FormControl<string>(interview.startTime, []),
+      endTime: new FormControl<string>(interview.endTime, []),
+      jobId: new FormControl<number>(interview.jobId ?? 0, []),
+      interviewersId: new FormControl<number[]>(this.selectedInterviewersId, []),
+      location: new FormControl<string>(interview.location ?? '', []),
+      recruiterId: new FormControl<number>(interview.recruiterId ?? 0, []),
+      meetingId: new FormControl<string>(interview.meetingId ?? '', []),
+      note: new FormControl<string>(interview.note ?? '', []),
+    });
+  }
+
+  public onSubmit() {
+    if (this.form.invalid) {
+      console.log('Invalid');
+      return;
+    }
+
+    const data: InterviewModel = this.form.value;
+
+    this.interviewService.update(this.interviewId, data).subscribe((res) => {
+      if (res) {
+        console.log('Create success');
+        this.router.navigate(['/admin/interviews']);
+      } else {
+        console.log('Create failed');
+      }
+    });
+  }
+
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  public updateInterviewerSelected(id: number, name: string): void {
+    const idIndex = this.selectedInterviewersId.indexOf(id);
+    const nameIndex = this.selectedInterviewers.indexOf(name);
+
+    if (idIndex === -1) {
+      this.selectedInterviewersId.push(id);
+      this.selectedInterviewers.push(name);
+    } else {
+      this.selectedInterviewersId.splice(idIndex, 1);
+      this.selectedInterviewers.splice(nameIndex, 1);
+    }
+
+    this.form.patchValue({
+      interviewersId: this.selectedInterviewersId
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdownOnClickOutside(event: MouseEvent): void {
+    const dropdownElement = document.getElementById('interviewerDropdown');
+    const inputElement = document.getElementById('interviewers');
+
+    // Check if the clicked element is outside the dropdown and the input element
+    if (dropdownElement && inputElement && !dropdownElement.contains(event.target as Node) && !inputElement.contains(event.target as Node)) {
+      this.dropdownVisible = false;
+    }
+  }
 }

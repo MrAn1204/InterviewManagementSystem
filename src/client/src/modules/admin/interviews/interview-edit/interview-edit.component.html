@@ -13,195 +13,170 @@
 
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: Schedule information -->
-    <h2 class="text-2xl font-semibold mb-4">Schedule Information</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Phần I: Schedule information -->
+      <h2 class="text-2xl font-semibold mb-4">Schedule Information</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Schedule Title -->
-      <div>
-        <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
-          Schedule title
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="scheduleTitle" name="scheduleTitle" placeholder="Type a title..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="Backend Interview Round 2" />
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Schedule Title -->
+        <div>
+          <label for="title" class="block text-lg font-semibold mb-1">
+            Schedule title
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="title" formControlName="title" placeholder="Type a title..." [value]="interview.title"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+        </div>
 
-      <!-- Candidate name -->
-      <div>
-        <label for="candidateName" class="block text-lg font-semibold mb-1">
-          Candidate name
-          <span class="text-red-500">*</span>
-        </label>
-        <select id="candidateName" name="candidateName"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          required>
-          <option value="">Select candidate...</option>
-          <option value="c1" selected>John Doe</option>
-          <option value="c2">Jane Smith</option>
-          <option value="c3">Michael Lee</option>
-          <!-- ... -->
-        </select>
-      </div>
+        <!-- Schedule Time -->
+        <div class="space-y-2">
+          <label for="interviewDate" class="block text-lg font-semibold mb-1">
+            Schedule Time <span class="text-red-500">*</span>
+          </label>
+          <input type="date" id="interviewDate" formControlName="interviewDate" [value]="interview.interviewDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
 
-      <!-- Schedule Time -->
-      <div>
-        <label for="scheduleTime" class="block text-lg font-semibold mb-1">
-          Schedule Time
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="datetime-local" id="scheduleTime" name="scheduleTime"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="2025-04-15T09:30" />
-      </div>
+          <!-- Time Pickers Container -->
+          <div class="flex flex-wrap sm:flex-nowrap gap-4">
+            <!-- Start Time -->
+            <div class="w-full sm:w-1/2">
+              <label for="startTime" class="block mb-1">From <span class="text-red-500">*</span></label>
+              <input type="time" id="startTime" formControlName="startTime" [value]="interview.startTime"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+            </div>
 
-      <!-- Job -->
-      <div>
-        <label for="job" class="block text-lg font-semibold mb-1">
-          Job
-          <span class="text-red-500">*</span>
-        </label>
-        <select id="job" name="job"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          required>
-          <option value="">Select a job...</option>
-          <option value="j1" selected>Backend Developer</option>
-          <option value="j2">Frontend Developer</option>
-          <option value="j3">QA Engineer</option>
-          <!-- ... -->
-        </select>
-      </div>
-
-      <!-- Interviewer (multi-select dropdown) -->
-      <div class="relative" id="interviewer-wrapper">
-        <label class="block text-lg font-semibold mb-1">
-          Interviewer
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="interviewerInput"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-          placeholder="Click to select interviewer(s)" readonly />
-        <!-- Dropdown -->
-        <div id="interviewerDropdown"
-          class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden">
-          <div class="p-2 max-h-48 overflow-y-auto">
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Thiệu P" class="mr-2" onclick="updateInterviewerSelected()" checked />
-              Thiệu P
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="Name B" class="mr-2" onclick="updateInterviewerSelected()" />
-              Name B
-            </label>
-            <label class="flex items-center mb-1 cursor-pointer">
-              <input type="checkbox" value="John H" class="mr-2" onclick="updateInterviewerSelected()" checked />
-              John H
-            </label>
-            <!-- ... -->
+            <!-- End Time -->
+            <div class="w-full sm:w-1/2">
+              <label for="endTime" class="block mb-1">To <span class="text-red-500">*</span></label>
+              <input type="time" id="endTime" formControlName="endTime" [value]="interview.endTime"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+            </div>
           </div>
         </div>
-        <small class="text-gray-500">
-          Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
-        </small>
-        <input type="hidden" name="interviewer" id="interviewerHidden" />
+
+        <!-- Candidate name -->
+        <div>
+          <label for="candidate" class="block text-lg font-semibold mb-1">
+            Candidate name
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="candidate" formControlName="candidateId" [value]="interview.candidateId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option value="0" disabled hidden>Select candidate...</option>
+            <option *ngFor="let candidate of candidateList" [value]="candidate.id">
+              {{ candidate.fullName }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Job -->
+        <div>
+          <label for="job" class="block text-lg font-semibold mb-1">
+            Job
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="job" formControlName="jobId" [value]="interview.jobId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option value="0" disabled hidden>Select a job...</option>
+            <option *ngFor="let job of jobList" [value]="job.id">
+              {{ job.title }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Interviewer (multi-select dropdown) -->
+        <div class="relative" id="interviewer-wrapper">
+          <label for="interviewers" class="block text-lg font-semibold mb-1">
+            Interviewer
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="interviewers" formControlName="interviewersId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
+            placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()"
+            [value]="selectedInterviewers.join(', ')" />
+          <!-- Dropdown -->
+          <div id="interviewerDropdown" *ngIf="dropdownVisible"
+            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+            <div class="p-2 max-h-48 overflow-y-auto">
+              <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
+                <input type="checkbox" [value]="interviewer.id"
+                  (change)="updateInterviewerSelected(interviewer.id, interviewer.username)"
+                  [checked]="selectedInterviewersId.includes(interviewer.id)" />
+                {{ `${interviewer.fullname} - ${interviewer.username}` }}
+              </label>
+            </div>
+          </div>
+          <small class="text-gray-500">
+            Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
+          </small>
+          <input type="hidden" formControlName="interviewersId" id="interviewersHidden" [value]="selectedInterviewersId"/>
+        </div>
+
+        <!-- Recruiter owner -->
+        <div>
+          <label for="recruiter" class="block text-lg font-semibold mb-1">
+            Recruiter owner
+            <span class="text-red-500">*</span>
+          </label>
+          <div class="flex">
+            <!-- Select Dropdown -->
+            <select id="recruiter" formControlName="recruiterId" [value]="interview.recruiterId"
+              class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+              <option value="0" disabled hidden>Select a recruiter...</option>
+              <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
+                {{ `${recruiter.fullname} - ${recruiter.username}` }}
+              </option>
+            </select>
+
+            <!-- Button -->
+            <button type="button" routerLink="/admin/interviews" (click)="onSubmit()" class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold 
+                rounded-r-md hover:bg-[#e3f2fd]">
+              Assign me
+            </button>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div>
+          <label for="location" class="block text-lg font-semibold mb-1">
+            Location
+          </label>
+          <input type="text" id="location" formControlName="location" placeholder="Type a location"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+        </div>
+
+        <!-- Meeting ID -->
+        <div>
+          <label for="meetingId" class="block text-lg font-semibold mb-1">
+            Meeting ID
+          </label>
+          <input type="text" id="meetingId" formControlName="meetingId" placeholder="meet.google.com/xyz-abc"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+        </div>
+
+        <!-- Notes -->
+        <div class="md:col-span-2">
+          <label for="note" class="block text-lg font-semibold mb-1">
+            Notes
+          </label>
+          <textarea id="note" formControlName="note" rows="8" placeholder="Type schedule note..." class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 
+              focus:ring-[#1976d2] min-h-[150px] max-h-[300px]"></textarea>
+        </div>
       </div>
 
-      <!-- Location -->
-      <div>
-        <label for="location" class="block text-lg font-semibold mb-1">
-          Location
-        </label>
-        <input type="text" id="location" name="location" placeholder="Type a location"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="Meeting Room 3" />
+      <!-- Nút Submit/Cancel -->
+      <div class="mt-8 flex justify-end">
+        <!-- Submit -->
+        <button type="submit"
+          class=" cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Submit
+        </button>
+        <!-- Cancel -->
+        <button type="button" routerLink="/admin/interviews" (click)="onSubmit()"
+          class=" cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+          Cancel
+        </button>
       </div>
-
-      <!-- Recruiter owner -->
-      <div>
-        <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
-          Recruiter owner
-          <span class="text-red-500">*</span>
-        </label>
-        <input type="text" id="recruiterOwner" name="recruiterOwner" placeholder="Recruiter name"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="Jane Smith" required />
-        <a class="text-xs text-[#1976d2] hover:underline" href="">
-          <u>Assign me</u>
-        </a>
-      </div>
-
-      <!-- Meeting ID -->
-      <div>
-        <label for="meetingID" class="block text-lg font-semibold mb-1">
-          Meeting ID
-        </label>
-        <input type="text" id="meetingID" name="meetingID" placeholder="meet.google.com/xyz-abc"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="meet.google.com/abc-1234" />
-      </div>
-
-      <!-- Notes -->
-      <div>
-        <label for="notes" class="block text-lg font-semibold mb-1">
-          Notes
-        </label>
-        <input type="text" id="notes" name="notes" placeholder="Type schedule note..."
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-          value="This is the second round interview focusing on technical skills." />
-      </div>
-    </div>
-
-    <!-- Nút Save Changes / Cancel -->
-    <div class="mt-8 flex justify-end">
-      <!-- Save Changes -->
-      <button type="submit"
-        class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-        Save Changes
-      </button>
-      <!-- Cancel -->
-      <button type="button" routerLink="/admin/interviews"
-        class=" cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-        Cancel
-      </button>
-    </div>
+    </form>
   </div>
 </div>
-
-<script>
-  const interviewerInput = document.getElementById('interviewerInput');
-  const interviewerDropdown = document.getElementById('interviewerDropdown');
-  const interviewerHidden = document.getElementById('interviewerHidden');
-
-  interviewerInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleDropdown(interviewerDropdown);
-  });
-
-  document.addEventListener('click', (e) => {
-    // Nếu click ngoài vùng interviewer-wrapper => ẩn dropdown
-    if (!document.getElementById('interviewer-wrapper')?.contains(e.target)) {
-      interviewerDropdown.classList.add('hidden');
-    }
-  });
-
-  function toggleDropdown(dropdown) {
-    if (dropdown.classList.contains('hidden')) {
-      dropdown.classList.remove('hidden');
-    } else {
-      dropdown.classList.add('hidden');
-    }
-  }
-
-  function updateInterviewerSelected() {
-    const checkboxes = interviewerDropdown.querySelectorAll('input[type="checkbox"]');
-    let selectedValues = [];
-    checkboxes.forEach((cb) => {
-      if (cb.checked) {
-        selectedValues.push(cb.value);
-      }
-    });
-    interviewerInput.value = selectedValues.join(', ');
-    interviewerHidden.value = selectedValues.join(',');
-  }
-</script>

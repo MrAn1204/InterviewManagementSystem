@@ -76,6 +76,7 @@ export class InterviewListComponent {
       }
       this.interviewService.search(this.filter).subscribe((res) => {
         this.data = res;
+        this.currentPage += direction;
       });
     }
     
