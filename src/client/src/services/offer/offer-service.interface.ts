@@ -9,7 +9,7 @@ export interface IOffService {
 
   getById(id: number): Observable<OfferModel>;
 
-  create(candidate: any, cvAttachment: File): Observable<boolean>;
+  create(data: any): Observable<boolean>;
 
   delete(id: string): Observable<boolean>;
 

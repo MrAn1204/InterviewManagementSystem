@@ -21,9 +21,11 @@
             Candidate
             <span class="text-red-500">*</span>
           </label>
-          <select id="candidatename"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select Candidate Name</option>
+          <select id="candidatename" [(ngModel)]="selectedCandidate"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option *ngFor="let candidate of candidates" [value]="candidate.id">
+              {{ candidate.fullName }}
+            </option>
           </select>
         </div>
 
@@ -33,9 +35,15 @@
             Position
             <span class="text-red-500">*</span>
           </label>
-          <select id="position"
+          <!-- <select id="position"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option selected>Select a position</option>
+          </select> -->
+          <select id="position" [(ngModel)]="selectedPosition"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option *ngFor="let position of positions" [value]="position">
+              {{ position }}
+            </option>
           </select>
         </div>
 
@@ -45,20 +53,42 @@
             Approver
             <span class="text-red-500">*</span>
           </label>
-          <select id="approver"
+          <select id="approver" [(ngModel)]="selectedApprover"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select an approver</option>
+            <option *ngFor="let approver of approvers" [value]="approver.id">
+              {{ approver.fullName }}
+            </option>
           </select>
         </div>
 
         <!-- Interview info -->
-        <div class="md:col-span-2">
+        <div>
           <label for="interview" class="block text-lg font-semibold mb-1">
             Interview info
           </label>
-          <select id="interview"
+          <select id="interview" [(ngModel)]="selectedInterview"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select an interview schedule title</option>
+            <option *ngFor="let interview of interviews" [value]="interview.id">
+              {{ interview.title }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Status Offer -->
+        <div>
+          <label for="status" class="block text-lg font-semibold mb-1">
+            Status
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="status" [(ngModel)]="selectedStatus"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option value="Waiting for approval">Waiting for approval</option>
+            <option value="Approved offer">Approved offer</option>
+            <option value="Rejected offer">Rejected offer</option>
+            <option value="Waiting for response">Waiting for response</option>
+            <option value="Accepted offer">Accepted offer</option>
+            <option value="Declined offer">Declined offer</option>
+            <option value="Cancelled">Cancelled</option>
           </select>
         </div>
 
@@ -92,9 +122,13 @@
             Contract type
             <span class="text-red-500">*</span>
           </label>
-          <select id="contracttype"
+          <select id="contracttype" [(ngModel)]="selectedContractType"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select a type of contract</option>
+            <option value="Trial 2 months">Trial 2 months</option>
+            <option value="Trial 3 months">Trial 3 months</option>
+            <option value="1 year">1 year</option>
+            <option value="3 years">3 years</option>
+            <option value="Unlimited">Unlimited</option>
           </select>
         </div>
 
@@ -104,9 +138,11 @@
             Level
             <span class="text-red-500">*</span>
           </label>
-          <select id="level"
+          <select id="level" [(ngModel)]="selectedLevel"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select a level</option>
+            <option *ngFor="let level of levels" [value]="level.id">
+              {{ level.levelName }}
+            </option>
           </select>
         </div>
 
@@ -116,9 +152,11 @@
             Department
             <span class="text-red-500">*</span>
           </label>
-          <select id="department"
+          <select id="department" [(ngModel)]="selectedDepartment"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select a department</option>
+            <option *ngFor="let department of departments" [value]="department.id">
+              {{ department.name }}
+            </option>
           </select>
         </div>
 
@@ -128,9 +166,11 @@
             Recruiter Owner
             <span class="text-red-500">*</span>
           </label>
-          <select id="recruiter"
+          <select id="recruiter" [(ngModel)]="selectedRecruiter"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected></option>
+            <option *ngFor="let recruiter of recruiterOwner" [value]="recruiter.id">
+              {{ recruiter.fullName }}
+            </option>
           </select>
         </div>
 
@@ -182,7 +222,7 @@
     </form>
   </div>
 </div>
-<script>
+<!-- <script>
   const skillsInput = document.getElementById('skillsInput');
   const skillsDropdown = document.getElementById('skillsDropdown');
   const skillsHidden = document.getElementById('skillsHidden');
@@ -225,4 +265,4 @@
     // Cập nhật hidden input để submit
     skillsHidden.value = selectedValues.join(',');
   }
-</script>
+</script> -->

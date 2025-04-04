@@ -27,8 +27,8 @@ export class OfferService implements IOffService {
     return this.httpClient.get<OfferModel>(`${this.url}/${id}`);
   }
 
-  create(candidate: any, cvAttachment: File): Observable<boolean> {
-    throw new Error('Method not implemented.');
+  create(data: any): Observable<boolean> {
+    return this.httpClient.post<boolean>(this.url, data);
   }
   
   delete(id: string): Observable<boolean> {
