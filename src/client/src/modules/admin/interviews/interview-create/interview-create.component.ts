@@ -9,6 +9,7 @@ import { ICandidateService } from '../../../../services/candidate/candidate-serv
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { JobModel } from '../../../../models/job/job.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-interview-create',
@@ -21,9 +22,9 @@ export class InterviewCreateComponent implements OnInit {
   public interviewerInput!: number[];
   public selectedInterviewers: string[] = [];
   public dropdownVisible = false;
-  
+
   private readonly selectedInterviewersId: number[] = [];
-  
+
   // TODO: Replace with real data from database
   public interviewerList = [
     {
@@ -37,7 +38,7 @@ export class InterviewCreateComponent implements OnInit {
       fullname: 'John Doe'
     }
   ];
-  
+
   public jobList!: JobModel[];
 
   public recruiterList = [
@@ -60,6 +61,7 @@ export class InterviewCreateComponent implements OnInit {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly router: Router,
+    private readonly toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -92,13 +94,20 @@ export class InterviewCreateComponent implements OnInit {
 
     const data: InterviewModel = this.form.value;
 
-    this.interviewService.create(data).subscribe((res) => {
-      if (res) {
-        console.log('Create success');
-        this.router.navigate(['/admin/interviews']);
-      } else {
-        console.log('Create failed');
-      }
+    this.interviewService.create(data).subscribe({
+      next: (data) => {
+        if (data) {
+          console.log('Create success');
+          this.toastr.success('Create success', 'Success')
+          this.router.navigate(['/admin/interviews']);
+        } else {
+          console.log('Create failed');
+        }
+      },
+      error: (error) => {
+        this.toastr.error('Failed to create jobs', 'Error');
+        console.error('Error create jobs:', error);
+      },
     });
   }
 
@@ -112,7 +121,7 @@ export class InterviewCreateComponent implements OnInit {
 
     if (idIndex === -1) {
       this.selectedInterviewersId.push(id);
-      this.selectedInterviewers.push(name); 
+      this.selectedInterviewers.push(name);
     } else {
       this.selectedInterviewersId.splice(idIndex, 1);
       this.selectedInterviewers.splice(nameIndex, 1);

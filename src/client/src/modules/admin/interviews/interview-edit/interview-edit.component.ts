@@ -9,6 +9,7 @@ import { ICandidateService } from '../../../../services/candidate/candidate-serv
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
 import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-interview-edit',
@@ -42,7 +43,7 @@ export class InterviewEditComponent {
     }
   ];
 
-  public jobList!: JobModel[] ;
+  public jobList!: JobModel[];
 
   public recruiterList = [
     {
@@ -64,7 +65,8 @@ export class InterviewEditComponent {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -73,13 +75,13 @@ export class InterviewEditComponent {
       this.interviewService.getById(this.interviewId).subscribe((res) => {
         this.interview = res;
         console.log(this.interview.status.toString());
-        
+
         // delays execution until after Angular's change detection cycle finishes
         setTimeout(() => {
           this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
           this.selectedInterviewers = [... this.interview.interviewersName ?? []];
         }, 0);
-        
+
         this.createForm(res);
 
         this.form.patchValue({
@@ -89,7 +91,7 @@ export class InterviewEditComponent {
     });
 
     console.log(this.statusList);
-    
+
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
   }
@@ -121,14 +123,20 @@ export class InterviewEditComponent {
     const data: InterviewModel = this.form.value;
 
     console.log(data);
-    
 
-    this.interviewService.update(this.interviewId, data).subscribe((res) => {
-      if (res) {
-        console.log('Create success');
-        this.router.navigate(['/admin/interviews']);
-      } else {
-        console.log('Create failed');
+
+    this.interviewService.update(this.interviewId, data).subscribe({
+      next: (data) => {
+        if (data) {
+          console.log('Update success');
+          this.toastr.success('Update success', 'Success')
+          this.router.navigate(['/admin/interviews']);
+        } else {
+          console.log('Update failed');
+        }
+      },
+      error: (error) => {
+        this.toastr.error('Failed to update jobs', 'Error');
       }
     });
   }

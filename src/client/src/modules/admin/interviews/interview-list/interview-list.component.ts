@@ -10,6 +10,7 @@ import { TableColumn } from '../table/table-column.model';
 import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { MasterDataListComponent } from '../../master-data/master-data.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-interview-list',
@@ -44,6 +45,7 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
 
   constructor(
     private readonly headerService: HeaderService,
+    private readonly toastr: ToastrService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService) {
     super();
   }
@@ -66,8 +68,14 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
 
   public override searchData(): void {
     Object.assign(this.filter, this.searchForm.value);
-    this.interviewService.search(this.filter).subscribe((res) => {
-      this.data = res;
+    this.interviewService.search(this.filter).subscribe({
+      next: (response) => {
+        this.data = response;
+      },
+      error: (error) => {
+        this.toastr.error('Failed to load interviews', 'Error');
+        console.error('Error loading interviews:', error);
+      }
     });
   }
 }
