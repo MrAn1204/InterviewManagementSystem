@@ -34,7 +34,6 @@ export class JobEditComponent implements OnInit {
   public isLoading = true;
 
   constructor(
-    private readonly headerService: HeaderService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
@@ -46,7 +45,6 @@ export class JobEditComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {    
-    this.headerService.setTitle('Job Detail');
     this.createEmptyForm();
     this.loadAllData();
     
@@ -125,8 +123,8 @@ export class JobEditComponent implements OnInit {
     if (this.data) {
       this.jobForm.patchValue({
         title: this.data.title,
-        startDate: this.data.startDate,
-        endDate: this.data.endDate,
+        startDate: this.data.startDate?.toString().substring(0, 10) ?? '',
+        endDate: this.data.endDate?.toString().substring(0, 10) ?? '',
         salaryMin: this.data.salaryMin,
         salaryMax: this.data.salaryMax,
         workingAddress: this.data.workingAddress,
