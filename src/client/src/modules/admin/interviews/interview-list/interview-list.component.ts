@@ -1,13 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
-import { OrderDirection, SearchModel } from '../../../../models/search.model';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
-import { PaginatedResult } from '../../../../models/candidate/paginated-result.model';
+import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
 import { CommonModule } from '@angular/common';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InterviewTableComponent } from '../table/table.component';
 import { TableColumn } from '../table/table-column.model';
@@ -68,25 +64,10 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
     });
   }
 
-  public search(): void {
+  public override searchData(): void {
     Object.assign(this.filter, this.searchForm.value);
     this.interviewService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
-  }
-
-  public override onPageChange(page: number): void {
-    this.filter.pageNumber = page;
-    if (page < 0 || page > this.data.totalPages || page === this.currentPage) {
-      return;
-    }
-
-    this.currentPage = page;
-    this.searchData();
-  }
-
-  public override onPageSizeChange(event: any): void {
-    this.filter.pageSize = event.target.value;
-    this.searchData();
   }
 }

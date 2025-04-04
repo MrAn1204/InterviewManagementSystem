@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InterviewModel } from '../../../../models/interview/interview.model';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
@@ -22,7 +22,7 @@ export class InterviewCreateComponent implements OnInit {
   public selectedInterviewers: string[] = [];
   public dropdownVisible = false;
   
-  private selectedInterviewersId: number[] = [];
+  private readonly selectedInterviewersId: number[] = [];
   
   // TODO: Replace with real data from database
   public interviewerList = [
