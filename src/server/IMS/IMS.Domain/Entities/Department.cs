@@ -2,9 +2,8 @@
 
 namespace IMS.Domain.Entities;
 
-public class Department
+public class Department : BaseEntity
 {
-	public int Id { get; set; }
 	public string DepartmentName { get; set; } = null!;
 
 	// 1:N -> User

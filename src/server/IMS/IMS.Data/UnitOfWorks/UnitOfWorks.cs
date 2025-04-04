@@ -81,7 +81,7 @@ namespace IMS.Data.UnitOfWorks
             await _context.Database.RollbackTransactionAsync();
         }
 
-        public IGenericRepository<T> GenericRepository<T>() where T : class
+        public IGenericRepository<T> GenericRepository<T>() where T : class, IBaseEntity
         {
             return new GenericRepository<T>(_context);
         }
