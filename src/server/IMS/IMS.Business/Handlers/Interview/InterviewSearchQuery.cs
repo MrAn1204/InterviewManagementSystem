@@ -8,5 +8,5 @@ public class InterviewSearchQuery : BaseSearchQuery<InterviewViewModel>
 {
     public int? InterviewerId { get; set; }
 
-    public InterviewStatus? InterviewStatus { get; set; }
+    public string? InterviewStatus { get; set; }
 }

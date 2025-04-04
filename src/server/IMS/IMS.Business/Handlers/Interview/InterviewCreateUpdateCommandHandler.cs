@@ -68,14 +68,24 @@ public class InterviewCreateUpdateCommandHandler(
 
     private async Task<InterviewViewModel> Update(InterviewCreateUpdateCommand request, CancellationToken cancellationToken)
     {
-        var existedInterview = await _unitOfWork.InterviewRepository.GetByIdAsync(request.Id!.Value);
+        var existedInterview = await _unitOfWork.InterviewRepository.GetQuery()
+            .Include(interview => interview.UserCreated)
+            .FirstOrDefaultAsync(interview => interview.Id == request.Id, cancellationToken);
+
 
         if (existedInterview == null)
         {
             throw new ResourceNotFoundException("Interview not found");
         }
 
-        _mapper.Map(request, existedInterview);
+        var createdBy = existedInterview.CreatedBy;
+        var usersList = await _unitOfWork.Context.Users.ToListAsync(cancellationToken);
+
+        _mapper.Map(request, existedInterview, opts =>
+        {
+            opts.Items["Users"] = usersList;
+        });
+        existedInterview.CreatedBy = createdBy;
 
         _unitOfWork.InterviewRepository.Update(existedInterview);
         await _unitOfWork.SaveChangesAsync();

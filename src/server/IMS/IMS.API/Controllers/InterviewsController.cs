@@ -45,8 +45,8 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     [HttpGet("search")]
     public async Task<IActionResult> Search(
         [FromQuery] string? keyword,
-        [FromQuery] int interviewerId,
-        [FromQuery] InterviewStatus interviewStatus,
+        [FromQuery] int? interviewerId,
+        [FromQuery] string? interviewStatus,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
     {

@@ -32,7 +32,7 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
 
         if (request.InterviewStatus != null)
         {
-            query = query.Where(interview => interview.Status == request.InterviewStatus);
+            query = query.Where(interview => interview.Status.ToString() == request.InterviewStatus);
         }
 
         var total = await query.CountAsync(cancellationToken);
