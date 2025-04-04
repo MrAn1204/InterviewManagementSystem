@@ -20,7 +20,9 @@ namespace IMS.Data.Repositories
 
 		void Delete(int id);
 
-		void Delete(T entity);
+		void Delete(T entity, bool isHardDelete = false);
+
+		void Delete(Expression<Func<T, bool>> where, bool isHardDelete = false);
 
 		IQueryable<T> GetQuery();
 

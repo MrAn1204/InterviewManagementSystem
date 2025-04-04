@@ -1,9 +1,7 @@
 namespace IMS.Domain.Entities
 {
-	public class Benefit
+	public class Benefit : BaseEntity
 	{
-		public int Id { get; set; }
-
 		public string BenefitName { get; set; } = null!;
 		public string? Description { get; set; }
 

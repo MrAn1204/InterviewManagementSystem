@@ -39,26 +39,15 @@ public class CandidateCreateCommandHandler : IRequestHandler<CandidateCreateComm
             CV = filePath,
             CreatedDate = DateTime.Now,
             RecruiterId = request.Recruiter,
-            LevelId = request.HighestLevel
+            LevelId = request.HighestLevel,
+            CandidateSkills = [.. request.Skills.Select(skillId => new CandidateSkill
+            {
+                SkillId = skillId,
+            })]
         };
         _unitOfWork.CandidateRepository.Add(newCandidate);
         var result = await _unitOfWork.SaveChangesAsync();
 
-        if (result <= 0)
-        {
-            throw new DatabaseBadRequestException("Create candidate failed");
-        }
-
-        int newCandidateId = newCandidate.Id;
-        var candidateSkills = request.Skills.Select(skillId => new CandidateSkill
-        {
-            SkillId = skillId,
-            CandidateId = newCandidateId
-        }).ToArray();
-
-        // Thêm toàn bộ danh sách vào DB cùng lúc
-        _unitOfWork.GenericRepository<CandidateSkill>().AddRange(candidateSkills);
-        result = await _unitOfWork.SaveChangesAsync();
         if (result <= 0)
         {
             throw new DatabaseBadRequestException("Create candidate failed");

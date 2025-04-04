@@ -1,9 +1,7 @@
 namespace IMS.Domain.Entities;
 
-public class RefreshToken
+public class RefreshToken : BaseEntity
 {
-    public int Id { get; set; }
-
     public required string Token { get; set; }
 
     public DateTime ExpiryDate { get; set; }
