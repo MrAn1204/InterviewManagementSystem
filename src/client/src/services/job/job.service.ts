@@ -12,7 +12,7 @@ import { LevelModel } from '../../models/data-for-input/level.model';
 })
 export class JobService extends MasterDataService<JobModel> implements IJobService{
   constructor(protected override httpClient: HttpClient) {
-    super(httpClient, 'Job');
+    super(httpClient, 'jobs');
   }
   
   public getBenefitNames(benefits: BenefitModel[]): string {

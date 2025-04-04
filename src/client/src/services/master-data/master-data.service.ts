@@ -33,7 +33,7 @@ export class MasterDataService<T> implements IMasterDataService<T> {
     return this.httpClient.post<T>(this.baseUrl, data);
   }
 
-  update(id: number, data: T): Observable<T> {
+  update(id: number, data: T): Observable<T> {    
     return this.httpClient.put<T>(`${this.baseUrl}/${id}`, data);
   }
 

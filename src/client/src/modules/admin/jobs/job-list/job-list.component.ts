@@ -26,9 +26,9 @@ import { ToastrService } from 'ngx-toastr';
 export class JobListComponent
   extends MasterDataListComponent<JobModel>
   implements OnInit {
-    
+
   public statusList: JobStatusModel[] = [{ id: 1, name: 'Draft' },
-     { id: 2, name: 'Open' }, { id: 3, name: 'Closed' }];
+  { id: 2, name: 'Open' }, { id: 3, name: 'Closed' }];
 
   public override columns: TableColumn[] = [
     { name: 'Job Title', value: 'title' },
@@ -38,7 +38,7 @@ export class JobListComponent
     { name: 'Level', value: 'levelsDisplay', formatter: this.formatLevels.bind(this) },
     { name: 'Status', value: 'status' }
   ];
-  
+
 
   constructor(
     private readonly headerService: HeaderService,
@@ -108,15 +108,22 @@ export class JobListComponent
   }
 
   public delete(id: number): void {
-    this.jobService.delete(id).subscribe((data) => {
-      if (data) {
-        this.searchData();
-      }
+    this.jobService.delete(id).subscribe({
+      next: (data) => {
+        if (data) {
+          this.toastr.success('Delete success', 'Success')
+          this.searchData();
+        }
+      },
+      error: (error) => {
+        this.toastr.error('Failed to delete jobs', 'Error');
+        console.error('Error delete jobs:', error);
+      },
     });
-  }  
+  }
 
   public edit(id: number): void {
-    setTimeout(() => {      
+    setTimeout(() => {
       this.router.navigate(['/admin/jobs', id, 'edit']);
     }, 150);
   }

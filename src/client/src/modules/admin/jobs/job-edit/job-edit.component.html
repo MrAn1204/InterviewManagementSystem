@@ -1,47 +1,58 @@
 <div class="container mx-auto py-8 px-4">
   <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
+  <h2 class="text-4xl font-semibold mb-8">
     Job Edit
-  </h1>
+  </h2>
 
   <!-- Breadcrumb -->
   <div class="pb-8 flex items-center justify-between">
     <!-- Bên trái: Đường dẫn -->
     <div>
-      <a routerLink="/admin/jobs" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Job List</a>
+      <a routerLink="/admin/jobs" class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job List</a>
       >
-      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Job Detail</a>
+      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job Detail</a>
     </div>
     <!-- Bên phải: thông tin Created/Updated -->
-    <div class="text-sm text-gray-500">
-      <p>Created at: 2025-03-20</p>
-      <p>Last updated: 2025-03-28</p>
+    <div class="text-sm text-gray-500" *ngIf="data">
+      <p>Created at: {{data.createdDate | date:'yyyy-MM-dd'}}</p>
+      <p>Last updated: {{data.updatedDate | date:'yyyy-MM-dd'}}</p>
     </div>
   </div>
 
-  <!-- Card bao quanh form -->
-  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: Job information -->
-    <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="flex justify-center items-center p-8">
+    <p class="text-xl text-gray-600">Loading...</p>
+  </div>
 
-    <ng-container *ngIf="data; else failed">
+  <!-- Card bao quanh form -->
+  <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+    <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+      <!-- Phần I: Job information -->
+      <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Job Title (chỉ đọc) -->
+        <!-- Job Title -->
         <div>
-          <label for="jobTitle" class="block text-lg font-medium mb-1">
+          <label for="title" class="block text-lg font-semibold mb-1">
             Job title
+            <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="jobTitle" name="jobTitle"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-            value={{data.title}} />
+          <input type="text" id="title" formControlName="title" placeholder="Type a title..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('title')?.invalid && jobForm.get('title')?.touched}" />
+          <div *ngIf="jobForm.get('title')?.invalid && jobForm.get('title')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Job title is required
+          </div>
         </div>
 
-        <!-- Skills (chỉ xem) -->
+        <!-- Skills (multi-select dropdown) -->
         <div class="relative" id="skills-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="skills" class="block text-lg font-semibold mb-1">
             Skills
+            <span class="text-red-500">*</span>
           </label>
-          <input type="text" [value]="getSelectedItemsText('skills')"
+          <input type="text" [value]="getSelectedItemsText('skills')" id="skills"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
             placeholder="Click to select skills" readonly (click)="toggleDropdown('skills', $event)" />
           <!-- Dropdown chứa danh sách checkbox -->
@@ -55,67 +66,83 @@
               </label>
             </div>
           </div>
+          <small class="text-gray-500">
+            Click vào ô để mở danh sách. Tích chọn nhiều kĩ năng.
+          </small>
+          <div *ngIf="jobForm.get('skills')?.invalid && jobForm.get('skills')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Skills selection is required
+          </div>
+          <input type="hidden" formControlName="benefits" />
           <input type="hidden" formControlName="skills" />
         </div>
 
-        <!-- Start Date (chỉ đọc) -->
+        <!-- Start Date -->
         <div>
-          <label for="startDate" class="block text-lg font-medium mb-1">
+          <label for="startDate" class="block text-lg font-semibold mb-1">
             Start Date
+            <span class="text-red-500">*</span>
           </label>
-          <input type="date" id="startDate" name="startDate"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-            [value]="data.startDate" />
-        </div>
-
-        <!-- End Date (chỉ đọc) -->
-        <div>
-          <label for="endDate" class="block text-fl font-medium mb-1">
-            End Date
-          </label>
-          <input type="date" id="endDate" name="endDate"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-            [value]="data.endDate ? (data.endDate | date: 'dd/MM/yyyy') : null" />
-        </div>
-
-        <!-- Salary range (chỉ xem) -->
-        <div>
-          <label class="block text-lg font-medium mb-1">
-            Salary Range
-          </label>
-          <div class="flex gap-2">
-            <label for="from" class="block text-sm content-center font-medium ">
-              From
-            </label>
-            <input type="number" id="salaryFrom" name="salaryFrom" title="Salary From"
-              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-              [value]="data.salaryMin" />
-            <label for="to" class="block text-sm content-center font-medium ">
-              to
-            </label>
-            <input type="number" id="salaryTo" name="salaryTo" title="Salary To"
-              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-              [value]="data.salaryMax" />
+          <input type="date" id="startDate" formControlName="startDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched}" />
+          <div *ngIf="jobForm.get('startDate')?.invalid && jobForm.get('startDate')?.touched"
+            class="text-red-500 text-sm mt-1">
+            Start date is required
           </div>
         </div>
 
-        <!-- Working Address (chỉ đọc) -->
+        <!-- End Date -->
         <div>
-          <label for="workingAddress" class="block text-lg font-medium mb-1">
-            Working address
+          <label for="endDate" class="block text-lg font-semibold mb-1">
+            End Date
+            <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="workingAddress" name="workingAddress"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-            [value]="data.workingAddress" />
+          <input type="date" id="endDate" formControlName="endDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched}" />
+          <div *ngIf="jobForm.get('endDate')?.invalid && jobForm.get('endDate')?.touched"
+            class="text-red-500 text-sm mt-1">
+            End date is required
+          </div>
         </div>
 
-        <!-- Benefits (chỉ xem) -->
+        <!-- Salary range (From - To) -->
+        <div>
+          <label for="salaryFrom" class="block text-lg font-semibold mb-1">
+            Salary Range
+          </label>
+
+          <div class="flex gap-2">
+            <label for="salaryFrom" class="block text-sm content-center font-medium ">
+              From
+            </label>
+            <input type="number" id="salaryFrom" formControlName="salaryMin" placeholder="From"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+            <label for="salaryTo" class="block content-center text-sm font-medium ">
+              To
+            </label>
+            <input type="number" id="salaryTo" formControlName="salaryMax" placeholder="To"
+              class="w-1/2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          </div>
+        </div>
+
+        <!-- Working Address -->
+        <div>
+          <label for="workingAddress" class="block text-lg font-semibold mb-1">
+            Working address
+          </label>
+          <input type="text" id="workingAddress" formControlName="workingAddress" placeholder="Type an address..."
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+        </div>
+
+        <!-- Benefits (multi-select dropdown) -->
         <div class="relative" id="benefits-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="benefits" class="block text-lg font-semibold mb-1">
             Benefits
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" [value]="getSelectedItemsText('benefits')"
+          <input type="text" [value]="getSelectedItemsText('benefits')" id="benefits"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
             placeholder="Click to select benefits" readonly (click)="toggleDropdown('benefits', $event)"
             [ngClass]="{'border-red-500': jobForm.get('benefits')?.invalid && jobForm.get('benefits')?.touched}" />
@@ -140,38 +167,22 @@
           <input type="hidden" formControlName="benefits" />
         </div>
 
-
-        <!-- Level (chỉ xem) -->
+        <!-- Level (multi-select dropdown) -->
         <div class="relative" id="level-wrapper">
-          <label class="block text-lg font-semibold mb-1">
+          <label for="levels" class="block text-lg font-semibold mb-1">
             Level
             <span class="text-red-500">*</span>
           </label>
-          <input 
-            type="text" 
-            [value]="getSelectedItemsText('level')"
+          <input type="text" [value]="getSelectedItemsText('levels')" id="levels"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select levels" 
-            readonly
-            (click)="toggleDropdown('level', $event)"
-            [ngClass]="{'border-red-500': jobForm.get('level')?.invalid && jobForm.get('level')?.touched}"
-          />
+            placeholder="Click to select levels" readonly (click)="toggleDropdown('levels', $event)"
+            [ngClass]="{'border-red-500': jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched}" />
           <!-- Dropdown -->
-          <div 
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
-            [ngClass]="{'hidden': !levelDropdownOpen}"
-          >
+          <div class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg"
+            [ngClass]="{'hidden': !levelDropdownOpen}">
             <div class="p-2 max-h-48 overflow-y-auto">
-              <label 
-                *ngFor="let level of levels; let i = index"
-                class="flex items-center mb-1 cursor-pointer"
-              >
-                <input 
-                  type="checkbox" 
-                  [checked]="level.selected"
-                  (change)="updateSelection('level', i)" 
-                  class="mr-2" 
-                />
+              <label *ngFor="let level of levels; let i = index" class="flex items-center mb-1 cursor-pointer">
+                <input type="checkbox" [checked]="level.selected" (change)="updateSelection('levels', i)" class="mr-2" />
                 {{ level.levelName }}
               </label>
             </div>
@@ -179,39 +190,46 @@
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
           </small>
-          <div *ngIf="jobForm.get('level')?.invalid && jobForm.get('level')?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched" class="text-red-500 text-sm mt-1">
             Level selection is required
           </div>
-          <input type="hidden" formControlName="level" />
+          <input type="hidden" formControlName="levels" />
         </div>
 
-        <!-- Description (chỉ đọc) -->
+        <!-- Description (textarea) -->
         <div class="md:col-span-2">
-          <label for="description" class="block text-lg font-medium mb-1">
+          <label for="description" class="block text-lg font-semibold mb-1">
             Description
           </label>
-          <textarea id="description" name="description" rows="4"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-            readonly>{{data.description}}</textarea>
+          <textarea id="description" formControlName="description" rows="4" placeholder="Type description"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"></textarea>
         </div>
       </div>
-    </ng-container>
-    <ng-template #failed>
-      <div class="text-red-500 text-lg font-semibold">
-        Failed to load job details.
+
+      <div class="mt-8 flex justify-end">
+        <!-- Save Changes -->
+        <button type="submit"
+          class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Save Changes
+        </button>
+        <!-- Cancel -->
+        <button type="button" routerLink="/admin/jobs"
+          class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 cursor-pointer rounded-md hover:bg-[#e3f2fd]">
+          Cancel
+        </button>
       </div>
-    </ng-template>
+    </div>
+  </form>
 
-
-    <div class="mt-8 flex justify-end">
-      <!-- Save Changes -->
-      <button type="submit" class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
-        Save Changes
-      </button>
-      <!-- Cancel -->
-      <button type="button" routerLink="/admin/jobs"
-        class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
-        Cancel
+  <!-- Error message if data loading failed -->
+  <div *ngIf="!isLoading && !data" class="bg-white shadow-md rounded-md p-8">
+    <div class="text-red-500 text-lg font-semibold">
+      Failed to load job details.
+    </div>
+    <div class="mt-4">
+      <button routerLink="/admin/jobs"
+        class="bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Return to Job List
       </button>
     </div>
   </div>

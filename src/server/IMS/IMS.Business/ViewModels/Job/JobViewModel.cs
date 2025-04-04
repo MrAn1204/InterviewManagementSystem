@@ -34,4 +34,6 @@ public class JobViewModel
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? UpdatedDate { get; set; }
+
+    public bool IsDelete { get; set; } = false;
 }
