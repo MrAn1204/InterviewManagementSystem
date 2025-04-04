@@ -13,13 +13,15 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
   styleUrl: './offer-detail.component.css'
 })
 export class OfferDetailComponent {
+  public isEditing: boolean = false;
+
   public offerId!: number;
   public offer!: OfferModel;
   public usersInterviewer: UserForInputModel[] = [];
   public usersRecruiter: UserForInputModel[] = [];
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(DATA_FOR_INPUT_SERVICE)
         private readonly dataForInputService: IDataForInputService,) {}

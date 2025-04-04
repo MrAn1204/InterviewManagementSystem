@@ -13,20 +13,25 @@
 
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <form action="#">
+    <form [formGroup]="offerForm" (ngSubmit)="submitOffer()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Candidate name -->
         <div class="md:col-span-2">
-          <label for="candidatename" class="block text-lg font-semibold mb-1">
+          <label for="candidateId" class="block text-lg font-semibold mb-1">
             Candidate
             <span class="text-red-500">*</span>
           </label>
-          <select id="candidatename" [(ngModel)]="selectedCandidate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let candidate of candidates" [value]="candidate.id">
+          <select id="candidateId" formControlName="candidateId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('candidateId')}">
+            <option [ngValue]="''">Select candidate</option>
+            <option *ngFor="let candidate of candidates" [ngValue]="candidate.id">
               {{ candidate.fullName }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('candidateId')" class="text-red-500 text-sm mt-1">
+            Candidate is required
+          </div>
         </div>
 
         <!-- Position -->
@@ -35,60 +40,49 @@
             Position
             <span class="text-red-500">*</span>
           </label>
-          <!-- <select id="position"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option selected>Select a position</option>
-          </select> -->
-          <select id="position" [(ngModel)]="selectedPosition"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let position of positions" [value]="position">
+          <select id="position" formControlName="position"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('position')}">
+            <option [ngValue]="''">Select position</option>
+            <option *ngFor="let position of positions" [ngValue]="position">
               {{ position }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('position')" class="text-red-500 text-sm mt-1">
+            Position is required
+          </div>
         </div>
 
         <!-- Approver -->
         <div>
-          <label for="approver" class="block text-lg font-semibold mb-1">
+          <label for="approvedBy" class="block text-lg font-semibold mb-1">
             Approver
             <span class="text-red-500">*</span>
           </label>
-          <select id="approver" [(ngModel)]="selectedApprover"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let approver of approvers" [value]="approver.id">
+          <select id="approvedBy" formControlName="approvedBy"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('approvedBy')}">
+            <option [ngValue]="''">Select approver</option>
+            <option *ngFor="let approver of approvers" [ngValue]="approver.id">
               {{ approver.fullName }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('approvedBy')" class="text-red-500 text-sm mt-1">
+            Approver is required
+          </div>
         </div>
 
         <!-- Interview info -->
-        <div>
-          <label for="interview" class="block text-lg font-semibold mb-1">
+        <div class="md:col-span-2">
+          <label for="interviewId" class="block text-lg font-semibold mb-1">
             Interview info
           </label>
-          <select id="interview" [(ngModel)]="selectedInterview"
+          <select id="interviewId" formControlName="interviewId"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let interview of interviews" [value]="interview.id">
-              {{ interview.title }}
+            <option [ngValue]="''">Select interview</option>
+            <option *ngFor="let interview of interviews" [ngValue]="interview.id">
+              {{ interview.title + " ( Ngày " + interview.interviewDate + " From " + interview.startTime + " to " + interview.endTime + " )" }}
             </option>
-          </select>
-        </div>
-
-        <!-- Status Offer -->
-        <div>
-          <label for="status" class="block text-lg font-semibold mb-1">
-            Status
-            <span class="text-red-500">*</span>
-          </label>
-          <select id="status" [(ngModel)]="selectedStatus"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="Waiting for approval">Waiting for approval</option>
-            <option value="Approved offer">Approved offer</option>
-            <option value="Rejected offer">Rejected offer</option>
-            <option value="Waiting for response">Waiting for response</option>
-            <option value="Accepted offer">Accepted offer</option>
-            <option value="Declined offer">Declined offer</option>
-            <option value="Cancelled">Cancelled</option>
           </select>
         </div>
 
@@ -99,100 +93,140 @@
             <span class="text-red-500">*</span>
           </label>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="flex items-center">
-              <label for="from" class="block text-sm font-medium mr-2">
-                From
-              </label>
-              <input type="datetime-local" id="from" name="from"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+            <div>
+              <div class="flex items-center">
+                <label for="contractStart" class="block text-sm font-medium mr-2">
+                  From
+                </label>
+                <input type="datetime-local" id="contractStart" formControlName="contractStart"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+                  [ngClass]="{'border-red-500': isFieldInvalid('contractStart')}" />
+              </div>
+              <div *ngIf="isFieldInvalid('contractStart')" class="text-red-500 text-sm mt-1">
+                Start date is required
+              </div>
             </div>
-            <div class="flex items-center">
-              <label for="to" class="block text-sm font-medium mr-2">
-                To
-              </label>
-              <input type="datetime-local" id="to" name="to"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+            <div>
+              <div class="flex items-center">
+                <label for="contractEnd" class="block text-sm font-medium mr-2">
+                  To
+                </label>
+                <input type="datetime-local" id="contractEnd" formControlName="contractEnd"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+                  [ngClass]="{'border-red-500': isFieldInvalid('contractEnd')}" />
+              </div>
+              <div *ngIf="isFieldInvalid('contractEnd')" class="text-red-500 text-sm mt-1">
+                End date is required
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Contract type -->
         <div>
-          <label for="contracttype" class="block text-lg font-semibold mb-1">
+          <label for="contractType" class="block text-lg font-semibold mb-1">
             Contract type
             <span class="text-red-500">*</span>
           </label>
-          <select id="contracttype" [(ngModel)]="selectedContractType"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+          <select id="contractType" formControlName="contractType"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('contractType')}">
+            <option [ngValue]="''">Select contract type</option>
             <option value="Trial 2 months">Trial 2 months</option>
             <option value="Trial 3 months">Trial 3 months</option>
             <option value="1 year">1 year</option>
             <option value="3 years">3 years</option>
             <option value="Unlimited">Unlimited</option>
           </select>
+          <div *ngIf="isFieldInvalid('contractType')" class="text-red-500 text-sm mt-1">
+            Contract type is required
+          </div>
         </div>
 
         <!-- Level -->
         <div>
-          <label for="level" class="block text-lg font-semibold mb-1">
+          <label for="levelId" class="block text-lg font-semibold mb-1">
             Level
             <span class="text-red-500">*</span>
           </label>
-          <select id="level" [(ngModel)]="selectedLevel"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let level of levels" [value]="level.id">
+          <select id="levelId" formControlName="levelId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('levelId')}">
+            <option [ngValue]="''">Select level</option>
+            <option *ngFor="let level of levels" [ngValue]="level.id">
               {{ level.levelName }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('levelId')" class="text-red-500 text-sm mt-1">
+            Level is required
+          </div>
         </div>
 
         <!-- Department -->
         <div>
-          <label for="department" class="block text-lg font-semibold mb-1">
+          <label for="departmentId" class="block text-lg font-semibold mb-1">
             Department
             <span class="text-red-500">*</span>
           </label>
-          <select id="department" [(ngModel)]="selectedDepartment"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let department of departments" [value]="department.id">
-              {{ department.name }}
+          <select id="departmentId" formControlName="departmentId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('departmentId')}">
+            <option [ngValue]="''">Select department</option>
+            <option *ngFor="let department of departments" [ngValue]="department.id">
+              {{ department.departmentName }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('departmentId')" class="text-red-500 text-sm mt-1">
+            Department is required
+          </div>
         </div>
 
         <!-- Recruiter Owner -->
         <div>
-          <label for="recruiter" class="block text-lg font-semibold mb-1">
+          <label for="recruiterId" class="block text-lg font-semibold mb-1">
             Recruiter Owner
             <span class="text-red-500">*</span>
           </label>
-          <select id="recruiter" [(ngModel)]="selectedRecruiter"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let recruiter of recruiterOwner" [value]="recruiter.id">
+          <select id="recruiterId" formControlName="recruiterId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('recruiterId')}">
+            <option [ngValue]="''">Select recruiter</option>
+            <option *ngFor="let recruiter of recruiterOwner" [ngValue]="recruiter.id">
               {{ recruiter.fullName }}
             </option>
           </select>
+          <div *ngIf="isFieldInvalid('recruiterId')" class="text-red-500 text-sm mt-1">
+            Recruiter is required
+          </div>
         </div>
 
         <!-- Due date -->
         <div class="md:col-span-2">
-          <label for="duedate" class="block text-lg font-semibold mb-1">
+          <label for="dueDate" class="block text-lg font-semibold mb-1">
             Due date
             <span class="text-red-500">*</span>
           </label>
-          <input type="datetime-local" id="duedate" name="duedate"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <input type="datetime-local" id="dueDate" formControlName="dueDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('dueDate')}" />
+          <div *ngIf="isFieldInvalid('dueDate')" class="text-red-500 text-sm mt-1">
+            Due date is required
+          </div>
         </div>
 
         <!-- Basic salary -->
         <div class="md:col-span-2">
-          <label for="salary" class="block text-lg font-semibold mb-1">
+          <label for="salaryBasic" class="block text-lg font-semibold mb-1">
             Basic salary
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="salary"
+          <input type="text" id="salaryBasic" formControlName="salaryBasic"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
-            placeholder="Enter basic salary" required />
+            placeholder="Enter basic salary"
+            [ngClass]="{'border-red-500': isFieldInvalid('salaryBasic')}" />
+          <div *ngIf="isFieldInvalid('salaryBasic')" class="text-red-500 text-sm mt-1">
+            Basic salary is required
+          </div>
         </div>
 
         <!-- Note -->
@@ -200,7 +234,7 @@
           <label for="note" class="block text-lg font-semibold mb-1">
             Note
           </label>
-          <textarea id="note" rows="4"
+          <textarea id="note" rows="4" formControlName="note"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a note"></textarea>
         </div>
@@ -214,7 +248,7 @@
           Submit
         </button>
         <!-- Cancel -->
-        <button type="button" routerLink="/admin/offers"
+        <button type="button" (click)="cancelForm()"
           class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
           Cancel
         </button>
@@ -222,47 +256,3 @@
     </form>
   </div>
 </div>
-<!-- <script>
-  const skillsInput = document.getElementById('skillsInput');
-  const skillsDropdown = document.getElementById('skillsDropdown');
-  const skillsHidden = document.getElementById('skillsHidden');
-
-  // Khi click vào input => toggle hiển thị dropdown
-  skillsInput.addEventListener('click', (e) => {
-    e.stopPropagation(); // Ngăn chặn việc click ra ngoài tắt dropdown ngay
-    toggleSkillsDropdown();
-  });
-
-  // Đóng dropdown khi click ngoài
-  document.addEventListener('click', (e) => {
-    // Nếu click ngoài vùng "skills-wrapper" thì ẩn dropdown
-    const skillsWrapper = document.getElementById('skills-wrapper');
-    if (!skillsWrapper.contains(e.target)) {
-      skillsDropdown.classList.add('hidden');
-    }
-  });
-
-  function toggleSkillsDropdown() {
-    if (skillsDropdown.classList.contains('hidden')) {
-      skillsDropdown.classList.remove('hidden');
-    } else {
-      skillsDropdown.classList.add('hidden');
-    }
-  }
-
-  // Hàm cập nhật danh sách kỹ năng đã chọn
-  function updateSkillsSelected() {
-    // Lấy tất cả checkbox trong dropdown
-    const checkboxes = skillsDropdown.querySelectorAll('input[type="checkbox"]');
-    let selectedValues = [];
-    checkboxes.forEach((cb) => {
-      if (cb.checked) {
-        selectedValues.push(cb.value);
-      }
-    });
-    // Cập nhật hiển thị trên ô input
-    skillsInput.value = selectedValues.join(', ');
-    // Cập nhật hidden input để submit
-    skillsHidden.value = selectedValues.join(',');
-  }
-</script> -->

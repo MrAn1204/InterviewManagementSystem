@@ -27,9 +27,7 @@ namespace IMS.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromForm] OfferCreateCommand command)
+        public async Task<IActionResult> Create([FromBody] OfferCreateCommand command)
         {
             if (!ModelState.IsValid)
             {

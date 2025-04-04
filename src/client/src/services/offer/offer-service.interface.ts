@@ -11,7 +11,7 @@ export interface IOffService {
 
   create(data: any): Observable<boolean>;
 
-  delete(id: string): Observable<boolean>;
+  update(id: number, data: any): Observable<boolean>;
 
   exportOffers(data: any): Observable<Blob>;
 }

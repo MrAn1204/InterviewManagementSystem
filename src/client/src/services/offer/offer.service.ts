@@ -31,8 +31,8 @@ export class OfferService implements IOffService {
     return this.httpClient.post<boolean>(this.url, data);
   }
   
-  delete(id: string): Observable<boolean> {
-    throw new Error('Method not implemented.');
+  update(id: number, data: any): Observable<boolean> {
+    return this.httpClient.put<boolean>(`${this.url}/${id}`, data);
   }
 
   exportOffers(data: any) {
