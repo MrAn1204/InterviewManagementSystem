@@ -75,12 +75,12 @@ export class CandidateCreateComponent implements OnInit {
       gender: new FormControl('', Validators.required),
       cvAttachment: new FormControl(null),
       note: new FormControl(''),
-      position: new FormControl(''),
+      position: new FormControl('', Validators.required),
       skills: new FormArray([], Validators.required),
       status: new FormControl('', Validators.required),
       recruiter: new FormControl('', Validators.required),
       experience: new FormControl(0),
-      highestLevel: new FormControl(0, Validators.required),
+      highestLevel: new FormControl(0, Validators.min(1)),
     });
   }
 
@@ -93,9 +93,9 @@ export class CandidateCreateComponent implements OnInit {
           this.toastService.success('Add candidate successfully!', 'success');
           this.route.navigate(['/admin/candidates']);
         },
-        error:()=>{
+        error: () => {
           this.toastService.error('Add candidate unsuccessfully!', 'error');
-        }
+        },
       });
   }
 
