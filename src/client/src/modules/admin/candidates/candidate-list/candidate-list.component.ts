@@ -28,8 +28,8 @@ export class CandidateListComponent implements OnInit {
     status: '',
     pageNumber: 1,
     pageSize: 5,
-    orderBy: '',
-    orderDirection: OrderDirection.ASC,
+    orderBy: 'CreatedDate',
+    orderDirection: OrderDirection.DESC,
   };
   public currentPage: number = 1;
   public currentPageSize: number = 5;
@@ -61,8 +61,6 @@ export class CandidateListComponent implements OnInit {
   }
 
   public search(): void {
-    console.log('okok');
-
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
@@ -76,13 +74,12 @@ export class CandidateListComponent implements OnInit {
   }
 
   public keywordChange(): void {
-    console.log('change keyword');
+    console.log(this.searchForm.value.keyword);
     this.filter.keyword = this.searchForm.value.keyword;
   }
 
   public statusChange(): void {
-    console.log('change status');
-
+    console.log(this.searchForm.value.status);
     this.filter.status = this.searchForm.value.status;
   }
 

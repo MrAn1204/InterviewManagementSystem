@@ -9,6 +9,18 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="md:col-span-2">
+          <label for="fullname" class="block text-lg font-semibold mb-1">
+            User Name <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="fullname" formControlName="username"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Type a username...">
+          <div *ngIf="userForm.get('username')?.invalid && (userForm.get('username')?.dirty || userForm.get('username')?.touched)"
+            class="text-red-500 mt-1">
+            Username is required
+          </div>
+        </div>
         <!-- Full Name -->
         <div class="md:col-span-2">
           <label for="fullname" class="block text-lg font-semibold mb-1">
@@ -55,11 +67,11 @@
 
         <!-- Phone Number -->
         <div>
-          <label for="phonenumber" class="block text-lg font-semibold mb-1">Phone Number</label>
-          <input type="tel" id="phonenumber" formControlName="phonenumber"
+          <label for="phoneNumber" class="block text-lg font-semibold mb-1">Phone Number</label>
+          <input type="tel" id="phonenumber" formControlName="phoneNumber"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a phone number...">
-          <div *ngIf="userForm.get('phonenumber')?.invalid && (userForm.get('phonenumber')?.dirty || userForm.get('phonenumber')?.touched)"
+          <div *ngIf="userForm.get('phoneNumber')?.invalid && (userForm.get('phoneNumber')?.dirty || userForm.get('phoneNumber')?.touched)"
             class="text-red-500 mt-1">
             Invalid phone number (10-11 digits)
           </div>

@@ -28,7 +28,7 @@ export class UserService {
   }
 
   createUser(user: Partial<User>): Observable<User> {
-    return this.http.post<User>(`${this.apiUrlCreate}/users/create`, user).pipe(
+    return this.http.post<User>(`${this.apiUrlCreate}`, user).pipe(
       catchError((error) => {
         console.error('Error creating user:', error);
         return throwError(() => error);

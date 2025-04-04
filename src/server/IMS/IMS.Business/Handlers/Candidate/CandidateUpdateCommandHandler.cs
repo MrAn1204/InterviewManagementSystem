@@ -44,8 +44,8 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
 
         candidate.FullName = request.FullName;
         candidate.Email = request.Email;
-        candidate.PhoneNumber = request.PhoneNumber;
-        candidate.Address = request.Address;
+        candidate.PhoneNumber = request.PhoneNumber ?? "";
+        candidate.Address = request.Address ?? "";
         candidate.Gender = request.Gender < 0 ? null : (request.Gender == 0 ? false : true);
         candidate.DateOfBirth = request.DOB;
         candidate.CurrentPosition = request.Position;

@@ -16,7 +16,7 @@ import { Department } from '../../../../models/Department';
 export class UserCreateComponent implements OnInit{
   userForm: FormGroup;
   departments: Department[] = [];
-  roles = ['ADMIN', 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
+  roles = ['RECRUITER', 'INTERVIEWER', 'MANAGER'];
   selectedRoles: string[] = [];
 
   constructor(

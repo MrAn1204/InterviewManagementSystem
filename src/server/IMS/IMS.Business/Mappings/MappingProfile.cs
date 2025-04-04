@@ -2,7 +2,6 @@
 using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using IMS.Domain.Entities;
-using IMS.Business.Handlers;
 using IMS.Business.ViewModels.Department;
 
 
@@ -14,6 +13,7 @@ public class MappingProfile : Profile
   {
     CreateMap<SkillViewModel, Skill>().ReverseMap();
     CreateMap<LevelViewModel, Level>().ReverseMap();
+    CreateMap<DepartmentViewModel, Department>().ReverseMap();
     CreateMap<BenefitViewModel, Benefit>().ReverseMap();
     CreateMap<UserByRoleViewModel, User>().ReverseMap();
         _ = CreateMap<Candidate, CandidateViewModel>()
@@ -33,9 +33,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CandidateEmail, opt => opt.MapFrom(src => src.Candidate.Email));
 
     CreateMap<User, UserDetailViewModel>()
-            .ForMember(dest => dest.DepartmentName, 
+            .ForMember(dest => dest.DepartmentName,
                 opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
-            .ForMember(dest => dest.Roles, opt => opt.Ignore());
+            .ForMember(dest => dest.Roles, opt => opt.Ignore())
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender));;
 
     CreateMap<Interview, InterviewViewModel>()
       .ForMember(dest => dest.CandidateId, opt => opt.MapFrom<int?>(
@@ -109,7 +110,11 @@ public class MappingProfile : Profile
         : new List<LevelViewModel>()
     ));
 
-    CreateMap<JobCreateUpdateCommand, Job>().ReverseMap()
+    CreateMap<JobCreateUpdateCommand, Job>()
+      .ForMember(dest => dest.JobLevels, opt => opt.Ignore()) 
+            .ForMember(dest => dest.JobBenefits, opt => opt.Ignore())
+            .ForMember(dest => dest.JobSkills, opt => opt.Ignore())
+      .ReverseMap()
       .ForMember(dest => dest.Levels, opt => opt.MapFrom(src =>
         src.JobLevels != null
         ? src.JobLevels.Select(x => new LevelViewModel
