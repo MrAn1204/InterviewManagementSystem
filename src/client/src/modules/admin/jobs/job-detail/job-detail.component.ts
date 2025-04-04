@@ -20,14 +20,12 @@ export class JobDetailComponent implements OnInit {
   public data!: JobModel;
 
   constructor(
-    private readonly headerService: HeaderService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly route: ActivatedRoute,
   ) {
   }
 
   public ngOnInit(): void {
-    this.headerService.setTitle('Job Detail');
     this.getJobDetail();
   }
 
