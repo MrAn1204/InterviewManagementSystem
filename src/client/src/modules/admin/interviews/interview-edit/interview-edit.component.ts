@@ -6,7 +6,7 @@ import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
-import { InterviewModel } from '../../../../models/interview/interview.model';
+import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
 import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 
@@ -20,11 +20,13 @@ export class InterviewEditComponent {
   public form!: FormGroup;
   public interviewerInput!: number[];
   public selectedInterviewers: string[] = [];
+  public selectedInterviewersId: number[] = [];
   public dropdownVisible = false;
   public interview!: InterviewModel;
+  public resultList: string[] = Object.keys(InterviewResult).filter(key => isNaN(Number(key)));
+  public statusList: string[] = Object.keys(InterviewStatus).filter(key => isNaN(Number(key)));
 
   private interviewId!: number;
-  public selectedInterviewersId: number[] = [];
 
   // TODO: Replace with real data from database
   public interviewerList = [
@@ -70,6 +72,7 @@ export class InterviewEditComponent {
       this.interviewId = Number(params.get('id'));
       this.interviewService.getById(this.interviewId).subscribe((res) => {
         this.interview = res;
+        console.log(this.interview.status.toString());
         
         // delays execution until after Angular's change detection cycle finishes
         setTimeout(() => {
@@ -85,6 +88,8 @@ export class InterviewEditComponent {
       });
     });
 
+    console.log(this.statusList);
+    
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
   }
@@ -102,6 +107,8 @@ export class InterviewEditComponent {
       recruiterId: new FormControl<number>(interview.recruiterId ?? 0, []),
       meetingId: new FormControl<string>(interview.meetingId ?? '', []),
       note: new FormControl<string>(interview.note ?? '', []),
+      result: new FormControl<string | null>(interview.result ?? null, []),
+      status: new FormControl<string>(interview.status.toString(), []),
     });
   }
 
@@ -112,6 +119,9 @@ export class InterviewEditComponent {
     }
 
     const data: InterviewModel = this.form.value;
+
+    console.log(data);
+    
 
     this.interviewService.update(this.interviewId, data).subscribe((res) => {
       if (res) {

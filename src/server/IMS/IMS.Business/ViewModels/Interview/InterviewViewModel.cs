@@ -19,9 +19,9 @@ public class InterviewViewModel : BaseViewModel
 
     public string? MeetingId { get; set; }
 
-    public string Status { get; set; } = InterviewStatus.New.ToString();
+    public string? Status { get; set; } = InterviewStatus.New.ToString();
 
-    public string Result { get; set; } = "N/A";
+    public string? Result { get; set; } = "N/A";
 
     public int? CandidateId { get; set; }
     

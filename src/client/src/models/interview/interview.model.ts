@@ -6,8 +6,8 @@ export class InterviewModel {
     note?: string;
     location?: string;
     meetingId?: string;
-    status!: InterviewStatus;
-    result!: InterviewResult;
+    status!: string;
+    result?: string;
     candidateId?: number;
     candidateName?: string;
     interviewersId?: number[];

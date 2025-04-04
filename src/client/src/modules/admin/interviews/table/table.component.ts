@@ -6,27 +6,19 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TableColumn } from './table-column.model';
 import { Router } from '@angular/router';
+import { TableComponent } from '../../../../core/components/table/table.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
-export class TableComponent {
-  public faEdit: IconDefinition = faEdit;
-  public faTrash: IconDefinition = faTrash
-  
-  @Input() columns: TableColumn[] = []
-  @Input() public isShowNumber?: boolean = true;
-  @Input() public currentPage: number = 1;
-  @Input() public currentPageSize: number = 10;
-
-  @Input() public data!: PaginatedResult<any>;
-
-  @Input() public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
-
-  constructor (private readonly router: Router) { }
+export class InterviewTableComponent extends TableComponent {
+  constructor (private readonly router: Router) {
+    super();
+  }
 
   public edit(id: string): void {
     this.router.navigate([`/admin/interviews/${id}/edit`])

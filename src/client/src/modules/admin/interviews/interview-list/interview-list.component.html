@@ -11,16 +11,14 @@
         </div>
         <select formControlName="interviewerId"
           class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
-          <option value="0" hidden disabled>Interviewer</option>
-          <option value="0">None</option>
+          <option value="0" [selected]="searchForm.get('interviewerId')?.value === 0">Any Interviewer</option>
           <option *ngFor="let interviewer of interviewerList" [value]="interviewer.id">
             {{ `${interviewer.fullname} - ${interviewer.username}` }}
           </option>
         </select>
         <select id="status" formControlName="status"
           class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
-          <option value="" hidden disabled>Status</option>
-          <option value="">None</option>
+          <option value="" [selected]="searchForm.get('status')?.value === 0">Any Status</option>
           <option *ngFor="let status of statusList" [value]="status">
             {{ status }}
           </option>
@@ -37,25 +35,13 @@
     </form>
 
     <!-- Table -->
-    <app-table [columns]="columns" [data]="data" [currentPage]="currentPage" [currentPageSize]="currentPageSize">
-
+    <app-table
+      [columns]="columns"
+      [data]="data"
+      [currentPage]="currentPage"
+      [currentPageSize]="currentPageSize"
+      (onPageChange)="onPageChange($event)"
+      (onPageSizeChange)="onPageSizeChange($event)">
     </app-table>
-
-    <div class="flex justify-end items-center mt-6 gap-4">
-      <span class="text-gray-700 text-sm">{{ data ? data.pageNumber : 0 }}/{{
-        data ? data.totalPages : 0
-        }}
-        pages</span>
-      <div class="flex gap-2">
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer"
-          (click)="pageChange(-1)">
-          &lt;
-        </button>
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer"
-          (click)="pageChange(1)">
-          &gt;
-        </button>
-      </div>
-    </div>
   </div>
 </div>

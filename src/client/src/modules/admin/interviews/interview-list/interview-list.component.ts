@@ -9,30 +9,19 @@ import { CommonModule } from '@angular/common';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { TableComponent } from '../table/table.component';
+import { InterviewTableComponent } from '../table/table.component';
 import { TableColumn } from '../table/table-column.model';
 import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
+import { MasterDataListComponent } from '../../master-data/master-data.component';
 
 @Component({
   selector: 'app-interview-list',
-  imports: [RouterLink, CommonModule, FontAwesomeModule, TableComponent, FormsModule, ReactiveFormsModule],
+  imports: [RouterLink, CommonModule, FontAwesomeModule, InterviewTableComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './interview-list.component.html',
   styleUrl: './interview-list.component.css'
 })
-export class InterviewListComponent {
-  public filter: SearchModel = {
-    keyword: '',
-    status: '',
-    pageNumber: 1,
-    pageSize: 5,
-    orderBy: '',
-    orderDirection: OrderDirection.ASC,
-  };
-  public currentPage: number = 1;
-  public currentPageSize: number = 5;
-  public pageSizeOptions: number[] = [5, 10, 20, 50];
-  public isShowNumber?: boolean = true
+export class InterviewListComponent extends MasterDataListComponent<InterviewModel> {
   public interviewerList = [
     {
       id: 2,
@@ -47,9 +36,7 @@ export class InterviewListComponent {
   ];
   public statusList: string[] = Object.keys(InterviewStatus).filter(key => isNaN(Number(key)));
 
-  public searchForm!: FormGroup;
-
-  public columns: TableColumn[] = [
+  public override columns: TableColumn[] = [
     { name: "Title", value: "title" },
     { name: "Candidate Name", value: "candidateName" },
     { name: "Interviewers", value: "interviewersName" },
@@ -59,47 +46,47 @@ export class InterviewListComponent {
     { name: "Job", value: "jobName" },
   ];
 
-  public data!: PaginatedResult<InterviewModel>
-
   constructor(
-    private readonly headerService: HeaderService, 
-    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService)
-  {}
-  
-    ngOnInit(): void {
-      this.headerService.setTitle('Interview');
-      this.interviewService.search(this.filter).subscribe((res) => {
-        this.data = res;
-      });
-      this.createForm();
+    private readonly headerService: HeaderService,
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService) {
+    super();
+  }
+
+  override ngOnInit(): void {
+    this.headerService.setTitle('Interview');
+    this.interviewService.search(this.filter).subscribe((res) => {
+      this.data = res;
+    });
+    this.createForm();
+  }
+
+  protected override createForm(): void {
+    this.searchForm = new FormGroup({
+      keyword: new FormControl<string>(''),
+      status: new FormControl<string>(''),
+      interviewerId: new FormControl<number>(0),
+    });
+  }
+
+  public search(): void {
+    Object.assign(this.filter, this.searchForm.value);
+    this.interviewService.search(this.filter).subscribe((res) => {
+      this.data = res;
+    });
+  }
+
+  public override onPageChange(page: number): void {
+    this.filter.pageNumber = page;
+    if (page < 0 || page > this.data.totalPages || page === this.currentPage) {
+      return;
     }
 
-    private createForm(): void {
-      this.searchForm = new FormGroup({
-        keyword: new FormControl<string>(''),
-        status: new FormControl<string>(''),
-        interviewerId: new FormControl<number>(0),
-      });
-    }
-  
+    this.currentPage = page;
+    this.searchData();
+  }
 
-    public pageChange(direction: number): void {
-      if (direction < 0) {
-        this.filter.pageNumber -= 1;
-      } else {
-        this.filter.pageNumber += 1;
-      }
-      this.interviewService.search(this.filter).subscribe((res) => {
-        this.data = res;
-        this.currentPage += direction;
-      });
-    }
-    
-    public search(): void {
-      Object.assign(this.filter, this.searchForm.value);
-      this.interviewService.search(this.filter).subscribe((res) => {
-        this.data = res;
-      });
-    }
-  
+  public override onPageSizeChange(event: any): void {
+    this.filter.pageSize = event.target.value;
+    this.searchData();
+  }
 }

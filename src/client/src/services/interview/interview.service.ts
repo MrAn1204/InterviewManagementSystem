@@ -24,7 +24,7 @@ export class InterviewService implements IInterviewService {
   create(interview: any): Observable<InterviewModel> {
     return this.httpClient.post<InterviewModel>(this.url, interview);
   }
-  update(id: number, interview: any): Observable<InterviewModel> {
+  update(id: number, interview: InterviewModel): Observable<InterviewModel> {
     return this.httpClient.put<InterviewModel>(`${this.url}/${id}`, interview);
   }
   delete(id: number): Observable<boolean> {
