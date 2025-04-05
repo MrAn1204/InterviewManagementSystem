@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ResetPasswordComponent implements OnInit {
   public resetPasswordForm!: FormGroup;
   public token: string = '';
+  public showPassword = false;
+  public showConfirmPassword = false;
 
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
@@ -34,7 +36,8 @@ export class ResetPasswordComponent implements OnInit {
 
   private createForm(): void {
     this.resetPasswordForm = new FormGroup({
-      newPassword: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      newPassword: new FormControl('', [Validators.required, 
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
       confirmNewPassword: new FormControl('', Validators.required)
     });
   }
@@ -53,9 +56,9 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     const requestData: ResetPasswordRequest = {
-      Token: encodeURIComponent(this.token),
-      NewPassword: newPassword,
-      ConfirmNewPassword: confirmNewPassword
+      token: encodeURIComponent(this.token),
+      newPassword: newPassword,
+      confirmNewPassword: confirmNewPassword
     };
 
     this.authService.resetPassword(requestData).subscribe({
@@ -67,5 +70,14 @@ export class ResetPasswordComponent implements OnInit {
         this.toastr.error("An error occurred while resetting the password.", "Error");
       }
     });
+  }
+
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPassword() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }

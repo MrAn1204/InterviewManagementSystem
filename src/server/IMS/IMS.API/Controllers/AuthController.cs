@@ -1,7 +1,5 @@
 using IMS.Business.Handlers;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
@@ -77,11 +75,24 @@ public class AuthController(IMediator mediator) : ControllerBase
         return Ok(new { message = "Refresh token has been revoked." });
     }
 
-    [HttpGet("reset-password")]
+    [HttpGet("validate-reset-password")]
     public async Task<IActionResult> ValidateResetPassword([FromBody] ValidateResetPasswordCommand request)
     {
-        await _mediator.Send(request);
+        var result = await _mediator.Send(request);
 
-        return Ok(new { message = "Refresh token has been revoked." });
+        if (!result)
+        {
+            return BadRequest(new { message = "Reset password token is not valid." });
+        }
+
+        return Ok();
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+
+        return Ok(result);
     }
 }

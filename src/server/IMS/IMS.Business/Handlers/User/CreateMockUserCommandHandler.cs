@@ -1,44 +1,75 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using IMS.Business.DTOs;
+
 using IMS.Business.Services;
+using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+
 
 namespace IMS.Business.Handlers;
 
 public class CreateMockUserCommandHandler(
-    UserManager<User> userManager
-) : IRequestHandler<CreateMockUserCommand, string>
+    UserManager<User> userManager,
+    RoleManager<Role> roleManager,
+    IUnitOfWorks unitOfWork
+    // ,
+    // IEmailService emailService
+    ) : IRequestHandler<CreateMockUserCommand, string>
 {
-    private readonly UserManager<User> _userManager = userManager;
-
     public async Task<string> Handle(CreateMockUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new User
+        using var transaction = await unitOfWork.BeginTransactionAsync();
+        
+        try
         {
-            UserName = request.Username,
-            Email = request.Email,
-            FullName = request.FullName,
-            DepartmentId = request.DepartmentId
-        };
+            // Validate department
+            var department = await unitOfWork.DepartmentRepository.GetByIdAsync(request.DepartmentId);
+            if (department == null)
+                return "Invalid department";
 
-        var createResult = await _userManager.CreateAsync(user, request.Password);
+            // Validate roles
+            var validRoles = await roleManager.Roles
+                .Where(r => request.Roles.Contains(r.Name))
+                .Select(r => r.Name)
+                .ToListAsync(cancellationToken);
 
-        if (createResult.Succeeded)
-        {
-            await _userManager.AddToRolesAsync(user, request.Roles);
+            if (validRoles.Count != request.Roles.Length)
+                return "One or more roles are invalid";
+
+            // Create user
+            var user = new User
+            {
+                UserName = request.Username,
+                Email = request.Email,
+                FullName = request.FullName,
+                DepartmentId = request.DepartmentId,
+                Address = request.Address,
+                DOB = request.DOB,
+                PhoneNumber = request.PhoneNumber,
+                Note = request.Note,
+                Gender = request.Gender ,// Gán giá trị gender
+                IsActive = (bool)request.IsActive ? true : false
+            };
+
+            var createResult = await userManager.CreateAsync(user, request.Password);
+            
+            if (!createResult.Succeeded)
+                return createResult.Errors.First().Description;
+
+            // Assign roles
+            await userManager.AddToRolesAsync(user, validRoles);
+
+            // Send email
+            //await emailService.SendUserCreatedEmailAsync(user.Email, user.UserName, request.Password);
+
+            await unitOfWork.CommitTransactionAsync();
+            return string.Empty;
         }
-        else
+        catch (Exception ex)
         {
-            return createResult.Errors.First().Description;
+            await unitOfWork.RollbackTransactionAsync();
+            return ex.Message;
         }
-
-        return string.Empty;
     }
 }

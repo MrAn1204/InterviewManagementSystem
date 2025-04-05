@@ -1,10 +1,6 @@
 ﻿using IMS.Core.ViewModels;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace IMS.Business.Handlers
 {
@@ -15,9 +11,11 @@ namespace IMS.Business.Handlers
 
 		public int PageNumber { get; set; } = 1;
 
+		public string Status { get; set; } = "";
+
 		public int PageSize { get; set; } = 10;
 
-		public string? OrderBy { get; set; } = "CreatedAt";
+		public string? OrderBy { get; set; } = "";
 
 		public OrderDirection OrderDirection { get; set; } = OrderDirection.ASC;
 	}
