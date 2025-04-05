@@ -17,6 +17,14 @@
     <!-- Phần I: Schedule information -->
     <h2 class="text-2xl font-semibold mb-4">Schedule Information</h2>
 
+    <div class="mt-8 flex justify-end">
+      <!-- Submit -->
+      <button type="button" (click)="sendReminder()"
+        class=" cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Send Reminder
+      </button>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Schedule Title (chỉ đọc) -->
       <div>

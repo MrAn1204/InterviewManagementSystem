@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { InterviewModel } from '../../../../models/interview/interview.model';
 import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-interview-detail',
@@ -18,7 +19,8 @@ export class InterviewDetailComponent implements OnInit {
 
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -26,5 +28,9 @@ export class InterviewDetailComponent implements OnInit {
       this.id = Number(params.get('id'));
       this.interviewService.getById(this.id).subscribe((res) => this.interview = res);
     });
+  }
+
+  public sendReminder() {
+    this.toastr.info('Unimplemented feature. Please try again later', 'Info');
   }
 }
