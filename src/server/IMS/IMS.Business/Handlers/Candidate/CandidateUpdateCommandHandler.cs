@@ -23,24 +23,24 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
 
     public async Task<bool> Handle(CandidateUpdateCommand request, CancellationToken cancellationToken)
     {
+        bool isDeleted = true;
+        if (!string.IsNullOrEmpty(request.OldFilePath))
+        {
+            isDeleted = await _fileService.DeleteFileAsync(request.OldFilePath);
+        }
+        if (isDeleted == false)
+        {
+            throw new AmazonS3Exception("Remove error");
+        }
         string filePath = "";
         if (request.CvAttachment != null)
         {
-            bool isDeleted = await _fileService.DeleteFileAsync(request.OldFilePath);
-            if (isDeleted == false)
-            {
-                throw new AmazonS3Exception("Remove error");
-            }
             filePath = await _fileService.UploadFileAsync(request.CvAttachment);
         }
 
         Candidate candidate = await _unitOfWork.CandidateRepository.GetQuery().Include(c => c.Recruiter).Include(c => c.HighestLevel).Include(c => c.CandidateSkills).ThenInclude(cs => cs.Skill)
             .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken) ??
             throw new ResourceNotFoundException("Candidate not found");
-        if (candidate == null)
-        {
-            return false;
-        }
 
         candidate.FullName = request.FullName;
         candidate.Email = request.Email;
@@ -55,7 +55,7 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
         candidate.UpdatedDate = DateTime.Now;
         candidate.RecruiterId = request.Recruiter;
         candidate.LevelId = request.HighestLevel;
-        if (!string.IsNullOrEmpty(filePath))
+        if (!string.IsNullOrEmpty(request.OldFilePath) || !string.IsNullOrEmpty(filePath))
         {
             candidate.CV = filePath;
         }

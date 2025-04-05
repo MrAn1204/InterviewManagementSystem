@@ -18,4 +18,6 @@ export class CandidateModel {
   candidateSkills?: SkillModel[] | null;
   recruiter!: UserForInputModel;
   highestLevel!: LevelModel;
+  createdDate?: string;
+  updatedDate?: string;
 }

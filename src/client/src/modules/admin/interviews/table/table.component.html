@@ -11,25 +11,23 @@
         </thead>
         <tbody>
             <ng-container *ngIf="data && data.items.length!=0;else emptyData">
-                <tr *ngFor="let item of data.items; let i = index"
-                    class="even:bg-[#fafafa] hover:bg-gray-200">
-                    <td *ngIf="isShowNumber" class="text-center">{{currentPageSize * (currentPage -1) + i + 1}}</td>
+                <tr *ngFor="let item of data.items; let i = index" class="even:bg-[#fafafa] hover:bg-gray-200">
+                    <td *ngIf="isShowNumber" class="text-center">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
                     <td *ngFor="let column of columns" class="border border-[#e0e0e0] p-4">
                         <div [ngSwitch]="column.value">
                             <div *ngSwitchCase="'interviewersName'">{{item[column.value].join(', ')}}</div>
-                            <div *ngSwitchCase="'schedule'">{{ `${item.interviewDate} ${item.startTime} - ${item.endTime}` }}</div>
+                            <div *ngSwitchCase="'schedule'">{{ `${item.interviewDate} ${item.startTime} -
+                                ${item.endTime}` }}</div>
                             <div *ngSwitchCase="'result'" class="text-center">{{item[column.value] ?? "N/A"}}</div>
                             <div *ngSwitchCase="'status'" class="text-center">{{item[column.value]}}</div>
                             <div *ngSwitchDefault>{{item[column.value]}}</div>
                         </div>
                     </td>
                     <td class="border border-[#e0e0e0] p-4 text-center min-w-[100px] space-x-2">
-                        <button class="text-blue-500 hover:text-blue-700 cursor-pointer"
-                            routerLink="/admin/interviews/1/detail">
+                        <button class="text-blue-500 hover:text-blue-700 cursor-pointer" (click)="view(item.id)">
                             <i class="fa-regular fa-eye"></i>
                         </button>
-                        <button class="text-green-500 hover:text-green-700 cursor-pointer"
-                            routerLink="/admin/interviews/1/edit">
+                        <button class="text-green-500 hover:text-green-700 cursor-pointer" (click)="edit(item.id)">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </button>
                     </td>
@@ -42,4 +40,53 @@
             </ng-template>
         </tbody>
     </table>
+</div>
+
+<!-- Pagination -->
+<div class="card-footer p-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- Page Size -->
+    <div class="page-size">
+        <label for="page-size" class="mr-2">Items per page:</label>
+        <select id="page-size" class="p-2 border border-gray-200 rounded-sm" [(ngModel)]="currentPageSize"
+            (change)="onPageSizeChange.emit($event)">
+            <option *ngFor="let item of pageSizeOptions" [value]="item">{{item}}</option>
+        </select>
+    </div>
+
+    <!-- Page Items -->
+    <nav
+        class="page-items flex items-center space-x-2 text-slate-500 *:w-10 *:h-10 *:hover:bg-blue-500 *:hover:text-white *:rounded-full *:border *:border-blue-500 *:flex *:items-center *:justify-center *:cursor-pointer">
+        <button (click)="onPageChange.emit(1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="First" type="button" [disabled]="currentPage==1">
+            <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
+        </button>
+        <button (click)="onPageChange.emit(currentPage-1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Previous" type="button" [disabled]="currentPage==1">
+            <fa-icon [icon]="faAngleLeft"></fa-icon>
+        </button>
+        <ng-container *ngFor="let item of generatePageItems()">
+            <button (click)="onPageChange.emit(item)"
+                class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+                title="Page {{item}}" type="button" [ngClass]="{'bg-blue-500 text-white': item==currentPage}">
+                {{item}}
+            </button>
+        </ng-container>
+        <button (click)="onPageChange.emit(currentPage+1)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Next" type="button" [disabled]="data && currentPage===data.totalPages">
+            <fa-icon [icon]="faAngleRight"></fa-icon>
+        </button>
+        <button (click)="onPageChange.emit(data.totalPages)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
+            title="Last" type="button" [disabled]="data && currentPage===data.totalPages">
+            <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
+        </button>
+    </nav>
+
+    <!-- Page Info -->
+    <div class="page-info">
+        {{generatePageInfo()}}
+    </div>
 </div>

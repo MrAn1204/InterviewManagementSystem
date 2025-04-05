@@ -13,7 +13,6 @@ import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { PaginatedResult } from '../../../../models/candidate/paginated-result.model';
 import { CommonModule } from '@angular/common';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
-import { fileURLToPath } from 'url';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -84,6 +83,12 @@ export class CandidateListComponent implements OnInit {
   }
 
   public pageChange(direction: number): void {
+    if (
+      this.filter.pageNumber <= 1 ||
+      this.filter.pageNumber >= this.data.totalPages
+    ) {
+      return;
+    }
     if (direction < 0) {
       this.filter.pageNumber -= 1;
     } else {

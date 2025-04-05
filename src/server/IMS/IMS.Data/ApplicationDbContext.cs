@@ -52,6 +52,17 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 		modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
 		modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
 
+		modelBuilder.Entity<Job>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Offer>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Interview>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Candidate>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Department>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Skill>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Benefit>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<Level>().HasQueryFilter(x => !x.IsDelete);
+		modelBuilder.Entity<User>().HasQueryFilter(x => !x.IsDelete);
+		
+
 		// 1:N => Department -> User
 		modelBuilder.Entity<User>()
 			.HasOne(u => u.Department)

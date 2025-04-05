@@ -20,108 +20,79 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Schedule Title (chỉ đọc) -->
       <div>
-        <label for="scheduleTitle" class="block text-lg font-semibold mb-1">
-          Schedule title
-        </label>
-        <input type="text" id="scheduleTitle" name="scheduleTitle"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Backend Interview Round 2" />
+        <h3 class="text-lg font-medium text-gray-700">Schedule Title</h3>
+        <p class=" rounded-md ">{{ interview.title }}</p>
       </div>
 
       <!-- Candidate name (chỉ xem) -->
       <div>
-        <label class="block text-lg font-semibold mb-1">
-          Candidate name
-        </label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="John Doe" />
+        <h3 class="text-lg font-medium text-gray-700">Candidate Name</h3>
+        <p class=" rounded-md ">{{ interview.candidateName }}</p>
       </div>
 
       <!-- Schedule Time (chỉ đọc) -->
       <div>
-        <label for="scheduleTime" class="block text-lg font-semibold mb-1">
-          Schedule Time
-        </label>
-        <input type="datetime-local" id="scheduleTime" name="scheduleTime"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="2025-04-15T09:30" />
+        <h3 class="text-lg font-medium text-gray-700">Schedule Time</h3>
+        <p class=" rounded-md ">{{ `${interview.interviewDate} ${interview.startTime} - ${interview.endTime}` }}</p>
       </div>
 
       <!-- Job (chỉ xem) -->
       <div>
-        <label class="block text-lg font-semibold mb-1">
-          Job
-        </label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Backend Developer" />
+        <h3 class="text-lg font-medium text-gray-700">Job</h3>
+        <p class=" rounded-md ">{{ interview.jobName }}</p>
       </div>
 
-      <!-- Interviewer (chỉ xem) -->
+      <!-- Interviewers (chỉ xem) -->
       <div>
-        <label class="block text-lg font-semibold mb-1">
-          Interviewer
-        </label>
-        <div class="border border-gray-300 rounded-md p-3">
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" disabled checked class="mr-2" />
-            Thiệu P
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" disabled class="mr-2" />
-            Name B
-          </label>
-          <label class="flex items-center mb-1 cursor-default">
-            <input type="checkbox" disabled checked class="mr-2" />
-            John H
-          </label>
-          <!-- ... -->
-        </div>
+        <h3 class="text-lg font-medium text-gray-700">Interviewers</h3>
+        <p class=" rounded-md ">{{ interview.interviewersName?.join(', ') }}</p>
       </div>
 
       <!-- Location (chỉ đọc) -->
       <div>
-        <label for="location" class="block text-lg font-semibold mb-1">
-          Location
-        </label>
-        <input type="text" id="location" name="location"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="Meeting Room 3" />
+        <h3 class="text-lg font-medium text-gray-700">Location</h3>
+        <p class=" rounded-md ">{{ interview.location || "N/A" }}</p>
       </div>
 
       <!-- Recruiter owner (chỉ đọc) -->
       <div>
-        <label for="recruiterOwner" class="block text-lg font-semibold mb-1">
-          Recruiter owner
-        </label>
-        <input type="text" id="recruiterOwner" name="recruiterOwner"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="Jane Smith" />
+        <h3 class="text-lg font-medium text-gray-700">Recruiter owner</h3>
+        <p class=" rounded-md ">{{ interview.recruiterName }}</p>
       </div>
 
       <!-- Meeting ID (chỉ đọc) -->
       <div>
-        <label for="meetingID" class="block text-lg font-semibold mb-1">
-          Meeting ID
-        </label>
-        <input type="text" id="meetingID" name="meetingID"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="meet.google.com/abc-1234" />
+        <h3 class="text-lg font-medium text-gray-700">Meeting ID</h3>
+        <p class=" rounded-md ">{{ interview.meetingId || "N/A" }}</p>
+      </div>
+
+      <!-- Result -->
+      <div>
+        <h3 class="text-lg font-medium text-gray-700">Result</h3>
+        <p class=" rounded-md ">{{ interview.result || "N/A" }}</p>
+      </div>
+
+      <!-- Status -->
+      <div>
+        <h3 class="text-lg font-medium text-gray-700">Status</h3>
+        <p class=" rounded-md ">{{ interview.status }}</p>
       </div>
 
       <!-- Notes (chỉ đọc) -->
-      <div>
-        <label for="notes" class="block text-lg font-semibold mb-1">
+      <div class="md:col-span-2">
+        <label for="notes" class="block text-lg font-medium mb-1">
           Notes
         </label>
-        <input type="text" id="notes" name="notes"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="This is the second round interview focusing on technical skills." />
+        <textarea id="notes" name="notes" rows="8" [value]="interview.note"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>
+        </textarea>
       </div>
     </div>
 
     <!-- Nút Edit / Back -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
-      <button type="button"
+      <button type="button" [routerLink]="`/admin/interviews/${id}/edit/`"
         class="cursor-pointer not-only-of-type:mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>

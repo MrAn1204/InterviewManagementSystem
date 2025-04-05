@@ -28,9 +28,9 @@ public class InterviewCreateUpdateCommand : BaseCreateUpdateCommand<InterviewVie
 
     public string? MeetingId { get; set; }
 
-    public InterviewStatus Status { get; set; } = InterviewStatus.New;
+    public string Status { get; set; } = InterviewStatus.New.ToString();
 
-    public InterviewResult? Result { get; set; }
+    public string? Result { get; set; }
 
     public int CreatedBy { get; set; }
 }

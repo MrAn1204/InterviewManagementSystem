@@ -17,7 +17,7 @@ namespace IMS.Data.UnitOfWorks
 		IGenericRepository<Interview> InterviewRepository { get; }
 		IGenericRepository<User> UserRepository { get; }
 
-		IGenericRepository<T> GenericRepository<T>() where T:class;
+		IGenericRepository<T> GenericRepository<T>() where T:class, IBaseEntity;
 
 		int SaveChanges();
 

@@ -13,7 +13,7 @@ export interface IInterviewService {
 
     update(
         id: number,
-        interview: any
+        interview: InterviewModel
     ): Observable<InterviewModel>;
 
     delete(id: number): Observable<boolean>;
