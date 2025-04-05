@@ -1,6 +1,6 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { JobModel } from '../../../../models/job/job.model';
 import { ToastrService } from 'ngx-toastr';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-interview-create',
@@ -59,6 +60,7 @@ export class InterviewCreateComponent implements OnInit {
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly router: Router,
     private readonly toastr: ToastrService
@@ -141,5 +143,17 @@ export class InterviewCreateComponent implements OnInit {
     if (dropdownElement && inputElement && !dropdownElement.contains(event.target as Node) && !inputElement.contains(event.target as Node)) {
       this.dropdownVisible = false;
     }
+  }
+
+  public assignMe() {
+    this.authService.getUserInformation().subscribe((res) => {
+      if (res?.roles.includes('RECRUITER')) {
+        this.form.patchValue({
+          recruiterId: res?.id
+        });
+      } else {
+        this.toastr.info('You do not have RECRUITER role', 'Info');
+      }
+    })
   }
 }

@@ -3,13 +3,14 @@ import { Component, HostListener, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
 import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { ToastrService } from 'ngx-toastr';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-interview-edit',
@@ -61,6 +62,7 @@ export class InterviewEditComponent {
   public candidateList!: CandidateModel[];
 
   constructor(
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
@@ -171,5 +173,17 @@ export class InterviewEditComponent {
     if (dropdownElement && inputElement && !dropdownElement.contains(event.target as Node) && !inputElement.contains(event.target as Node)) {
       this.dropdownVisible = false;
     }
+  }
+
+  public assignMe() {
+    this.authService.getUserInformation().subscribe((res) => {
+      if (res?.roles.includes('RECRUITER')) {
+        this.form.patchValue({
+          recruiterId: res?.id
+        });
+      } else {
+        this.toastr.info('You do not have RECRUITER role', 'Info');
+      }
+    })
   }
 }
