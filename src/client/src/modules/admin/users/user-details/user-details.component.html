@@ -23,71 +23,81 @@
       <!-- Full Name -->
       <div>
         <label class="block text-lg font-semibold mb-1">Full Name</label>
-        <input type="text" [value]="userDetail.fullName"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.fullName ? userDetail.fullName : 'null' }}
+        </p>
       </div>
 
       <!-- Email -->
       <div>
         <label class="block text-lg font-semibold mb-1">Email</label>
-        <input type="email" [value]="userDetail.email"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.email ? userDetail.email : 'null' }}
+        </p>
       </div>
 
       <!-- Date of Birth -->
       <div>
         <label class="block text-lg font-semibold mb-1">Date of Birth</label>
-        <input type="date" [value]="userDetail.dob | date:'yyyy-MM-dd'"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.dob ? (userDetail.dob | date:'yyyy-MM-dd') : 'null' }}
+        </p>
       </div>
 
       <!-- Address -->
       <div>
         <label class="block text-lg font-semibold mb-1">Address</label>
-        <input type="text" [value]="userDetail.address"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.address ? userDetail.address : 'null' }}
+        </p>
       </div>
 
       <!-- Phone Number -->
       <div>
         <label class="block text-lg font-semibold mb-1">Phone Number</label>
-        <input type="tel" [value]="userDetail.phoneNumber"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.phoneNumber ? userDetail.phoneNumber : 'null' }}
+        </p>
       </div>
 
       <!-- Gender -->
       <div>
         <label class="block text-lg font-semibold mb-1">Gender</label>
-        <input type="text" [value]="userDetail.gender"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.gender ? userDetail.gender : 'null' }}
+        </p>
       </div>
 
       <!-- Roles -->
       <div>
         <label class="block text-lg font-semibold mb-1">Roles</label>
-        <input type="text" [value]="userDetail.roles.join(', ')"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.roles && userDetail.roles.length ? userDetail.roles.join(', ') : 'null' }}
+        </p>
       </div>
 
       <!-- Department -->
       <div>
         <label class="block text-lg font-semibold mb-1">Department</label>
-        <input type="text" [value]="userDetail.departmentName"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.departmentName ? userDetail.departmentName : 'null' }}
+        </p>
       </div>
 
       <!-- Status -->
       <div>
         <label class="block text-lg font-semibold mb-1">Status</label>
-        <input type="text" [value]="getStatusText(userDetail.isActive)"
-               class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50" readonly>
+        <p class="w-full  bg-gray-50">
+          {{ getStatusText(userDetail.isActive) ? getStatusText(userDetail.isActive) : 'null' }}
+        </p>
       </div>
 
       <!-- Note -->
       <div class="md:col-span-2">
         <label class="block text-lg font-semibold mb-1">Note</label>
-        <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50"
-                  rows="3" readonly>{{ userDetail.note }}</textarea>
+        <p class="w-full  bg-gray-50">
+          {{ userDetail.note ? userDetail.note : 'null' }}
+        </p>
       </div>
     </div>
 
@@ -98,9 +108,8 @@
       </button>
       <button type="button"
               class="mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
-              Inactive
-            </button>
-
+        Inactive
+      </button>
       <button type="button" routerLink="/admin/users"
         class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
         Back
