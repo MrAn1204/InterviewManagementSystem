@@ -1,34 +1,34 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 using IMS.Business.DTOs;
 using IMS.Business.Services;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+
 
 namespace IMS.Business.Handlers;
 
 public class LoginCommandHandler(
     ITokenService tokenService,
-    UserManager<User> userManager
+    UserManager<User> userManager,
+    SignInManager<User> signInManager
 ) : IRequestHandler<LoginCommand, LoginResultDto>
 {
     private readonly ITokenService _tokenService = tokenService;
 
     private readonly UserManager<User> _userManager = userManager;
 
+    private readonly SignInManager<User> _signInManager = signInManager;
+
     public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(request.Username)
             ?? throw new ArgumentException("User with username not found");
         
-        var isCorrectPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+        var isCorrectPassword = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-        if (!isCorrectPassword)
+        if (!isCorrectPassword.Succeeded)
         {
             throw new ArgumentException("Password is incorrect");
         }
@@ -44,8 +44,10 @@ public class LoginCommandHandler(
             Roles = [.. roles]
         };
 
-        var accessToken = await _tokenService.GenerateAccessTokenAsync(user);
+        var accessToken = await _tokenService.GenerateAccessTokenAsync(user.Id);
         var tokenHandler = new JwtSecurityTokenHandler();
+
+        await _tokenService.RevokeAllRefreshTokenAsync(user.Id);
 
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 

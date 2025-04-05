@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace IMS.Domain.Entities;
 
-public class Level
+public class Level : BaseEntity
 {
-	public int Id { get; set; }
-
 	public string LevelName { get; set; } = null!;
 	public string? Description { get; set; }
 

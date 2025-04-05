@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IMS.Data.Repositories
 {
 	public interface IGenericRepository<T> where T : class
 	{
 		IEnumerable<T> GetAll();
-
+		IQueryable<T> GetAllQuery();
 		Task<IEnumerable<T>> GetAllAsync();
 
-		T? GetById(Guid id);
+		T? GetById(int id);
 
-		Task<T?> GetByIdAsync(Guid id);
+		Task<T?> GetByIdAsync(int id);
 
 		void Add(T entity);
 
 		void Update(T entity);
 
-		void Delete(Guid id);
+		void Delete(int id);
 
-		void Delete(T entity);
+		void Delete(T entity, bool isHardDelete = false);
+
+		void Delete(Expression<Func<T, bool>> where, bool isHardDelete = false);
 
 		IQueryable<T> GetQuery();
 
 		IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate);
 
+		IQueryable<T> GetQueryWithDeleted();
+		
 		IQueryable<T> Get(Expression<Func<T, bool>>? filter = null,
 						  Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
 						  string includeProperties = "");
-	}
+		void AddRange(T[] entities);
+    }
 }

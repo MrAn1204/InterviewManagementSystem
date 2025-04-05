@@ -1,0 +1,258 @@
+<div class="container mx-auto max-w-screen-xl py-8 px-4">
+  <!-- Tiêu đề -->
+  <h1 class="text-4xl font-semibold mb-8">
+    Create Offer
+  </h1>
+
+  <!-- Breadcrumb -->
+  <div class="pb-8">
+    <a routerLink="/admin/offers" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Offer List</a>
+    >
+    <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Create Offer</a>
+  </div>
+
+  <!-- Card bao quanh form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <form [formGroup]="offerForm" (ngSubmit)="submitOffer()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Candidate name -->
+        <div class="md:col-span-2">
+          <label for="candidateId" class="block text-lg font-semibold mb-1">
+            Candidate
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="candidateId" formControlName="candidateId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('candidateId')}">
+            <option [ngValue]="''">Select candidate</option>
+            <option *ngFor="let candidate of candidates" [ngValue]="candidate.id">
+              {{ candidate.fullName }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('candidateId')" class="text-red-500 text-sm mt-1">
+            Candidate is required
+          </div>
+        </div>
+
+        <!-- Position -->
+        <div>
+          <label for="position" class="block text-lg font-semibold mb-1">
+            Position
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="position" formControlName="position"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('position')}">
+            <option [ngValue]="''">Select position</option>
+            <option *ngFor="let position of positions" [ngValue]="position">
+              {{ position }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('position')" class="text-red-500 text-sm mt-1">
+            Position is required
+          </div>
+        </div>
+
+        <!-- Approver -->
+        <div>
+          <label for="approvedBy" class="block text-lg font-semibold mb-1">
+            Approver
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="approvedBy" formControlName="approvedBy"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('approvedBy')}">
+            <option [ngValue]="''">Select approver</option>
+            <option *ngFor="let approver of approvers" [ngValue]="approver.id">
+              {{ approver.fullName }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('approvedBy')" class="text-red-500 text-sm mt-1">
+            Approver is required
+          </div>
+        </div>
+
+        <!-- Interview info -->
+        <div class="md:col-span-2">
+          <label for="interviewId" class="block text-lg font-semibold mb-1">
+            Interview info
+          </label>
+          <select id="interviewId" formControlName="interviewId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+            <option [ngValue]="''">Select interview</option>
+            <option *ngFor="let interview of interviews" [ngValue]="interview.id">
+              {{ interview.title + " ( Ngày " + interview.interviewDate + " From " + interview.startTime + " to " + interview.endTime + " )" }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Contract Period -->
+        <div class="md:col-span-2">
+          <label class="block text-lg font-semibold mb-1">
+            Contract Period
+            <span class="text-red-500">*</span>
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <div class="flex items-center">
+                <label for="contractStart" class="block text-sm font-medium mr-2">
+                  From
+                </label>
+                <input type="datetime-local" id="contractStart" formControlName="contractStart"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+                  [ngClass]="{'border-red-500': isFieldInvalid('contractStart')}" />
+              </div>
+              <div *ngIf="isFieldInvalid('contractStart')" class="text-red-500 text-sm mt-1">
+                Start date is required
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center">
+                <label for="contractEnd" class="block text-sm font-medium mr-2">
+                  To
+                </label>
+                <input type="datetime-local" id="contractEnd" formControlName="contractEnd"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+                  [ngClass]="{'border-red-500': isFieldInvalid('contractEnd')}" />
+              </div>
+              <div *ngIf="isFieldInvalid('contractEnd')" class="text-red-500 text-sm mt-1">
+                End date is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contract type -->
+        <div>
+          <label for="contractType" class="block text-lg font-semibold mb-1">
+            Contract type
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="contractType" formControlName="contractType"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('contractType')}">
+            <option [ngValue]="''">Select contract type</option>
+            <option value="Trial 2 months">Trial 2 months</option>
+            <option value="Trial 3 months">Trial 3 months</option>
+            <option value="1 year">1 year</option>
+            <option value="3 years">3 years</option>
+            <option value="Unlimited">Unlimited</option>
+          </select>
+          <div *ngIf="isFieldInvalid('contractType')" class="text-red-500 text-sm mt-1">
+            Contract type is required
+          </div>
+        </div>
+
+        <!-- Level -->
+        <div>
+          <label for="levelId" class="block text-lg font-semibold mb-1">
+            Level
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="levelId" formControlName="levelId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('levelId')}">
+            <option [ngValue]="''">Select level</option>
+            <option *ngFor="let level of levels" [ngValue]="level.id">
+              {{ level.levelName }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('levelId')" class="text-red-500 text-sm mt-1">
+            Level is required
+          </div>
+        </div>
+
+        <!-- Department -->
+        <div>
+          <label for="departmentId" class="block text-lg font-semibold mb-1">
+            Department
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="departmentId" formControlName="departmentId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('departmentId')}">
+            <option [ngValue]="''">Select department</option>
+            <option *ngFor="let department of departments" [ngValue]="department.id">
+              {{ department.departmentName }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('departmentId')" class="text-red-500 text-sm mt-1">
+            Department is required
+          </div>
+        </div>
+
+        <!-- Recruiter Owner -->
+        <div>
+          <label for="recruiterId" class="block text-lg font-semibold mb-1">
+            Recruiter Owner
+            <span class="text-red-500">*</span>
+          </label>
+          <select id="recruiterId" formControlName="recruiterId"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('recruiterId')}">
+            <option [ngValue]="''">Select recruiter</option>
+            <option *ngFor="let recruiter of recruiterOwner" [ngValue]="recruiter.id">
+              {{ recruiter.fullName }}
+            </option>
+          </select>
+          <div *ngIf="isFieldInvalid('recruiterId')" class="text-red-500 text-sm mt-1">
+            Recruiter is required
+          </div>
+        </div>
+
+        <!-- Due date -->
+        <div class="md:col-span-2">
+          <label for="dueDate" class="block text-lg font-semibold mb-1">
+            Due date
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="datetime-local" id="dueDate" formControlName="dueDate"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            [ngClass]="{'border-red-500': isFieldInvalid('dueDate')}" />
+          <div *ngIf="isFieldInvalid('dueDate')" class="text-red-500 text-sm mt-1">
+            Due date is required
+          </div>
+        </div>
+
+        <!-- Basic salary -->
+        <div class="md:col-span-2">
+          <label for="salaryBasic" class="block text-lg font-semibold mb-1">
+            Basic salary
+            <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="salaryBasic" formControlName="salaryBasic"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Enter basic salary"
+            [ngClass]="{'border-red-500': isFieldInvalid('salaryBasic')}" />
+          <div *ngIf="isFieldInvalid('salaryBasic')" class="text-red-500 text-sm mt-1">
+            Basic salary is required
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div class="md:col-span-2">
+          <label for="note" class="block text-lg font-semibold mb-1">
+            Note
+          </label>
+          <textarea id="note" rows="4" formControlName="note"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Type a note"></textarea>
+        </div>
+      </div>
+
+      <!-- Nút Submit/Cancel -->
+      <div class="mt-8 flex justify-end">
+        <!-- Submit -->
+        <button type="submit"
+          class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Submit
+        </button>
+        <!-- Cancel -->
+        <button type="button" (click)="cancelForm()"
+          class="cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,5 +1,4 @@
 using System.Net;
-using System.Web;
 using IMS.Business.Services;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
@@ -11,12 +10,15 @@ namespace IMS.Business.Handlers;
 
 public class ResetPasswordCommandHandler(
     UserManager<User> userManager,
-    IUnitOfWorks unitOfWorks
+    IUnitOfWorks unitOfWorks,
+    ITokenService tokenService
 ) : IRequestHandler<ResetPasswordCommand, string>
 {
     private readonly UserManager<User> _userManager = userManager;
 
     private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+
+    private readonly ITokenService _tokenService = tokenService;
 
     public async Task<string> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
@@ -45,6 +47,8 @@ public class ResetPasswordCommandHandler(
         {
             return result.Errors.First().Description;
         }
+
+        await _tokenService.MarkUsedResetPasswordTokenAsync(resetToken.Token);
 
         return string.Empty;
     }

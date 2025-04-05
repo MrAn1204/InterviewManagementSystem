@@ -1,5 +1,6 @@
 ﻿using IMS.Business.Services;
 using IMS.Data;
+using IMS.Data.Repositories;
 using IMS.Data.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,6 @@ namespace IMS.API.Extensions
 
 			services.AddCors();
 			services.AddScoped<ITokenService, TokenService>();
-
 			services.AddScoped<IUnitOfWorks, UnitOfWorks>();
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddSignalR();

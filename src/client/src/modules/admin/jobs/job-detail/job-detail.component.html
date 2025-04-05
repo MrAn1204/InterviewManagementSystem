@@ -1,0 +1,129 @@
+<div class="container mx-auto py-8 px-4">
+  <!-- Ngày tạo / cập nhật -->
+  <ng-container *ngIf="data; else createUpdateDate">
+    <!-- Ngày tạo / cập nhật -->
+    <div class="flex justify-end mb-3">
+      <div class="text-sm text-gray-500">
+        <p>Created at: {{ data.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p>Last updated: {{ data.updatedDate ? (data.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet"
+          }}
+        </p>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #createUpdateDate>
+    <div class="flex justify-end mb-3">
+      <div class="text-sm text-gray-500">
+        <p>Created at: Loading ...</p>
+        <p>Last updated: Loading ...</p>
+      </div>
+    </div>
+  </ng-template>
+  <!-- Card chứa form -->
+  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Tiêu đề -->
+    <h2 class="text-2xl font-semibold mb-6">Job Information</h2>
+
+    <ng-container *ngIf="data; else loading">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Job Title -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Job Title</h3>
+          <p class=" rounded-md ">{{ data.title }}</p>
+        </div>
+
+        <!-- Skills -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Skills</h3>
+          <p class=" rounded-md ">
+            {{ data.skills.length ? getSkillNames(data.skills) : "No skills specified" }}
+          </p>
+        </div>
+
+        <!-- Start Date -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Start Date</h3>
+          <p class=" rounded-md ">
+            {{ data.startDate ? (data.startDate | date: 'dd/MM/yyyy') : "No start date" }}
+          </p>
+        </div>
+
+        <!-- End Date -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">End Date</h3>
+          <p class=" rounded-md ">
+            {{ data.endDate ? (data.endDate | date: 'dd/MM/yyyy') : "No end date" }}
+          </p>
+        </div>
+
+        <!-- Salary Range -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Salary Range</h3>
+          <div class="flex gap-2 *:">
+            <span class="text-gray-600">From:</span>
+            <span class="rounded-md w-1/2 ">{{ data.salaryMin }}</span>
+            <span class="text-gray-600">To:</span>
+            <span class="rounded-md w-1/2">{{ data.salaryMax }}</span>
+          </div>
+        </div>
+
+        <!-- Working Address -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Working Address</h3>
+          <p class=" rounded-md ">{{ data.workingAddress }}</p>
+        </div>
+
+        <!-- Benefits -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Benefits</h3>
+          <p class=" rounded-md ">
+            {{ data.benefits.length ? getBenefitNames(data.benefits) : "No benefits specified" }}
+          </p>
+        </div>
+
+        <!-- Levels -->
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">Levels</h3>
+          <p class="rounded-md ">
+            {{ data.levels.length ? getLevelNames(data.levels) : "No levels specified" }}
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium text-gray-700">Status</h3>
+          <p class="rounded-md">{{ data.status ? data.status : "Draft" }}</p>
+        </div>
+
+        <!-- Description -->
+        <div class="md:col-span-2">
+          <label for="description" class="block text-lg font-medium mb-1">
+            Description
+          </label>
+          <textarea id="description" name="description" rows="4"
+            class="w-full border border-gray-300 rounded-md  focus:outline-none"
+            readonly>{{data.description}}</textarea>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <p class="text-yellow-500 text-lg font-semibold">Loading ...</p>
+    </ng-template>
+
+    <!-- Buttons -->
+    <div class="mt-8 flex justify-end">
+      <!-- Edit -->
+      <button *ngIf="data && data.id" type="button" [routerLink]="['/admin/jobs/' + data.id + '/edit']"
+        class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+        Edit
+      </button>
+      <!-- Back -->
+      <button type="button" routerLink="/admin/jobs"
+        class=" cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 rounded-md hover:bg-[#e3f2fd]">
+        Back
+      </button>
+    </div>
+  </div>
+</div>

@@ -31,14 +31,26 @@ export class SidebarComponent {
   constructor(public sidebarService: SidebarService) { }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    if ((window.innerWidth < 768 && !this.sidebarService.isCollapsed) ||
-      (window.innerWidth >= 768 && this.sidebarService.isCollapsed)) {
-      this.toggleSidebar();
+  public onResize(event: any) {
+    if (window.innerWidth < 768 && !this.sidebarService.isMobile) {
+      this.switchMobile();
+      if (!this.sidebarService.isCollapsed) {
+        this.toggleSidebar();
+      }
+    }
+    else if (window.innerWidth >= 768 && this.sidebarService.isMobile) {
+      this.switchMobile()
+      if (this.sidebarService.isCollapsed) {
+        this.toggleSidebar();
+      }
     }
   }
 
-  toggleSidebar(): void {
+  public toggleSidebar(): void {
     this.sidebarService.toggleSidebar();
+  }
+
+  public switchMobile(): void {
+    this.sidebarService.switchMobile();
   }
 }
