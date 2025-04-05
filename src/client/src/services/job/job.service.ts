@@ -6,19 +6,28 @@ import { IJobService } from './job-service.interface';
 import { BenefitModel } from '../../models/data-for-input/benefit.modes';
 import { SkillModel } from '../../models/data-for-input/skill.modes';
 import { LevelModel } from '../../models/data-for-input/level.model';
+import { Observable } from 'rxjs';
+import { JobImportResult } from '../../models/job/job-import-result.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class JobService extends MasterDataService<JobModel> implements IJobService{
+export class JobService extends MasterDataService<JobModel> implements IJobService {
   constructor(protected override httpClient: HttpClient) {
     super(httpClient, 'jobs');
   }
-  
+
+  importJobs(file: File, createdBy: number): Observable<JobImportResult> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('createdBy', createdBy.toString());
+    return this.httpClient.post<JobImportResult>(this.baseUrl + '/import', formData);
+  }
+
   public getBenefitNames(benefits: BenefitModel[]): string {
     return benefits?.map(level => level.benefitName).join(', ') || 'No benefits specified';
   }
-  
+
   public getSkillNames(skills: SkillModel[]): string {
     return skills?.map(skill => skill.skillName).join(', ') || 'No skills specified';
   }
