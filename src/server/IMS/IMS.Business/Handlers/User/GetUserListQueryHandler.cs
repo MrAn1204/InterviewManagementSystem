@@ -24,7 +24,7 @@ namespace IMS.Business.Handlers;
 
     public async Task<PaginatedResult<UserDetailViewModel>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<User> query = _userManager.Users;
+        IQueryable<User> query = _userManager.Users.Where(u => u.IsActive == true);
 
         // Filter tìm kiếm trên các trường
         if (!string.IsNullOrWhiteSpace(request.Search))
