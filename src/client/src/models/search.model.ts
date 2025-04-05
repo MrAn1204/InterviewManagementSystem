@@ -1,5 +1,6 @@
 export class SearchModel {
   public keyword!: string;
+  public departmentName?: string;
   public status!: string;
   public pageNumber!: number;
   public pageSize!: number;

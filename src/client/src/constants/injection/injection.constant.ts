@@ -8,6 +8,7 @@ import { IDataForInputService } from '../../services/data-for-input/data-for-inp
 import { IInterviewService } from '../../services/interview/interview-service.interface';
 import { IBenefitService } from '../../services/benefit/benefit-service.interface';
 import { IJobService } from '../../services/job/job-service.interface';
+import { IOffService } from '../../services/offer/offer-service.interface';
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('AUTH_SERVICE');
 export const PERMISSION_SERVICE = new InjectionToken<IPermissionService>(
@@ -21,6 +22,10 @@ export const INTERVIEW_SERVICE = new InjectionToken<IInterviewService>(
 );
 export const JOB_SERVICE = new InjectionToken<IJobService>(
   'JOB_SERVICE'
+);
+
+export const OFFER_SERVICE = new InjectionToken<IOffService>(
+  'OFFER_SERVICE'
 );
 
 export const SKILL_SERVICE = new InjectionToken<ISkillService>('SKILL_SERVICE');

@@ -1,4 +1,5 @@
 export class InterviewModel {
+    id!: number
     title!: string;
     interviewDate!: string;
     startTime!: string;

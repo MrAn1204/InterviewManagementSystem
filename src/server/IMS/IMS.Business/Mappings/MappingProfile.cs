@@ -25,7 +25,12 @@ public class MappingProfile : Profile
                 .ForMember(dest => dest.HighestLevel, opt => opt.MapFrom(src => new LevelViewModel { Id = src.HighestLevel.Id, LevelName = src.HighestLevel.LevelName }));
     
     CreateMap<Offer, OfferViewModel>()
-            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName));
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.DepartmentName))
+            .ForMember(dest => dest.InterviewTitle, opt => opt.MapFrom(src => src.Interview.Title))
+            .ForMember(dest => dest.Approver, opt => opt.MapFrom(src => src.UserApproved.FullName))
+            .ForMember(dest => dest.CandidateName, opt => opt.MapFrom(src => src.Candidate.FullName))
+            .ForMember(dest => dest.Level, opt => opt.MapFrom(src => src.Candidate.HighestLevel.LevelName))
+            .ForMember(dest => dest.CandidateEmail, opt => opt.MapFrom(src => src.Candidate.Email));
 
     CreateMap<User, UserDetailViewModel>()
             .ForMember(dest => dest.DepartmentName,

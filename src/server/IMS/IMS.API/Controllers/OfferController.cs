@@ -27,9 +27,7 @@ namespace IMS.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromForm] OfferCreateCommand command)
+        public async Task<IActionResult> Create([FromBody] OfferCreateCommand command)
         {
             if (!ModelState.IsValid)
             {
@@ -44,6 +42,13 @@ namespace IMS.API.Controllers
         {
             var updatedOffer = await _mediator.Send(command);
             return Ok(updatedOffer);
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchOffers([FromBody] OfferSearchQuery searchQuery)
+        {
+            var result = await _mediator.Send(searchQuery);
+            return Ok(result);
         }
 
 

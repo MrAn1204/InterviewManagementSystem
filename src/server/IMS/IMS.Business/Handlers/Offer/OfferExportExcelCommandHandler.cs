@@ -29,10 +29,10 @@ public class OfferExportExcelCommandHandler(IUnitOfWorks unitOfWork, IFileServic
                             }).ToList();
 
         // Kiểm tra nếu kết quả là null hoặc trống
-        if (result == null || result.Count == 0)
-        {
-            return Task.FromResult(new byte[0]);
-        }
+        // if (result == null || result.Count == 0)
+        // {
+        //     return Task.FromResult(new byte[0]);
+        // }
 
         return _fileService.GenerateOfferExcelFile(result);
     }

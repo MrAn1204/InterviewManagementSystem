@@ -22,7 +22,10 @@ public class OfferGetAllQueryHandler : IRequestHandler<OfferGetAllQuery, IEnumer
     {
         var query = _unitOfWork.OfferRepository.GetQuery();
 
-        var result = await query.Include(o => o.Department).ToListAsync();
+        var result = await query.Include(o => o.Department)
+            .Include(o => o.Candidate)
+            // .Include(o => o.Interview)
+            .Include(o => o.UserApproved).ToListAsync();
 
         return _mapper.Map<IEnumerable<OfferViewModel>>(result);
     }

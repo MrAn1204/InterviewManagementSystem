@@ -8,5 +8,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './offer-edit.component.css'
 })
 export class OfferEditComponent {
-
+  
 }
