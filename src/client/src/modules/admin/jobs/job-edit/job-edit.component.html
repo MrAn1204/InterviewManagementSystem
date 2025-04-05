@@ -38,10 +38,9 @@
             <span class="text-red-500">*</span>
           </label>
           <input type="text" id="title" formControlName="title" placeholder="Type a title..."
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-[#1976d2]"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             [ngClass]="{'border-red-500': jobForm.get('title')?.invalid && jobForm.get('title')?.touched}" />
-          <div *ngIf="jobForm.get('title')?.invalid && jobForm.get('title')?.touched"
-            class="text-red-500 text-sm mt-1">
+          <div *ngIf="jobForm.get('title')?.invalid && jobForm.get('title')?.touched" class="text-red-500 text-sm mt-1">
             Job title is required
           </div>
         </div>
@@ -182,7 +181,8 @@
             [ngClass]="{'hidden': !levelDropdownOpen}">
             <div class="p-2 max-h-48 overflow-y-auto">
               <label *ngFor="let level of levels; let i = index" class="flex items-center mb-1 cursor-pointer">
-                <input type="checkbox" [checked]="level.selected" (change)="updateSelection('levels', i)" class="mr-2" />
+                <input type="checkbox" [checked]="level.selected" (change)="updateSelection('levels', i)"
+                  class="mr-2" />
                 {{ level.levelName }}
               </label>
             </div>
@@ -190,10 +190,22 @@
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều cấp độ.
           </small>
-          <div *ngIf="jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched" class="text-red-500 text-sm mt-1">
+          <div *ngIf="jobForm.get('levels')?.invalid && jobForm.get('levels')?.touched"
+            class="text-red-500 text-sm mt-1">
             Level selection is required
           </div>
           <input type="hidden" formControlName="levels" />
+        </div>
+
+        <div>
+          <label for="status" class="block text-lg font-semibold mb-1">
+            Status
+          </label>
+          <input type="text" id="status" formControlName="status"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#1976d2]" readonly />
+          <small class="text-gray-500">
+            Status cannot be changed directly
+          </small>
         </div>
 
         <!-- Description (textarea) -->
@@ -209,12 +221,12 @@
       <div class="mt-8 flex justify-end">
         <!-- Save Changes -->
         <button type="submit"
-          class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          class="mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0] cursor-pointer">
           Save Changes
         </button>
         <!-- Cancel -->
         <button type="button" routerLink="/admin/jobs"
-          class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 cursor-pointer rounded-md hover:bg-[#e3f2fd]">
+          class="border border-[#1976d2] text-[#1976d2] bg-white font-semibold py-2 px-6 cursor-pointer rounded-md hover:bg-[#e3f2fd] cursor-pointer">
           Cancel
         </button>
       </div>

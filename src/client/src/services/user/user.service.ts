@@ -43,4 +43,9 @@ export class UserService {
   updateUser(id: number, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.baseUrl}users/${id}`, user);
   }
+
+  inactiveUser(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}users/${id}/inactive`, {})
+      .pipe(catchError(err => throwError(() => err)));
+  }
 }

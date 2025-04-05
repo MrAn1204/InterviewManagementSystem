@@ -74,4 +74,22 @@ public class UsersController(IMediator mediator) : ControllerBase
             });
         }
     }
+
+    [HttpPut("{id}/inactive")]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<IActionResult> InactiveUser(int id)
+    {
+        try
+        {
+            await _mediator.Send(new InactiveUserCommand { UserId = id });
+            return Ok(new { Message = "User inactivated successfully" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { 
+                Error = "Failed to inactivate user", 
+                Message = ex.Message 
+            });
+        }
+    }
 }

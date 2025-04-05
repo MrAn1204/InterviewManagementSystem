@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { JobModel } from '../../../../models/job/job.model';
 import { JobStatusModel } from '../../../../models/job/job-status.model';
@@ -12,6 +12,8 @@ import { TableColumn } from '../../../../core/models/table/table-column.model';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
+import { JobImportResult } from '../../../../models/job/job-import-result.model';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-job-list',
@@ -26,6 +28,12 @@ import { ToastrService } from 'ngx-toastr';
 export class JobListComponent
   extends MasterDataListComponent<JobModel>
   implements OnInit {
+
+  public selectedFile: File | null = null;
+  public importResult: JobImportResult | null = null;
+  public isImporting: boolean = false;
+  public importErrors: string[] = [];
+  private createdBy!: number;
 
   public statusList: JobStatusModel[] = [{ id: 1, name: 'Draft' },
   { id: 2, name: 'Open' }, { id: 3, name: 'Closed' }];
@@ -42,6 +50,7 @@ export class JobListComponent
 
   constructor(
     private readonly headerService: HeaderService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly toastr: ToastrService,
     private readonly router: Router
@@ -49,14 +58,82 @@ export class JobListComponent
     super();
   }
 
-
-
   public override ngOnInit(): void {
     this.createForm();
     this.headerService.setTitle('Job');
+    this.authService.getUserInformation().subscribe((user) => {
+      this.createdBy = user?.id ? Number(user.id) : 1;
+      console.log(this.createdBy);
+
+    });
     this.searchData();
   }
 
+  public onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['.xlsx'];
+      const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+      if (allowedTypes.includes(fileExt)) {
+        this.selectedFile = file;
+        this.importResult = null;
+        this.importErrors = [];
+
+        this.importJobs();
+      } else {
+        this.toastr.error('Please select a valid file (.xlsx)', 'Invalid File');
+        event.target.value = '';
+        this.selectedFile = null;
+      }
+    }
+  }
+
+  public importJobs(): void {
+    if (!this.selectedFile) {
+      this.toastr.warning('Please select a file to import.', 'No File Selected');
+      return;
+    }
+
+    this.isImporting = true;
+    this.importResult = null;
+    this.importErrors = [];
+
+    this.jobService.importJobs(this.selectedFile, this.createdBy).subscribe({
+      next: (result) => {
+        this.importResult = result;
+        this.isImporting = false;
+
+        if (result.errors && result.errors.length > 0) {
+          this.importErrors = result.errors;
+          this.toastr.warning(`Import completed with ${result.errors.length} errors`, 'Import Warning');
+        } else {
+          this.toastr.success(`Successfully imported ${result.importedRows || 0} jobs
+            <br>Skipped ${result.skippedRows} existing jobs`
+            , 'Import Success',
+            { enableHtml: true }
+          );
+          this.searchData();
+
+          this.selectedFile = null;
+          const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+          if (fileInput) fileInput.value = '';
+        }
+      },
+      error: (error) => {
+        console.error('Error importing jobs:', error);
+        this.isImporting = false;
+
+        if (error.status === 400 && error.error?.errors) {
+          this.importErrors = error.error.errors;
+          this.toastr.error(`Import validation failed with ${this.importErrors.length} errors`, 'Import Failed');
+        } else {
+          this.importErrors = ['Failed to import jobs. Please check the file format and try again.'];
+          this.toastr.error('Failed to process import', 'Server Error');
+        }
+      },
+    });
+  }
 
   protected override searchData(): void {
     this.jobService.search(this.filter).subscribe({

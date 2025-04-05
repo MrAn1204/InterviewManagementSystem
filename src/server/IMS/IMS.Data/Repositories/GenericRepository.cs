@@ -92,11 +92,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
 	{
 		return _dbSet.AsQueryable();
 	}
-
+	
 	public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
 	{
 		return _dbSet.Where(predicate);
 	}
+
+    public IQueryable<T> GetQueryWithDeleted()
+    {
+        return GetQuery().Where(x => x.IsDelete || x.IsDelete == false);
+    }
 
 	public void Update(T entity)
 	{

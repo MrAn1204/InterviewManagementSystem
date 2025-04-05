@@ -86,4 +86,23 @@ public class JobController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("import")]
+    public async Task<IActionResult> ImportJobs([FromForm] JobsImportFromExcelCommand command)
+    {
+        if (command.File == null || command.File.Length <= 0)
+            return BadRequest("File is empty");
+
+        if (!Path.GetExtension(command.File.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            return BadRequest("File is not an Excel file");
+
+        var result = await _mediator.Send(command);
+        
+        if (result == null)
+        {
+            return BadRequest("Failed to import jobs.");
+        }
+
+        return Ok(result);
+    }
+
 }

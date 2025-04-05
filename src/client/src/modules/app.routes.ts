@@ -31,6 +31,7 @@ import { OfferEditComponent } from './admin/offers/offer-edit/offer-edit.compone
 import { OfferDetailComponent } from './admin/offers/offer-detail/offer-detail.component';
 import { SimpleLayoutComponent } from './shared/common/simple-layout/simple-layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { UserInactiveComponent } from './modals/user-inactive/user-inactive.component';
 
 export const routes: Routes = [
   // Redirect root '' về '/login'
@@ -65,7 +66,8 @@ export const routes: Routes = [
           { path: '', component: UserListComponent },
           { path: 'create', component: UserCreateComponent },
           { path: ':id/edit', component: UserEditComponent },
-          { path: ':id/detail', component: UserDetailsComponent }
+          { path: ':id/detail', component: UserDetailsComponent },
+          { path: 'admin/users/:id/inactive', component: UserInactiveComponent },
         ]
       },
       {
