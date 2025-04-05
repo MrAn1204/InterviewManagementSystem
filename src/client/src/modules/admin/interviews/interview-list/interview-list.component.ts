@@ -5,12 +5,12 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { InterviewTableComponent } from '../table/table.component';
-import { TableColumn } from '../table/table-column.model';
+import { InterviewTableComponent } from '../interview-table/interview-table.component';
 import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { MasterDataListComponent } from '../../master-data/master-data.component';
 import { ToastrService } from 'ngx-toastr';
+import { TableColumn } from '../../../../core/models/table/table-column.model';
 
 @Component({
   selector: 'app-interview-list',
