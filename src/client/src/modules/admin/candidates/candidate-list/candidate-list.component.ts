@@ -1,8 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { OrderDirection, SearchModel } from '../../../../models/search.model';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   CANDIDATE_SERVICE,
   DATA_FOR_INPUT_SERVICE,
@@ -10,33 +15,46 @@ import {
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { PaginatedResult } from '../../../../models/candidate/paginated-result.model';
 import { CommonModule } from '@angular/common';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { ToastrService } from 'ngx-toastr';
+import { TableColumn } from '../../../../core/models/table/table-column.model';
+import { MasterDataListComponent } from '../../master-data/master-data.component';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TableComponent } from '../../../../core/components/table/table.component';
+import { log } from 'console';
 
 @Component({
   selector: 'app-candidate-list',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    TableComponent,
+    FontAwesomeModule,
+  ],
   templateUrl: './candidate-list.component.html',
   styleUrl: './candidate-list.component.css',
 })
-export class CandidateListComponent implements OnInit {
-  public filter: SearchModel = {
-    keyword: '',
-    status: '',
-    pageNumber: 1,
-    pageSize: 5,
-    orderBy: 'CreatedDate',
-    orderDirection: OrderDirection.DESC,
-  };
-  public currentPage: number = 1;
-  public currentPageSize: number = 5;
-  public pageSizeOptions: number[] = [5, 10, 20, 50];
+export class CandidateListComponent
+  extends MasterDataListComponent<CandidateModel>
+  implements OnInit
+{
+  public override columns: TableColumn[] = [
+    { name: 'Name', value: 'fullName' },
+    { name: 'Email', value: 'email' },
+    { name: 'Phone No.', value: 'phoneNumber' },
+    { name: 'Current Position', value: 'currentPosition' },
+    {
+      name: 'Owner Hr',
+      value: 'recruiter',
+      formatter: this.formatRecruiter.bind(this),
+    },
+    { name: 'Status', value: 'status' },
+  ];
 
-  public searchForm!: FormGroup;
-
-  public data!: PaginatedResult<CandidateModel>;
   public statusList!: CandidateStatusModel[];
 
   constructor(
@@ -45,27 +63,33 @@ export class CandidateListComponent implements OnInit {
     private readonly candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
     private readonly dataForInputService: IDataForInputService,
-    private readonly toastService: ToastrService
-  ) {}
+    private readonly toastService: ToastrService,
+    private readonly router: Router
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
+  public override ngOnInit(): void {
     this.createForm();
     this.headerService.setTitle('Candidate');
-    this.candidateService.search(this.filter).subscribe((res) => {
-      this.data = res;
-    });
+    this.searchData();
     this.dataForInputService.getAllCandidateStatus().subscribe((res) => {
       this.statusList = res;
     });
   }
 
-  public search(): void {
+  public override searchData(): void {
     this.candidateService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
   }
 
-  private createForm(): void {
+  private formatRecruiter(candidate: CandidateModel): string {
+    console.log();
+    return candidate.recruiter.userName;
+  }
+
+  public override createForm(): void {
     this.searchForm = new FormGroup({
       keyword: new FormControl(''),
       status: new FormControl(''),
@@ -82,24 +106,7 @@ export class CandidateListComponent implements OnInit {
     this.filter.status = this.searchForm.value.status;
   }
 
-  public pageChange(direction: number): void {
-    if (direction < 0) {
-      if (this.filter.pageNumber <= 1) {
-        return;
-      }
-      this.filter.pageNumber -= 1;
-    } else {
-      if (this.filter.pageNumber >= this.data.totalPages) {
-        return;
-      }
-      this.filter.pageNumber += 1;
-    }
-    this.candidateService.search(this.filter).subscribe((res) => {
-      this.data = res;
-    });
-  }
-
-  public deleteItem(id: number): void {
+  public delete(id: number): void {
     this.candidateService.delete(id).subscribe({
       next: (res) => {
         this.data.items = this.data.items.filter((item) => item.id != id);
@@ -109,5 +116,21 @@ export class CandidateListComponent implements OnInit {
         this.toastService.error('Delete unsuccessful!', 'Error');
       },
     });
+  }
+
+  public edit(id: number): void {
+    setTimeout(() => {
+      this.router.navigate(['/admin/candidates', id, 'edit']);
+    }, 150);
+  }
+
+  public create(): void {
+    setTimeout(() => {
+      this.router.navigate(['/admin/candidates/create']);
+    }, 150);
+  }
+
+  public viewDetail(id: number): void {
+    this.router.navigate(['/admin/candidates', id, 'detail']);
   }
 }
