@@ -2,6 +2,7 @@ using IMS.Business.Services;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
@@ -19,14 +20,14 @@ public class ForgotPasswordCommandHandler(
 
     public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
 
         if (user == null)
         {
             throw new ArgumentException("This email is not linked to any account.");
         }
 
-        var token = await _tokenService.GenerateResetPasswordTokenAsync(user.Id);
+        var token = await _tokenService.GenerateResetPasswordTokenAsync(user);
         
         var resetLink = $"http://localhost:4200/reset-password?token={token.Token}";
         string subject = "Password Reset";

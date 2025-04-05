@@ -7,18 +7,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SidebarService {
   private _isCollapsed: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
-  private _isMobile: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
   public isCollapsed$: Observable<boolean> =
     this._isCollapsed.asObservable();
-  public isMobile$: Observable<boolean> =
-    this._isMobile.asObservable();
 
   get isCollapsed(): boolean {
     return this._isCollapsed.value;
-  }
-  get isMobile(): boolean {
-    return this._isMobile.value;
   }
 
   constructor() {
@@ -26,8 +19,5 @@ export class SidebarService {
 
   toggleSidebar(): void {
     this._isCollapsed.next(!this._isCollapsed.value);
-  }
-  switchMobile(): void {
-    this._isMobile.next(!this._isMobile.value);
   }
 }

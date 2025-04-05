@@ -1,15 +1,19 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace IMS.Domain.Entities;
 
 public class Offer : BaseEntity
 {
 	public int CandidateId { get; set; }
-	// public int JobId { get; set; }
+	public int JobId { get; set; }
 	public int? InterviewId { get; set; } // 1 Interview -> N Offer
-	public int? DepartmentId { get; set; } // 1 Department -> N Offer
 
 	public string Position { get; set; } = null!;
-	public string ContractType { get; set; } = "Trial 2 months"; // or use ENUM
+	public string ContractType { get; set; } = "FullTime"; // or use ENUM
 	public DateTime ContractStart { get; set; }
 	public DateTime? ContractEnd { get; set; }
 	public string Status { get; set; } = "WaitingForApproval"; // or use ENUM
@@ -22,12 +26,11 @@ public class Offer : BaseEntity
 
 	// Navigation
 	public Candidate? Candidate { get; set; }
-	public Department? Department { get; set; }
 
-	// public Job? Job { get; set; }
+	public Job? Job { get; set; }
 	public Interview? Interview { get; set; } // 1:N => Offer
 	public User? UserApproved { get; set; }
 
 	// N:N -> Department (OfferDepartment)
-	// public ICollection<OfferDepartment>? OfferDepartments { get; set; }
+	public ICollection<OfferDepartment>? OfferDepartments { get; set; }
 }

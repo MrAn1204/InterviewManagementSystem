@@ -51,11 +51,7 @@ export class AuthService implements IAuthService {
   }
 
   getAccessToken(): string {
-    return localStorage.getItem('accessToken') ?? sessionStorage.getItem('accessToken') ?? '';
-  }
-
-  getRefreshToken(): string {
-    return localStorage.getItem('refreshToken') ?? sessionStorage.getItem('refreshToken') ?? '';
+    return localStorage.getItem('accessToken') || '';
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -87,13 +83,9 @@ export class AuthService implements IAuthService {
   }
 
 logout(): void {
-  this.httpClient.post<boolean>(`${this.apiUrl}/logout`, { refreshToken: this.getRefreshToken() });
-  
   localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
   localStorage.removeItem('userInformation');
   sessionStorage.removeItem('accessToken');
-  sessionStorage.removeItem('refreshToken');
   sessionStorage.removeItem('userInformation');
   this._isAuthenticated.next(false);
   this._userInformation.next(null);
@@ -107,12 +99,10 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
         if (rememberMe) {
           // Lưu vào localStorage
           localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem('refreshToken', response.refreshToken);
           localStorage.setItem('userInformation', JSON.stringify(response.userInfo));
         } else {
           // Lưu vào sessionStorage
           sessionStorage.setItem('accessToken', response.accessToken);
-          sessionStorage.setItem('refreshToken', response.refreshToken);
           sessionStorage.setItem('userInformation', JSON.stringify(response.userInfo));
         }
         this._isAuthenticated.next(true);

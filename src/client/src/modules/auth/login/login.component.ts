@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(
     @Inject('IAuthService') private authService: IAuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService // Inject ToastrService
   ) {}
 
   ngOnInit(): void {

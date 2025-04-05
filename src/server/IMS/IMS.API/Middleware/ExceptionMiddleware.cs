@@ -1,58 +1,6 @@
-﻿using System.Net;
-using System.Text.Json;
-
-namespace IMS.API.Middleware;
-
-public class ExceptionMiddleware
+﻿namespace IMS.API.Middleware
 {
-	private readonly RequestDelegate _next;
-	private readonly ILogger<ExceptionMiddleware> _logger;
-
-	public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+	public class ExceptionMiddleware
 	{
-		_next = next;
-		_logger = logger;
-	}
-
-	public async Task InvokeAsync(HttpContext context)
-	{
-		try
-		{
-			await _next(context);
-		}
-		catch (Exception ex)
-		{
-			await HandleExceptionAsync(context, ex);
-		}
-	}
-
-	private async Task HandleExceptionAsync(HttpContext context, Exception exception)
-	{
-		_logger.LogError(exception, "An unhandled exception occurred");
-
-		var statusCode = exception switch
-		{
-			UnauthorizedAccessException => HttpStatusCode.Unauthorized,
-			InvalidOperationException => HttpStatusCode.BadRequest,
-			ArgumentException => HttpStatusCode.BadRequest,
-			_ => HttpStatusCode.InternalServerError
-		};
-
-		var response = new
-		{
-			StatusCode = (int)statusCode,
-			Message = exception.Message
-		};
-
-		context.Response.ContentType = "application/json";
-		context.Response.StatusCode = (int)statusCode;
-
-		var options = new JsonSerializerOptions
-		{
-			PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-		};
-
-		var json = JsonSerializer.Serialize(response, options);
-		await context.Response.WriteAsync(json);
 	}
 }

@@ -1,126 +1,95 @@
-﻿using IMS.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace IMS.Data.Repositories;
-
-public class GenericRepository<T> : IGenericRepository<T> where T : class, IBaseEntity
+namespace IMS.Data.Repositories
 {
-	protected readonly ApplicationDbContext _context;
-	protected readonly DbSet<T> _dbSet;
-
-	public GenericRepository(ApplicationDbContext context)
+	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
-		_context = context;
-		_dbSet = _context.Set<T>();
-	}
+		protected readonly ApplicationDbContext _context;
+		protected readonly DbSet<T> _dbSet;
 
-	public void Add(T entity)
-	{
-		_dbSet.Add(entity);
-	}
+		public GenericRepository(ApplicationDbContext context)
+		{
+			_context = context;
+			_dbSet = _context.Set<T>();
+		}
 
-	public void Delete(int id)
-	{
-		var entity = GetById(id);
-		if (entity != null) _dbSet.Remove(entity);
-	}
+		public void Add(T entity)
+		{
+			_dbSet.Add(entity);
+			_context.SaveChanges();
+		}
 
-	public void Delete(T entity, bool isHardDelete = false)
-	{
-		if (isHardDelete)
+		public void Delete(Guid id)
+		{
+			var entity = GetById(id);
+			if (entity != null) _dbSet.Remove(entity);
+			_context.SaveChanges();
+		}
+
+		public void Delete(T entity)
 		{
 			_dbSet.Remove(entity);
+			_context.SaveChanges();
 		}
-		else
+
+		public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
 		{
-			entity.IsDelete = true;
-			UpdateEntityObject(entity);
-		}
-	}
+			IQueryable<T> query = _dbSet;
+			if (filter != null)
+				query = query.Where(filter);
 
-	public void Delete(Expression<Func<T, bool>> where, bool isHardDelete = false)
-	{
-		var entities = GetQuery(where).AsEnumerable();
-		foreach (var entity in entities)
+			foreach (var includeProperty in includeProperties
+						.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				query = query.Include(includeProperty);
+			}
+
+			if (orderBy != null)
+				query = orderBy(query);
+
+			return query;
+		}
+
+		public IEnumerable<T> GetAll()
 		{
-			Delete(entity, isHardDelete);
+			return _dbSet.ToList();
 		}
-	}
 
-	public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "")
-	{
-		IQueryable<T> query = _dbSet;
-		if (filter != null)
-			query = query.Where(filter);
-
-		foreach (var includeProperty in includeProperties
-					.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+		public async Task<IEnumerable<T>> GetAllAsync()
 		{
-			query = query.Include(includeProperty);
+			return await _dbSet.ToListAsync();
 		}
 
-		if (orderBy != null)
-			query = orderBy(query);
+		public T? GetById(Guid id)
+		{
+			return _dbSet.Find(id);
+		}
 
-		return query;
+		public async Task<T?> GetByIdAsync(Guid id)
+		{
+			return await _dbSet.FindAsync(id);
+		}
+
+		public IQueryable<T> GetQuery()
+		{
+			return _dbSet;
+		}
+
+		public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
+		{
+			return _dbSet.Where(predicate);
+		}
+
+		public void Update(T entity)
+		{
+			_dbSet.Update(entity);
+			_context.SaveChanges();
+		}
 	}
-
-	public IEnumerable<T> GetAll()
-	{
-		return _dbSet.ToList();
-	}
-
-	public async Task<IEnumerable<T>> GetAllAsync()
-	{
-		return await _dbSet.ToListAsync();
-	}
-
-	public T? GetById(int id)
-	{
-		return _dbSet.Find(id);
-	}
-
-	public async Task<T?> GetByIdAsync(int id)
-	{
-		return await _dbSet.FindAsync(id);
-	}
-
-	public IQueryable<T> GetQuery()
-	{
-		return _dbSet.AsQueryable();
-	}
-	
-	public IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate)
-	{
-		return _dbSet.Where(predicate);
-	}
-
-    public IQueryable<T> GetQueryWithDeleted()
-    {
-        return GetQuery().Where(x => x.IsDelete || x.IsDelete == false);
-    }
-
-	public void Update(T entity)
-	{
-		_dbSet.Update(entity);
-	}
-
-	public void AddRange(T[] entities)
-	{
-		_dbSet.AddRange(entities);
-	}
-
-	public IQueryable<T> GetAllQuery()
-	{
-		return _dbSet.AsQueryable();
-	}
-
-	private void UpdateEntityObject(T entity)
-    {
-        _dbSet.Attach(entity);
-        entity.UpdatedDate = DateTime.UtcNow;
-    }
 }

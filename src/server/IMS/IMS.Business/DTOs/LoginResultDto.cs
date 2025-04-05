@@ -1,3 +1,4 @@
+using System;
 
 namespace IMS.Business.DTOs;
 

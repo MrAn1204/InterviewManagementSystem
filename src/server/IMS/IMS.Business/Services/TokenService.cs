@@ -1,8 +1,11 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -24,27 +27,25 @@ public class TokenService(
     private readonly UserManager<User> _userManager = userManager;
 
 
-    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(int userId)
+    public async Task<JwtSecurityToken> GenerateAccessTokenAsync(User user)
     {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.NameId, user!.Id.ToString()),
+            new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, user.UserName ?? string.Empty),
             new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
-        var roles = await _userManager.GetRolesAsync(user);
+    var roles = user.UserRoles?.Select(x => x.Role) ?? [];
 
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role ?? string.Empty)));
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role?.Name ?? string.Empty)));
 
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!));
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:ValidIssuer"],
-            audience: _configuration["Jwt:ValidAudience"],
+            issuer: _configuration[_configuration["Jwt:ValidIssuer"]!],
+            audience: _configuration[_configuration["Jwt:ValidAudience"]!],
             claims: claims,
             expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpirationInMinutes"])),
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
@@ -71,15 +72,12 @@ public class TokenService(
         };
         
         _unitOfWorks.RefreshTokenRepository.Add(refreshToken);
-        await _unitOfWorks.SaveChangesAsync();
 
         return refreshToken;
     }
 
-    public async Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(int userId)
+    public async Task<ResetPasswordToken> GenerateResetPasswordTokenAsync(User user)
     {       
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         var resetToken = new ResetPasswordToken
@@ -90,7 +88,6 @@ public class TokenService(
         };
         
         _unitOfWorks.ResetPasswordTokenRepository.Add(resetToken);
-        await _unitOfWorks.SaveChangesAsync();
 
         return resetToken;
     }
@@ -116,20 +113,6 @@ public class TokenService(
         _unitOfWorks.RefreshTokenRepository.Update(revokeToken);
 
         return true;
-    }
-
-    public async Task<int> RevokeAllRefreshTokenAsync(int userId)
-    {
-        var activeTokens = await _unitOfWorks.Context.RefreshTokens
-            .Where(r => r.UserId == userId && !r.IsRevoked)
-            .ToListAsync();
-        
-        foreach (var token in activeTokens)
-        {
-            token.IsRevoked = true;
-        }
-        
-        return await _unitOfWorks.SaveChangesAsync();
     }
 
     public async Task<bool> MarkUsedResetPasswordTokenAsync(string token)
@@ -160,6 +143,6 @@ public class TokenService(
         var resetToken = await _unitOfWorks.ResetPasswordTokenRepository.GetQuery()
             .FirstOrDefaultAsync(x => x.Token == token);
 
-        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow && !resetToken.IsUsed;
+        return resetToken != null && resetToken.ExpiryDate > DateTime.UtcNow;
     }
 }

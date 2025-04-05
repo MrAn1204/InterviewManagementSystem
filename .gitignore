@@ -20,7 +20,6 @@ obj/
 .env
 *.config.local
 appsettings.Development.json
-
 secrets.json
 
 # 👉 Ignore dependency folders

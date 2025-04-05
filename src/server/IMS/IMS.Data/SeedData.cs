@@ -1,6 +1,10 @@
 ﻿using IMS.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IMS.Data;
 
@@ -87,7 +91,7 @@ public static class SeedData
 
 			foreach (var user in users)
 			{
-				user.PasswordHash = passwordHasher.HashPassword(user, "Abc@123");
+				user.PasswordHash = passwordHasher.HashPassword(user, "123");
 				userManager.CreateAsync(user).Wait();
 			}
 		}

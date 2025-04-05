@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { HeaderService } from '../../../services/header/header.service';
-import { SidebarService } from '../../../services/sidebar/sidebar.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +6,6 @@ import { SidebarService } from '../../../services/sidebar/sidebar.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
-  constructor(public sidebarService: SidebarService,
-    public headerService: HeaderService
-  ) { }
-  ngOnInit(): void {
-    this.headerService.setTitle('Homepage');
-  }
+export class DashboardComponent {
+
 }

@@ -32,6 +32,10 @@
             class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md p-2 border"
             placeholder="••••••••" />
         </div>
+        <p class="text-red-500 text-xs italic mt-1"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+          Password must be 8-20 characters.
+        </p>
       </div>
 
       <div class="flex items-center justify-between mb-6">
@@ -45,7 +49,7 @@
         </div>
       </div>
 
-      <p id="error-message" *ngIf="form.invalid && form.touched" class="text-red-500 text-sm mb-4">Please fix the errors before submitting.
+      <p *ngIf="form.invalid && form.touched" class="text-red-500 text-sm mb-4">Please fix the errors before submitting.
       </p>
 
       <button type="submit" [disabled]="form.invalid"

@@ -2,8 +2,10 @@ using System;
 
 namespace IMS.Domain.Entities;
 
-public class ResetPasswordToken : BaseEntity
+public class ResetPasswordToken
 {
+    public int Id { get; set; }
+
     public required string Token { get; set; }
 
     public required DateTime ExpiryDate { get; set; }

@@ -23,19 +23,4 @@ public class EmailService(IConfiguration configuration) : IEmailService
         await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true);
     }
-
-    public async Task SendUserCreatedEmailAsync(string email, string username, string password)
-    {
-        // Triển khai logic gửi email ở đây
-        var subject = "Your Account Has Been Created";
-        var body = $@"
-            <h1>Welcome to IMS System</h1>
-            <p>Username: {username}</p>
-            <p>Password: {password}</p>
-            <p>Please change your password after first login.</p>
-        ";
-        
-        // TODO: Triển khai logic gửi email thực tế
-        await Task.CompletedTask;
-    }
 }

@@ -34,17 +34,8 @@ namespace IMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -86,14 +77,8 @@ namespace IMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Gender")
+                    b.Property<bool>("Gender")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LevelId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -101,9 +86,6 @@ namespace IMS.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecruiterId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -113,10 +95,6 @@ namespace IMS.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LevelId");
-
-                    b.HasIndex("RecruiterId");
 
                     b.ToTable("Candidates");
                 });
@@ -165,18 +143,9 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("DepartmentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -200,15 +169,6 @@ namespace IMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<DateOnly>("InterviewDate")
-                        .HasColumnType("date");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("JobId")
                         .HasColumnType("int");
 
@@ -221,17 +181,9 @@ namespace IMS.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RecruiterId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Result")
-                        .HasColumnType("int");
-
-                    b.Property<TimeOnly>("StartTime")
-                        .HasColumnType("time");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -247,8 +199,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("JobId");
-
-                    b.HasIndex("RecruiterId");
 
                     b.ToTable("Interviews");
                 });
@@ -272,9 +222,6 @@ namespace IMS.Data.Migrations
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("SalaryMax")
                         .HasColumnType("decimal(18,2)");
@@ -366,21 +313,12 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LevelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -417,17 +355,14 @@ namespace IMS.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("InterviewId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -452,11 +387,26 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("CandidateId");
 
-                    b.HasIndex("DepartmentId");
-
                     b.HasIndex("InterviewId");
 
+                    b.HasIndex("JobId");
+
                     b.ToTable("Offers");
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.OfferDepartment", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OfferId", "DepartmentId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("OfferDepartments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.RefreshToken", b =>
@@ -467,14 +417,8 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsRevoked")
                         .HasColumnType("bit");
@@ -482,9 +426,6 @@ namespace IMS.Data.Migrations
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -502,14 +443,8 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("ExpiryDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsUsed")
                         .HasColumnType("bit");
@@ -517,9 +452,6 @@ namespace IMS.Data.Migrations
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -559,25 +491,11 @@ namespace IMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CandidateId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
                     b.Property<string>("SkillName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CandidateId");
 
                     b.ToTable("Skills");
                 });
@@ -618,13 +536,7 @@ namespace IMS.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -683,21 +595,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRole");
-                });
-
-            modelBuilder.Entity("InterviewInterviewers", b =>
-                {
-                    b.Property<int>("InterviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("InterviewId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("InterviewInterviewers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -795,25 +692,6 @@ namespace IMS.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("IMS.Domain.Entities.Candidate", b =>
-                {
-                    b.HasOne("IMS.Domain.Entities.Level", "HighestLevel")
-                        .WithMany()
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Domain.Entities.User", "Recruiter")
-                        .WithMany()
-                        .HasForeignKey("RecruiterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HighestLevel");
-
-                    b.Navigation("Recruiter");
-                });
-
             modelBuilder.Entity("IMS.Domain.Entities.CandidateJob", b =>
                 {
                     b.HasOne("IMS.Domain.Entities.Candidate", "Candidate")
@@ -870,16 +748,9 @@ namespace IMS.Data.Migrations
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("IMS.Domain.Entities.User", "Recruiter")
-                        .WithMany()
-                        .HasForeignKey("RecruiterId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Candidate");
 
                     b.Navigation("Job");
-
-                    b.Navigation("Recruiter");
 
                     b.Navigation("UserCreated");
                 });
@@ -966,29 +837,43 @@ namespace IMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("IMS.Domain.Entities.Department", "Department")
+                    b.HasOne("IMS.Domain.Entities.Interview", "Interview")
                         .WithMany("Offers")
-                        .HasForeignKey("DepartmentId")
+                        .HasForeignKey("InterviewId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("IMS.Domain.Entities.Interview", "Interview")
-                        .WithMany()
-                        .HasForeignKey("InterviewId");
+                    b.HasOne("IMS.Domain.Entities.Job", "Job")
+                        .WithMany("Offers")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Candidate");
 
-                    b.Navigation("Department");
-
                     b.Navigation("Interview");
+
+                    b.Navigation("Job");
 
                     b.Navigation("UserApproved");
                 });
 
-            modelBuilder.Entity("IMS.Domain.Entities.Skill", b =>
+            modelBuilder.Entity("IMS.Domain.Entities.OfferDepartment", b =>
                 {
-                    b.HasOne("IMS.Domain.Entities.Candidate", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("CandidateId");
+                    b.HasOne("IMS.Domain.Entities.Department", "Department")
+                        .WithMany("OfferDepartments")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Domain.Entities.Offer", "Offer")
+                        .WithMany("OfferDepartments")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.User", b =>
@@ -1021,21 +906,6 @@ namespace IMS.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("InterviewInterviewers", b =>
-                {
-                    b.HasOne("IMS.Domain.Entities.Interview", null)
-                        .WithMany()
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("IMS.Domain.Entities.Benefit", b =>
                 {
                     b.Navigation("JobBenefits");
@@ -1048,15 +918,18 @@ namespace IMS.Data.Migrations
                     b.Navigation("CandidateSkills");
 
                     b.Navigation("Offers");
-
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Department", b =>
                 {
-                    b.Navigation("Offers");
+                    b.Navigation("OfferDepartments");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.Interview", b =>
+                {
+                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Job", b =>
@@ -1070,11 +943,18 @@ namespace IMS.Data.Migrations
                     b.Navigation("JobLevels");
 
                     b.Navigation("JobSkills");
+
+                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Level", b =>
                 {
                     b.Navigation("JobLevels");
+                });
+
+            modelBuilder.Entity("IMS.Domain.Entities.Offer", b =>
+                {
+                    b.Navigation("OfferDepartments");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Role", b =>
