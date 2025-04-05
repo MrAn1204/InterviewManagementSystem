@@ -73,6 +73,7 @@ export class JobEditComponent implements OnInit {
       workingAddress: new FormControl(''),
       benefits: new FormControl('', Validators.required),
       levels: new FormControl('', Validators.required),
+      status: new FormControl(''),
       description: new FormControl('')
     });
   }
@@ -128,6 +129,7 @@ export class JobEditComponent implements OnInit {
         salaryMin: this.data.salaryMin,
         salaryMax: this.data.salaryMax,
         workingAddress: this.data.workingAddress,
+        status: this.data.status,
         description: this.data.description
       });
       

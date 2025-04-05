@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { JobModel } from '../../../../models/job/job.model';
 import { JOB_SERVICE } from '../../../../constants/injection/injection.constant';
-import { HeaderService } from '../../../../services/header/header.service';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

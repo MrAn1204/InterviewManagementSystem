@@ -1,7 +1,6 @@
 ﻿
 using System.Linq.Expressions;
 
-
 namespace IMS.Data.Repositories
 {
 	public interface IGenericRepository<T> where T : class
@@ -28,9 +27,11 @@ namespace IMS.Data.Repositories
 
 		IQueryable<T> GetQuery(Expression<Func<T, bool>> predicate);
 
+		IQueryable<T> GetQueryWithDeleted();
+		
 		IQueryable<T> Get(Expression<Func<T, bool>>? filter = null,
 						  Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
 						  string includeProperties = "");
 		void AddRange(T[] entities);
-	}
+    }
 }
