@@ -83,15 +83,15 @@ export class CandidateListComponent implements OnInit {
   }
 
   public pageChange(direction: number): void {
-    if (
-      this.filter.pageNumber <= 1 ||
-      this.filter.pageNumber >= this.data.totalPages
-    ) {
-      return;
-    }
     if (direction < 0) {
+      if (this.filter.pageNumber <= 1) {
+        return;
+      }
       this.filter.pageNumber -= 1;
     } else {
+      if (this.filter.pageNumber >= this.data.totalPages) {
+        return;
+      }
       this.filter.pageNumber += 1;
     }
     this.candidateService.search(this.filter).subscribe((res) => {
