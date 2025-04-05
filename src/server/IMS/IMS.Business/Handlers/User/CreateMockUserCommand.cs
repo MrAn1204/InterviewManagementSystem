@@ -15,5 +15,7 @@ public class CreateMockUserCommand : IRequest<string>
     public int DepartmentId { get; set; }
     public required string[] Roles { get; set; } // Bỏ giá trị mặc định
     public string? Note { get; set; }
+    public string? Gender { get; set; }
+    public bool? IsActive { get; set; }
 }
 

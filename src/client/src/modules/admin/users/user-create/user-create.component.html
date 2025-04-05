@@ -132,17 +132,17 @@
 
         <!-- Status -->
         <div>
-          <label for="status" class="block text-lg font-semibold mb-1">
+          <label for="isActive" class="block text-lg font-semibold mb-1">
             Status <span class="text-red-500">*</span>
           </label>
-          <select id="status" formControlName="status"
+          <select id="isActive" formControlName="isActive"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
             <option value="" disabled selected>Select a status</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
             <option value="pending">Pending</option>
           </select>
-          <div *ngIf="userForm.get('status')?.invalid && (userForm.get('status')?.dirty || userForm.get('status')?.touched)"
+          <div *ngIf="userForm.get('isActive')?.invalid && (userForm.get('isActive')?.dirty || userForm.get('isActive')?.touched)"
             class="text-red-500 mt-1">
             Status is required
           </div>

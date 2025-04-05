@@ -7,8 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMS.Business.Handlers
-{
+namespace IMS.Business.Handlers;
+
     public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, PaginatedResult<UserDetailViewModel>>
 {
     private readonly UserManager<User> _userManager;
@@ -100,4 +100,3 @@ namespace IMS.Business.Handlers
 }
 
 
-}

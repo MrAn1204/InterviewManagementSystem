@@ -47,7 +47,9 @@ public class CreateMockUserCommandHandler(
                 Address = request.Address,
                 DOB = request.DOB,
                 PhoneNumber = request.PhoneNumber,
-                Note = request.Note
+                Note = request.Note,
+                Gender = request.Gender ,// Gán giá trị gender
+                IsActive = (bool)request.IsActive ? true : false
             };
 
             var createResult = await userManager.CreateAsync(user, request.Password);

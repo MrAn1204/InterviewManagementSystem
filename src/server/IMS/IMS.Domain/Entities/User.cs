@@ -10,10 +10,9 @@ public class User : IdentityUser<int>, IBaseEntity
 	public string? Note { get; set; }
 	public string? Gender { get; set; }
 	public DateTime? DOB { get; set; }
-	public bool IsActive { get; set; } = true;
+	public bool? IsActive { get; set; } = true;
 	public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 	public DateTime? UpdatedDate { get; set; }
-
 	// 1:N -> Department
 	public int DepartmentId { get; set; }
 

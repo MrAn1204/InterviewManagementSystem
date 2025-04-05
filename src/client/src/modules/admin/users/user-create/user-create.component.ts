@@ -33,7 +33,7 @@ export class UserCreateComponent implements OnInit{
       dob: [''],
       address: [''],
       gender: ['', Validators.required],
-      status: ['', Validators.required],
+      isActive: ['', Validators.required],
       phoneNumber: ['', Validators.pattern(/^[0-9]{10,11}$/)],
       departmentId: ['', Validators.required],
       roles: [[], Validators.required],
