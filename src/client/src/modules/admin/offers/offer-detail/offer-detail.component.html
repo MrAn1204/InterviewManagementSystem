@@ -1,9 +1,4 @@
 <div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
-    Offer Detail
-  </h1>
-
   <!-- Breadcrumb -->
   <div class="pb-8 flex items-center justify-between">
     <!-- Bên trái: Đường dẫn -->
@@ -21,6 +16,39 @@
 
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <div class="flex justify-end">
+      <!-- Cancel -->
+      <button *ngIf="canShowButton('Cancel')" type="button"
+        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        Cancel offer
+      </button>
+      <!-- Declined -->
+      <button *ngIf="canShowButton('Declined')" type="button"
+        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        Declined
+      </button>
+      <!-- Accept -->
+      <button *ngIf="canShowButton('Accept')" type="button"
+        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        Accept
+      </button>
+      <!-- Approve -->
+      <button *ngIf="canShowButton('Approve')" type="button"
+        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
+        Approve
+      </button>
+      <!-- Reject -->
+      <button *ngIf="canShowButton('Reject')" type="button"
+        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
+        Reject
+      </button>
+      <!-- Mark as sent to candidate -->
+      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button"
+        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
+        Mark as sent to candidate
+      </button>
+    </div>
+
     <!-- Phần I: Offer information -->
     <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
 
@@ -150,18 +178,8 @@
 
     <!-- Action buttons -->
     <div class="mt-8 flex justify-end">
-      <!-- Approve -->
-      <button type="button"
-        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
-        Approve
-      </button>
-      <!-- Reject -->
-      <button type="button"
-        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
-        Reject
-      </button>
       <!-- Edit -->
-      <button type="button"
+      <button *ngIf="canShowButton('Edit')" type="button" [routerLink]="'/admin/offers/' + offer.id + '/edit'"
         class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>

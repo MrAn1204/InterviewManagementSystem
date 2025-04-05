@@ -5,15 +5,18 @@ import { DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/inj
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-offer-detail',
-  imports: [RouterLink],
+  imports: [RouterLink,CommonModule ],
   templateUrl: './offer-detail.component.html',
   styleUrl: './offer-detail.component.css'
 })
 export class OfferDetailComponent {
+  public user: any;
   public isEditing: boolean = false;
+
 
   public offerId!: number;
   public offer!: OfferModel;
@@ -27,6 +30,9 @@ export class OfferDetailComponent {
         private readonly dataForInputService: IDataForInputService,) {}
   
     ngOnInit(): void {
+      const userJson = localStorage.getItem('userInformation') || sessionStorage.getItem('userInformation');
+      this.user = userJson ? JSON.parse(userJson) : null;
+
       // Lấy ID từ URL
       this.route.paramMap.subscribe(params => {
         this.offerId = Number(params.get('id'));
@@ -67,5 +73,42 @@ export class OfferDetailComponent {
   get interviewer(): string {
     return this.offer.interviewTitle + "\nInterviewer: "
      + this.usersInterviewer?.map(user => user.userName).join(', ') || '';
+  }
+
+  // Kiểm tra xem nút có được hiển thị không
+  canShowButton(button: string): boolean {
+    const status = this.offer?.status?.toLowerCase();  // Chuyển status thành chữ thường
+    const roles: string[] = this.user.roles.map((role: string) => role.toLowerCase());  // Chuyển tất cả roles thành chữ thường
+  
+    console.log("roles: ", roles);
+    console.log("status: ", status);
+
+    // Quy tắc của các nút
+    const buttonRules: { [key: string]: string[] } = {
+      'Edit': ['waiting for approval'],
+      'Accept': ['waiting for response'],
+      'Approve': ['waiting for approval'],
+      'Reject': ['waiting for approval'],
+      'Cancel': ['waiting for approval', 'approved offer', 'waiting for response', 'accepted offer'],
+      'Mark as sent to candidate': ['approved offer'],
+      'Declined': ['waiting for response']
+    };
+  
+    // Quy tắc vai trò cho các nút
+    const roleRules: { [key: string]: string[] } = {
+      'Edit': ['recruiter', 'manager', 'admin'],
+      'Accept': ['recruiter', 'manager', 'admin'],
+      'Approve': ['manager', 'admin'],
+      'Reject': ['manager', 'admin'],
+      'Cancel': ['recruiter', 'manager', 'admin'],
+      'Mark as sent to candidate': ['recruiter', 'manager', 'admin'],
+      'Declined': ['recruiter', 'manager', 'admin']
+    };
+  
+    // Kiểm tra điều kiện có thỏa mãn không
+    const canShow: boolean = buttonRules[button]?.includes(status) && roles.some(role => roleRules[button]?.includes(role));
+    console.log("Can Show Button: ", canShow);  // Kiểm tra kết quả của điều kiện
+
+    return canShow;
   }
 }
