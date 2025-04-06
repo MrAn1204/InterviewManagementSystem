@@ -63,8 +63,6 @@ export class JobListComponent
     this.headerService.setTitle('Job');
     this.authService.getUserInformation().subscribe((user) => {
       this.createdBy = user?.id ? Number(user.id) : 1;
-      console.log(this.createdBy);
-
     });
     this.searchData();
   }
