@@ -69,6 +69,7 @@ builder.Services.AddScoped<IFileService,FileService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
+builder.Services.AddSingleton<IHostedService, OfferReminderBackgroundService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));

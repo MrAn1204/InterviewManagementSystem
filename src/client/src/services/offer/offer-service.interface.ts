@@ -13,5 +13,7 @@ export interface IOffService {
 
   update(id: number, data: any): Observable<boolean>;
 
+  changeStatus(data: any): Observable<boolean>;
+
   exportOffers(data: any): Observable<Blob>;
 }

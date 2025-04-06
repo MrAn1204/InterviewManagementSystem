@@ -10,14 +10,15 @@
       </div>
       <select formControlName="departmentName" class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
         <option value="" selected>Department</option>
-        <option>Nhân sự</option>
-        <option>Kỹ thuật</option>
+        <option *ngFor="let department of departments" [value]="department.departmentName">
+          {{ department.departmentName }}
+        </option>
       </select>
       <select formControlName="candidateStatus" class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
         <option value="" selected>Status</option>
-        <option>Open</option>
-        <option>Waiting for interview</option>
-        <option>Cancelled for interview</option>
+        <option *ngFor="let status of statusList" [value]="status.name">
+          {{ status.name }}
+        </option>
       </select>
     </div>
 

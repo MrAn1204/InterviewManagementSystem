@@ -18,32 +18,35 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <div class="flex justify-end">
       <!-- Cancel -->
-      <button *ngIf="canShowButton('Cancel')" type="button"
+      <button *ngIf="canShowButton('Cancel')" type="button" (click)="openModal()"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Cancel offer
       </button>
       <!-- Declined -->
       <button *ngIf="canShowButton('Declined')" type="button"
+        (click)="changeStatusOffer('Declined offer')" (click)="changeStatusCandidate('DeclinedOffer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Declined
       </button>
       <!-- Accept -->
-      <button *ngIf="canShowButton('Accept')" type="button"
+      <button *ngIf="canShowButton('Accept')" type="button" 
+        (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
       </button>
       <!-- Approve -->
-      <button *ngIf="canShowButton('Approve')" type="button"
+      <button *ngIf="canShowButton('Approve')" type="button" (click)="changeStatusOffer('Approved offer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
         Approve
       </button>
       <!-- Reject -->
-      <button *ngIf="canShowButton('Reject')" type="button"
+      <button *ngIf="canShowButton('Reject')" type="button" (click)="changeStatusOffer('Rejected offer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Reject
       </button>
       <!-- Mark as sent to candidate -->
-      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button"
+      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button" 
+        (click)="changeStatusOffer('Waiting for Response')" (click)="changeStatusCandidate('Waiting for Response')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Mark as sent to candidate
       </button>
@@ -175,6 +178,7 @@
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>{{offer.note}}</textarea>
       </div>
     </div>
+    
 
     <!-- Action buttons -->
     <div class="mt-8 flex justify-end">
@@ -190,4 +194,10 @@
       </button>
     </div>
   </div>
+
+  <app-confirm-modal
+    [isOpen]="isModalOpen"
+    (onClose)="handleCloseModal()"
+    (onConfirm)="handleConfirmCancel()">
+  </app-confirm-modal>
 </div>

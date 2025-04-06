@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
 import { CommonModule } from '@angular/common';
 import { ExportOfferModalComponent } from '../../../modals/export-offer-modal/export-offer-modal.component';
+import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
+import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { DepartmentService } from '../../../../services/department/department.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -34,6 +37,8 @@ export class OfferListComponent {
 
   public searchForm!: FormGroup;
   public data!: OfferModel[];
+  public statusList!: CandidateStatusModel[];
+  public departments: any[] = [];
   isExportModalOpen = false;
 
   openExportModal() {
@@ -49,18 +54,30 @@ export class OfferListComponent {
   constructor(
     private fb: FormBuilder,
     private headerService: HeaderService,
+    private departmentService: DepartmentService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
+    @Inject(DATA_FOR_INPUT_SERVICE) private dataForInputService: IDataForInputService,
   ) { }
 
   ngOnInit(): void {
     this.headerService.setTitle('Offer');
     this.getAllOffers();
 
+    this.dataForInputService.getAllCandidateStatus().subscribe((res) => {
+      this.statusList = res;
+    });
+
     // Khởi tạo form
     this.searchForm = this.fb.group({
       keyword: [''],
       departmentName: [''],
       candidateStatus: [''],
+    });
+
+    this.departmentService.getAllDepartments().subscribe({
+      next: (data) => {
+        this.departments = data;
+      }
     });
   }
 

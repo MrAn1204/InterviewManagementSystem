@@ -35,6 +35,10 @@ export class OfferService implements IOffService {
     return this.httpClient.put<boolean>(`${this.url}/${id}`, data);
   }
 
+  changeStatus(data: any): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.url}/status`, data);
+  }
+
   exportOffers(data: any) {
     return this.httpClient.post<Blob>(
       `${this.url}/export`,

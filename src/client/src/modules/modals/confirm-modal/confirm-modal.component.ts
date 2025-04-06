@@ -16,7 +16,7 @@ export class ConfirmModalComponent {
     this.onClose.emit(); 
   }
 
-  public confirmDelete() {
+  public confirm() {
     this.onConfirm.emit(); 
     this.closeModal();
   }
