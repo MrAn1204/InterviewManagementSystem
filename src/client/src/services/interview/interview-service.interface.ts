@@ -16,5 +16,5 @@ export interface IInterviewService {
         interview: InterviewModel
     ): Observable<InterviewModel>;
 
-    delete(id: number): Observable<boolean>;
+    sendReminder(email: string, interviewId: number, interviewLink: string): Observable<boolean>;
 }

@@ -12,6 +12,8 @@ using IMS.Domain.Entities;
 using IMS.Data.UnitOfWorks;
 using IMS.Business.Mappings;
 using Microsoft.OpenApi.Models;
+using Hangfire;
+using Hangfire.SqlServer;
 using System.Reflection;
 
 
@@ -111,6 +113,22 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddHangfire(config =>
+    config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"), 
+                new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.FromSeconds(15),
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -123,6 +141,9 @@ if (app.Environment.IsDevelopment())
         options.DisplayRequestDuration();
         options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
     });
+
+    app.UseHangfireDashboard();
+    app.MapHangfireDashboard();
 }
 
 using (var scope = app.Services.CreateScope())
