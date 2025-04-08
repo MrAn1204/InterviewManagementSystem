@@ -9,4 +9,5 @@ public class Level : BaseEntity
 
 	// N:N -> Job
 	public ICollection<JobLevel>? JobLevels { get; set; }
+	public ICollection<Offer>? Offers { get; set; }
 }

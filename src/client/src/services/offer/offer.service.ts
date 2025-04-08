@@ -12,12 +12,12 @@ export class OfferService implements IOffService {
   private readonly url = 'http://localhost:5113/api/Offer';
 
   constructor(private httpClient: HttpClient) { }
-  getAll(): Observable<OfferModel[]> {
-    return this.httpClient.get<OfferModel[]>(this.url);
+  getAll(): Observable<PaginatedResult<OfferModel>> {
+    return this.httpClient.get<PaginatedResult<OfferModel>>(this.url);
   }
   
-  search(filter: any): Observable<OfferModel[]> {
-      return this.httpClient.post<OfferModel[]>(
+  search(filter: any): Observable<PaginatedResult<OfferModel>> {
+      return this.httpClient.post<PaginatedResult<OfferModel>>(
         `${this.url}/search`,
         filter
       );
@@ -33,6 +33,10 @@ export class OfferService implements IOffService {
   
   update(id: number, data: any): Observable<boolean> {
     return this.httpClient.put<boolean>(`${this.url}/${id}`, data);
+  }
+
+  changeStatus(data: any): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.url}/status`, data);
   }
 
   exportOffers(data: any) {

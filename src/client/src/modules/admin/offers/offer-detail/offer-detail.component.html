@@ -1,16 +1,10 @@
 <div class="container mx-auto max-w-screen-xl py-8 px-4">
   <!-- Breadcrumb -->
-  <div class="pb-8 flex items-center justify-between">
-    <!-- Bên trái: Đường dẫn -->
-    <div>
-      <a routerLink="/admin/offers" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Offer List</a>
-      >
-      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Offer Detail</a>
-    </div>
+  <div class="pb-8 flex items-center justify-end">
     <!-- Bên phải: thông tin Created/Updated nếu muốn -->
     <div class="text-sm text-gray-500">
-      <p>Created at: 2023-12-01</p>
-      <p>Last updated: 2023-12-05</p>
+      <p>Created at: {{offer.createdDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
+      <p>Last updated: {{offer.updatedDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
     </div>
   </div>
 
@@ -18,32 +12,35 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <div class="flex justify-end">
       <!-- Cancel -->
-      <button *ngIf="canShowButton('Cancel')" type="button"
+      <button *ngIf="canShowButton('Cancel')" type="button" (click)="openModal()"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Cancel offer
       </button>
       <!-- Declined -->
       <button *ngIf="canShowButton('Declined')" type="button"
+        (click)="changeStatusOffer('Declined offer')" (click)="changeStatusCandidate('DeclinedOffer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Declined
       </button>
       <!-- Accept -->
-      <button *ngIf="canShowButton('Accept')" type="button"
+      <button *ngIf="canShowButton('Accept')" type="button" 
+        (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
       </button>
       <!-- Approve -->
-      <button *ngIf="canShowButton('Approve')" type="button"
+      <button *ngIf="canShowButton('Approve')" type="button" (click)="changeStatusOffer('Approved offer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
         Approve
       </button>
       <!-- Reject -->
-      <button *ngIf="canShowButton('Reject')" type="button"
+      <button *ngIf="canShowButton('Reject')" type="button" (click)="changeStatusOffer('Rejected offer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Reject
       </button>
       <!-- Mark as sent to candidate -->
-      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button"
+      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button" 
+        (click)="changeStatusOffer('Waiting for Response')" (click)="changeStatusCandidate('Waiting for Response')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Mark as sent to candidate
       </button>
@@ -53,129 +50,111 @@
     <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Candidate (chỉ đọc) -->
+      <!-- Candidate (as paragraph) -->
       <div class="md:col-span-2">
         <label for="candidate" class="block text-lg font-semibold mb-1">
           Candidate
         </label>
-        <input type="text" id="candidate" name="candidate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.candidateName}}" />
+        <p class="rounded-md">{{offer.candidateName}}</p>
       </div>
 
-      <!-- Position (chỉ đọc) -->
+      <!-- Position (as paragraph) -->
       <div>
         <label for="position" class="block text-lg font-semibold mb-1">
           Position
         </label>
-        <input type="text" id="position" name="position"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="{{offer.position}}" />
+        <p class="rounded-md">{{offer.position}}</p>
       </div>
 
-      <!-- Approver (chỉ đọc) -->
+      <!-- Approver (as paragraph) -->
       <div>
         <label for="approver" class="block text-lg font-semibold mb-1">
           Approver
         </label>
-        <input type="text" id="approver" name="approver"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.approver}}" />
+        <p class="rounded-md">{{offer.approver}}</p>
       </div>
 
-      <!-- Interview Info (chỉ đọc) -->
+      <!-- Interview Info (as paragraph) -->
       <div class="md:col-span-2">
         <label for="interview" class="block text-lg font-semibold mb-1">
           Interview Info
         </label>
-        <textarea type="text" id="interview" name="interview"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          [value]="interviewer" ></textarea>
+        <p class="rounded-md">{{interviewer}}</p>
       </div>
 
-      <!-- Contract Period (chỉ đọc) -->
+      <!-- Contract Period (as paragraph) -->
       <div class="md:col-span-2">
         <label for="contractPeriod" class="block text-lg font-semibold mb-1">
           Contract Period
         </label>
-        <input type="text" id="contractPeriod" name="contractPeriod"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="From {{offer.contractStart}}  To {{offer.contractEnd}}" />
+        <p class="rounded-md">From {{offer.contractStart}} To {{offer.contractEnd}}</p>
       </div>
 
-      <!-- Contract Type (chỉ đọc) -->
+      <!-- Contract Type (as paragraph) -->
       <div>
         <label for="contractType" class="block text-lg font-semibold mb-1">
           Contract Type
         </label>
-        <input type="text" id="contractType" name="contractType"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.contractType}}" />
+        <p class="rounded-md">{{offer.contractType}}</p>
       </div>
 
-      <!-- Level (chỉ đọc) -->
+      <!-- Level (as paragraph) -->
       <div>
         <label for="level" class="block text-lg font-semibold mb-1">
           Level
         </label>
-        <input type="text" id="level" name="level"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.level}}" />
+        <p class="rounded-md">{{offer.levelName}}</p>
       </div>
 
-      <!-- Department (chỉ đọc) -->
+      <!-- Department (as paragraph) -->
       <div>
         <label for="department" class="block text-lg font-semibold mb-1">
           Department
         </label>
-        <input type="text" id="department" name="department"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.departmentName}}" />
+        <p class="rounded-md">{{offer.departmentName}}</p>
       </div>
 
-      <!-- Recruiter Owner (chỉ đọc) -->
+      <!-- Recruiter Owner (as paragraph) -->
       <div>
         <label for="recruiter" class="block text-lg font-semibold mb-1">
           Recruiter Owner
         </label>
-        <input type="text" id="recruiter" name="recruiter"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          [value]="recruiter"/>
+        <p class="rounded-md">{{recruiter}}</p>
       </div>
 
-      <!-- Due Date (chỉ đọc) -->
+      <!-- Due Date (as paragraph) -->
       <div>
         <label for="dueDate" class="block text-lg font-semibold mb-1">
           Due Date
         </label>
-        <input type="text" id="dueDate" name="dueDate"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.dueDate}}" />
+        <p class="rounded-md">{{offer.dueDate}}</p>
       </div>
 
-      <!-- Basic Salary (chỉ đọc) -->
+      <!-- Basic Salary (as paragraph) -->
       <div>
         <label for="salary" class="block text-lg font-semibold mb-1">
           Basic Salary
         </label>
-        <input type="text" id="salary" name="salary"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly value="{{offer.salaryBasic}}" />
+        <p class="rounded-md">{{offer.salaryBasic}}</p>
       </div>
 
-      <!-- Status (chỉ đọc) -->
+      <!-- Status (as paragraph) -->
       <div>
         <label for="status" class="block text-lg font-semibold mb-1">
           Status
         </label>
-        <input type="text" id="status" name="status"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly
-          value="{{offer.status}}" />
+        <p class="rounded-md">{{offer.status}}</p>
       </div>
 
-      <!-- Note (chỉ đọc) -->
+      <!-- Note (as paragraph) -->
       <div class="md:col-span-2">
         <label for="note" class="block text-lg font-semibold mb-1">
           Note
         </label>
-        <textarea id="note" name="note" rows="3"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none" readonly>{{offer.note}}</textarea>
+        <p class="rounded-md">{{offer.note}}</p>
       </div>
     </div>
-
+    
     <!-- Action buttons -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
@@ -190,4 +169,10 @@
       </button>
     </div>
   </div>
+
+  <app-confirm-modal
+    [isOpen]="isModalOpen"
+    (onClose)="handleCloseModal()"
+    (onConfirm)="handleConfirmCancel()">
+  </app-confirm-modal>
 </div>

@@ -4,9 +4,9 @@ using MediatR;
 
 namespace IMS.Business.Handlers;
 
-public class OfferSearchQuery : IRequest<IEnumerable<OfferViewModel>>
+public class OfferSearchQuery : BaseSearchQuery<OfferViewModel>
 {
-    public string? Keyword { get; set; }
-    public string? departmentName { get; set; }
-    public string? candidateStatus { get; set; }
+    // public string? Keyword { get; set; }
+    // public string? departmentName { get; set; }
+    // public string? candidateStatus { get; set; }
 }

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
@@ -14,6 +14,8 @@ import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-offer-create',
@@ -40,6 +42,8 @@ export class OfferCreateComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private readonly toastr: ToastrService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
     @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
@@ -81,7 +85,8 @@ export class OfferCreateComponent implements OnInit {
           status: this.offer.status,
           approvedBy: this.offer.approvedBy,
           salaryBasic: this.offer.salaryBasic,
-          // levelId: this.offer.level,
+          levelId: this.offer.levelId,
+          levelName: this.offer.levelName,
           dueDate: this.offer.dueDate,
           note: this.offer.note
         });
@@ -105,7 +110,7 @@ export class OfferCreateComponent implements OnInit {
       contractEnd: ['', Validators.required],
       status: ['Waiting for Approval'],
       approvedBy: ['', Validators.required],
-      recruiterId: ['', Validators.required],
+      recruiterId: [''],
       salaryBasic: ['', Validators.required],
       levelId: ['', Validators.required],
       dueDate: ['', Validators.required],
@@ -174,17 +179,19 @@ export class OfferCreateComponent implements OnInit {
     }
 
     this.router.navigate(['/admin/offers']);
-  
-    // this.offerService.create(offerData).subscribe({
-    //   next: (response) => {
-    //     console.log('Offer created successfully', response);
-    //     // Navigate back to the offers list page
-    //     this.router.navigate(['/admin/offers']);
-    //   },
-    //   error: (error) => {
-    //     console.error('Error creating offer', error);
-    //   }
-    // });
+  }
+
+
+  public assignMe() {
+    this.authService.getUserInformation().subscribe((res) => {
+      if (res?.roles.includes('RECRUITER')) {
+        this.offerForm.patchValue({
+          recruiterId: res?.id
+        });
+      } else {
+        this.toastr.info('You do not have RECRUITER role', 'Info');
+      }
+    })
   }
 
   // Cancel button handler

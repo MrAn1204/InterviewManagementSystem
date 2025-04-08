@@ -51,6 +51,13 @@ namespace IMS.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("status")]
+        public async Task<IActionResult> ChangeStastus([FromBody] OfferChangeStatusCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
 
         [HttpPost("export")]
         public async Task<IActionResult> ExportOfferExcel([FromBody] OfferExportExcelCommand command, CancellationToken cancellationToken)

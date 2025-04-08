@@ -137,6 +137,11 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 			.HasForeignKey(o => o.DepartmentId)
 			.OnDelete(DeleteBehavior.Restrict);
 
+		modelBuilder.Entity<Offer>()
+			.HasOne(o => o.Level)
+			.WithMany(l => l.Offers)
+			.HasForeignKey(o => o.LevelId)
+			.OnDelete(DeleteBehavior.Restrict);
 		// ...
 
 		modelBuilder.Entity<Job>()

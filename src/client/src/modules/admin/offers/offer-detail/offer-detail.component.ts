@@ -1,15 +1,17 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CommonModule } from '@angular/common';
+import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
+import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-offer-detail',
-  imports: [RouterLink,CommonModule ],
+  imports: [RouterLink, CommonModule, ConfirmModalComponent],
   templateUrl: './offer-detail.component.html',
   styleUrl: './offer-detail.component.css'
 })
@@ -23,9 +25,12 @@ export class OfferDetailComponent {
   public usersInterviewer: UserForInputModel[] = [];
   public usersRecruiter: UserForInputModel[] = [];
 
+  isModalOpen: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
+    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
     @Inject(DATA_FOR_INPUT_SERVICE)
         private readonly dataForInputService: IDataForInputService,) {}
   
@@ -75,6 +80,22 @@ export class OfferDetailComponent {
      + this.usersInterviewer?.map(user => user.userName).join(', ') || '';
   }
 
+  changeStatusOffer(status: string): void{
+    const data: any = {
+      id: this.offerId,
+      status: status
+    };
+    this.offerService.changeStatus(data).subscribe();
+  }
+
+  changeStatusCandidate(status: string): void{
+    const data: any = {
+      id: this.offer.candidateId,
+      status: status
+    };
+    this.candidateService.changeStatus(data).subscribe();
+  }
+
   // Kiểm tra xem nút có được hiển thị không
   canShowButton(button: string): boolean {
     const status = this.offer?.status?.toLowerCase();  // Chuyển status thành chữ thường
@@ -110,5 +131,20 @@ export class OfferDetailComponent {
     console.log("Can Show Button: ", canShow);  // Kiểm tra kết quả của điều kiện
 
     return canShow;
+  }
+
+  
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  handleCloseModal() {
+    this.isModalOpen = false;
+  }
+
+  handleConfirmCancel() {
+    this.changeStatusOffer("Cancelled");
+    this.changeStatusCandidate("CancelledOffer");
+    this.isModalOpen = false;
   }
 }
