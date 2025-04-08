@@ -1,6 +1,6 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,8 @@ import { IJobService } from '../../../../services/job/job-service.interface';
 import { JobModel } from '../../../../models/job/job.model';
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 
 @Component({
   selector: 'app-interview-create',
@@ -26,34 +28,11 @@ export class InterviewCreateComponent implements OnInit {
 
   private readonly selectedInterviewersId: number[] = [];
 
-  // TODO: Replace with real data from database
-  public interviewerList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public interviewerList!: UserForInputModel[];
 
   public jobList!: JobModel[];
 
-  public recruiterList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public recruiterList!: UserForInputModel[];
 
   public candidateList!: CandidateModel[];
 
@@ -62,14 +41,21 @@ export class InterviewCreateComponent implements OnInit {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    @Inject(DATA_FOR_INPUT_SERVICE) private readonly dataForInputService: IDataForInputService,
     private readonly router: Router,
     private readonly toastr: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.createForm();
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
+    
+    this.dataForInputService.getUserForInputData(['RECRUITER'])
+      .subscribe((res) => this.recruiterList = res);
+    this.dataForInputService.getUserForInputData(['INTERVIEWER'])
+      .subscribe((res) => this.interviewerList = res);
   }
 
   public createForm() {

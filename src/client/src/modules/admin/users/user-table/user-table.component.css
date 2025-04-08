@@ -1,0 +1,20 @@
+/* Nếu bạn chưa sử dụng Tailwind, có thể thêm các quy tắc CSS cơ bản ở đây */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  text-align: left;
+}
+
+thead {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}

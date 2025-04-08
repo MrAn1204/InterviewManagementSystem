@@ -6,11 +6,13 @@ import { InterviewModel, InterviewStatus } from '../../../../models/interview/in
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InterviewTableComponent } from '../interview-table/interview-table.component';
-import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { MasterDataListComponent } from '../../master-data/master-data.component';
 import { ToastrService } from 'ngx-toastr';
 import { TableColumn } from '../../../../core/models/table/table-column.model';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 
 @Component({
   selector: 'app-interview-list',
@@ -19,18 +21,7 @@ import { TableColumn } from '../../../../core/models/table/table-column.model';
   styleUrl: './interview-list.component.css'
 })
 export class InterviewListComponent extends MasterDataListComponent<InterviewModel> {
-  public interviewerList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public interviewerList!: UserForInputModel[];
   public statusList: string[] = Object.keys(InterviewStatus).filter(key => isNaN(Number(key)));
 
   public override columns: TableColumn[] = [
@@ -46,7 +37,8 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
   constructor(
     private readonly headerService: HeaderService,
     private readonly toastr: ToastrService,
-    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService) {
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
+    @Inject(DATA_FOR_INPUT_SERVICE) private readonly dataForInputService: IDataForInputService) {
     super();
   }
 
@@ -55,6 +47,8 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
     this.interviewService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
+    this.dataForInputService.getUserForInputData(['INTERVIEWER'])
+      .subscribe((res) => this.interviewerList = res);
     this.createForm();
   }
 

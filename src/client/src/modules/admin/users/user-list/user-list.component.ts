@@ -1,66 +1,77 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user/user.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgFor } from '@angular/common';
-import { PaginatedResult, User } from '../../../../models/User';
+import { User } from '../../../../models/User';
 import { HeaderService } from '../../../../services/header/header.service';
+import { MasterDataListComponent } from '../../master-data/master-data.component';
+import { PaginatedResult } from '../../../../models/paginated-result.model';
+import { TableColumn } from '../../../../core/models/table/table-column.model';
+import { InterviewTableComponent } from '../../interviews/interview-table/interview-table.component';
+import { UserTableComponent } from "../user-table/user-table.component";
 
 @Component({
   selector: 'app-user-list',
-  imports: [ FormsModule,NgxPaginationModule, NgFor, RouterLink],
+  standalone: true,
+  imports: [FormsModule, NgxPaginationModule, NgFor, RouterLink, UserTableComponent, ReactiveFormsModule, UserTableComponent],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+  styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent extends MasterDataListComponent<User> implements OnInit {
   headerService = inject(HeaderService);
-  users: User[] = [];
+  private userService = inject(UserService);
+  private fb = inject(FormBuilder);
+  private readonly router!: Router;
   roles: string[] = ['ADMIN', 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
-  searchQuery: string = '';
-  selectedRole: string = '';
-  page: number = 1;
-  pageSize: number = 3;
-  totalCount: number = 0;
 
-  constructor(private userService: UserService) { }
+    public override columns: TableColumn[] = [
+      { name: 'Full Name', value: 'fullName' },
+      { name: 'Email', value: 'email' },
+      { name: 'Address', value: 'address' },
+      { name: 'Roles', value: 'roles' },
+      { name: 'Status', value: 'isActive' }
+    ];
 
-  ngOnInit(): void {
-    this.loadUsers();
-    this.headerService.setTitle('User Management')
+  override ngOnInit(): void {
+    // Đặt tiêu đề trang
+    this.headerService.setTitle('User Management');
+    // Gọi hàm khởi tạo của MasterDataListComponent: tạo form & load dữ liệu ban đầu
+    super.ngOnInit();
   }
 
-  loadUsers(): void {
-    this.userService.getUsers({
-      search: this.searchQuery,
-      roles: this.selectedRole ? [this.selectedRole] : [],
-      pageNumber: this.page,
-      pageSize: this.pageSize
-    }).subscribe({
-      next: (response: PaginatedResult<User>) => {
-        this.users = response.items;
-        this.totalCount = response.totalCount;
-      },
-      error: (err) => console.error('Lỗi tải dữ liệu:', err)
+  // Khởi tạo reactive form dùng cho tìm kiếm
+  protected override createForm(): void {
+    this.searchForm = this.fb.group({
+      keyword: [''],
+      status: ['']
     });
   }
 
-  onSearch(): void {
-    this.page = 1;
-    this.loadUsers();
+  // Gọi API tìm kiếm người dùng và gán dữ liệu vào this.data
+  protected override searchData(): void {
+    Object.assign(this.filter, this.searchForm.value);
+    const searchParams = {
+      search: this.filter.keyword,
+      roles: this.filter.status ? [this.filter.status] : [],
+      pageNumber: this.filter.pageNumber,
+      pageSize: this.filter.pageSize,
+    };
+
+    this.userService.getUsers(searchParams).subscribe({
+      next: (response: PaginatedResult<User>) => {
+        this.data = response;
+        this.currentPage = this.filter.pageNumber;
+        this.currentPageSize = this.filter.pageSize;
+      },
+      error: (err) => console.error('Error loading data:', err)
+    });
   }
 
-  previousPage(): void {
-    if (this.page > 1) {
-      this.page--;
-      this.loadUsers();
-    }
+  public onSearch(): void {
+    this.filter.pageNumber = 1;
+    this.searchData();
   }
 
-  nextPage(): void {
-    if (this.page * this.pageSize < this.totalCount) {
-      this.page++;
-      this.loadUsers();
-    }
-  }
 }

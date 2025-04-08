@@ -13,7 +13,7 @@
           class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
           <option value="0" [selected]="searchForm.get('interviewerId')?.value === 0">Any Interviewer</option>
           <option *ngFor="let interviewer of interviewerList" [value]="interviewer.id">
-            {{ `${interviewer.fullname} - ${interviewer.username}` }}
+            {{ `${interviewer.fullName} - ${interviewer.userName}` }}
           </option>
         </select>
         <select id="status" formControlName="status"

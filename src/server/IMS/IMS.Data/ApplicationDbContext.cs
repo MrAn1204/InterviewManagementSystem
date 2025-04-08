@@ -28,6 +28,7 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
 	public DbSet<JobLevel> JobLevels { get; set; } = null!;
 	public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 	public DbSet<ResetPasswordToken> ResetPasswordTokens { get; set; } = null!;
+	public DbSet<Reminder> Reminders { get; set; } = null!;
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
