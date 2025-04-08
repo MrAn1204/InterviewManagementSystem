@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace IMS.Domain.Entities;
 
 public class Interview : BaseEntity
 {
+	[Required]
+	[MaxLength(100)]
 	public required string Title { get; set; }
 
 	public InterviewStatus Status { get; set; } = InterviewStatus.New;
@@ -12,12 +16,16 @@ public class Interview : BaseEntity
 
 	public string? MeetingID { get; set; }
 
+	[MaxLength(500)]
 	public string? Note { get; set; }
 
+	[Required]
 	public DateOnly InterviewDate { get; set; }
 
+	[Required]
 	public TimeOnly StartTime { get; set; }
 
+	[Required]
 	public TimeOnly EndTime { get; set; }
 
 	#region Foreign Keys

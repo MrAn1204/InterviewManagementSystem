@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, Inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { timeRangeValidator } from '../../../../validators/time-range.validator';
 
 @Component({
   selector: 'app-interview-edit',
@@ -87,25 +88,26 @@ export class InterviewEditComponent {
 
   public createForm(interview: InterviewModel) {
     this.form = new FormGroup({
-      title: new FormControl<string>(interview.title, []),
-      candidateId: new FormControl<number>(interview.candidateId ?? 0, []),
-      interviewDate: new FormControl<string>(interview.interviewDate, []),
-      startTime: new FormControl<string>(interview.startTime, []),
-      endTime: new FormControl<string>(interview.endTime, []),
-      jobId: new FormControl<number>(interview.jobId ?? 0, []),
-      interviewersId: new FormControl<number[]>(this.selectedInterviewersId, []),
+      title: new FormControl<string>(interview.title, [Validators.required, Validators.maxLength(100)]),
+      candidateId: new FormControl<number>(interview.candidateId ?? 0, [Validators.required, Validators.min(1)]),
+      interviewDate: new FormControl<string>(interview.interviewDate, [Validators.required]),
+      startTime: new FormControl<string>(interview.startTime, [Validators.required]),
+      endTime: new FormControl<string>(interview.endTime, [Validators.required]),
+      jobId: new FormControl<number>(interview.jobId ?? 0, [Validators.required, Validators.min(1)]),
+      interviewersId: new FormControl<number[]>(this.selectedInterviewersId, [Validators.required, Validators.minLength(1)]),
       location: new FormControl<string>(interview.location ?? '', []),
-      recruiterId: new FormControl<number>(interview.recruiterId ?? 0, []),
+      recruiterId: new FormControl<number>(interview.recruiterId ?? 0, [Validators.required, Validators.min(1)]),
       meetingId: new FormControl<string>(interview.meetingId ?? '', []),
-      note: new FormControl<string>(interview.note ?? '', []),
+      note: new FormControl<string>(interview.note ?? '', [Validators.maxLength(500)]),
       result: new FormControl<string | null>(interview.result ?? null, []),
       status: new FormControl<string>(interview.status.toString(), []),
-    });
+    }, { validators: timeRangeValidator });
   }
 
   public onSubmit() {
     if (this.form.invalid) {
-      console.log('Invalid');
+      this.form.markAllAsTouched();
+      this.toastr.error('Invalid form', 'Error');
       return;
     }
 

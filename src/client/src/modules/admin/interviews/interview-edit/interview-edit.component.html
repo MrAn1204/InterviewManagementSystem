@@ -19,6 +19,9 @@
           </label>
           <input type="text" id="title" formControlName="title" placeholder="Type a title..." [value]="interview.title"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
+            Title is required and must has less than 100 characters
+          </p>
         </div>
 
         <!-- Schedule Time -->
@@ -28,6 +31,10 @@
           </label>
           <input type="date" id="interviewDate" formControlName="interviewDate" [value]="interview.interviewDate"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <p class="text-red-500 text-xs italic mt-1"
+            *ngIf="form.get('interviewDate')?.invalid && form.get('interviewDate')?.touched">
+            Interview date is required
+          </p>
 
           <!-- Time Pickers Container -->
           <div class="flex flex-wrap sm:flex-nowrap gap-4">
@@ -45,6 +52,10 @@
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
             </div>
           </div>
+          <p class="text-red-500 text-xs italic mt-1"
+            *ngIf="form.hasError('timeRange') && form.get('startTime')?.touched">
+            {{form.getError('timeRange')}}
+          </p>
         </div>
 
         <!-- Candidate name -->
@@ -60,6 +71,10 @@
               {{ candidate.fullName }}
             </option>
           </select>
+          <p class="text-red-500 text-xs italic mt-1"
+            *ngIf="form.get('candidateId')?.invalid && form.get('candidateId')?.touched">
+            Candidate is required
+          </p>
         </div>
 
         <!-- Job -->
@@ -75,6 +90,9 @@
               {{ job.title }}
             </option>
           </select>
+          <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('jobId')?.invalid && form.get('jobId')?.touched">
+            Job is required
+          </p>
         </div>
 
         <!-- Interviewer (multi-select dropdown) -->
@@ -104,6 +122,10 @@
           </small>
           <input type="hidden" formControlName="interviewersId" id="interviewersHidden"
             [value]="selectedInterviewersId" />
+          <p class="text-red-500 text-xs italic mt-1"
+            *ngIf="selectedInterviewers.length === 0 && form.get('interviewersId')?.touched">
+            Interviewer is required
+          </p>
         </div>
 
         <!-- Recruiter owner -->
@@ -128,6 +150,10 @@
               Assign me
             </button>
           </div>
+          <p class="text-red-500 text-xs italic mt-1"
+            *ngIf="form.get('recruiterId')?.invalid && form.get('recruiterId')?.touched">
+            Recruiter is required
+          </p>
         </div>
 
         <!-- Location -->
@@ -155,6 +181,9 @@
           </label>
           <textarea id="note" formControlName="note" rows="8" placeholder="Type schedule note..." class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 
               focus:ring-[#1976d2] min-h-[150px] max-h-[300px]"></textarea>
+          <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('note')?.invalid && form.get('note')?.touched">
+            Note must be less than 500 characters
+          </p>
         </div>
 
         <!-- Result -->
