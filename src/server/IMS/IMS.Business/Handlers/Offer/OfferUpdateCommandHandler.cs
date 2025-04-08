@@ -33,6 +33,7 @@ public class OfferUpdateCommandHandler(IMapper mapper, IUnitOfWorks unitOfWork) 
         result.SalaryBasic = request.SalaryBasic;
         result.Note = request.Note;
         result.DueDate = request.DueDate;
+        result.UpdatedDate = DateTime.UtcNow;
 
         _unitOfWork.OfferRepository.Update(result);
         await _unitOfWork.SaveChangesAsync();

@@ -24,6 +24,7 @@ export class MasterDataListComponent<T> {
   public filter: SearchModel = {
     keyword: '',
     status: '',
+    departmentName: '',
     pageNumber: 1,
     pageSize: 5,
     orderBy: '',

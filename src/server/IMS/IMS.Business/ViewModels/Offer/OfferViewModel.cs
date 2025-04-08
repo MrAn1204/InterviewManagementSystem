@@ -19,7 +19,7 @@ public class OfferViewModel
 	public DateTime? ContractEnd { get; set; }
 	public string Status { get; set; } = "WaitingForApproval"; // or use ENUM
 	public int ApprovedBy { get; set; }
-	public string Approver { get; set; }
+	public string? Approver { get; set; }
 
 	public DateTime? ApprovedDate { get; set; }
 	public decimal SalaryBasic { get; set; }
@@ -28,5 +28,8 @@ public class OfferViewModel
 
     public int? DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
+
+	public DateTime CreatedDate { get; set; }
+	public DateTime UpdatedDate { get; set; }
 
 }

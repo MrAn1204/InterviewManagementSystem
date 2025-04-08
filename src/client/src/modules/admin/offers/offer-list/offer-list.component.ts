@@ -1,5 +1,6 @@
+import { MasterDataListComponent } from './../../master-data/master-data.component';
 import { Component, Inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
@@ -10,33 +11,26 @@ import { ExportOfferModalComponent } from '../../../modals/export-offer-modal/ex
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
 import { DepartmentService } from '../../../../services/department/department.service';
+import { TableComponent } from "../../../../core/components/table/table.component";
+import { TableColumn } from '../../../../core/models/table/table-column.model';
 
 @Component({
   selector: 'app-offer-list',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, ExportOfferModalComponent],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, ExportOfferModalComponent, TableComponent],
   templateUrl: './offer-list.component.html',
   styleUrl: './offer-list.component.css'
 })
-export class OfferListComponent {
-  // public filter: SearchModel = {
-  //   keyword: '',
-  //   departmentName: '',
-  //   candidateStatus,
-  //   status: '',
-  //   pageNumber: 1,
-  //   pageSize: 5,
-  //   orderBy: '',
-  //   orderDirection: OrderDirection.ASC,
-  // };
-  public keyword!: string;
-  public departmentName!: string;
-  public candidateStatus!: string;
-  public currentPage: number = 1;
-  public currentPageSize: number = 5;
-  public pageSizeOptions: number[] = [5, 10, 20, 50];
+export class OfferListComponent extends MasterDataListComponent<OfferModel> {
 
-  public searchForm!: FormGroup;
-  public data!: OfferModel[];
+  public override columns: TableColumn[] = [
+      { name: 'Candidate Name', value: 'candidateName' },
+      { name: 'Email', value: 'candidateEmail' },
+      { name: 'Approver', value: 'approver' },
+      { name: 'Department', value: 'departmentName' },
+      { name: 'Notes', value: 'note' },
+      { name: 'Status', value: 'status' },
+    ];
+
   public statusList!: CandidateStatusModel[];
   public departments: any[] = [];
   isExportModalOpen = false;
@@ -54,14 +48,17 @@ export class OfferListComponent {
   constructor(
     private fb: FormBuilder,
     private headerService: HeaderService,
+    private router: Router,
     private departmentService: DepartmentService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(DATA_FOR_INPUT_SERVICE) private dataForInputService: IDataForInputService,
-  ) { }
+  ) {
+    super();
+  }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.headerService.setTitle('Offer');
-    this.getAllOffers();
+    // this.getAllOffers();
 
     this.dataForInputService.getAllCandidateStatus().subscribe((res) => {
       this.statusList = res;
@@ -70,47 +67,70 @@ export class OfferListComponent {
     // Khởi tạo form
     this.searchForm = this.fb.group({
       keyword: [''],
+      status: [''],
       departmentName: [''],
-      candidateStatus: [''],
     });
+
+    this.searchData();
 
     this.departmentService.getAllDepartments().subscribe({
       next: (data) => {
         this.departments = data;
       }
     });
+
+    
   }
 
-  getAllOffers(): void {
-    this.offerService.getAll().subscribe({
-      next: (response) => {
-        this.data = response; // Gán dữ liệu trả về vào biến data
-        console.log('Danh sách Offers:', this.data);
-      },
-      error: (error) => {
-        console.error('Lỗi khi lấy danh sách Offer:', error);
-      }
-    });
-  }
+  // getAllOffers(): void {
+  //   this.offerService.getAll().subscribe({
+  //     next: (response) => {
+  //       this.data = response; // Gán dữ liệu trả về vào biến data
+  //       console.log('Danh sách Offers:', this.data);
+  //     },
+  //     error: (error) => {
+  //       console.error('Lỗi khi lấy danh sách Offer:', error);
+  //     }
+  //   });
+  // }
 
 
   // Hàm lấy giá trị departmentName và status từ form
-  onSearch(): void {
-    const filterData = this.searchForm.value;
-    console.log('Department:', filterData.departmentName);
-    console.log('Status:', filterData.candidateStatus);
-    console.log('Form Values:', this.searchForm.value);
-
-    console.log('Filter Data being sent to API:', filterData);
-
-    this.offerService.search(filterData).subscribe({
+  override searchData(): void {
+    console.log('Filter:', this.filter);
+    this.offerService.search(this.filter).subscribe({
       next: (response) => {
-        this.data = response;  // Gán lại dữ liệu theo kết quả tìm kiếm
-        console.log('Kết quả tìm kiếm:', this.data);
+        this.data = response;
+        console.log('Kết quả tìm kiếm:', this.data.items);
       },
       error: (error) => {
         console.error('Lỗi khi tìm kiếm Offer:', error);
       }
     });
+  }
+
+  public keywordChange(): void {
+    console.log(this.searchForm.value.keyword);
+    this.filter.keyword = this.searchForm.value.keyword;
+  }
+
+  public statusChange(): void {
+    console.log(this.searchForm.value.status);
+    this.filter.status = this.searchForm.value.status;
+  }
+
+  public departmentChange(): void {
+    console.log(this.searchForm.value.departmentName);
+    this.filter.departmentName = this.searchForm.value.status;
+  }
+
+  public edit(id: number): void {
+    setTimeout(() => {
+      this.router.navigate(['/admin/offers', id, 'edit']);
+    }, 150);
+  }
+
+  public viewDetail(id: number): void {
+    this.router.navigate(['/admin/offers', id, 'detail']);
   }
 }

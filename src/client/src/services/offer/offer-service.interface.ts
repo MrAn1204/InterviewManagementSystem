@@ -3,9 +3,9 @@ import { OfferModel } from "../../models/offer/offer.model";
 import { PaginatedResult } from "../../models/candidate/paginated-result.model";
 
 export interface IOffService {
-  getAll(): Observable<OfferModel[]>;
+  getAll(): Observable<PaginatedResult<OfferModel>>;
 
-  search(filter: any): Observable<OfferModel[]>;
+  search(filter: any): Observable<PaginatedResult<OfferModel>>;
 
   getById(id: number): Observable<OfferModel>;
 

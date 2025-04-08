@@ -49,20 +49,20 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    options.IncludeXmlComments(xmlPath);
+    // options.IncludeXmlComments(xmlPath);
 
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter into field the word 'Bearer' following by space and JWT",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT"
-    });
+    // options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    // {
+    //     In = ParameterLocation.Header,
+    //     Description = "Please enter into field the word 'Bearer' following by space and JWT",
+    //     Name = "Authorization",
+    //     Type = SecuritySchemeType.Http,
+    //     Scheme = "Bearer",
+    //     BearerFormat = "JWT"
+    // });
 });
 
 

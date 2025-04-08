@@ -110,7 +110,7 @@ export class OfferCreateComponent implements OnInit {
       contractEnd: ['', Validators.required],
       status: ['Waiting for Approval'],
       approvedBy: ['', Validators.required],
-      recruiterId: ['', Validators.required],
+      recruiterId: [''],
       salaryBasic: ['', Validators.required],
       levelId: ['', Validators.required],
       dueDate: ['', Validators.required],

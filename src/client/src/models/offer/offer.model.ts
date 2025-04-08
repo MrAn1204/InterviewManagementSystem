@@ -20,4 +20,6 @@ export class OfferModel {
   dueDate?: Date;
   departmentId?: number;
   departmentName?: string;
+  createdDate?: Date;
+  updatedDate?: Date;
 }
