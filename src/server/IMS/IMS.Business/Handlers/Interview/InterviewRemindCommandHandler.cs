@@ -27,7 +27,7 @@ public class InterviewRemindCommandHandler(
             .FirstOrDefaultAsync(interview => interview.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
-        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(8);
+        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(9, 55);
 
         bool reminderExisted = await _unitOfWorks.ReminderRepository.GetQuery()
             .AnyAsync(reminder => reminder.Email == request.Email
@@ -45,12 +45,13 @@ public class InterviewRemindCommandHandler(
                 <p>This email is from <b>IMS system</b>.</p>
                 <p>You have an interview schedule on {interview.InterviewDate} 
                     at {interview.StartTime} to {interview.EndTime}</p>
-                <p>With Candidate {interview.Candidate!.FullName} position {interview.Job!.Title}, 
-                    the CV is attached with this no-reply-email.</p>
-                <p>If anything wrong, please refer recruiter {interview.Recruiter?.Email ?? interview.Recruiter?.FullName} 
-                    or visit <a href='{request.InterviewLink}' style='color: blue; text-decoration: underline;'>our website</a>.</p>
+                <p>With Candidate {interview.Candidate!.FullName} position {interview.Job!.Title}.</p> 
+                {interview.Candidate.CV ?? $@"<p>The CV of this candidate is attached 
+                    <a href='{interview.Candidate!.CV}' style='color: blue; text-decoration: underline;'>here</a>.</p>"}
                 {interview.MeetingID ?? $@"<p>Please join interview room ID: 
                     <a href='{interview.MeetingID} style='color: blue; text-decoration: underline;''></a>.</p>"}
+                <p>If anything wrong, please refer recruiter {interview.Recruiter?.Email ?? interview.Recruiter?.FullName} 
+                    or visit <a href='{request.InterviewLink}' style='color: blue; text-decoration: underline;'>our website</a>.</p>
                 <br>
                 <p>Thanks & Regards!<br>
                 <b>IMS Team</b></p>
