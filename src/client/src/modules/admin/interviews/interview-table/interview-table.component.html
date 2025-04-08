@@ -1,19 +1,22 @@
-<div class="card-body overflow-x-auto">
-    <table class="w-full border-collapse border border-[#e0e0e0]">
+<!-- Generic Table List Component -->
+<div class="card bg-white my-4 rounded-md shadow-md overflow-auto">
+    <!-- List Items -->
+    <table class="w-full border-collapse">
         <thead>
-            <tr class="bg-[#f5f5f5] font-semibold">
-                <th *ngIf="isShowNumber" class="border border-[#e0e0e0] p-4">No</th>
-                <th *ngFor="let item of columns" class="border border-[#e0e0e0] p-4">
+            <tr class="bg-gray-50 *:p-3 *:border *:border-gray-200">
+                <th *ngIf="isShowNumber">No</th>
+                <th *ngFor="let item of columns">
                     {{item.name}}
                 </th>
-                <th class="border border-[#e0e0e0] p-4">Actions</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             <ng-container *ngIf="data && data.items.length!=0;else emptyData">
-                <tr *ngFor="let item of data.items; let i = index" class="even:bg-[#fafafa] hover:bg-gray-200">
+                <tr *ngFor="let item of data.items; let i = index" 
+                    class="even:bg-gray-50 hover:bg-gray-100 *:p-3 *:border *:border-gray-200">
                     <td *ngIf="isShowNumber" class="text-center">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
-                    <td *ngFor="let column of columns" class="border border-[#e0e0e0] p-4">
+                    <td *ngFor="let column of columns">
                         <div [ngSwitch]="column.value">
                             <div *ngSwitchCase="'interviewersName'">{{item[column.value].join(', ')}}</div>
                             <div *ngSwitchCase="'schedule'">{{ `${item.interviewDate} ${item.startTime} -
@@ -23,7 +26,7 @@
                             <div *ngSwitchDefault>{{item[column.value]}}</div>
                         </div>
                     </td>
-                    <td class="border border-[#e0e0e0] p-4 text-center min-w-[100px] space-x-2">
+                    <td class="flex space-x-3 justify-center *:cursor-pointer">
                         <button class="text-blue-500 hover:text-blue-700 cursor-pointer" (click)="view(item.id)">
                             <i class="fa-regular fa-eye"></i>
                         </button>

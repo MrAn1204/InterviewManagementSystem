@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Inject } from '@angular/core';
+import { Component, HostListener, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
@@ -11,6 +11,8 @@ import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserService } from '../../../../services/user/user.service';
+import { User } from '../../../../models/User';
 
 @Component({
   selector: 'app-interview-edit',
@@ -30,34 +32,11 @@ export class InterviewEditComponent {
 
   private interviewId!: number;
 
-  // TODO: Replace with real data from database
-  public interviewerList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public interviewerList!: User[];
 
   public jobList!: JobModel[];
 
-  public recruiterList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public recruiterList!: User[];
 
   public candidateList!: CandidateModel[];
 
@@ -66,10 +45,13 @@ export class InterviewEditComponent {
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    private readonly userService: UserService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService
-  ) { }
+  ) {
+    this.userService = inject(UserService);
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -96,6 +78,12 @@ export class InterviewEditComponent {
 
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
+
+        
+    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
+      .subscribe((res) => this.recruiterList = res.items.filter(user => user.roles.includes('RECRUITER')));
+    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
+      .subscribe((res) => this.interviewerList = res.items.filter(user => user.roles.includes('INTERVIEWER')));
   }
 
   public createForm(interview: InterviewModel) {

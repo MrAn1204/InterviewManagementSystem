@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
@@ -11,6 +11,8 @@ import { IJobService } from '../../../../services/job/job-service.interface';
 import { JobModel } from '../../../../models/job/job.model';
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserService } from '../../../../services/user/user.service';
+import { User } from '../../../../models/User';
 
 @Component({
   selector: 'app-interview-create',
@@ -26,34 +28,11 @@ export class InterviewCreateComponent implements OnInit {
 
   private readonly selectedInterviewersId: number[] = [];
 
-  // TODO: Replace with real data from database
-  public interviewerList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public interviewerList!: User[];
 
   public jobList!: JobModel[];
 
-  public recruiterList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public recruiterList!: User[];
 
   public candidateList!: CandidateModel[];
 
@@ -62,14 +41,22 @@ export class InterviewCreateComponent implements OnInit {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    private readonly userService: UserService,
     private readonly router: Router,
     private readonly toastr: ToastrService
-  ) { }
+  ) {
+    this.userService = inject(UserService);
+  }
 
   ngOnInit(): void {
     this.createForm();
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
+    
+    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
+      .subscribe((res) => this.recruiterList = res.items.filter(user => user.roles.includes('RECRUITER')));
+    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
+      .subscribe((res) => this.interviewerList = res.items.filter(user => user.roles.includes('INTERVIEWER')));
   }
 
   public createForm() {
