@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
@@ -11,8 +11,8 @@ import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
-import { UserService } from '../../../../services/user/user.service';
-import { User } from '../../../../models/User';
+import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 
 @Component({
   selector: 'app-interview-edit',
@@ -32,11 +32,11 @@ export class InterviewEditComponent {
 
   private interviewId!: number;
 
-  public interviewerList!: User[];
+  public interviewerList!: UserForInputModel[];
 
   public jobList!: JobModel[];
 
-  public recruiterList!: User[];
+  public recruiterList!: UserForInputModel[];
 
   public candidateList!: CandidateModel[];
 
@@ -45,12 +45,11 @@ export class InterviewEditComponent {
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
-    private readonly userService: UserService,
+    @Inject(DATA_FOR_INPUT_SERVICE) private readonly dataForInputService: IDataForInputService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService
   ) {
-    this.userService = inject(UserService);
   }
 
   ngOnInit(): void {
@@ -80,10 +79,10 @@ export class InterviewEditComponent {
     this.jobService.getAll().subscribe((res) => this.jobList = res);
 
         
-    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
-      .subscribe((res) => this.recruiterList = res.items.filter(user => user.roles.includes('RECRUITER')));
-    this.userService.getUsers({ pageNumber: 1, pageSize: 100 })
-      .subscribe((res) => this.interviewerList = res.items.filter(user => user.roles.includes('INTERVIEWER')));
+    this.dataForInputService.getUserForInputData(['RECRUITER'])
+      .subscribe((res) => this.recruiterList = res);
+    this.dataForInputService.getUserForInputData(['INTERVIEWER'])
+      .subscribe((res) => this.interviewerList = res);
   }
 
   public createForm(interview: InterviewModel) {

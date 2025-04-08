@@ -39,8 +39,6 @@ export class InterviewDetailComponent implements OnInit {
   public sendReminder() {
     this.interview.interviewersId?.forEach(interviewerId => {
       this.userService.getUserById(interviewerId).subscribe((interviewer) => {
-        console.log(interviewer);
-        
         this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).subscribe({
           next: (result) => result
             ? this.toastr.success(`Email sent successfully to user ${interviewer.username}`, 'Success')

@@ -93,9 +93,9 @@
             <div class="p-2 max-h-48 overflow-y-auto">
               <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
                 <input type="checkbox" [value]="interviewer.id"
-                  (change)="updateInterviewerSelected(interviewer.id, interviewer.username)"
+                  (change)="updateInterviewerSelected(interviewer.id, interviewer.userName)"
                   [checked]="selectedInterviewersId.includes(interviewer.id)" />
-                {{ `${interviewer.fullName} - ${interviewer.username}` }}
+                {{ `${interviewer.fullName} - ${interviewer.userName}` }}
               </label>
             </div>
           </div>
@@ -118,7 +118,7 @@
               class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
               <option value="0" disabled hidden>Select a recruiter...</option>
               <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
-                {{ `${recruiter.fullName} - ${recruiter.username}` }}
+                {{ `${recruiter.fullName} - ${recruiter.userName}` }}
               </option>
             </select>
 
