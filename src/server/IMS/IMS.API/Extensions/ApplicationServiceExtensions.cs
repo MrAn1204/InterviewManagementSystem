@@ -21,6 +21,7 @@ namespace IMS.API.Extensions
 			services.AddScoped<IUnitOfWorks, UnitOfWorks>();
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddSignalR();
+			services.AddScoped<IJobStatusUpdateService, JobStatusUpdateService>();
 
 			return services;
 		}

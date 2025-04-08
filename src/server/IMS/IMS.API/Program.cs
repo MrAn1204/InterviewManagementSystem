@@ -12,6 +12,7 @@ using IMS.Domain.Entities;
 using IMS.Data.UnitOfWorks;
 using IMS.Business.Mappings;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,21 @@ builder.Services.AddSwaggerGen(options =>
             new string[] { }
         }
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+    options.IncludeXmlComments(xmlPath);
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter into field the word 'Bearer' following by space and JWT",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
 });
 
 
@@ -64,8 +80,8 @@ builder.Services.AddIdentity<User, Role>(options =>
 }).AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IUnitOfWorks,UnitOfWorks>();
-builder.Services.AddScoped<IFileService,FileService>();
+builder.Services.AddScoped<IUnitOfWorks, UnitOfWorks>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));

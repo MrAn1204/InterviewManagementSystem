@@ -1,0 +1,19 @@
+<nav aria-label="Breadcrumb" class="px-8">
+    <ol class="flex flex-wrap rounded-lg px-2 items-center text-sm text-gray-600 py-3 bg-white border-b border-gray-200">
+      <li *ngFor="let breadcrumb of breadcrumbs; let last = last; let first = first" 
+          class="flex items-center">
+        <a *ngIf="!last" 
+           [routerLink]="breadcrumb.url" 
+           class="hover:text-blue-600 *:text-xl transition-colors">
+          <span *ngIf="first" class="flex items-center">
+            <fa-icon [icon]="faHome" class="w-8 ml-2"></fa-icon>
+            {{ breadcrumb.label }}
+          </span>
+          <span *ngIf="!first">{{ breadcrumb.label }}</span>
+        </a>
+        <span *ngIf="last" class="text-xl text-gray-800">{{ breadcrumb.label }}</span>
+        <fa-icon [icon]="faAngleRight" *ngIf="!last" class="flex justify-center items-center w-4 h-4 mx-2 text-gray-400">
+        </fa-icon>
+      </li>
+    </ol>
+  </nav>

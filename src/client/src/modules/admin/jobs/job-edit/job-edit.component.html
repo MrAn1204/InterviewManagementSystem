@@ -1,18 +1,6 @@
 <div class="container mx-auto py-8 px-4">
-  <!-- Tiêu đề -->
-  <h2 class="text-4xl font-semibold mb-8">
-    Job Edit
-  </h2>
-
   <!-- Breadcrumb -->
-  <div class="pb-8 flex items-center justify-between">
-    <!-- Bên trái: Đường dẫn -->
-    <div>
-      <a routerLink="/admin/jobs" class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job List</a>
-      >
-      <a class="cursor-pointer text-xl text-[#1976d2] hover:underline">Job Detail</a>
-    </div>
-    <!-- Bên phải: thông tin Created/Updated -->
+  <div class="pb-4 flex items-center justify-end">
     <div class="text-sm text-gray-500" *ngIf="data">
       <p>Created at: {{data.createdDate | date:'yyyy-MM-dd'}}</p>
       <p>Last updated: {{data.updatedDate | date:'yyyy-MM-dd'}}</p>
