@@ -7,7 +7,7 @@ namespace IMS.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class DataForInputController(IMediator mediator) : ControllerBase
+public class CommonController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 

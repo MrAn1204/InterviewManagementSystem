@@ -9,13 +9,13 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import {
   CANDIDATE_SERVICE,
-  DATA_FOR_INPUT_SERVICE,
+  COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { SkillModel } from '../../../../models/data-for-input/skill.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { CommonModule } from '@angular/common';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
@@ -38,26 +38,26 @@ export class CandidateCreateComponent implements OnInit {
   constructor(
     @Inject(CANDIDATE_SERVICE)
     private readonly candidateService: ICandidateService,
-    @Inject(DATA_FOR_INPUT_SERVICE)
-    private readonly dataForInputService: IDataForInputService,
+    @Inject(COMMON_SERVICE)
+    private readonly commonService: ICommonService,
     @Inject('IAuthService') private readonly authService: IAuthService,
     private readonly toastService: ToastrService,
     private readonly route: Router
   ) {}
 
   ngOnInit(): void {
-    this.dataForInputService.getSkillData().subscribe((data) => {
+    this.commonService.getSkillData().subscribe((data) => {
       this.skillList = data;
     });
-    this.dataForInputService.getLevelData().subscribe((data) => {
+    this.commonService.getLevelData().subscribe((data) => {
       this.levelList = data;
     });
-    this.dataForInputService
+    this.commonService
       .getUserForInputData(['ADMIN', 'MANAGER', 'RECRUITER'])
       .subscribe((data) => {
         this.usersInput = data;
       });
-    this.dataForInputService
+    this.commonService
       .getSelectableCandidateStatus()
       .subscribe((data) => {
         this.selectableCandidateStatuses = data;

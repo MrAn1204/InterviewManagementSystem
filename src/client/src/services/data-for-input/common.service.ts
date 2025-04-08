@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IDataForInputService } from './data-for-input-service.interface';
+import { ICommonService } from './common-service.interface';
 import { Observable } from 'rxjs';
 import { LevelModel } from '../../models/data-for-input/level.model';
 import { SkillModel } from '../../models/data-for-input/skill.modes';
@@ -10,10 +10,10 @@ import { CandidateStatusModel } from '../../models/candidate/candidate-status.mo
 @Injectable({
   providedIn: 'root',
 })
-export class DataForInputService implements IDataForInputService {
-  private readonly url = 'http://localhost:5113/api/DataForInput';
+export class CommonService implements ICommonService {
+  private readonly url = 'http://localhost:5113/api/Common';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   public getSelectableCandidateStatus(): Observable<CandidateStatusModel[]> {
     return this.httpClient.get<CandidateStatusModel[]>(`${this.url}/getSelectableCandidateStatuses`);

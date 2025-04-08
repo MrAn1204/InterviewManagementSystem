@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { DepartmentService } from '../../../../services/department/department.service';
@@ -47,8 +47,8 @@ export class OfferCreateComponent implements OnInit {
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
     @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
-    @Inject(DATA_FOR_INPUT_SERVICE)
-        private readonly dataForInputService: IDataForInputService) {}
+    @Inject(COMMON_SERVICE)
+        private readonly commonService: ICommonService) {}
 
   ngOnInit(): void {
     // Lấy ID từ URL
@@ -134,19 +134,19 @@ export class OfferCreateComponent implements OnInit {
       }
     });
 
-    this.dataForInputService.getUserForInputData(['MANAGER']).subscribe({
+    this.commonService.getUserForInputData(['MANAGER']).subscribe({
       next: (data) => {
         this.approvers = data;
       }
     });
 
-    this.dataForInputService.getUserForInputData(['RECRUITER']).subscribe({
+    this.commonService.getUserForInputData(['RECRUITER']).subscribe({
       next: (data) => {
         this.recruiterOwner = data;
       }
     });
 
-    this.dataForInputService.getLevelData().subscribe({
+    this.commonService.getLevelData().subscribe({
       next: (data) => {
         this.levels = data;
       }

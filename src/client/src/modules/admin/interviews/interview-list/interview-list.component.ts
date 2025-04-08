@@ -6,13 +6,13 @@ import { InterviewModel, InterviewStatus } from '../../../../models/interview/in
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { InterviewTableComponent } from '../interview-table/interview-table.component';
-import { DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { COMMON_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { MasterDataListComponent } from '../../master-data/master-data.component';
 import { ToastrService } from 'ngx-toastr';
 import { TableColumn } from '../../../../core/models/table/table-column.model';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 
 @Component({
   selector: 'app-interview-list',
@@ -38,7 +38,7 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
     private readonly headerService: HeaderService,
     private readonly toastr: ToastrService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
-    @Inject(DATA_FOR_INPUT_SERVICE) private readonly dataForInputService: IDataForInputService) {
+    @Inject(COMMON_SERVICE) private readonly commonService: ICommonService) {
     super();
   }
 
@@ -47,7 +47,7 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
     this.interviewService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
-    this.dataForInputService.getUserForInputData(['INTERVIEWER'])
+    this.commonService.getUserForInputData(['INTERVIEWER'])
       .subscribe((res) => this.interviewerList = res);
     this.createForm();
   }

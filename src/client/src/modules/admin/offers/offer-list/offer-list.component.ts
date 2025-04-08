@@ -2,14 +2,14 @@ import { MasterDataListComponent } from './../../master-data/master-data.compone
 import { Component, Inject } from '@angular/core';
 import { Route, Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
-import { DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { COMMON_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
 import { CommonModule } from '@angular/common';
 import { ExportOfferModalComponent } from '../../../modals/export-offer-modal/export-offer-modal.component';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { TableComponent } from "../../../../core/components/table/table.component";
 import { TableColumn } from '../../../../core/models/table/table-column.model';
@@ -51,7 +51,7 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
     private router: Router,
     private departmentService: DepartmentService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
-    @Inject(DATA_FOR_INPUT_SERVICE) private dataForInputService: IDataForInputService,
+    @Inject(COMMON_SERVICE) private commonService: ICommonService,
   ) {
     super();
   }
@@ -60,7 +60,7 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
     this.headerService.setTitle('Offer');
     // this.getAllOffers();
 
-    this.dataForInputService.getAllCandidateStatus().subscribe((res) => {
+    this.commonService.getAllCandidateStatus().subscribe((res) => {
       this.statusList = res;
     });
 
