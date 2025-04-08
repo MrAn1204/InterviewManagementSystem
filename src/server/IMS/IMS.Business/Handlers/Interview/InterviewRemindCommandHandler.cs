@@ -27,7 +27,7 @@ public class InterviewRemindCommandHandler(
             .FirstOrDefaultAsync(interview => interview.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
-        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(8);
+        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(9, 55);
 
         bool reminderExisted = await _unitOfWorks.ReminderRepository.GetQuery()
             .AnyAsync(reminder => reminder.Email == request.Email
