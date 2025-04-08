@@ -63,9 +63,10 @@ public class OfferReminderBackgroundService : BackgroundService
                 }
 
             }
+            
+            await Task.Delay(86400000, stoppingToken);
 
         }
 
-        await Task.Delay(86400000, stoppingToken);
     }
 }

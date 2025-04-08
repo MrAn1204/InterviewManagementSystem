@@ -39,20 +39,20 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
-    // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    // options.IncludeXmlComments(xmlPath);
+    options.IncludeXmlComments(xmlPath);
 
-    // options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    // {
-    //     In = ParameterLocation.Header,
-    //     Description = "Please enter into field the word 'Bearer' following by space and JWT",
-    //     Name = "Authorization",
-    //     Type = SecuritySchemeType.Http,
-    //     Scheme = "Bearer",
-    //     BearerFormat = "JWT"
-    // });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter into field the word 'Bearer' following by space and JWT",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
 });
 
 
@@ -75,7 +75,7 @@ builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
-// builder.Services.AddSingleton<IHostedService, OfferReminderBackgroundService>();
+builder.Services.AddSingleton<IHostedService, OfferReminderBackgroundService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));
