@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using IMS.Business.Handlers;
+using IMS.Business.ViewModels;
 using IMS.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -79,6 +80,13 @@ public class InterviewsController(IMediator mediator) : ControllerBase
         {
             Id = id
         };
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpPost("send-reminder")]
+    public async Task<IActionResult> SendReminder([FromBody] InterviewRemindCommand request)
+    {
         var result = await _mediator.Send(request);
         return Ok(result);
     }

@@ -34,6 +34,9 @@ namespace IMS.Data.UnitOfWorks
 
         public IGenericRepository<User> UserRepository => _userRepository ??= new GenericRepository<User>(_context);
 
+        private IGenericRepository<Reminder>? _reminderRepository;
+        public IGenericRepository<Reminder> ReminderRepository => _reminderRepository ??= new GenericRepository<Reminder>(_context);
+
 
         // private IGenericRepository<OfferDepartment>? _offerDepartmentRepository;
         // public IGenericRepository<OfferDepartment> OfferDepartmentRepository => _offerDepartmentRepository ??= new GenericRepository<OfferDepartment>(_context);

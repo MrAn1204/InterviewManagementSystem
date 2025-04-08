@@ -3,7 +3,7 @@ import { Component, HostListener, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
@@ -11,6 +11,8 @@ import { JobModel } from '../../../../models/job/job.model';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 
 @Component({
   selector: 'app-interview-edit',
@@ -30,34 +32,11 @@ export class InterviewEditComponent {
 
   private interviewId!: number;
 
-  // TODO: Replace with real data from database
-  public interviewerList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public interviewerList!: UserForInputModel[];
 
   public jobList!: JobModel[];
 
-  public recruiterList = [
-    {
-      id: 2,
-      username: 'tranthib',
-      fullname: 'Trần Thị B'
-    },
-    {
-      id: 3,
-      username: 'imsG2',
-      fullname: 'John Doe'
-    }
-  ];
+  public recruiterList!: UserForInputModel[];
 
   public candidateList!: CandidateModel[];
 
@@ -66,25 +45,29 @@ export class InterviewEditComponent {
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    @Inject(DATA_FOR_INPUT_SERVICE) private readonly dataForInputService: IDataForInputService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.interviewId = Number(params.get('id'));
       this.interviewService.getById(this.interviewId).subscribe((res) => {
         this.interview = res;
-        console.log(this.interview.status.toString());
 
         // delays execution until after Angular's change detection cycle finishes
         setTimeout(() => {
-          this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
           this.selectedInterviewers = [... this.interview.interviewersName ?? []];
         }, 0);
 
+        this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
+
         this.createForm(res);
+
+        console.log(this.interview.interviewersId);
 
         this.form.patchValue({
           interviewersId: this.selectedInterviewersId
@@ -92,10 +75,14 @@ export class InterviewEditComponent {
       });
     });
 
-    console.log(this.statusList);
-
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
+
+        
+    this.dataForInputService.getUserForInputData(['RECRUITER'])
+      .subscribe((res) => this.recruiterList = res);
+    this.dataForInputService.getUserForInputData(['INTERVIEWER'])
+      .subscribe((res) => this.interviewerList = res);
   }
 
   public createForm(interview: InterviewModel) {

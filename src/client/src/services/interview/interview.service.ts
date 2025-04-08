@@ -27,7 +27,8 @@ export class InterviewService implements IInterviewService {
   update(id: number, interview: InterviewModel): Observable<InterviewModel> {
     return this.httpClient.put<InterviewModel>(`${this.url}/${id}`, interview);
   }
-  delete(id: number): Observable<boolean> {
-    throw new Error('Method not implemented.');
+
+  sendReminder(email: string, interviewId: number, interviewLink: string): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.url}/send-reminder/`, { email: email, interviewId: interviewId, interviewLink: interviewLink });
   }
 }

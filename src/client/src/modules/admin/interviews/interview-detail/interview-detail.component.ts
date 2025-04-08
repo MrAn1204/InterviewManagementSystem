@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { InterviewModel } from '../../../../models/interview/interview.model';
-import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ToastrService } from 'ngx-toastr';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserService } from '../../../../services/user/user.service';
 
 @Component({
   selector: 'app-interview-detail',
@@ -19,9 +21,13 @@ export class InterviewDetailComponent implements OnInit {
 
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly route: ActivatedRoute,
-    private readonly toastr: ToastrService
-  ) { }
+    private readonly toastr: ToastrService,
+    private readonly userService: UserService
+  ) {
+    this.userService = inject(UserService);
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -31,6 +37,17 @@ export class InterviewDetailComponent implements OnInit {
   }
 
   public sendReminder() {
-    this.toastr.info('Unimplemented feature. Please try again later', 'Info');
+    this.interview.interviewersId?.forEach(interviewerId => {
+      this.userService.getUserById(interviewerId).subscribe((interviewer) => {
+        this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).subscribe({
+          next: (result) => result
+            ? this.toastr.success(`Email sent successfully to user ${interviewer.username}`, 'Success')
+            : this.toastr.info(`A reminder email has already been sent to user ${interviewer.email}`, 'Info'),
+          error: () => {
+            this.toastr.error(`Failed to send email to user ${interviewer.email}`, 'Error');
+          }
+        });
+      })
+    })
   }
 }
