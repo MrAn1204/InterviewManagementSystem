@@ -16,10 +16,10 @@ export interface User {
   note ?: string
 }
 
-export interface PaginatedResult<T> {
-  items: T[];
-  totalCount: number;
-  pageNumber: number;
-  pageSize: number;
-  totalPages: number;
-}
+// export interface PaginatedResult<T> {
+//   items: T[];
+//   totalCount: number;
+//   pageNumber: number;
+//   pageSize: number;
+//   totalPages: number;
+// }

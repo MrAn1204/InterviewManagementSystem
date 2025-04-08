@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { PaginatedResult, User } from '../../models/User';
+import {  User } from '../../models/User';
 import { environment } from '../../environments/environment.development';
+import { PaginatedResult } from '../../models/paginated-result.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {

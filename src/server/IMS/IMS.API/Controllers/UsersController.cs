@@ -68,9 +68,10 @@ public class UsersController(IMediator mediator) : ControllerBase
         }
         catch (Exception ex)
         {
-            return NotFound(new { 
+            return NotFound(new
+            {
                 Error = "User not found",
-                ex.Message 
+                ex.Message
             });
         }
     }
@@ -86,10 +87,25 @@ public class UsersController(IMediator mediator) : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { 
-                Error = "Failed to inactivate user", 
-                Message = ex.Message 
+            return StatusCode(500, new
+            {
+                Error = "Failed to inactivate user",
+                Message = ex.Message
             });
         }
+    }
+    
+    [HttpGet("by-roles")]
+    public async Task<IActionResult> GetUsersByRoles([FromQuery] List<string> roles)
+    {
+        if (roles == null || roles.Count == 0)
+        {
+            return BadRequest("At least one role must be specified.");
+        }
+
+        var query = new GetUserByRoleQuery { Roles = roles };
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
     }
 }
