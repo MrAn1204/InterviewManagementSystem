@@ -37,20 +37,19 @@ export class InterviewDetailComponent implements OnInit {
   }
 
   public sendReminder() {
-    this.userService.getUsers({ roles: ['INTERVIEWER'], pageNumber:1, pageSize: 1 }).subscribe((res) => {
-      const interviewers = res.items.filter(user => this.interview.interviewersId!.includes(user.id));
-
-      interviewers.forEach(interviewer => {
+    this.interview.interviewersId?.forEach(interviewerId => {
+      this.userService.getUserById(interviewerId).subscribe((interviewer) => {
+        console.log(interviewer);
+        
         this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).subscribe({
-          next: (result) => result 
-            ? this.toastr.success(`Email sent successfully to user ${interviewer.username}`, 'Success') 
+          next: (result) => result
+            ? this.toastr.success(`Email sent successfully to user ${interviewer.username}`, 'Success')
             : this.toastr.info(`A reminder email has already been sent to user ${interviewer.email}`, 'Info'),
           error: () => {
             this.toastr.error(`Failed to send email to user ${interviewer.email}`, 'Error');
           }
-        });  
-      });
-
-    });
+        });
+      })
+    })
   }
 }
