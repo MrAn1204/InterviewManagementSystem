@@ -9,12 +9,12 @@ import { AuthService } from '../services/auth/auth.service';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from '../interceptors/loading.interceptor';
-import { CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, LEVEL_SERVICE, OFFER_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, LEVEL_SERVICE, OFFER_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
 import { BENEFIT_SERVICE, JOB_SERVICE, AUTH_SERVICE, INTERVIEW_SERVICE, PERMISSION_SERVICE } from '../constants/injection/injection.constant';
 import { CandidateService } from '../services/candidate/candidate.service';
 import { SkillService } from '../services/skill/skill.service';
 import { LevelService } from '../services/level/level.service';
-import { DataForInputService } from '../services/data-for-input/data-for-input.service';
+import { CommonService } from '../services/data-for-input/common.service';
 import { OfferService } from '../services/offer/offer.service';
 import { InterviewService } from '../services/interview/interview.service';
 import { authInterceptor } from '../interceptors/auth.interceptor';
@@ -58,8 +58,8 @@ export const appConfig: ApplicationConfig = {
       useClass: BenefitService,
     },
     {
-      provide: DATA_FOR_INPUT_SERVICE,
-      useClass: DataForInputService,
+      provide: COMMON_SERVICE,
+      useClass: CommonService,
     },
     {
       provide: INTERVIEW_SERVICE,
