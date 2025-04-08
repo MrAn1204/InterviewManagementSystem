@@ -70,6 +70,7 @@ public class InterviewCreateUpdateCommandHandler(
     {
         var existedInterview = await _unitOfWork.InterviewRepository.GetQuery()
             .Include(interview => interview.UserCreated)
+            .Include(interview => interview.Interviewers)
             .FirstOrDefaultAsync(interview => interview.Id == request.Id, cancellationToken);
 
 
@@ -81,6 +82,7 @@ public class InterviewCreateUpdateCommandHandler(
         var createdBy = existedInterview.CreatedBy;
         var usersList = await _unitOfWork.Context.Users.ToListAsync(cancellationToken);
 
+        existedInterview.Interviewers!.Clear();
         _mapper.Map(request, existedInterview, opts =>
         {
             opts.Items["Users"] = usersList;

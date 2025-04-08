@@ -76,23 +76,23 @@ export class InterviewEditComponent {
       this.interviewId = Number(params.get('id'));
       this.interviewService.getById(this.interviewId).subscribe((res) => {
         this.interview = res;
-        console.log(this.interview.status.toString());
 
         // delays execution until after Angular's change detection cycle finishes
         setTimeout(() => {
-          this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
           this.selectedInterviewers = [... this.interview.interviewersName ?? []];
         }, 0);
 
+        this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
+
         this.createForm(res);
+
+        console.log(this.interview.interviewersId);
 
         this.form.patchValue({
           interviewersId: this.selectedInterviewersId
         });
       });
     });
-
-    console.log(this.statusList);
 
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
