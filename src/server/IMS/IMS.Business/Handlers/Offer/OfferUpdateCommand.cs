@@ -6,6 +6,7 @@ namespace IMS.Business.Handlers;
 public class OfferUpdateCommand : BaseUpdateCommand<OfferViewModel>
 {
     public int CandidateId { get; set; }
+	public int? LevelId { get; set; }
 	public int? InterviewId { get; set; }
 	public int? DepartmentId { get; set; }
 

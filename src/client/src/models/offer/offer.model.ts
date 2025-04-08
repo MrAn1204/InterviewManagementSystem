@@ -3,6 +3,8 @@ export class OfferModel {
   candidateId!: number;
   candidateName?: string;
   candidateEmail?: string;
+  levelId?: number;
+  levelName?: string;
   interviewId?: number;
   interviewTitle?: string;
   position!: string;
@@ -10,7 +12,6 @@ export class OfferModel {
   contractStart!: Date;
   contractEnd?: Date;
   status!: string;
-  level!: string;
   approvedBy!: number;
   approver!: string;
   approvedDate?: Date;

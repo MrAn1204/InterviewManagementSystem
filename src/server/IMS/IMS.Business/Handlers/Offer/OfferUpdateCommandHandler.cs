@@ -20,6 +20,7 @@ public class OfferUpdateCommandHandler(IMapper mapper, IUnitOfWorks unitOfWork) 
             ?? throw new ResourceNotFoundException("Offer not found");
 
         result.CandidateId = request.CandidateId;
+        result.LevelId = request.LevelId;
         result.InterviewId = request.InterviewId;
         result.DepartmentId = request.DepartmentId;
         result.Position = request.Position;

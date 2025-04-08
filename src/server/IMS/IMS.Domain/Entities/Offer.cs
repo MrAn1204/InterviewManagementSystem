@@ -4,7 +4,7 @@ namespace IMS.Domain.Entities;
 public class Offer : BaseEntity
 {
 	public int CandidateId { get; set; }
-	// public int JobId { get; set; }
+	public int? LevelId { get; set; }
 	public int? InterviewId { get; set; } // 1 Interview -> N Offer
 	public int? DepartmentId { get; set; } // 1 Department -> N Offer
 
@@ -24,7 +24,7 @@ public class Offer : BaseEntity
 	public Candidate? Candidate { get; set; }
 	public Department? Department { get; set; }
 
-	// public Job? Job { get; set; }
+	public Level? Level { get; set; }
 	public Interview? Interview { get; set; } // 1:N => Offer
 	public User? UserApproved { get; set; }
 
