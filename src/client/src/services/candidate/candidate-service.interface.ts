@@ -21,4 +21,6 @@ export interface ICandidateService {
   ): Observable<boolean>;
 
   delete(id: number): Observable<boolean>;
+
+  changeStatus(data: any): Observable<boolean>
 }

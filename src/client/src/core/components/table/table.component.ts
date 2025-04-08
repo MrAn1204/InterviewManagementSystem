@@ -92,6 +92,10 @@ export class TableComponent {
     this.handleModalClose();
   }
 
+  get hasOnDelete(): boolean {
+    return this.onDelete && this.onDelete.observers.length > 0;
+  }
+
   public generatePageInfo(): string {
     if (this.data) {
       return `Page ${this.currentPageSize * (this.data.pageNumber - 1) + 1} -

@@ -32,6 +32,7 @@ import { OfferDetailComponent } from './admin/offers/offer-detail/offer-detail.c
 import { SimpleLayoutComponent } from './shared/common/simple-layout/simple-layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UserInactiveComponent } from './modals/user-inactive/user-inactive.component';
+import { NotFoundComponent } from '../errors/not-found/not-found.component';
 
 export const routes: Routes = [
   // Redirect root '' về '/login'
@@ -67,7 +68,7 @@ export const routes: Routes = [
           { path: 'create', component: UserCreateComponent },
           { path: ':id/edit', component: UserEditComponent },
           { path: ':id/detail', component: UserDetailsComponent },
-          { path: 'admin/users/:id/inactive', component: UserInactiveComponent },
+          { path: ':id/inactive', component: UserInactiveComponent },
         ]
       },
       {
@@ -110,8 +111,10 @@ export const routes: Routes = [
     ]
   },
 
-  // Bắt các đường dẫn không khớp, chuyển hướng về /login (hoặc có thể tạo trang 404)
-  { path: '**', redirectTo: '/login' },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({

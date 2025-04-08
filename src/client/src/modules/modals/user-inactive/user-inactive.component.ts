@@ -40,6 +40,6 @@ export class UserInactiveComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/users', this.userId]);
+    this.router.navigate([`/admin/users/${this.userId}/detail`]);
   }
 }

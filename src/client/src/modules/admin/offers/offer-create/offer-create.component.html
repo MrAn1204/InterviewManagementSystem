@@ -67,6 +67,7 @@
               {{ approver.fullName }}
             </option>
           </select>
+
           <div *ngIf="isFieldInvalid('approvedBy')" class="text-red-500 text-sm mt-1">
             Approver is required
           </div>
@@ -187,7 +188,8 @@
             Recruiter Owner
             <span class="text-red-500">*</span>
           </label>
-          <select id="recruiterId" formControlName="recruiterId"
+          <div class="flex">
+            <select id="recruiterId" formControlName="recruiterId"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             [ngClass]="{'border-red-500': isFieldInvalid('recruiterId')}">
             <option [ngValue]="''">Select recruiter</option>
@@ -195,6 +197,14 @@
               {{ recruiter.fullName }}
             </option>
           </select>
+          
+          <!-- Button -->
+          <button type="button" (click)="assignMe()"
+            class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold 
+              rounded-r-md hover:bg-[#e3f2fd]">
+            Assign me
+          </button>
+          </div>
           <div *ngIf="isFieldInvalid('recruiterId')" class="text-red-500 text-sm mt-1">
             Recruiter is required
           </div>

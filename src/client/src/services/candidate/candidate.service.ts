@@ -72,4 +72,8 @@ export class CandidateService implements ICandidateService {
   delete(id: number): Observable<boolean> {
     return this.httpClient.post<boolean>(`${this.url}/delete`, { id: id });
   }
+
+  changeStatus(data: any): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.url}/status`, data);
+  }
 }
