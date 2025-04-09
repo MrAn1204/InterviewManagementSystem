@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <ng-container *ngIf="data && data.items.length!=0;else emptyData">
-                <tr *ngFor="let item of data.items; let i = index" 
+                <tr *ngFor="let item of data.items; let i = index"
                     class="even:bg-gray-50 hover:bg-gray-100 *:p-3 *:border *:border-gray-200">
                     <td *ngIf="isShowNumber" class="text-center">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
                     <td *ngFor="let column of columns">
@@ -26,13 +26,15 @@
                             <div *ngSwitchDefault>{{item[column.value]}}</div>
                         </div>
                     </td>
-                    <td class="flex space-x-3 justify-center *:cursor-pointer">
-                        <button class="text-blue-500 hover:text-blue-700 cursor-pointer" (click)="view(item.id)">
-                            <i class="fa-regular fa-eye"></i>
-                        </button>
-                        <button class="text-green-500 hover:text-green-700 cursor-pointer" (click)="edit(item.id)">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </button>
+                    <td>
+                        <div class="flex space-x-3 justify-center *:cursor-pointer">
+                            <button class="border-0" title="View" type="button" (click)="view(item.id)">
+                                <fa-icon [icon]="faEye" class="text-blue-500 hover:text-blue-700"></fa-icon>
+                            </button>
+                            <button class="border-0" title="Edit" type="button" (click)="edit(item.id)">
+                                <fa-icon [icon]="faEdit" class="text-green-500 hover:text-green-700"></fa-icon>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </ng-container>
