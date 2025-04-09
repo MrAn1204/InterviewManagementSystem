@@ -25,12 +25,11 @@
         </select>
       </div>
 
-      <div class="flex items-center justify-end mb-2">
+      <div class="flex flex-col md:flex-row justify-end gap-4 mb-4">
         <button (click)="searchData()"
-          class="bg-[#1976d2] text-white px-4 py-2 mr-4 rounded font-semibold w-1/2 md:w-1/5 cursor-pointer">Search</button>
+          class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-full md:w-auto cursor-pointer">Search</button>
         <button routerLink="/admin/interviews/create"
-          class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-1/2 md:w-1/5 md:min-w-[100px] cursor-pointer">Add
-          new</button>
+          class="bg-[#1976d2] text-white px-4 py-2 rounded font-semibold w-full md:w-auto cursor-pointer">Add new</button>
       </div>
     </form>
 
