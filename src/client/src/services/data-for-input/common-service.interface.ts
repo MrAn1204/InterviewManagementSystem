@@ -4,7 +4,7 @@ import { LevelModel } from '../../models/data-for-input/level.model';
 import { UserForInputModel } from '../../models/data-for-input/user-for-input.model';
 import { CandidateStatusModel } from '../../models/candidate/candidate-status.model';
 
-export interface IDataForInputService {
+export interface ICommonService {
   getSkillData(): Observable<SkillModel[]>;
   getLevelData(): Observable<LevelModel[]>;
   getUserForInputData(roles: string[]): Observable<UserForInputModel[]>;

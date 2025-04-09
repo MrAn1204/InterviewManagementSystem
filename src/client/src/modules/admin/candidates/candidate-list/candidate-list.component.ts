@@ -10,10 +10,10 @@ import {
 } from '@angular/forms';
 import {
   CANDIDATE_SERVICE,
-  DATA_FOR_INPUT_SERVICE,
+  COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
 import { CommonModule } from '@angular/common';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
@@ -61,8 +61,8 @@ export class CandidateListComponent
     private readonly headerService: HeaderService,
     @Inject(CANDIDATE_SERVICE)
     private readonly candidateService: ICandidateService,
-    @Inject(DATA_FOR_INPUT_SERVICE)
-    private readonly dataForInputService: IDataForInputService,
+    @Inject(COMMON_SERVICE)
+    private readonly commonService: ICommonService,
     private readonly toastService: ToastrService,
     private readonly router: Router
   ) {
@@ -73,7 +73,7 @@ export class CandidateListComponent
     this.createForm();
     this.headerService.setTitle('Candidate');
     this.searchData();
-    this.dataForInputService.getAllCandidateStatus().subscribe((res) => {
+    this.commonService.getAllCandidateStatus().subscribe((res) => {
       this.statusList = res;
     });
   }

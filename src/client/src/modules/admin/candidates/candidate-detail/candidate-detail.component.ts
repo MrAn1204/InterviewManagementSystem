@@ -14,10 +14,10 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import {
   CANDIDATE_SERVICE,
-  DATA_FOR_INPUT_SERVICE,
+  COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { AuthService } from '../../../../services/auth/auth.service';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -41,8 +41,8 @@ export class CandidateDetailComponent {
   constructor(
     @Inject(CANDIDATE_SERVICE)
     private readonly candidateService: ICandidateService,
-    @Inject(DATA_FOR_INPUT_SERVICE)
-    private readonly dataForInputService: IDataForInputService,
+    @Inject(COMMON_SERVICE)
+    private readonly commonService: ICommonService,
     private readonly route: ActivatedRoute,
     @Inject('IAuthService') private readonly authService: IAuthService,
     private readonly toastService: ToastrService,
@@ -50,18 +50,18 @@ export class CandidateDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    this.dataForInputService.getSkillData().subscribe((data) => {
+    this.commonService.getSkillData().subscribe((data) => {
       this.skillList = data;
     });
-    this.dataForInputService.getLevelData().subscribe((data) => {
+    this.commonService.getLevelData().subscribe((data) => {
       this.levelList = data;
     });
-    this.dataForInputService
+    this.commonService
       .getUserForInputData(['ADMIN', 'MANAGER', 'RECRUITER'])
       .subscribe((data) => {
         this.usersInput = data;
       });
-    this.dataForInputService
+    this.commonService
       .getSelectableCandidateStatus()
       .subscribe((data) => {
         this.selectableCandidateStatuses = data;

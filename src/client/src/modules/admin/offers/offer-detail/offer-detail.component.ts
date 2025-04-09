@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { CANDIDATE_SERVICE, DATA_FOR_INPUT_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
-import { IDataForInputService } from '../../../../services/data-for-input/data-for-input-service.interface';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CommonModule } from '@angular/common';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
@@ -31,8 +31,8 @@ export class OfferDetailComponent {
     private route: ActivatedRoute,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
-    @Inject(DATA_FOR_INPUT_SERVICE)
-        private readonly dataForInputService: IDataForInputService,) {}
+    @Inject(COMMON_SERVICE)
+        private readonly commonService: ICommonService,) {}
   
     ngOnInit(): void {
       const userJson = localStorage.getItem('userInformation') || sessionStorage.getItem('userInformation');
@@ -44,13 +44,13 @@ export class OfferDetailComponent {
         this.loadOffer();
       });
 
-      this.dataForInputService
+      this.commonService
         .getUserForInputData(['INTERVIEWER'])
         .subscribe((data) => {
           this.usersInterviewer = data;
       });
 
-      this.dataForInputService
+      this.commonService
         .getUserForInputData(['RECRUITER'])
         .subscribe((data) => {
           this.usersRecruiter = data;
