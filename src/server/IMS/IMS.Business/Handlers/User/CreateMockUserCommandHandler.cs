@@ -49,7 +49,7 @@ public class CreateMockUserCommandHandler(
                 PhoneNumber = request.PhoneNumber,
                 Note = request.Note,
                 Gender = request.Gender ,// Gán giá trị gender
-                IsActive = (bool)request.IsActive ? true : false
+                IsActive = request.IsActive ?? true
             };
 
             var createResult = await userManager.CreateAsync(user, request.Password);

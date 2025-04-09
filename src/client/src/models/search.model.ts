@@ -1,7 +1,9 @@
 export class SearchModel {
   public keyword!: string;
   public departmentName?: string;
+  public departmentId?: number | string;
   public status!: string;
+  //public isActive! : boolean;
   public pageNumber!: number;
   public pageSize!: number;
   public orderBy!: string;

@@ -3,6 +3,19 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="md:col-span-2">
+          <label for="username" class="block text-lg font-semibold mb-1">
+            User Name <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="fullname" formControlName="username" readonly
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Type a username...">
+          <div *ngIf="userForm.get('username')?.invalid && (userForm.get('username')?.dirty || userForm.get('username')?.touched)"
+            class="text-red-500 mt-1">
+            Username is required
+          </div>
+        </div>
         <!-- Full Name -->
         <div class="md:col-span-2">
           <label for="fullname" class="block text-lg font-semibold mb-1">
@@ -22,7 +35,7 @@
           <label for="email" class="block text-lg font-semibold mb-1">
             Email <span class="text-red-500">*</span>
           </label>
-          <input type="email" id="email" formControlName="email"
+          <input type="email" id="email" formControlName="email" readonly
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type an email...">
           <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)"
@@ -50,7 +63,7 @@
         <!-- Phone Number -->
         <div>
           <label for="phoneNumber" class="block text-lg font-semibold mb-1">Phone Number</label>
-          <input type="tel" id="phoneNumber" formControlName="phoneNumber"
+          <input type="tel" id="phoneNumber" formControlName="phoneNumber" readonly
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a phone number...">
           <div *ngIf="userForm.get('phoneNumber')?.invalid && (userForm.get('phoneNumber')?.dirty || userForm.get('phoneNumber')?.touched)"
@@ -116,21 +129,7 @@
         </div>
 
         <!-- Status -->
-        <div>
-          <label class="block text-lg font-semibold mb-1">
-            Status <span class="text-red-500">*</span>
-          </label>
-          <select formControlName="status"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="" disabled>Select a status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <div *ngIf="userForm.get('status')?.invalid && userForm.get('status')?.touched"
-            class="text-red-500 mt-1">
-            Status is required
-          </div>
-        </div>
+
 
         <!-- Note -->
         <div class="md:col-span-2">

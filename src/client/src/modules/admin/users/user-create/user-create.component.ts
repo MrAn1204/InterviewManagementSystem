@@ -57,7 +57,11 @@ export class UserCreateComponent implements OnInit{
       return;
     }
 
-    const userData = this.userForm.value;
+    const userData = { ...this.userForm.value };
+
+    // Chuyển đổi giá trị isActive: nếu là 'active' thì true, ngược lại false
+    userData.isActive = userData.isActive === 'active' ? true : false;
+
     this.userService.createUser(userData).subscribe({
       next: (response) => {
         this.toastr.success('User created successfully!', 'Success');
@@ -69,6 +73,7 @@ export class UserCreateComponent implements OnInit{
       }
     });
   }
+
 
   onRoleChange(role: string, isChecked: boolean) {
     const rolesControl = this.userForm.get('roles');

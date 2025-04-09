@@ -34,7 +34,7 @@ public class MappingProfile : Profile
 
     CreateMap<User, UserDetailViewModel>()
             .ForMember(dest => dest.DepartmentName,
-                opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
+            opt => opt.MapFrom(src => src.Department != null ? src.Department.DepartmentName : null))
             .ForMember(dest => dest.Roles, opt => opt.Ignore())
             .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender));
 
