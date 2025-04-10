@@ -4,6 +4,7 @@ using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ public class InterviewCreateUpdateCommandHandler(
     }
 
     private async Task<InterviewViewModel> Create(InterviewCreateUpdateCommand request, CancellationToken cancellationToken)
-    {        
+    {
         if (_httpContextAccessor.HttpContext == null)
         {
             throw new InvalidOperationException("HttpContext is null");
@@ -89,17 +90,40 @@ public class InterviewCreateUpdateCommandHandler(
         });
         existedInterview.CreatedBy = createdBy;
 
-        _unitOfWork.InterviewRepository.Update(existedInterview);
-        await _unitOfWork.SaveChangesAsync();
 
-        var updatedInterview = await _unitOfWork.InterviewRepository.GetQuery()
-            .Include(interview => interview.Candidate)
-            .Include(interview => interview.Recruiter)
-            .Include(interview => interview.Interviewers)
-            .Include(interview => interview.Job)
-            .FirstOrDefaultAsync(interview => interview.Id == existedInterview.Id, cancellationToken)
-            ?? throw new ResourceNotFoundException("Interview not found");
+        using var transaction = await _unitOfWork.Context.Database.BeginTransactionAsync(cancellationToken);
 
-        return _mapper.Map<InterviewViewModel>(updatedInterview);
+        try
+        {
+            _unitOfWork.InterviewRepository.Update(existedInterview);
+            await _unitOfWork.SaveChangesAsync();
+
+            var updatedInterview = await _unitOfWork.InterviewRepository.GetQuery()
+                .Include(interview => interview.Candidate)
+                .Include(interview => interview.Recruiter)
+                .Include(interview => interview.Interviewers)
+                .Include(interview => interview.Job)
+                .FirstOrDefaultAsync(interview => interview.Id == existedInterview.Id, cancellationToken)
+                ?? throw new ResourceNotFoundException("Interview not found");
+
+            if (updatedInterview.Result.HasValue)
+            {
+                var result = updatedInterview.Result == InterviewResult.Passed
+                    ? "Passed Interview" : "Failed Interview";
+                updatedInterview.Candidate!.Status = result;
+                _unitOfWork.CandidateRepository.Update(updatedInterview.Candidate);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return _mapper.Map<InterviewViewModel>(updatedInterview);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 }
