@@ -41,6 +41,8 @@ export class InterviewEditComponent {
 
   public candidateList!: CandidateModel[];
 
+  private roles!: string[];
+
   constructor(
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
@@ -78,12 +80,16 @@ export class InterviewEditComponent {
 
     this.candidateService.getAll().subscribe((res) => this.candidateList = res);
     this.jobService.getAll().subscribe((res) => this.jobList = res);
-
         
     this.commonService.getUserForInputData(['RECRUITER'])
       .subscribe((res) => this.recruiterList = res);
     this.commonService.getUserForInputData(['INTERVIEWER'])
       .subscribe((res) => this.interviewerList = res);
+    this.authService.getUserInformation().subscribe((res) => {
+      this.roles = res?.roles ?? [];
+      console.log(this.roles);
+      
+    });
   }
 
   public createForm(interview: InterviewModel) {
@@ -174,5 +180,9 @@ export class InterviewEditComponent {
         this.toastr.info('You do not have RECRUITER role', 'Info');
       }
     })
+  }
+
+  public checkEditable(): boolean {
+    return this.roles.includes('ADMIN') || this.roles.includes('MANAGER') || this.roles.includes('RECRUITER');
   }
 }

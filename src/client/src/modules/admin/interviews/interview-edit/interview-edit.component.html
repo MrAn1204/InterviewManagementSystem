@@ -17,11 +17,21 @@
             Schedule title
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="title" formControlName="title" placeholder="Type a title..." [value]="interview.title"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-          <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
-            Title is required and must has less than 100 characters
-          </p>
+          <ng-container *ngIf="checkEditable(); else readonlyTitle">
+            <input type="text" id="title" formControlName="title" placeholder="Type a title..."
+              [value]="interview.title"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+            <p class="text-red-500 text-xs italic mt-1"
+              *ngIf="form.get('title')?.invalid && form.get('title')?.touched">
+              Title is required and must has less than 100 characters
+            </p>
+          </ng-container>
+
+          <ng-template #readonlyTitle>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.title }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Schedule Time -->
@@ -29,33 +39,57 @@
           <label for="interviewDate" class="block text-lg font-semibold mb-1">
             Schedule Time <span class="text-red-500">*</span>
           </label>
-          <input type="date" id="interviewDate" formControlName="interviewDate" [value]="interview.interviewDate"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
-          <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="form.get('interviewDate')?.invalid && form.get('interviewDate')?.touched">
-            Interview date is required
-          </p>
+          <ng-container *ngIf="checkEditable(); else readonlyDate">
+            <input type="date" id="interviewDate" formControlName="interviewDate" [value]="interview.interviewDate"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+            <p class="text-red-500 text-xs italic mt-1"
+              *ngIf="form.get('interviewDate')?.invalid && form.get('interviewDate')?.touched">
+              Interview date is required
+            </p>
+          </ng-container>
+
+          <ng-template #readonlyDate>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.interviewDate }">
+            </ng-container>
+          </ng-template>
 
           <!-- Time Pickers Container -->
           <div class="flex flex-wrap sm:flex-nowrap gap-4">
             <!-- Start Time -->
             <div class="w-full sm:w-1/2">
               <label for="startTime" class="block mb-1">From <span class="text-red-500">*</span></label>
-              <input type="time" id="startTime" formControlName="startTime" [value]="interview.startTime"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+              <ng-container *ngIf="checkEditable(); else readonlyStartTime">
+                <input type="time" id="startTime" formControlName="startTime" [value]="interview.startTime"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+              </ng-container>
+
+              <ng-template #readonlyStartTime>
+                <ng-container 
+                  *ngTemplateOutlet="readonlyField; context: { $implicit: interview.startTime }">
+                </ng-container>
+              </ng-template>
             </div>
 
             <!-- End Time -->
             <div class="w-full sm:w-1/2">
               <label for="endTime" class="block mb-1">To <span class="text-red-500">*</span></label>
-              <input type="time" id="endTime" formControlName="endTime" [value]="interview.endTime"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+              <ng-container *ngIf="checkEditable(); else readonlyEndTime">
+                <input type="time" id="endTime" formControlName="endTime" [value]="interview.endTime"
+                  class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
+                <p class="text-red-500 text-xs italic mt-1"
+                  *ngIf="form.hasError('timeRange') && form.get('startTime')?.touched">
+                  {{form.getError('timeRange')}}
+                </p>
+              </ng-container>
+
+              <ng-template #readonlyEndTime>
+                <ng-container 
+                  *ngTemplateOutlet="readonlyField; context: { $implicit: interview.endTime }">
+                </ng-container>
+              </ng-template>
             </div>
           </div>
-          <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="form.hasError('timeRange') && form.get('startTime')?.touched">
-            {{form.getError('timeRange')}}
-          </p>
         </div>
 
         <!-- Candidate name -->
@@ -64,17 +98,25 @@
             Candidate name
             <span class="text-red-500">*</span>
           </label>
-          <select id="candidate" formControlName="candidateId" [value]="interview.candidateId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="0" disabled hidden>Select candidate...</option>
-            <option *ngFor="let candidate of candidateList" [value]="candidate.id">
-              {{ candidate.fullName }}
-            </option>
-          </select>
-          <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="form.get('candidateId')?.invalid && form.get('candidateId')?.touched">
-            Candidate is required
-          </p>
+          <ng-container *ngIf="checkEditable(); else readonlyCandidate">
+            <select id="candidate" formControlName="candidateId" [value]="interview.candidateId"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+              <option value="0" disabled hidden>Select candidate...</option>
+              <option *ngFor="let candidate of candidateList" [value]="candidate.id">
+                {{ candidate.fullName }}
+              </option>
+            </select>
+            <p class="text-red-500 text-xs italic mt-1"
+              *ngIf="form.get('candidateId')?.invalid && form.get('candidateId')?.touched">
+              Candidate is required
+            </p>
+          </ng-container>
+
+          <ng-template #readonlyCandidate>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.candidateName }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Job -->
@@ -83,16 +125,24 @@
             Job
             <span class="text-red-500">*</span>
           </label>
-          <select id="job" formControlName="jobId" [value]="interview.jobId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option value="0" disabled hidden>Select a job...</option>
-            <option *ngFor="let job of jobList" [value]="job.id">
-              {{ job.title }}
-            </option>
-          </select>
-          <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('jobId')?.invalid && form.get('jobId')?.touched">
-            Job is required
-          </p>
+          <ng-container *ngIf="checkEditable(); else readonlyJob">
+            <select id="job" formControlName="jobId" [value]="interview.jobId"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+              <option value="0" disabled hidden>Select a job...</option>
+              <option *ngFor="let job of jobList" [value]="job.id">
+                {{ job.title }}
+              </option>
+            </select>
+            <p class="text-red-500 text-xs italic mt-1" *ngIf="form.get('jobId')?.invalid && form.get('jobId')?.touched">
+              Job is required
+            </p>
+          </ng-container>
+
+          <ng-template #readonlyJob>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.jobName }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Interviewer (multi-select dropdown) -->
@@ -101,31 +151,39 @@
             Interviewer
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="interviewers" formControlName="interviewersId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
-            placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()"
-            [value]="selectedInterviewers.join(', ')" />
-          <!-- Dropdown -->
-          <div id="interviewerDropdown" *ngIf="dropdownVisible"
-            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
-            <div class="p-2 max-h-48 overflow-y-auto">
-              <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
-                <input type="checkbox" [value]="interviewer.id"
-                  (change)="updateInterviewerSelected(interviewer.id, interviewer.userName)"
-                  [checked]="selectedInterviewersId.includes(interviewer.id)" />
-                {{ `${interviewer.fullName} - ${interviewer.userName}` }}
-              </label>
+          <ng-container *ngIf="checkEditable(); else readonlyInterviewers">
+            <input type="text" id="interviewers" formControlName="interviewersId"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
+              placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()"
+              [value]="selectedInterviewers.join(', ')" />
+            <!-- Dropdown -->
+            <div id="interviewerDropdown" *ngIf="dropdownVisible"
+              class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
+              <div class="p-2 max-h-48 overflow-y-auto">
+                <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
+                  <input type="checkbox" [value]="interviewer.id"
+                    (change)="updateInterviewerSelected(interviewer.id, interviewer.userName)"
+                    [checked]="selectedInterviewersId.includes(interviewer.id)" />
+                  {{ `${interviewer.fullName} - ${interviewer.userName}` }}
+                </label>
+              </div>
             </div>
-          </div>
-          <small class="text-gray-500">
-            Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
-          </small>
-          <input type="hidden" formControlName="interviewersId" id="interviewersHidden"
-            [value]="selectedInterviewersId" />
-          <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="selectedInterviewers.length === 0 && form.get('interviewersId')?.touched">
-            Interviewer is required
-          </p>
+            <small class="text-gray-500">
+              Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
+            </small>
+            <input type="hidden" formControlName="interviewersId" id="interviewersHidden"
+              [value]="selectedInterviewersId" />
+            <p class="text-red-500 text-xs italic mt-1"
+              *ngIf="selectedInterviewers.length === 0 && form.get('interviewersId')?.touched">
+              Interviewer is required
+            </p>
+          </ng-container>
+
+          <ng-template #readonlyInterviewers>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: selectedInterviewers.join(', ') }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Recruiter owner -->
@@ -134,26 +192,34 @@
             Recruiter owner
             <span class="text-red-500">*</span>
           </label>
-          <div class="flex">
-            <!-- Select Dropdown -->
-            <select id="recruiter" formControlName="recruiterId" [value]="interview.recruiterId"
-              class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-              <option value="0" disabled hidden>Select a recruiter...</option>
-              <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
-                {{ `${recruiter.fullName} - ${recruiter.userName}` }}
-              </option>
-            </select>
+          <ng-container *ngIf="checkEditable(); else readonlyRecruiter">
+            <div class="flex">
+              <!-- Select Dropdown -->
+              <select id="recruiter" formControlName="recruiterId" [value]="interview.recruiterId"
+                class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+                <option value="0" disabled hidden>Select a recruiter...</option>
+                <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
+                  {{ `${recruiter.fullName} - ${recruiter.userName}` }}
+                </option>
+              </select>
+  
+              <!-- Button -->
+              <button type="button" (click)="assignMe()" class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold 
+                  rounded-r-md hover:bg-[#e3f2fd]">
+                Assign me
+              </button>
+            </div>
+            <p class="text-red-500 text-xs italic mt-1"
+              *ngIf="form.get('recruiterId')?.invalid && form.get('recruiterId')?.touched">
+              Recruiter is required
+            </p>
+          </ng-container>
 
-            <!-- Button -->
-            <button type="button" (click)="assignMe()" class="w-2/12 text-xs cursor-pointer border border-[#1976d2] text-[#1976d2] bg-white font-semibold 
-                rounded-r-md hover:bg-[#e3f2fd]">
-              Assign me
-            </button>
-          </div>
-          <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="form.get('recruiterId')?.invalid && form.get('recruiterId')?.touched">
-            Recruiter is required
-          </p>
+          <ng-template #readonlyRecruiter>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.recruiterName }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Location -->
@@ -161,8 +227,16 @@
           <label for="location" class="block text-lg font-semibold mb-1">
             Location
           </label>
-          <input type="text" id="location" formControlName="location" placeholder="Type a location"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <ng-container *ngIf="checkEditable(); else readonlyLocation">
+            <input type="text" id="location" formControlName="location" placeholder="Type a location"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          </ng-container>
+
+          <ng-template #readonlyLocation>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.location }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Meeting ID -->
@@ -170,8 +244,16 @@
           <label for="meetingId" class="block text-lg font-semibold mb-1">
             Meeting ID
           </label>
-          <input type="text" id="meetingId" formControlName="meetingId" placeholder="meet.google.com/xyz-abc"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          <ng-container *ngIf="checkEditable(); else readonlyMeetingId">
+            <input type="text" id="meetingId" formControlName="meetingId" placeholder="meet.google.com/xyz-abc"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]" />
+          </ng-container>
+
+          <ng-template #readonlyMeetingId>
+            <ng-container 
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.meetingId }">
+            </ng-container>
+          </ng-template>
         </div>
 
         <!-- Notes -->
@@ -205,12 +287,10 @@
           <label for="status" class="block text-lg font-semibold mb-1">
             Status
           </label>
-          <select id="status" formControlName="status" [value]="interview.status"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-            <option *ngFor="let status of statusList" [value]="status">
-              {{ status }}
-            </option>
-          </select>
+
+          <ng-container
+            *ngTemplateOutlet="readonlyField; context: { $implicit: interview.status }">
+          </ng-container>
         </div>
       </div>
 
@@ -230,3 +310,9 @@
     </form>
   </div>
 </div>
+
+<ng-template #readonlyField let-info>
+  <p class="bg-gray-100 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-0">
+    {{ info }}
+  </p>
+</ng-template>
