@@ -28,6 +28,16 @@
 
   <!-- Card chứa thông tin -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <div class="flex justify-end">
+      <!-- Cancel -->
+      <button
+        type="button"
+        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300"
+        (click)="openModal('Are you sure you want to ban this candidate?')"
+      >
+        Ban candidate
+      </button>
+    </div>
     <!-- Tiêu đề -->
     <h2 class="text-2xl font-semibold mb-6">Candidate Information</h2>
 
@@ -181,4 +191,11 @@
       </button>
     </div>
   </div>
+  <app-confirm-modal
+    [isOpen]="isModalOpen"
+    (onClose)="handleCloseModal()"
+    (onConfirm)="handleConfirmCancel()"
+    [message]="messageConfirm"
+  >
+  </app-confirm-modal>
 </div>

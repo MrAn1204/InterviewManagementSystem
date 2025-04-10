@@ -37,7 +37,6 @@ import { NotFoundComponent } from '../errors/not-found/not-found.component';
 export const routes: Routes = [
   // Redirect root '' về '/login'
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path : 'home', component: AdminLayoutComponent},
   // Các route không cần layout admin: login, forget-password, reset-password
   {
     path: '',
@@ -107,6 +106,9 @@ export const routes: Routes = [
           // { path: ':id/edit', component: OfferEditComponent },
           { path: ':id/detail', component: OfferDetailComponent }
         ]
+      },
+      {
+        path: '**', redirectTo: 'dashboard', pathMatch: 'full'
       }
     ]
   },
