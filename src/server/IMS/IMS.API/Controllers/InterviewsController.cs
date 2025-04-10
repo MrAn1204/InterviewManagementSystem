@@ -25,6 +25,7 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// </summary>
     /// <param name="request">The interview creation command containing interview details.</param>
     /// <returns>The created interview details.</returns>
+    [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
     [HttpPost()]
     public async Task<IActionResult> Create([FromBody] InterviewCreateUpdateCommand request)
     {

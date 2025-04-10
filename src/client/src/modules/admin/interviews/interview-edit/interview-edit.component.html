@@ -50,7 +50,7 @@
 
           <ng-template #readonlyDate>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.interviewDate }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.interviewDate | date: 'MM/dd/yyyy'}">
             </ng-container>
           </ng-template>
 
@@ -66,7 +66,7 @@
 
               <ng-template #readonlyStartTime>
                 <ng-container 
-                  *ngTemplateOutlet="readonlyField; context: { $implicit: interview.startTime }">
+                  *ngTemplateOutlet="readonlyField; context: { $implicit: mapTime(interview.startTime)  }">
                 </ng-container>
               </ng-template>
             </div>
@@ -85,7 +85,7 @@
 
               <ng-template #readonlyEndTime>
                 <ng-container 
-                  *ngTemplateOutlet="readonlyField; context: { $implicit: interview.endTime }">
+                  *ngTemplateOutlet="readonlyField; context: { $implicit: mapTime(interview.endTime) }">
                 </ng-container>
               </ng-template>
             </div>
@@ -152,7 +152,7 @@
             <span class="text-red-500">*</span>
           </label>
           <ng-container *ngIf="checkEditable(); else readonlyInterviewers">
-            <input type="text" id="interviewers" formControlName="interviewersId"
+            <input type="text" id="interviewers"
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
               placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()"
               [value]="selectedInterviewers.join(', ')" />
@@ -162,9 +162,9 @@
               <div class="p-2 max-h-48 overflow-y-auto">
                 <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
                   <input type="checkbox" [value]="interviewer.id"
-                    (change)="updateInterviewerSelected(interviewer.id, interviewer.userName)"
+                    (change)="updateInterviewerSelected(interviewer)"
                     [checked]="selectedInterviewersId.includes(interviewer.id)" />
-                  {{ `${interviewer.fullName} - ${interviewer.userName}` }}
+                  {{ `${interviewer.fullName} (${interviewer.userName})` }}
                 </label>
               </div>
             </div>
@@ -181,7 +181,7 @@
 
           <ng-template #readonlyInterviewers>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: selectedInterviewers.join(', ') }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: mapInterviewerNames() }">
             </ng-container>
           </ng-template>
         </div>
@@ -199,7 +199,7 @@
                 class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
                 <option value="0" disabled hidden>Select a recruiter...</option>
                 <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
-                  {{ `${recruiter.fullName} - ${recruiter.userName}` }}
+                  {{ `${recruiter.fullName} (${recruiter.userName})` }}
                 </option>
               </select>
   
@@ -217,7 +217,7 @@
 
           <ng-template #readonlyRecruiter>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.recruiterName }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: mapRecruiterNames() }">
             </ng-container>
           </ng-template>
         </div>
@@ -234,7 +234,7 @@
 
           <ng-template #readonlyLocation>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.location }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.location || 'N/A'}">
             </ng-container>
           </ng-template>
         </div>
@@ -251,7 +251,7 @@
 
           <ng-template #readonlyMeetingId>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.meetingId }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: interview.meetingId || 'N/A' }">
             </ng-container>
           </ng-template>
         </div>
