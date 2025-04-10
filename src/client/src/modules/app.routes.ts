@@ -68,7 +68,7 @@ export const routes: Routes = [
           { path: 'create', component: UserCreateComponent },
           { path: ':id/edit', component: UserEditComponent },
           { path: ':id/detail', component: UserDetailsComponent },
-          { path: ':id/inactive', component: UserInactiveComponent },
+          { path: ':id/toggle-status', component: UserInactiveComponent },
         ]
       },
       {
