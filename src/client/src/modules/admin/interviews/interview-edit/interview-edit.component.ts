@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, HostListener, inject, Inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
@@ -13,6 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { timeRangeValidator } from '../../../../validators/time-range.validator';
+import { UserService } from '../../../../services/user/user.service';
+import { forkJoin, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-interview-edit',
@@ -40,79 +43,90 @@ export class InterviewEditComponent {
 
   public candidateList!: CandidateModel[];
 
+  private roles!: string[];
+
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    @Inject('IAuthService') private readonly authService: IAuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     @Inject(COMMON_SERVICE) private readonly commonService: ICommonService,
+    private readonly userService: UserService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService
   ) {
+    inject(UserService);
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.interviewId = Number(params.get('id'));
-      this.interviewService.getById(this.interviewId).subscribe((res) => {
-        this.interview = res;
+    this.loadInitialData();
+    this.loadInterviewData();
+  }
 
-        // delays execution until after Angular's change detection cycle finishes
-        setTimeout(() => {
-          this.selectedInterviewers = [... this.interview.interviewersName ?? []];
-        }, 0);
-
-        this.selectedInterviewersId = [... this.interview.interviewersId ?? []];
-
-        this.createForm(res);
-
-        console.log(this.interview.interviewersId);
-
-        this.form.patchValue({
-          interviewersId: this.selectedInterviewersId
-        });
-      });
+  private loadInitialData(): void {
+    this.authService.getUserInformation().subscribe((res) => {
+      console.log(res?.roles);
+      
+      this.roles = res?.roles ?? [];
     });
 
-    this.candidateService.getAll().subscribe((res) => this.candidateList = res);
-    this.jobService.getAll().subscribe((res) => this.jobList = res);
+    this.candidateService.getAll().subscribe(res => this.candidateList = res);
+    this.jobService.getAll().subscribe(res => this.jobList = res);
 
-        
     this.commonService.getUserForInputData(['RECRUITER'])
-      .subscribe((res) => this.recruiterList = res);
+      .subscribe(res => this.recruiterList = res);
+
     this.commonService.getUserForInputData(['INTERVIEWER'])
-      .subscribe((res) => this.interviewerList = res);
+      .subscribe(res => this.interviewerList = res);
+  }
+
+  private loadInterviewData(): void {
+    this.route.paramMap.pipe(
+      map(params => Number(params.get('id'))),
+      tap(id => this.interviewId = id),
+      switchMap(id => this.interviewService.getById(id)),
+      tap(res => {
+        this.interview = res;
+        this.selectedInterviewersId = [...res.interviewersId ?? []];
+        this.createForm(res);
+        this.form.patchValue({ interviewersId: this.selectedInterviewersId });
+      }),
+      switchMap(res => {
+        if (!res.interviewersId?.length) return of([]);
+        return forkJoin(res.interviewersId.map(id => this.userService.getUserById(id)));
+      })
+    ).subscribe(users => {
+      this.selectedInterviewers = users.map(user => `${user.fullName} (${user.username})`);
+    });
   }
 
   public createForm(interview: InterviewModel) {
     this.form = new FormGroup({
-      title: new FormControl<string>(interview.title, []),
-      candidateId: new FormControl<number>(interview.candidateId ?? 0, []),
-      interviewDate: new FormControl<string>(interview.interviewDate, []),
-      startTime: new FormControl<string>(interview.startTime, []),
-      endTime: new FormControl<string>(interview.endTime, []),
-      jobId: new FormControl<number>(interview.jobId ?? 0, []),
-      interviewersId: new FormControl<number[]>(this.selectedInterviewersId, []),
+      title: new FormControl<string>(interview.title, [Validators.required, Validators.maxLength(100)]),
+      candidateId: new FormControl<number>(interview.candidateId ?? 0, [Validators.required, Validators.min(1)]),
+      interviewDate: new FormControl<string>(interview.interviewDate, [Validators.required]),
+      startTime: new FormControl<string>(interview.startTime, [Validators.required]),
+      endTime: new FormControl<string>(interview.endTime, [Validators.required]),
+      jobId: new FormControl<number>(interview.jobId ?? 0, [Validators.required, Validators.min(1)]),
+      interviewersId: new FormControl<number[]>(this.selectedInterviewersId, [Validators.required, Validators.minLength(1)]),
       location: new FormControl<string>(interview.location ?? '', []),
-      recruiterId: new FormControl<number>(interview.recruiterId ?? 0, []),
+      recruiterId: new FormControl<number>(interview.recruiterId ?? 0, [Validators.required, Validators.min(1)]),
       meetingId: new FormControl<string>(interview.meetingId ?? '', []),
-      note: new FormControl<string>(interview.note ?? '', []),
+      note: new FormControl<string>(interview.note ?? '', [Validators.maxLength(500)]),
       result: new FormControl<string | null>(interview.result ?? null, []),
       status: new FormControl<string>(interview.status.toString(), []),
-    });
+    }, { validators: timeRangeValidator });
   }
 
   public onSubmit() {
     if (this.form.invalid) {
-      console.log('Invalid');
+      this.form.markAllAsTouched();
+      this.toastr.error('Invalid form', 'Error');
       return;
     }
 
     const data: InterviewModel = this.form.value;
-
-    console.log(data);
-
 
     this.interviewService.update(this.interviewId, data).subscribe({
       next: (data) => {
@@ -124,7 +138,7 @@ export class InterviewEditComponent {
           console.log('Update failed');
         }
       },
-      error: (error) => {
+      error: () => {
         this.toastr.error('Failed to update jobs', 'Error');
       }
     });
@@ -134,7 +148,10 @@ export class InterviewEditComponent {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  public updateInterviewerSelected(id: number, name: string): void {
+  public updateInterviewerSelected(interview: UserForInputModel): void {
+    const id = interview.id;
+    const name = `${interview.fullName} (${interview.userName})`;
+
     const idIndex = this.selectedInterviewersId.indexOf(id);
     const nameIndex = this.selectedInterviewers.indexOf(name);
 
@@ -172,5 +189,25 @@ export class InterviewEditComponent {
         this.toastr.info('You do not have RECRUITER role', 'Info');
       }
     })
+  }
+
+  public checkEditable(): boolean {
+    return this.roles.includes('ADMIN') || this.roles.includes('MANAGER') || this.roles.includes('RECRUITER');
+  }
+
+  public mapTime(time: string): string {
+    const [hours, minutes] = time.split(':');
+    return `${hours}:${minutes} ${Number(hours) >= 12 ? 'PM' : 'AM'}`;
+  }
+
+  public mapInterviewerNames(): string {
+    const interviewers = this.interviewerList.filter(i => this.interview.interviewersId!.includes(i.id));
+    return interviewers.map(interviewer => `${interviewer.fullName} (${interviewer.userName})`).join(', ');
+  }
+
+  public mapRecruiterNames(): string {
+    const recruiter = this.recruiterList.filter(r => this.interview.recruiterId === r.id)[0];
+
+    return `${recruiter.fullName} (${recruiter.userName})`;
   }
 }

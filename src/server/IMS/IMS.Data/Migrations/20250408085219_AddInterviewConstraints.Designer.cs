@@ -4,6 +4,7 @@ using IMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408085219_AddInterviewConstraints")]
+    partial class AddInterviewConstraints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -431,9 +434,6 @@ namespace IMS.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LevelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -460,8 +460,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("InterviewId");
-
-                    b.HasIndex("LevelId");
 
                     b.ToTable("Offers");
                 });
@@ -1019,18 +1017,11 @@ namespace IMS.Data.Migrations
                         .WithMany()
                         .HasForeignKey("InterviewId");
 
-                    b.HasOne("IMS.Domain.Entities.Level", "Level")
-                        .WithMany("Offers")
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Candidate");
 
                     b.Navigation("Department");
 
                     b.Navigation("Interview");
-
-                    b.Navigation("Level");
 
                     b.Navigation("UserApproved");
                 });
@@ -1126,8 +1117,6 @@ namespace IMS.Data.Migrations
             modelBuilder.Entity("IMS.Domain.Entities.Level", b =>
                 {
                     b.Navigation("JobLevels");
-
-                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("IMS.Domain.Entities.Role", b =>

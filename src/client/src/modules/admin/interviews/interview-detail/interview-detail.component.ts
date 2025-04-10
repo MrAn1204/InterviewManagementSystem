@@ -21,7 +21,6 @@ export class InterviewDetailComponent implements OnInit {
 
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
-    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
     private readonly userService: UserService
