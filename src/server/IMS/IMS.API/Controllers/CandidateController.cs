@@ -70,4 +70,11 @@ public class CandidateController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("count-by-week")]
+    public async Task<IActionResult> GetCandidateCountByWeek(int year, int month)
+    {
+        var result =await _mediator.Send(new CandidateCountByWeekQuery { Year = year, Month = month });
+        return Ok(result);
+    }
+
 }

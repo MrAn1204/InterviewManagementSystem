@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CandidateModel } from '../../models/candidate/candidate.model';
 import { PaginatedResult } from '../../models/candidate/paginated-result.model';
 import { HttpClient } from '@angular/common/http';
+import { CandidateCountByWeekModel } from '../../models/candidate/candidate-count-by-week.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,15 @@ import { HttpClient } from '@angular/common/http';
 export class CandidateService implements ICandidateService {
   private readonly url = 'http://localhost:5113/api/Candidate';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient) {}
+  getCandidateCountByWeek(
+    year: number,
+    month: number
+  ): Observable<CandidateCountByWeekModel[]> {
+    return this.httpClient.get<CandidateCountByWeekModel[]>(
+      `${this.url}/count-by-week?year=${year}&month=${month}`
+    );
+  }
 
   getAll(): Observable<CandidateModel[]> {
     return this.httpClient.get<CandidateModel[]>(this.url);
