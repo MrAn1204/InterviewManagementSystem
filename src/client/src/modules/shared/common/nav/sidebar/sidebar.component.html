@@ -1,36 +1,120 @@
 <aside class="flex flex-col h-full bg-[#121C3E] text-white fixed left-0 z-50"
-  [ngClass]="(sidebarService.isCollapsed$ | async) ? 'hidden' : 'w-64'">
-  <div class="flex w-full mt-6 justify-center"
-    [ngClass]="{'hidden': sidebarService.isCollapsed}">
-    <a routerLink="/admin" routerLinkActive="router-link-active">
-      <img src="assets/logo-ims.png" alt="IMS Logo" class="h-10">
+  [ngClass]="(sidebarService.isCollapsed$ | async) ? 'w-18' : 'w-64'">
+  <!-- Logo Section -->
+  <div 
+    class="flex justify-center items-center py-5 border-b border-gray-700"
+    [ngClass]="{ 'py-6.5': sidebarService.isCollapsed$ | async }">
+    <a routerLink="/admin">
+      <img 
+        src="assets/logo-ims.png" 
+        [ngClass]="{ 
+          'h-10': !(sidebarService.isCollapsed$ | async), 
+          'h-7': sidebarService.isCollapsed$ | async 
+        }" 
+        alt="logo-ims" />
     </a>
   </div>
+  
+  <!-- Menu Items Section -->
   <div class="flex flex-col mt-6" [ngClass]="{'*:justify-center': (sidebarService.isCollapsed$ | async)}">
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/dashboard"
-      routerLinkActive="bg-[#FFC20E] text-black">
+    <!-- Each menu item with proper routerLinkActive -->
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/dashboard"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faHome" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="(sidebarService.isCollapsed$ | async) ? 'hidden' : 'block'">Homepage</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Homepage
+      </div>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/candidates">
+    
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/candidates"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faUser" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Candidate</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Candidate
+      </div>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/jobs">
+    
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/jobs"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faBriefcase" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Job</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Job
+      </div>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/interviews">
+    
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/interviews"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faCalendarAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Interview</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Interview
+      </div>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/offers">
+    
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/offers"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faFileAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Offer</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Offer
+      </div>
     </a>
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black" routerLink="/admin/users">
+    
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+       routerLink="/admin/users"
+       routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faUsers" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">User</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        User
+      </div>
+    </a>
+  </div>
+  
+  <!-- Footer Section -->
+  <div class="mt-auto flex justify-between items-center text-center border-t border-gray-700"
+    [ngClass]="{'flex-col': (sidebarService.isCollapsed$ | async)}">
+    <a class="flex items-center grow w-full text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
+      [ngClass]="{'w-full justify-center': (sidebarService.isCollapsed$ | async)}" href="#">
+      <fa-icon [icon]="faGear" class="text-2xl w-8 mr-2"></fa-icon>
+      <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Settings</span>
+      <!-- Tooltip for collapsed state -->
+      <div
+        *ngIf="(sidebarService.isCollapsed$ | async)"
+        class="absolute left-full top-1/2 -translate-y-1/2 ml-2 opacity-0 group-hover:opacity-100 bg-black text-white text-xs rounded px-2 py-1 whitespace-nowrap z-50 transition-opacity duration-300">
+        Settings
+      </div>
+    </a>
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black cursor-pointer"
+      [ngClass]="(sidebarService.isCollapsed$ | async) ? 'w-full justify-center': ''" (click)="toggleSidebar()">
+      <fa-icon [icon]="(sidebarService.isCollapsed$ | async) ? faAngleDoubleRight : faAngleDoubleLeft"
+        class="text-2xl w-8 mr-2"></fa-icon>
     </a>
   </div>
 </aside>
