@@ -1,12 +1,4 @@
-<div class="container mx-auto py-8 px-4">
-  <!-- Breadcrumb -->
-  <div class="pb-4 flex items-center justify-end">
-    <div class="text-sm text-gray-500" *ngIf="data">
-      <p>Created at: {{data.createdDate | date:'yyyy-MM-dd'}}</p>
-      <p>Last updated: {{data.updatedDate | date:'yyyy-MM-dd'}}</p>
-    </div>
-  </div>
-
+<div class="mx-auto my-4">
   <!-- Loading indicator -->
   <div *ngIf="isLoading" class="flex justify-center items-center p-8">
     <p class="text-xl text-gray-600">Loading...</p>
@@ -16,8 +8,27 @@
   <form [formGroup]="jobForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
       <!-- Phần I: Job information -->
-      <h2 class="text-2xl font-semibold mb-4">Job information</h2>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
+        <h2 class="text-2xl font-semibold">Job Information</h2>
 
+        <!-- Ngày tạo / cập nhật -->
+        <ng-container *ngIf="data; else createUpdateDate">
+          <div class="text-sm text-gray-500 text-left md:text-right">
+            <p>Created at: {{ data.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+            <p>
+              Last updated:
+              {{ data.updatedDate ? (data.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet" }}
+            </p>
+          </div>
+        </ng-container>
+
+        <ng-template #createUpdateDate>
+          <div class="text-sm text-gray-500 text-left md:text-right">
+            <p>Created at: Loading ...</p>
+            <p>Last updated: Loading ...</p>
+          </div>
+        </ng-template>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Job Title -->
         <div>
@@ -190,7 +201,8 @@
             Status
           </label>
           <input type="text" id="status" formControlName="status"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#1976d2]" readonly />
+            class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            readonly />
           <small class="text-gray-500">
             Status cannot be changed directly
           </small>

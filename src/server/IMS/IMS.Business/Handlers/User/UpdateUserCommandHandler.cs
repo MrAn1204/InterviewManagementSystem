@@ -31,7 +31,7 @@ public class UpdateUserCommandHandler(UserManager<User> _userManager, IUnitOfWor
         user.PhoneNumber = request.PhoneNumber;
         user.DepartmentId = request.DepartmentId;
         user.Note = request.Note;
-        user.IsActive = request.Status;
+        user.Gender = request.Gender;
 
         var currentRoles = await _userManager.GetRolesAsync(user);
         await _userManager.RemoveFromRolesAsync(user, currentRoles);

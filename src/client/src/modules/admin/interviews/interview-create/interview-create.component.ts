@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InterviewModel } from '../../../../models/interview/interview.model';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
+import { timeRangeValidator } from '../../../../validators/time-range.validator';
 
 @Component({
   selector: 'app-interview-create',
@@ -60,23 +61,24 @@ export class InterviewCreateComponent implements OnInit {
 
   public createForm() {
     this.form = new FormGroup({
-      title: new FormControl<string>('', []),
-      candidateId: new FormControl<number>(0, []),
-      interviewDate: new FormControl<string>('', []),
-      startTime: new FormControl<string>('', []),
-      endTime: new FormControl<string>('', []),
-      jobId: new FormControl<number>(0, []),
-      interviewersId: new FormControl<number[]>([], []),
+      title: new FormControl<string>('', [Validators.required, Validators.maxLength(100)]),
+      candidateId: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      interviewDate: new FormControl<string>('', [Validators.required]),
+      startTime: new FormControl<string>('', [Validators.required]),
+      endTime: new FormControl<string>('', [Validators.required]),
+      jobId: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
+      interviewersId: new FormControl<number[]>([], [Validators.required, Validators.minLength(1)]),
       location: new FormControl<string>('', []),
-      recruiterId: new FormControl<number>(0, []),
+      recruiterId: new FormControl<number>(0, [Validators.required, Validators.min(1)]),
       meetingId: new FormControl<string>('', []),
-      note: new FormControl<string>('', []),
-    });
+      note: new FormControl<string>('', [Validators.maxLength(500)]),
+    }, { validators: timeRangeValidator });
   }
 
   public onSubmit() {
     if (this.form.invalid) {
-      console.log('Invalid');
+      this.form.markAllAsTouched();
+      this.toastr.error('Invalid form', 'Error');
       return;
     }
 

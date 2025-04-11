@@ -7,6 +7,11 @@ using ViVuStore.Business.Handlers;
 
 namespace IMS.API.Controllers;
 
+/// <summary>
+/// API controller for managing job resources.
+/// Provides endpoints for creating, retrieving, updating, searching, deleting, and importing jobs.
+/// Also includes an endpoint for manually triggering job status updates.
+/// </summary>
 [Route("api/jobs")]
 [ApiController]
 public class JobController(IMediator mediator, IJobStatusUpdateService jobStatusService) : ControllerBase

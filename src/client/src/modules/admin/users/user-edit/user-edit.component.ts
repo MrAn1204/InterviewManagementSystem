@@ -30,6 +30,7 @@ export class UserEditComponent implements OnInit {
     private router: Router
   ) {
     this.userForm = this.fb.group({
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)]],
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       dob: [''],
@@ -38,7 +39,7 @@ export class UserEditComponent implements OnInit {
       gender: ['', Validators.required],
       roles: [[], Validators.required],
       departmentId: ['', Validators.required],
-      status: ['', Validators.required],
+      //status: ['', Validators.required],
       note: ['']
     });
   }
@@ -56,8 +57,8 @@ export class UserEditComponent implements OnInit {
         this.selectedRoles = user.roles;
         this.userForm.patchValue({
           ...user,
-          gender: user.gender?.toLowerCase(),
-          status: user.isActive ? 'active' : 'inactive'
+          gender: user.gender?.toLowerCase()
+          // Không cần patch status
         });
         this.isLoading = false;
       },
@@ -67,6 +68,7 @@ export class UserEditComponent implements OnInit {
       }
     });
   }
+
 
   private loadDepartments(): void {
     this.departmentService.getAllDepartments().subscribe({
@@ -102,10 +104,7 @@ export class UserEditComponent implements OnInit {
       return;
     }
 
-    const formData = {
-      ...this.userForm.value,
-      isActive: this.userForm.value.status === 'active'
-    };
+    const formData = { ...this.userForm.value };
 
     this.userService.updateUser(this.userId, formData).subscribe({
       next: () => {
@@ -118,6 +117,7 @@ export class UserEditComponent implements OnInit {
       }
     });
   }
+
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {

@@ -22,15 +22,23 @@ import { AuthService } from '../../../../services/auth/auth.service';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
+import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-candidate-detail',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [
+    RouterLink,
+    CommonModule,
+    ReactiveFormsModule,
+    ConfirmModalComponent,
+  ],
   templateUrl: './candidate-detail.component.html',
   styleUrl: './candidate-detail.component.css',
 })
 export class CandidateDetailComponent {
   public isDropDownOpen = false;
+  public isModalOpen = false;
+  public messageConfirm: string = '';
   candidateId!: number;
   public candidate!: CandidateModel;
   public form!: FormGroup;
@@ -61,11 +69,9 @@ export class CandidateDetailComponent {
       .subscribe((data) => {
         this.usersInput = data;
       });
-    this.commonService
-      .getSelectableCandidateStatus()
-      .subscribe((data) => {
-        this.selectableCandidateStatuses = data;
-      });
+    this.commonService.getSelectableCandidateStatus().subscribe((data) => {
+      this.selectableCandidateStatuses = data;
+    });
     this.candidateId = +this.route.snapshot.paramMap.get('id')!;
     this.candidateService.getById(this.candidateId).subscribe((res) => {
       this.candidate = res;
@@ -80,5 +86,29 @@ export class CandidateDetailComponent {
       })
       .filter((name) => name)
       .join(', ');
+  }
+
+  openModal(message: string) {
+    this.messageConfirm = message;
+    this.isModalOpen = true;
+  }
+
+  handleCloseModal() {
+    this.isModalOpen = false;
+  }
+
+  handleConfirmCancel() {
+    this.candidateService
+      .changeStatus({ id: this.candidate.id, status: 'Banned' })
+      .subscribe({
+        next: (res) => {
+          this.toastService.success('Ban candidate successfully!', 'success');
+          this.candidate.status = 'Banned';
+        },
+        error: () => {
+          this.toastService.error('Ban candidate unsuccessfully!', 'error');
+        },
+      });
+    this.isModalOpen = false;
   }
 }

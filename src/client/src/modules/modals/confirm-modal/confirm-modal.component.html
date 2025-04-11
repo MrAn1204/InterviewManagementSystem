@@ -1,16 +1,35 @@
 <!-- Overlay -->
-<div *ngIf="isOpen" class="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-50" (click)="closeModal()">
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-50"
+  (click)="closeModal()"
+>
   <!-- Modal Box -->
-  <div class="bg-white p-8 rounded-lg shadow-lg relative opacity-100" (click)="$event.stopPropagation()">
+  <div
+    class="bg-white p-8 rounded-lg shadow-lg relative opacity-100"
+    (click)="$event.stopPropagation()"
+  >
     <div class="flex flex-col justify-center text-center">
-      <i class="fa-solid fa-circle-exclamation text-yellow-500 mx-auto mb-4 text-6xl"></i>
-      <h2 class="text-xl font-semibold">Bạn có chắc chắn muốn xóa mục này không?</h2>
+      <i
+        class="fa-solid fa-circle-exclamation text-yellow-500 mx-auto mb-4 text-6xl"
+      ></i>
+      <h2 class="text-xl font-semibold">{{ getMessage() }}</h2>
     </div>
 
     <!-- Buttons -->
-    <div class="mt-4 flex justify-evenly space-x-4">
-      <button class="px-4 py-2 bg-red-500 text-white rounded-md cursor-pointer" (click)="confirm()">Yes</button>
-      <button class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-pointer" (click)="closeModal()">No</button>
+    <div class="mt-4 flex justify-end space-x-4">
+      <button
+        class="px-4 py-2 bg-red-500 text-white rounded-md cursor-pointer"
+        (click)="confirm()"
+      >
+        Yes
+      </button>
+      <button
+        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-pointer"
+        (click)="closeModal()"
+      >
+        No
+      </button>
     </div>
   </div>
 </div>

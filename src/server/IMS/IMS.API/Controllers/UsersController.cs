@@ -94,6 +94,24 @@ public class UsersController(IMediator mediator) : ControllerBase
             });
         }
     }
+    [HttpPut("{id}/active")]
+    [Authorize(Roles = "ADMIN")]
+    public async Task<IActionResult> ActiveUser(int id)
+    {
+        try
+        {
+            await _mediator.Send(new ActiveUserCommand { UserId = id });
+            return Ok(new { Message = "User activated successfully" });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                Error = "Failed to activate user",
+                Message = ex.Message
+            });
+        }
+    }
     
     [HttpGet("by-roles")]
     public async Task<IActionResult> GetUsersByRoles([FromQuery] List<string> roles)

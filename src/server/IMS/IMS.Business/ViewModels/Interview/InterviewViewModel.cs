@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using IMS.Core.ViewModels;
 using IMS.Domain;
 
@@ -5,14 +6,20 @@ namespace IMS.Business.ViewModels;
 
 public class InterviewViewModel : BaseViewModel
 {
+    [Required]
+    [MaxLength(100)]
     public required string Title { get; set; }
 
+    [Required]
     public required DateOnly InterviewDate { get; set; }
 
+    [Required]
     public required TimeOnly StartTime { get; set; }
 
+    [Required]
     public required TimeOnly EndTime { get; set; }
 
+    [MaxLength(500)]
     public string? Note { get; set; }
 
     public string? Location { get; set; }

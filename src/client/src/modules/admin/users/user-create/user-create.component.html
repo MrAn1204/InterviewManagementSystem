@@ -3,8 +3,9 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
         <div class="md:col-span-2">
-          <label for="fullname" class="block text-lg font-semibold mb-1">
+          <label for="username" class="block text-lg font-semibold mb-1">
             User Name <span class="text-red-500">*</span>
           </label>
           <input type="text" id="fullname" formControlName="username"
@@ -134,8 +135,9 @@
             <option value="" disabled selected>Select a status</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
-            <option value="pending">Pending</option>
           </select>
+
+
           <div *ngIf="userForm.get('isActive')?.invalid && (userForm.get('isActive')?.dirty || userForm.get('isActive')?.touched)"
             class="text-red-500 mt-1">
             Status is required

@@ -15,15 +15,19 @@ export class InterviewService implements IInterviewService {
   getAll(): Observable<InterviewModel[]> {
     return this.httpClient.get<InterviewModel[]>(this.url);
   }
+
   search(filter: any): Observable<PaginatedResult<InterviewModel>> {
     return this.httpClient.get<PaginatedResult<InterviewModel>>(`${this.url}/search`, { params: filter });
   }
+
   getById(id: number): Observable<InterviewModel> {
     return this.httpClient.get<InterviewModel>(`${this.url}/${id}`);
   }
+
   create(interview: any): Observable<InterviewModel> {
     return this.httpClient.post<InterviewModel>(this.url, interview);
   }
+  
   update(id: number, interview: InterviewModel): Observable<InterviewModel> {
     return this.httpClient.put<InterviewModel>(`${this.url}/${id}`, interview);
   }
