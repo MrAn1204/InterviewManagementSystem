@@ -2,9 +2,28 @@
   
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <!-- Phần I: Offer information -->
-    <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
-    <div class="flex justify-end">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
+      <h2 class="text-2xl font-semibold">Offer Information</h2>
+    
+      <!-- Ngày tạo / cập nhật -->
+      <ng-container *ngIf="offer; else createUpdateDate">
+        <div class="text-sm text-gray-500 text-left md:text-right">
+          <p>Created at: {{ offer.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+          <p>
+            Last updated:
+            {{ offer.updatedDate ? (offer.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet" }}
+          </p>
+        </div>
+      </ng-container>
+    
+      <ng-template #createUpdateDate>
+        <div class="text-sm text-gray-500 text-left md:text-right">
+          <p>Created at: Loading ...</p>
+          <p>Last updated: Loading ...</p>
+        </div>
+      </ng-template>
+    </div>
+    <div class="flex justify-end pb-4">
       <!-- Cancel -->
       <button *ngIf="canShowButton('Cancel')" type="button" (click)="openModal()"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
@@ -13,13 +32,13 @@
       <!-- Declined -->
       <button *ngIf="canShowButton('Declined')" type="button"
         (click)="changeStatusOffer('Declined offer')" (click)="changeStatusCandidate('DeclinedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Declined
       </button>
       <!-- Accept -->
       <button *ngIf="canShowButton('Accept')" type="button" 
         (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
       </button>
       <!-- Approve -->
@@ -145,10 +164,7 @@
         <p class="rounded-md">{{offer.note}}</p>
       </div>
 
-      <div>
-        <p>Created at: {{offer.createdDate | date : "dd/MM/yyyy" }}</p>
-        <p>Last updated: {{offer.updatedDate | date : "dd/MM/yyyy" }}</p>
-      </div>
+      
     </div>
     
     <!-- Action buttons -->
