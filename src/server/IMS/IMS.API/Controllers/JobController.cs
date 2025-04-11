@@ -165,4 +165,11 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
         return Ok(new { message = "Job statuses updated successfully" });
     }
 
+    [HttpGet("count-by-week")]
+    public async Task<IActionResult> GetJobCountByWeek(int year, int month)
+    {
+        var result = await _mediator.Send(new JobCountByWeekQuery { Year = year, Month = month });
+        return Ok(result);
+    }
+
 }
