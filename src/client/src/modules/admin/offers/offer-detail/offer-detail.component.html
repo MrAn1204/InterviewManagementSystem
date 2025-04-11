@@ -1,15 +1,9 @@
-<div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Breadcrumb -->
-  <div class="pb-8 flex items-center justify-end">
-    <!-- Bên phải: thông tin Created/Updated nếu muốn -->
-    <div class="text-sm text-gray-500">
-      <p>Created at: {{offer.createdDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
-      <p>Last updated: {{offer.updatedDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
-    </div>
-  </div>
-
+<div class="container mx-auto max-w-screen-xl py-4">
+  
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <!-- Phần I: Offer information -->
+    <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
     <div class="flex justify-end">
       <!-- Cancel -->
       <button *ngIf="canShowButton('Cancel')" type="button" (click)="openModal()"
@@ -46,12 +40,9 @@
       </button>
     </div>
 
-    <!-- Phần I: Offer information -->
-    <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Candidate (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="candidate" class="block text-lg font-semibold mb-1">
           Candidate
         </label>
@@ -75,7 +66,7 @@
       </div>
 
       <!-- Interview Info (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="interview" class="block text-lg font-semibold mb-1">
           Interview Info
         </label>
@@ -83,7 +74,7 @@
       </div>
 
       <!-- Contract Period (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="contractPeriod" class="block text-lg font-semibold mb-1">
           Contract Period
         </label>
@@ -147,11 +138,16 @@
       </div>
 
       <!-- Note (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="note" class="block text-lg font-semibold mb-1">
           Note
         </label>
         <p class="rounded-md">{{offer.note}}</p>
+      </div>
+
+      <div>
+        <p>Created at: {{offer.createdDate | date : "dd/MM/yyyy" }}</p>
+        <p>Last updated: {{offer.updatedDate | date : "dd/MM/yyyy" }}</p>
       </div>
     </div>
     

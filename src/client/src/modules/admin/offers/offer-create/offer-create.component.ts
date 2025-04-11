@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
 import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
@@ -19,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-offer-create',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './offer-create.component.html',
   styleUrl: './offer-create.component.css'
 })
@@ -172,10 +171,26 @@ export class OfferCreateComponent implements OnInit {
 
     if (this.offerId) {
       // EDIT
-      this.offerService.update(this.offerId, offerData).subscribe();
+      this.offerService.update(this.offerId, offerData).subscribe({
+        next: () => {
+          this.toastr.success('Offer updated successfully!', 'Success');
+        },
+        error: (err) => {
+          this.toastr.error('An error occurred while updating the offer.', 'Error');
+          console.error(err);
+        }
+      });
     } else {
       // CREATE
-      this.offerService.create(offerData).subscribe();
+      this.offerService.create(offerData).subscribe({
+        next: () => {
+          this.toastr.success('Offer created successfully!', 'Success');
+        },
+        error: (err) => {
+          this.toastr.error('An error occurred while creating the offer.', 'Error');
+          console.error(err);
+        }
+      });
     }
 
     this.router.navigate(['/admin/offers']);

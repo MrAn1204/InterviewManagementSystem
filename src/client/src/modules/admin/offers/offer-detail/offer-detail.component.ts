@@ -8,6 +8,7 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
 import { CommonModule } from '@angular/common';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-offer-detail',
@@ -29,6 +30,7 @@ export class OfferDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
     @Inject(COMMON_SERVICE)
