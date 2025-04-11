@@ -2,7 +2,7 @@
 <main class="flex h-[calc(100vh-56px)] *:bg-gray-100">
   <app-sidebar></app-sidebar>
   <div class="main-content flex-grow p-4 mt-20 h-full overflow-y-auto"
-    [ngClass]="(sidebarService.isCollapsed$ | async) ? 'ml-0' : 'ml-64'">
+    [ngClass]="(sidebarService.isCollapsed$ | async) ? 'ml-18' : 'ml-64'">
     <app-breadcrumb *ngIf="!isDashboardRoute()"></app-breadcrumb>
     <router-outlet></router-outlet>
   </div>
