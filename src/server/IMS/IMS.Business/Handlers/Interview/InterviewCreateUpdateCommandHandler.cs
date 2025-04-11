@@ -1,6 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using AutoMapper;
+using Hangfire;
 using IMS.Business.ViewModels;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
@@ -34,7 +34,7 @@ public class InterviewCreateUpdateCommandHandler(
     {
         if (_httpContextAccessor.HttpContext == null)
         {
-            throw new InvalidOperationException("HttpContext is null");
+            throw new InvalidOperationException("No active HttpContext. This operation requires an active HTTP request.");
         }
 
         var currentUser = _httpContextAccessor.HttpContext.User;
@@ -48,23 +48,38 @@ public class InterviewCreateUpdateCommandHandler(
 
         newInterview.CreatedBy = Convert.ToInt32(currentUser.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        _unitOfWork.InterviewRepository.Add(newInterview);
-        var result = await _unitOfWork.SaveChangesAsync();
+        using var transaction = await _unitOfWork.Context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (result <= 0)
+        try
         {
-            throw new DatabaseBadRequestException("Create interview failed");
+            _unitOfWork.InterviewRepository.Add(newInterview);
+            var result = await _unitOfWork.SaveChangesAsync();
+
+            if (result <= 0)
+            {
+                throw new DatabaseBadRequestException("Create interview failed");
+            }
+
+            var createdInterview = await _unitOfWork.InterviewRepository.GetQuery()
+                .Include(interview => interview.Candidate)
+                .Include(interview => interview.Recruiter)
+                .Include(interview => interview.Interviewers)
+                .Include(interview => interview.Job)
+                .FirstOrDefaultAsync(interview => interview.Id == newInterview.Id, cancellationToken)
+                ?? throw new ResourceNotFoundException("Interview not found");
+
+            createdInterview.Candidate!.Status = "Waiting for interview";
+            await _unitOfWork.SaveChangesAsync();
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return _mapper.Map<InterviewViewModel>(createdInterview);
         }
-
-        var createdInterview = await _unitOfWork.InterviewRepository.GetQuery()
-            .Include(interview => interview.Candidate)
-            .Include(interview => interview.Recruiter)
-            .Include(interview => interview.Interviewers)
-            .Include(interview => interview.Job)
-            .FirstOrDefaultAsync(interview => interview.Id == newInterview.Id, cancellationToken)
-            ?? throw new ResourceNotFoundException("Interview not found");
-
-        return _mapper.Map<InterviewViewModel>(createdInterview);
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 
     private async Task<InterviewViewModel> Update(InterviewCreateUpdateCommand request, CancellationToken cancellationToken)
@@ -90,7 +105,6 @@ public class InterviewCreateUpdateCommandHandler(
         });
         existedInterview.CreatedBy = createdBy;
 
-
         using var transaction = await _unitOfWork.Context.Database.BeginTransactionAsync(cancellationToken);
 
         try
@@ -112,6 +126,18 @@ public class InterviewCreateUpdateCommandHandler(
                     ? "Passed Interview" : "Failed Interview";
                 updatedInterview.Candidate!.Status = result;
                 _unitOfWork.CandidateRepository.Update(updatedInterview.Candidate);
+            }
+
+            // Cancel sending reminders
+            if (updatedInterview.Status == InterviewStatus.Cancelled)
+            {
+                var emails = updatedInterview.Interviewers!.Select(interviewer => interviewer.Email);
+                var reminders = _unitOfWork.ReminderRepository.GetQuery().Where(reminder => emails.Contains(reminder.Email));
+
+                foreach (var reminder in reminders)
+                {
+                    BackgroundJob.Delete(reminder.BackgroundJobId);
+                }
             }
 
             await _unitOfWork.SaveChangesAsync();
