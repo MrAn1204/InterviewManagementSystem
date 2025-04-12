@@ -3,6 +3,7 @@ import { CandidateModel } from '../../models/candidate/candidate.model';
 import { PaginatedResult } from '../../models/candidate/paginated-result.model';
 import { CandidateCreateModel } from '../../models/candidate/candidate-create.model';
 import { CandidateUpdateModel } from '../../models/candidate/candidate-update.model';
+import { CandidateCountByWeekModel } from '../../models/candidate/candidate-count-by-week.model';
 
 export interface ICandidateService {
   getAll(): Observable<CandidateModel[]>;
@@ -22,5 +23,10 @@ export interface ICandidateService {
 
   delete(id: number): Observable<boolean>;
 
-  changeStatus(data: any): Observable<boolean>
+  changeStatus(data: any): Observable<boolean>;
+
+  getCandidateCountByWeek(
+    year: number,
+    month: number
+  ): Observable<CandidateCountByWeekModel[]>;
 }
