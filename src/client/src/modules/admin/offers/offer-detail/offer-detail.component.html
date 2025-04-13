@@ -59,7 +59,7 @@
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-auto">
       <!-- Candidate (as paragraph) -->
       <div>
         <label for="candidate" class="block text-lg font-semibold mb-1">
@@ -89,7 +89,7 @@
         <label for="interview" class="block text-lg font-semibold mb-1">
           Interview Info
         </label>
-        <p class="rounded-md">{{interviewer}}</p>
+        <p class="rounded-md"  [innerHTML]="interviewer">{{interviewer}}</p>
       </div>
 
       <!-- Contract Period (as paragraph) -->

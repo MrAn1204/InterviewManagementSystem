@@ -5,7 +5,7 @@
     <form [formGroup]="offerForm" (ngSubmit)="submitOffer()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Candidate name -->
-        <div class="md:col-span-2">
+        <div>
           <label for="candidateId" class="block text-lg font-semibold mb-1">
             Candidate
             <span class="text-red-500">*</span>
@@ -62,19 +62,30 @@
           </div>
         </div>
 
-        <!-- Interview info -->
-        <div class="md:col-span-2">
+        <!-- Interview Info -->
+        <div>
           <label for="interviewId" class="block text-lg font-semibold mb-1">
             Interview info
           </label>
-          <select id="interviewId" formControlName="interviewId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+          <select
+            id="interviewId"
+            formControlName="interviewId"
+            (change)="onInterviewSelected()"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+          >
             <option [ngValue]="''">Select interview</option>
             <option *ngFor="let interview of interviews" [ngValue]="interview.id">
-              {{ interview.title + " ( Ngày " + interview.interviewDate + " From " + interview.startTime + " to " + interview.endTime + " )" }}
+              {{ interview.title }}
             </option>
           </select>
+
+          <div *ngIf="selectedInterview" class="mt-4 bg-gray-100 p-4 rounded-md shadow-sm">
+            <p><strong>Date:</strong> {{ selectedInterview.interviewDate }}  from {{ selectedInterview.startTime }} to {{ selectedInterview.endTime }}</p>
+            <p><strong>Location:</strong> {{ selectedInterview.location }}</p>
+            <p><strong>Interviewers:</strong> {{ selectedInterview.interviewersName.join(", ") }}</p>
+          </div>
         </div>
+
 
         <!-- Contract Period -->
         <div class="md:col-span-2">
@@ -200,7 +211,7 @@
         </div>
 
         <!-- Due date -->
-        <div class="md:col-span-2">
+        <div>
           <label for="dueDate" class="block text-lg font-semibold mb-1">
             Due date
             <span class="text-red-500">*</span>
@@ -214,7 +225,7 @@
         </div>
 
         <!-- Basic salary -->
-        <div class="md:col-span-2">
+        <div>
           <label for="salaryBasic" class="block text-lg font-semibold mb-1">
             Basic salary
             <span class="text-red-500">*</span>
@@ -228,8 +239,19 @@
           </div>
         </div>
 
+        <!-- Interview Note -->
+        <div>
+          <label class="block text-lg font-semibold mb-1">
+            Interview Notes
+          </label>
+          <textarea rows="4" readonly  *ngIf="selectedInterview" [value]="selectedInterview.note"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Type a note">
+          </textarea>
+        </div>
+
         <!-- Note -->
-        <div class="md:col-span-2">
+        <div>
           <label for="note" class="block text-lg font-semibold mb-1">
             Note
           </label>

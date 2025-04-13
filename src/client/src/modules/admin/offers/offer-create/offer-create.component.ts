@@ -26,6 +26,7 @@ export class OfferCreateComponent implements OnInit {
   offerId: number | null = null;
   offerForm!: FormGroup;
   formSubmitted = false;
+  selectedInterview: any = null;
   
   public offer!: OfferModel;
   candidates: CandidateModel[] = [];
@@ -229,5 +230,10 @@ export class OfferCreateComponent implements OnInit {
   isFieldInvalid(fieldName: string): boolean {
     const control = this.offerForm.get(fieldName);
     return !!(control && control.invalid && (control.touched || this.formSubmitted));
+  }
+
+  onInterviewSelected() {
+    const selectedId = this.offerForm.get('interviewId')?.value;
+    this.selectedInterview = this.interviews.find(i => i.id === +selectedId);
   }
 }

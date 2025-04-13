@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { IInterviewService } from '../../../../services/interview/interview-service.interface';
+import { InterviewModel } from '../../../../models/interview/interview.model';
 
 @Component({
   selector: 'app-offer-detail',
@@ -23,6 +25,8 @@ export class OfferDetailComponent {
 
   public offerId!: number;
   public offer!: OfferModel;
+  public interviews!: InterviewModel[];
+  public filteredInterviews!: InterviewModel | undefined;
   public usersInterviewer: UserForInputModel[] = [];
   public usersRecruiter: UserForInputModel[] = [];
 
@@ -33,6 +37,7 @@ export class OfferDetailComponent {
     private toastr: ToastrService,
     @Inject(OFFER_SERVICE) private offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
     @Inject(COMMON_SERVICE)
         private readonly commonService: ICommonService,) {}
   
@@ -45,12 +50,18 @@ export class OfferDetailComponent {
         this.offerId = Number(params.get('id'));
         this.loadOffer();
       });
-
-      this.commonService
-        .getUserForInputData(['INTERVIEWER'])
-        .subscribe((data) => {
-          this.usersInterviewer = data;
+      
+      this.interviewService.getAll().subscribe({
+        next: (data) => {
+          this.interviews = data;
+        }
       });
+      
+      // this.commonService
+      //   .getUserForInputData(['INTERVIEWER'])
+      //   .subscribe((data) => {
+      //     this.usersInterviewer = data;
+      // });
 
       this.commonService
         .getUserForInputData(['RECRUITER'])
@@ -78,8 +89,9 @@ export class OfferDetailComponent {
   }
   
   get interviewer(): string {
-    return this.offer.interviewTitle + "\nInterviewer: "
-     + this.usersInterviewer?.map(user => user.userName).join(', ') || '';
+    this.filteredInterviews = this.interviews.find(i => i.id === this.offer.interviewId);
+
+    return this.offer.interviewTitle + "<br>Interviewer: " + this.filteredInterviews?.interviewersName?.join(", ");
   }
 
   changeStatusOffer(status: string): void{
