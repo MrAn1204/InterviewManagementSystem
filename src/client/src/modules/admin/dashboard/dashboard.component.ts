@@ -10,11 +10,12 @@ import { ICandidateService } from '../../../services/candidate/candidate-service
 import { CandidateCountByWeekModel } from '../../../models/candidate/candidate-count-by-week.model';
 import { IJobService } from '../../../services/job/job-service.interface';
 import { JobCountByWeekModel } from '../../../models/job/job-count-by-week.model';
+import { DashboardSliderComponent } from "./dashboard-slider/dashboard-slider.component";
 
 @Component({
   selector: 'app-dashboard',
 
-  imports: [BarChartComponent],
+  imports: [BarChartComponent, DashboardSliderComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
