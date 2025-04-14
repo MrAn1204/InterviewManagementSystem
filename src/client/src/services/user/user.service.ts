@@ -17,12 +17,12 @@ export class UserService {
     departmentId?: number;
     isActive?: boolean;
     roles?: string[];
-    pageNumber: number;
-    pageSize: number;
+    pageNumber?: number;
+    pageSize?: number;
   }): Observable<PaginatedResult<User>> {
     let httpParams = new HttpParams()
-      .set('PageNumber', params.pageNumber.toString())
-      .set('PageSize', params.pageSize.toString());
+      .set('PageNumber', params.pageNumber!.toString())
+      .set('PageSize', params.pageSize!.toString());
 
     if (params.search) {
       httpParams = httpParams.set('Search', params.search);
