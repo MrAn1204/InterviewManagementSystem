@@ -42,7 +42,7 @@ export class DashboardSliderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers({ pageNumber: 1, pageSize: 100 }).subscribe((res) => {
+    this.userService.getUsers({}).subscribe((res) => {
       this.users = res.items.length;
     })
     this.candidateService.getAll().subscribe((res) => {
