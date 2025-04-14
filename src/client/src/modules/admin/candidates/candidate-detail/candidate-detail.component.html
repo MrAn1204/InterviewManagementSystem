@@ -1,36 +1,43 @@
-<div class="container mx-auto py-8 px-4">
-  <!-- Ngày tạo / cập nhật -->
-  <ng-container *ngIf="candidate; else createUpdateDate">
-    <div class="flex justify-end mb-3">
-      <div class="text-sm text-gray-500">
-        <p>
-          Created at: {{ candidate.createdDate | date : "dd/MM/yyyy HH:mm:ss" }}
-        </p>
-        <p>
-          Last updated:
-          {{
-            candidate.updatedDate
-              ? (candidate.updatedDate | date : "dd/MM/yyyy HH:mm:ss")
-              : "Haven't updated yet"
-          }}
-        </p>
-      </div>
-    </div>
-  </ng-container>
-  <ng-template #createUpdateDate>
-    <div class="flex justify-end mb-3">
-      <div class="text-sm text-gray-500">
-        <p>Created at: Loading ...</p>
-        <p>Last updated: Loading ...</p>
-      </div>
-    </div>
-  </ng-template>
-
+<div class="container mx-auto max-w-screen-xl py-4">
   <!-- Card chứa thông tin -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <div
+      class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6"
+    >
+      <!-- Tiêu đề -->
+      <h2 class="text-2xl font-semibold mb-6">Candidate Information</h2>
+      <!-- Ngày tạo / cập nhật -->
+      <ng-container *ngIf="candidate; else createUpdateDate">
+        <div class="flex justify-end mb-3">
+          <div class="text-sm text-gray-500">
+            <p>
+              Created at:
+              {{ candidate.createdDate | date : "dd/MM/yyyy HH:mm:ss" }}
+            </p>
+            <p>
+              Last updated:
+              {{
+                candidate.updatedDate
+                  ? (candidate.updatedDate | date : "dd/MM/yyyy HH:mm:ss")
+                  : "Haven't updated yet"
+              }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #createUpdateDate>
+        <div class="flex justify-end mb-3">
+          <div class="text-sm text-gray-500">
+            <p>Created at: Loading ...</p>
+            <p>Last updated: Loading ...</p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
     <div class="flex justify-end">
       <!-- Cancel -->
-      <button *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
+      <button
+        *ngIf="authService.hasRole(['ADMIN', 'MANAGER', 'RECRUITER'])"
         type="button"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300"
         (click)="openModal('Are you sure you want to ban this candidate?')"
@@ -38,9 +45,6 @@
         Ban candidate
       </button>
     </div>
-    <!-- Tiêu đề -->
-    <h2 class="text-2xl font-semibold mb-6">Candidate Information</h2>
-
     <ng-container *ngIf="candidate; else loading">
       <!-- Phần I: Personal information -->
       <h3 class="text-xl font-semibold mb-4">I. Personal information</h3>
@@ -174,7 +178,10 @@
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
       <button
-        *ngIf="candidate && candidate.id || authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
+        *ngIf="
+          (candidate && candidate.id) ||
+          authService.hasRole(['ADMIN', 'MANAGER', 'RECRUITER'])
+        "
         type="button"
         [routerLink]="['/admin/candidates/' + candidate.id + '/edit']"
         class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"

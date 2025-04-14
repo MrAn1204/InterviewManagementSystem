@@ -103,7 +103,7 @@ export const routes: Routes = [
         children: [
           { path: '', component: OfferListComponent },
           { path: 'create', component: OfferCreateComponent },
-          { path: ':id/edit', component: OfferEditComponent },
+          { path: ':id/edit', component: OfferCreateComponent },
           { path: ':id/detail', component: OfferDetailComponent }
         ]
       },

@@ -7,7 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class BusyLoadingService {
 
   busyRequestCount = 0;
-  private spinnerService = inject(NgxSpinnerService);
+  private readonly spinnerService = inject(NgxSpinnerService);
 
   busy() {
     this.busyRequestCount++;

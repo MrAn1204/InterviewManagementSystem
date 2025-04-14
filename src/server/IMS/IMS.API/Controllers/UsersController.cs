@@ -16,7 +16,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     private readonly IMediator _mediator = mediator;
 
     /// <summary>
-    /// 
+    /// Create user 
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
