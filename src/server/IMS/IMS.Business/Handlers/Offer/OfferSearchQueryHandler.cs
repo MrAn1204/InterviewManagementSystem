@@ -25,19 +25,21 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
         if (!string.IsNullOrEmpty(request.Keyword))
         {
             string keyword = request.Keyword.ToLower();
-
-            query = query.Where(o => o.Candidate.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) || 
-                o.UserApproved.FullName.ToLower().Contains(keyword));
+            
+            query = query.Where(o =>
+                (o.Candidate != null && ( o.Candidate.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) )) ||
+                (o.UserApproved != null && o.UserApproved.FullName.ToLower().Contains(keyword))
+);
         }
 
         if (!string.IsNullOrEmpty(request.departmentName))
         {
-            query = query.Where(o => o.Department.DepartmentName.Contains(request.departmentName));
+            query = query.Where(o => o.Department != null && o.Department.DepartmentName.Contains(request.departmentName));
         }
 
         if (!string.IsNullOrEmpty(request.Status))
         {
-            query = query.Where(o => o.Candidate.Status.Contains(request.Status));
+            query = query.Where(o => o.Candidate != null && o.Candidate.Status.Contains(request.Status));
         }
 
         int total = await query.CountAsync(cancellationToken);
@@ -49,7 +51,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
         }
         else
         {
-            query = query.OrderBy(o => o.Candidate.FullName);
+            query = query.OrderBy(o => o.Candidate != null ? o.Candidate.FullName : "");
         }
 
         //Lay du lieu
