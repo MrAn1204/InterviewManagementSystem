@@ -7,6 +7,7 @@ import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.con
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../../../services/user/user.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -23,7 +24,8 @@ export class InterviewDetailComponent implements OnInit {
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    public readonly authService : AuthService
   ) {
     this.userService = inject(UserService);
   }

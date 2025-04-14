@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   candidateChartRealData: number[] = [];
   jobChartData: JobCountByWeekModel[] = [];
   jobChartRealData: number[] = [];
+  count : number = 0;
 
   constructor(
     public sidebarService: SidebarService,

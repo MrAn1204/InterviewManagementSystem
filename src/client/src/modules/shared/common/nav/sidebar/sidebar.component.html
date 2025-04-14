@@ -1,24 +1,24 @@
 <aside class="flex flex-col h-full bg-[#121C3E] text-white fixed left-0 z-50"
   [ngClass]="(sidebarService.isCollapsed$ | async) ? 'w-18' : 'w-64'">
   <!-- Logo Section -->
-  <div 
+  <div
     class="flex justify-center items-center py-5 border-b border-gray-700"
     [ngClass]="{ 'py-6.5': sidebarService.isCollapsed$ | async }">
     <a routerLink="/admin">
-      <img 
-        src="assets/logo-ims.png" 
-        [ngClass]="{ 
-          'h-10': !(sidebarService.isCollapsed$ | async), 
-          'h-7': sidebarService.isCollapsed$ | async 
-        }" 
+      <img
+        src="assets/logo-ims.png"
+        [ngClass]="{
+          'h-10': !(sidebarService.isCollapsed$ | async),
+          'h-7': sidebarService.isCollapsed$ | async
+        }"
         alt="logo-ims" />
     </a>
   </div>
-  
+
   <!-- Menu Items Section -->
   <div class="flex flex-col mt-6" [ngClass]="{'*:justify-center': (sidebarService.isCollapsed$ | async)}">
     <!-- Each menu item with proper routerLinkActive -->
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
        routerLink="/admin/dashboard"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faHome" class="text-2xl w-8 mr-2"></fa-icon>
@@ -30,9 +30,9 @@
         Homepage
       </div>
     </a>
-    
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
-       routerLink="/admin/candidates"
+
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
+       routerLink="/admin/candidates" *ngIf="authService.hasRole(['ADMIN', 'MANAGER','INTERVIEWER','RECRUITER'])"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faUser" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Candidate</span>
@@ -43,9 +43,9 @@
         Candidate
       </div>
     </a>
-    
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
-       routerLink="/admin/jobs"
+
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
+       routerLink="/admin/jobs" *ngIf="authService.hasRole(['ADMIN', 'MANAGER','INTERVIEWER','RECRUITER'])"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faBriefcase" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Job</span>
@@ -56,9 +56,9 @@
         Job
       </div>
     </a>
-    
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
-       routerLink="/admin/interviews"
+
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
+       routerLink="/admin/interviews" *ngIf="authService.hasRole(['ADMIN', 'MANAGER','INTERVIEWER','RECRUITER'])"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faCalendarAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Interview</span>
@@ -69,9 +69,9 @@
         Interview
       </div>
     </a>
-    
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
-       routerLink="/admin/offers"
+
+    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
+       routerLink="/admin/offers" *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faFileAlt" class="text-2xl w-8 mr-2"></fa-icon>
       <span class="menu-text" [ngClass]="{'hidden': (sidebarService.isCollapsed$ | async)}">Offer</span>
@@ -82,8 +82,8 @@
         Offer
       </div>
     </a>
-    
-    <a class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative" 
+
+    <a *ngIf="authService.hasRole(['ADMIN'])" class="flex items-center text-center p-4 hover:bg-[#FFC20E] hover:text-black group relative"
        routerLink="/admin/users"
        routerLinkActive="bg-[#FFC20E] text-black">
       <fa-icon [icon]="faUsers" class="text-2xl w-8 mr-2"></fa-icon>
@@ -96,7 +96,7 @@
       </div>
     </a>
   </div>
-  
+
   <!-- Footer Section -->
   <div class="mt-auto flex justify-between items-center text-center border-t border-gray-700"
     [ngClass]="{'flex-col': (sidebarService.isCollapsed$ | async)}">

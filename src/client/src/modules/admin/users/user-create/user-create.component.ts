@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../../services/user/user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +6,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { Department } from '../../../../models/Department';
+import { uniqueUsernameValidator } from '../../../../validators/unique-username.validator';
+import { uniqueEmailValidator } from '../../../../validators/unique-email.validator';
 
 @Component({
   selector: 'app-user-create',
@@ -20,15 +22,21 @@ export class UserCreateComponent implements OnInit{
   selectedRoles: string[] = [];
 
   constructor(
-    private fb: FormBuilder,
-    private departmentService: DepartmentService,
-    private router: Router,
-    private userService: UserService,
-    private toastr: ToastrService,
+    private readonly fb: FormBuilder,
+    private readonly departmentService: DepartmentService,
+    private readonly router: Router,
+    private readonly userService: UserService,
+    private readonly toastr: ToastrService,
   ) {
     this.userForm = this.fb.group({
-      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)]],
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)],
+        [uniqueUsernameValidator(this.userService)]
+      ],
+      email: [
+        '', [Validators.required, Validators.email],
+        [uniqueEmailValidator(this.userService)]
+      ],
       fullName: ['', Validators.required],
       dob: [''],
       address: [''],
@@ -59,7 +67,6 @@ export class UserCreateComponent implements OnInit{
 
     const userData = { ...this.userForm.value };
 
-    // Chuyển đổi giá trị isActive: nếu là 'active' thì true, ngược lại false
     userData.isActive = userData.isActive === 'active' ? true : false;
 
     this.userService.createUser(userData).subscribe({
@@ -99,3 +106,5 @@ export class UserCreateComponent implements OnInit{
     });
   }
 }
+
+

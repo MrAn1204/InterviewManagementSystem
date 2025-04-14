@@ -13,15 +13,15 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService implements IAuthService {
-  private apiUrl: string = 'http://localhost:5113/api/auth';
+  private readonly apiUrl: string = 'http://localhost:5113/api/auth';
 
   private _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
-  private _isAuthenticated$: Observable<boolean> =
+  private readonly _isAuthenticated$: Observable<boolean> =
     this._isAuthenticated.asObservable();
 
-  private _userInformation: BehaviorSubject<UserInformation | null> =
+  private readonly _userInformation: BehaviorSubject<UserInformation | null> =
     new BehaviorSubject<UserInformation | null>(null);
 
   private _userInformation$: Observable<UserInformation | null> =
@@ -88,7 +88,6 @@ export class AuthService implements IAuthService {
 
 logout(): void {
   this.httpClient.post<boolean>(`${this.apiUrl}/logout`, { refreshToken: this.getRefreshToken() });
-  
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('userInformation');
@@ -139,5 +138,22 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
       `${this.apiUrl}/reset-password`,
       resetPasswordRequest
     );
+  }
+
+  public getUserRoles(): string[] {
+    const userInfo: UserInformation | null = this._userInformation.getValue();
+    // Giả sử userInfo.roles là array; nếu không, convert sang array
+    if (userInfo && userInfo.roles) {
+      return Array.isArray(userInfo.roles)
+        ? userInfo.roles
+        : [userInfo.roles];
+    }
+    return [];
+  }
+
+  // Hàm kiểm tra xem user có role nào trong danh sách allowedRoles hay không
+  public hasRole(allowedRoles: string[]): boolean {
+    const roles = this.getUserRoles();
+    return allowedRoles.some(role => roles.includes(role));
   }
 }
