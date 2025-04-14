@@ -1,0 +1,43 @@
+<div class="flex overflow-auto space-x-4
+    *:flex *:border *:md:p-4 *:py-4 *:md:min-w-60 *:min-w-40
+    *:cursor-pointer *:bg-white *:rounded-md *:hover:bg-gray-100">
+    <button routerLink="/admin/users">
+        <fa-icon [icon]="faUsers" class="text-6xl md:px-4 pl-2"></fa-icon>
+        <div class="flex flex-col w-full">
+            <p class="font-bold text-3xl">{{users}}</p>
+            <p class="font-bold">Users</p>
+        </div>
+    </button>
+
+    <button routerLink="/admin/candidates">
+        <fa-icon [icon]="faUserTie" class="text-6xl md:px-4 pl-2"></fa-icon>
+        <div class="flex flex-col w-full">
+            <p class="font-bold text-3xl">{{candidates}}</p>
+            <p class="font-bold">Candidates</p>
+        </div>
+    </button>
+
+    <button routerLink="/admin/interviews">
+        <fa-icon [icon]="faCalendarDay" class="text-6xl md:px-4 pl-2"></fa-icon>
+        <div class="flex flex-col w-full">
+            <p class="font-bold text-3xl">{{interviews}}</p>
+            <p class="font-bold">Interviews</p>
+        </div>
+    </button>
+
+    <button routerLink="/admin/jobs">
+        <fa-icon [icon]="faBriefcase" class="text-6xl md:px-4 pl-2"></fa-icon>
+        <div class="flex flex-col w-full">
+            <p class="font-bold text-3xl">{{jobs}}</p>
+            <p class="font-bold">Jobs</p>
+        </div>
+    </button>
+
+    <button routerLink="/admin/offers">
+        <fa-icon [icon]="faHandshake" class="text-6xl md:px-4 pl-2"></fa-icon>
+        <div class="flex flex-col w-full">
+            <p class="font-bold text-3xl">{{offers}}</p>
+            <p class="font-bold">Offers</p>
+        </div>
+    </button>
+</div>

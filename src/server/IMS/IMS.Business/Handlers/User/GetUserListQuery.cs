@@ -28,6 +28,6 @@ namespace IMS.Business.Handlers
         public bool? IsActive { get; set; }
 
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 3;
+        public int PageSize { get; set; } = int.MaxValue;
     }
 }
