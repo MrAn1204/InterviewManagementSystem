@@ -20,9 +20,13 @@ export class UserService {
     pageNumber?: number;
     pageSize?: number;
   }): Observable<PaginatedResult<User>> {
-    let httpParams = new HttpParams()
-      .set('PageNumber', params.pageNumber!.toString())
-      .set('PageSize', params.pageSize!.toString());
+    let httpParams = new HttpParams();
+
+    if (params.pageNumber != null && params.pageSize != null) {
+      httpParams = new HttpParams()
+        .set('PageNumber', params.pageNumber!.toString())
+        .set('PageSize', params.pageSize!.toString());
+    }
 
     if (params.search) {
       httpParams = httpParams.set('Search', params.search);
