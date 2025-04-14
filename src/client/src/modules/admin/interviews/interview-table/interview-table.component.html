@@ -28,10 +28,12 @@
                     </td>
                     <td>
                         <div class="flex space-x-3 justify-center *:cursor-pointer">
-                            <button class="border-0" title="View" type="button" (click)="view(item.id)">
+                            <button class="border-0" title="View" type="button" (click)="view(item.id)"
+                              *ngIf="authService.hasRole(['ADMIN', 'MANAGER','INTERVIEWER','RECRUITER'])">
                                 <fa-icon [icon]="faEye" class="text-blue-500 hover:text-blue-700"></fa-icon>
                             </button>
-                            <button class="border-0" title="Edit" type="button" (click)="edit(item.id)">
+                            <button class="border-0" title="Edit" type="button" (click)="edit(item.id)"
+                              *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])">
                                 <fa-icon [icon]="faEdit" class="text-green-500 hover:text-green-700"></fa-icon>
                             </button>
                         </div>

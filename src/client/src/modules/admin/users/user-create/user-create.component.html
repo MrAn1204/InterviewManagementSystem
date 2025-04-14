@@ -8,12 +8,17 @@
           <label for="username" class="block text-lg font-semibold mb-1">
             User Name <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="fullname" formControlName="username"
+          <input type="text" id="username" formControlName="username"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             placeholder="Type a username...">
           <div *ngIf="userForm.get('username')?.invalid && (userForm.get('username')?.dirty || userForm.get('username')?.touched)"
             class="text-red-500 mt-1">
             Username is required
+          </div>
+          <div *ngIf="userForm.get('username')?.touched && userForm.get('username')?.errors">
+            <small class="text-red-500" *ngIf="userForm.get('username')?.errors?.['required']">Username is required.</small>
+            <small class="text-red-500" *ngIf="userForm.get('username')?.errors?.['pattern']">Invalid username format.</small>
+            <small class="text-red-500" *ngIf="userForm.get('username')?.errors?.['usernameTaken']">Username already exists.</small>
           </div>
         </div>
         <!-- Full Name -->
@@ -42,6 +47,11 @@
             class="text-red-500 mt-1">
             <span *ngIf="userForm.get('email')?.errors?.['required']">Email is required</span>
             <span *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format</span>
+          </div>
+          <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors">
+            <small class="text-red-500" *ngIf="userForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small class="text-red-500" *ngIf="userForm.get('email')?.errors?.['email']">Invalid email format.</small>
+            <small class="text-red-500" *ngIf="userForm.get('email')?.errors?.['emailTaken']">Email already exists.</small>
           </div>
         </div>
 

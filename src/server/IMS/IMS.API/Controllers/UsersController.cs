@@ -5,15 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
 
+/// <summary>
+/// 
+/// </summary>
 [Route("api/users")]
 [ApiController]
-[Authorize]
+[Authorize(Roles = "ADMIN")]
 public class UsersController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("create")]
-    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> CreateUser([FromBody] CreateMockUserCommand request)
     {
         if (!ModelState.IsValid)
@@ -30,6 +37,12 @@ public class UsersController(IMediator mediator) : ControllerBase
         };
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns></returns>
     [HttpGet("list")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetUserList([FromQuery] GetUserListQuery query)
@@ -38,7 +51,12 @@ public class UsersController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
-    // UsersController.cs
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="command"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserCommand command)
     {
@@ -57,7 +75,12 @@ public class UsersController(IMediator mediator) : ControllerBase
             });
         }
     }
-    // UsersController.cs
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById(int id)
     {
@@ -76,6 +99,11 @@ public class UsersController(IMediator mediator) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpPut("{id}/inactive")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> InactiveUser(int id)
@@ -94,6 +122,12 @@ public class UsersController(IMediator mediator) : ControllerBase
             });
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpPut("{id}/active")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> ActiveUser(int id)
@@ -112,7 +146,12 @@ public class UsersController(IMediator mediator) : ControllerBase
             });
         }
     }
-    
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="roles"></param>
+    /// <returns></returns>
     [HttpGet("by-roles")]
     public async Task<IActionResult> GetUsersByRoles([FromQuery] List<string> roles)
     {
@@ -126,4 +165,26 @@ public class UsersController(IMediator mediator) : ControllerBase
 
         return Ok(result);
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="email"></param>
+    /// <returns></returns>
+    [HttpGet("check-unique")]
+    [AllowAnonymous]
+    public async Task<IActionResult> CheckUnique([FromQuery] string? username, [FromQuery] string? email)
+    {
+        var result = await _mediator.Send(new CheckUniqueQuery 
+        { 
+            Username = username, 
+            Email = email 
+        });
+
+        return Ok(result);
+    }
+    
+    
 }

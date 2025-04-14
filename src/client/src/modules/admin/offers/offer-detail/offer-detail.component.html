@@ -23,7 +23,7 @@
         Declined
       </button>
       <!-- Accept -->
-      <button *ngIf="canShowButton('Accept')" type="button" 
+      <button *ngIf="canShowButton('Accept')" type="button"
         (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
@@ -35,11 +35,12 @@
       </button>
       <!-- Reject -->
       <button *ngIf="canShowButton('Reject')" type="button" (click)="changeStatusOffer('Rejected offer')" routerLink="/admin/offers"
+
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Reject
       </button>
       <!-- Mark as sent to candidate -->
-      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button" 
+      <button *ngIf="canShowButton('Mark as sent to candidate')" type="button"
         (click)="changeStatusOffer('Waiting for Response')" (click)="changeStatusCandidate('Waiting for Response')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Mark as sent to candidate
@@ -154,7 +155,7 @@
         <p class="rounded-md">{{offer.note}}</p>
       </div>
     </div>
-    
+
     <!-- Action buttons -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->

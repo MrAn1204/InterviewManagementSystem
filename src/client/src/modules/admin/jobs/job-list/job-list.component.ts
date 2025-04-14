@@ -14,6 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
 import { JobImportResult } from '../../../../models/job/job-import-result.model';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-job-list',
@@ -50,7 +51,7 @@ export class JobListComponent
 
   constructor(
     private readonly headerService: HeaderService,
-    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) public readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly toastr: ToastrService,
     private readonly router: Router

@@ -28,12 +28,12 @@ export class OfferDetailComponent {
   isModalOpen: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
-    @Inject(OFFER_SERVICE) private offerService: IOffService,
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    private readonly route: ActivatedRoute,
+    @Inject(OFFER_SERVICE) private readonly offerService: IOffService,
+    @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(COMMON_SERVICE)
         private readonly commonService: ICommonService,) {}
-  
+
     ngOnInit(): void {
       const userJson = localStorage.getItem('userInformation') || sessionStorage.getItem('userInformation');
       this.user = userJson ? JSON.parse(userJson) : null;
@@ -74,7 +74,7 @@ export class OfferDetailComponent {
   get recruiter(): string {
     return this.usersRecruiter?.map(user => `${user.fullName} (${user.userName})`).join(', ') || '';
   }
-  
+
   get interviewer(): string {
     return this.offer.interviewTitle + "\nInterviewer: "
      + this.usersInterviewer?.map(user => user.userName).join(', ') || '';
@@ -100,7 +100,7 @@ export class OfferDetailComponent {
   canShowButton(button: string): boolean {
     const status = this.offer?.status?.toLowerCase();  // Chuyển status thành chữ thường
     const roles: string[] = this.user.roles.map((role: string) => role.toLowerCase());  // Chuyển tất cả roles thành chữ thường
-  
+
     console.log("roles: ", roles);
     console.log("status: ", status);
 
@@ -114,7 +114,7 @@ export class OfferDetailComponent {
       'Mark as sent to candidate': ['approved offer'],
       'Declined': ['waiting for response']
     };
-  
+
     // Quy tắc vai trò cho các nút
     const roleRules: { [key: string]: string[] } = {
       'Edit': ['recruiter', 'manager', 'admin'],
@@ -125,7 +125,7 @@ export class OfferDetailComponent {
       'Mark as sent to candidate': ['recruiter', 'manager', 'admin'],
       'Declined': ['recruiter', 'manager', 'admin']
     };
-  
+
     // Kiểm tra điều kiện có thỏa mãn không
     const canShow: boolean = buttonRules[button]?.includes(status) && roles.some(role => roleRules[button]?.includes(role));
     console.log("Can Show Button: ", canShow);  // Kiểm tra kết quả của điều kiện
@@ -133,7 +133,7 @@ export class OfferDetailComponent {
     return canShow;
   }
 
-  
+
   openModal() {
     this.isModalOpen = true;
   }
