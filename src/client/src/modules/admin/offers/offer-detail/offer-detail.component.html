@@ -1,16 +1,29 @@
-<div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Breadcrumb -->
-  <div class="pb-8 flex items-center justify-end">
-    <!-- Bên phải: thông tin Created/Updated nếu muốn -->
-    <div class="text-sm text-gray-500">
-      <p>Created at: {{offer.createdDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
-      <p>Last updated: {{offer.updatedDate | date : "dd/MM/yyyy HH:mm:ss" }}</p>
-    </div>
-  </div>
-
+<div class="container mx-auto max-w-screen-xl py-4">
+  
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
-    <div class="flex justify-end">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
+      <h2 class="text-2xl font-semibold">Offer Information</h2>
+    
+      <!-- Ngày tạo / cập nhật -->
+      <ng-container *ngIf="offer; else createUpdateDate">
+        <div class="text-sm text-gray-500 text-left md:text-right">
+          <p>Created at: {{ offer.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+          <p>
+            Last updated:
+            {{ offer.updatedDate ? (offer.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet" }}
+          </p>
+        </div>
+      </ng-container>
+    
+      <ng-template #createUpdateDate>
+        <div class="text-sm text-gray-500 text-left md:text-right">
+          <p>Created at: Loading ...</p>
+          <p>Last updated: Loading ...</p>
+        </div>
+      </ng-template>
+    </div>
+    <div class="flex justify-end pb-4">
       <!-- Cancel -->
       <button *ngIf="canShowButton('Cancel')" type="button" (click)="openModal()"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
@@ -19,13 +32,13 @@
       <!-- Declined -->
       <button *ngIf="canShowButton('Declined')" type="button"
         (click)="changeStatusOffer('Declined offer')" (click)="changeStatusCandidate('DeclinedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Declined
       </button>
       <!-- Accept -->
       <button *ngIf="canShowButton('Accept')" type="button"
         (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
       </button>
       <!-- Approve -->
@@ -47,12 +60,9 @@
       </button>
     </div>
 
-    <!-- Phần I: Offer information -->
-    <h2 class="text-2xl font-semibold mb-4">Offer information</h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-auto">
       <!-- Candidate (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="candidate" class="block text-lg font-semibold mb-1">
           Candidate
         </label>
@@ -76,15 +86,15 @@
       </div>
 
       <!-- Interview Info (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="interview" class="block text-lg font-semibold mb-1">
           Interview Info
         </label>
-        <p class="rounded-md">{{interviewer}}</p>
+        <p class="rounded-md"  [innerHTML]="interviewer">{{interviewer}}</p>
       </div>
 
       <!-- Contract Period (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="contractPeriod" class="block text-lg font-semibold mb-1">
           Contract Period
         </label>
@@ -148,12 +158,14 @@
       </div>
 
       <!-- Note (as paragraph) -->
-      <div class="md:col-span-2">
+      <div>
         <label for="note" class="block text-lg font-semibold mb-1">
           Note
         </label>
         <p class="rounded-md">{{offer.note}}</p>
       </div>
+
+      
     </div>
 
     <!-- Action buttons -->

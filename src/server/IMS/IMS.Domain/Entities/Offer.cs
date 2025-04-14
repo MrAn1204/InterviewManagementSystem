@@ -28,6 +28,4 @@ public class Offer : BaseEntity
 	public Interview? Interview { get; set; } // 1:N => Offer
 	public User? UserApproved { get; set; }
 
-	// N:N -> Department (OfferDepartment)
-	// public ICollection<OfferDepartment>? OfferDepartments { get; set; }
 }

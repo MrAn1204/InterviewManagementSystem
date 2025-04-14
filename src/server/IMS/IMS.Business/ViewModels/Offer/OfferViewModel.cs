@@ -12,7 +12,6 @@ public class OfferViewModel
 	public string? LevelName { get; set; }
 	public int? InterviewId { get; set; }
 	public string? InterviewTitle { get; set; }
-	public int MyProperty { get; set; }
 	public string Position { get; set; } = null!;
 	public string ContractType { get; set; } = "FullTime"; // or use ENUM
 	public DateTime ContractStart { get; set; }
@@ -30,6 +29,6 @@ public class OfferViewModel
     public string? DepartmentName { get; set; }
 
 	public DateTime CreatedDate { get; set; }
-	public DateTime UpdatedDate { get; set; }
+	public DateTime? UpdatedDate { get; set; }
 
 }
