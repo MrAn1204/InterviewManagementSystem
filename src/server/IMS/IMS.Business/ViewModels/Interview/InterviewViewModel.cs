@@ -45,4 +45,8 @@ public class InterviewViewModel : BaseViewModel
     public int? RecruiterId { get; set; }
     
     public string? RecruiterName { get; set; }
+
+    public string? CreatedDate { get; set; }
+
+    public string? UpdatedDate { get; set; }
 }

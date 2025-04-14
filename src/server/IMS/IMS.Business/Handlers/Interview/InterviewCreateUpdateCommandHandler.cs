@@ -104,6 +104,7 @@ public class InterviewCreateUpdateCommandHandler(
             opts.Items["Users"] = usersList;
         });
         existedInterview.CreatedBy = createdBy;
+        existedInterview.UpdatedDate = DateTime.UtcNow;
 
         using var transaction = await _unitOfWork.Context.Database.BeginTransactionAsync(cancellationToken);
 
