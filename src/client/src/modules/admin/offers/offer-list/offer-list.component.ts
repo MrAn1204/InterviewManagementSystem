@@ -13,6 +13,8 @@ import { ICommonService } from '../../../../services/data-for-input/common-servi
 import { DepartmentService } from '../../../../services/department/department.service';
 import { TableComponent } from "../../../../core/components/table/table.component";
 import { TableColumn } from '../../../../core/models/table/table-column.model';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -44,14 +46,15 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
     this.isExportModalOpen = false;
     console.log('Modal Close:', this.isExportModalOpen);
   }
-  
+
   constructor(
-    private fb: FormBuilder,
-    private headerService: HeaderService,
-    private router: Router,
-    private departmentService: DepartmentService,
-    @Inject(OFFER_SERVICE) private offerService: IOffService,
-    @Inject(COMMON_SERVICE) private commonService: ICommonService,
+    private readonly fb: FormBuilder,
+    private readonly headerService: HeaderService,
+    private readonly router: Router,
+    private readonly departmentService: DepartmentService,
+    @Inject(OFFER_SERVICE) private readonly offerService: IOffService,
+    @Inject(COMMON_SERVICE) private readonly commonService: ICommonService,
+    public readonly authService : AuthService
   ) {
     super();
   }
@@ -79,7 +82,7 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
       }
     });
 
-    
+
   }
 
   // getAllOffers(): void {

@@ -8,6 +8,7 @@ import { IInterviewService } from '../../../../services/interview/interview-serv
 import { ToastrService } from 'ngx-toastr';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { UserService } from '../../../../services/user/user.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-interview-detail',
@@ -23,7 +24,8 @@ export class InterviewDetailComponent implements OnInit {
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    public readonly authService : AuthService
   ) {
     this.userService = inject(UserService);
   }

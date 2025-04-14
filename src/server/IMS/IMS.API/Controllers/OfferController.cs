@@ -1,5 +1,6 @@
 using IMS.Business.Handlers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +22,10 @@ namespace IMS.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
         public async Task<IActionResult> GetAll()
         {
-            var result =await _mediator.Send(new OfferGetAllQuery());
+            var result = await _mediator.Send(new OfferGetAllQuery());
             return Ok(result);
         }
 
@@ -33,9 +35,10 @@ namespace IMS.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result =await _mediator.Send(new OfferGetByIdQuery { Id = id });
+            var result = await _mediator.Send(new OfferGetByIdQuery { Id = id });
             return Ok(result);
         }
 
@@ -45,13 +48,14 @@ namespace IMS.API.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
         public async Task<IActionResult> Create([FromBody] OfferCreateCommand command)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var result =await _mediator.Send(command);
+            var result = await _mediator.Send(command);
             return Ok(result);
         }
 
@@ -61,6 +65,7 @@ namespace IMS.API.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
         public async Task<IActionResult> EditOffer([FromBody] OfferUpdateCommand command)
         {
             var updatedOffer = await _mediator.Send(command);
@@ -85,6 +90,7 @@ namespace IMS.API.Controllers
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost("status")]
+        [Authorize(Roles = "ADMIN, RECRUITER, MANAGER")]
         public async Task<IActionResult> ChangeStastus([FromBody] OfferChangeStatusCommand command)
         {
             var result = await _mediator.Send(command);

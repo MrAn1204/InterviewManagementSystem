@@ -3,7 +3,7 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
       <h2 class="text-2xl font-semibold">Job Information</h2>
-    
+
       <!-- Ngày tạo / cập nhật -->
       <ng-container *ngIf="data; else createUpdateDate">
         <div class="text-sm text-gray-500 text-left md:text-right">
@@ -14,7 +14,7 @@
           </p>
         </div>
       </ng-container>
-    
+
       <ng-template #createUpdateDate>
         <div class="text-sm text-gray-500 text-left md:text-right">
           <p>Created at: Loading ...</p>
@@ -114,7 +114,7 @@
     <!-- Buttons -->
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
-      <button *ngIf="data && data.id" type="button" [routerLink]="['/admin/jobs/' + data.id + '/edit']"
+      <button *ngIf="data && data.id || authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])" type="button" [routerLink]="['/admin/jobs/' + data.id + '/edit']"
         class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>

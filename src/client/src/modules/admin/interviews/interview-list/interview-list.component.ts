@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TableColumn } from '../../../../core/models/table/table-column.model';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-interview-list',
@@ -37,6 +38,7 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
   constructor(
     private readonly headerService: HeaderService,
     private readonly toastr: ToastrService,
+    public readonly authService : AuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(COMMON_SERVICE) private readonly commonService: ICommonService) {
     super();

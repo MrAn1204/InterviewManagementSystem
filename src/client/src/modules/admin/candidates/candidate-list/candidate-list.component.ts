@@ -24,6 +24,7 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { log } from 'console';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-candidate-list',
@@ -59,6 +60,7 @@ export class CandidateListComponent
 
   constructor(
     private readonly headerService: HeaderService,
+    public readonly authService: AuthService,
     @Inject(CANDIDATE_SERVICE)
     private readonly candidateService: ICandidateService,
     @Inject(COMMON_SERVICE)

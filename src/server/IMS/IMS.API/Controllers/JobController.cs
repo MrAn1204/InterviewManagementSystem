@@ -2,6 +2,7 @@ using IMS.Business.Handlers;
 using IMS.Business.Services;
 using IMS.Business.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ViVuStore.Business.Handlers;
 
@@ -27,6 +28,7 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
     public async Task<IActionResult> Create(JobCreateUpdateCommand command)
     {
         if (!ModelState.IsValid)
@@ -43,6 +45,7 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
     /// <returns>A list of all jobs.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var result = await _mediator.Send(new JobGetAllQuery());
@@ -57,6 +60,7 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new JobGetByIdQuery { Id = id });
@@ -79,6 +83,7 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
     [ProducesResponseType(typeof(JobViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
     public async Task<IActionResult> Update(int id, JobCreateUpdateCommand command)
     {
         command.Id = id;
@@ -120,6 +125,7 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
     public async Task<IActionResult> Delete(int id)
     {
         var command = new JobDeleteByIdCommand { Id = id };
