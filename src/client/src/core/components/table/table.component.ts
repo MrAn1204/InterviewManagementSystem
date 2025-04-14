@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
@@ -20,6 +20,7 @@ import {
 import { PaginatedResult } from '../../../models/paginated-result.model';
 import { TableColumn } from '../../models/table/table-column.model';
 import { ConfirmModalComponent } from '../../../modules/modals/confirm-modal/confirm-modal.component';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-table',
@@ -65,6 +66,8 @@ export class TableComponent {
 
   public isModalOpen: boolean = false;
   public selectedId!: number | null;
+
+  public authService: AuthService = inject(AuthService);
 
   public generatePageItems(): number[] {
     if (!this.data) {

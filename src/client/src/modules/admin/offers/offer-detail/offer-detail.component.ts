@@ -1,13 +1,16 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CommonModule } from '@angular/common';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-modal.component';
+import { ToastrService } from 'ngx-toastr';
+import { IInterviewService } from '../../../../services/interview/interview-service.interface';
+import { InterviewModel } from '../../../../models/interview/interview.model';
 
 @Component({
   selector: 'app-offer-detail',
@@ -22,18 +25,22 @@ export class OfferDetailComponent {
 
   public offerId!: number;
   public offer!: OfferModel;
+  public interviews!: InterviewModel[];
+  public filteredInterviews!: InterviewModel | undefined;
   public usersInterviewer: UserForInputModel[] = [];
   public usersRecruiter: UserForInputModel[] = [];
 
   isModalOpen: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
-    @Inject(OFFER_SERVICE) private offerService: IOffService,
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
+    private toastr: ToastrService,
+    @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
+    private readonly route: ActivatedRoute,
+    @Inject(OFFER_SERVICE) private readonly offerService: IOffService,
+    @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(COMMON_SERVICE)
         private readonly commonService: ICommonService,) {}
-  
+
     ngOnInit(): void {
       const userJson = localStorage.getItem('userInformation') || sessionStorage.getItem('userInformation');
       this.user = userJson ? JSON.parse(userJson) : null;
@@ -43,12 +50,18 @@ export class OfferDetailComponent {
         this.offerId = Number(params.get('id'));
         this.loadOffer();
       });
-
-      this.commonService
-        .getUserForInputData(['INTERVIEWER'])
-        .subscribe((data) => {
-          this.usersInterviewer = data;
+      
+      this.interviewService.getAll().subscribe({
+        next: (data) => {
+          this.interviews = data;
+        }
       });
+      
+      // this.commonService
+      //   .getUserForInputData(['INTERVIEWER'])
+      //   .subscribe((data) => {
+      //     this.usersInterviewer = data;
+      // });
 
       this.commonService
         .getUserForInputData(['RECRUITER'])
@@ -74,10 +87,11 @@ export class OfferDetailComponent {
   get recruiter(): string {
     return this.usersRecruiter?.map(user => `${user.fullName} (${user.userName})`).join(', ') || '';
   }
-  
+
   get interviewer(): string {
-    return this.offer.interviewTitle + "\nInterviewer: "
-     + this.usersInterviewer?.map(user => user.userName).join(', ') || '';
+    this.filteredInterviews = this.interviews.find(i => i.id === this.offer.interviewId);
+
+    return this.offer.interviewTitle + "<br>Interviewer: " + this.filteredInterviews?.interviewersName?.join(", ");
   }
 
   changeStatusOffer(status: string): void{
@@ -100,7 +114,7 @@ export class OfferDetailComponent {
   canShowButton(button: string): boolean {
     const status = this.offer?.status?.toLowerCase();  // Chuyển status thành chữ thường
     const roles: string[] = this.user.roles.map((role: string) => role.toLowerCase());  // Chuyển tất cả roles thành chữ thường
-  
+
     console.log("roles: ", roles);
     console.log("status: ", status);
 
@@ -114,7 +128,7 @@ export class OfferDetailComponent {
       'Mark as sent to candidate': ['approved offer'],
       'Declined': ['waiting for response']
     };
-  
+
     // Quy tắc vai trò cho các nút
     const roleRules: { [key: string]: string[] } = {
       'Edit': ['recruiter', 'manager', 'admin'],
@@ -125,7 +139,7 @@ export class OfferDetailComponent {
       'Mark as sent to candidate': ['recruiter', 'manager', 'admin'],
       'Declined': ['recruiter', 'manager', 'admin']
     };
-  
+
     // Kiểm tra điều kiện có thỏa mãn không
     const canShow: boolean = buttonRules[button]?.includes(status) && roles.some(role => roleRules[button]?.includes(role));
     console.log("Can Show Button: ", canShow);  // Kiểm tra kết quả của điều kiện
@@ -133,7 +147,7 @@ export class OfferDetailComponent {
     return canShow;
   }
 
-  
+
   openModal() {
     this.isModalOpen = true;
   }

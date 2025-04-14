@@ -52,7 +52,7 @@ export class CandidateDetailComponent {
     @Inject(COMMON_SERVICE)
     private readonly commonService: ICommonService,
     private readonly route: ActivatedRoute,
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject('IAuthService') public readonly authService: IAuthService,
     private readonly toastService: ToastrService,
     private readonly router: Router
   ) {}

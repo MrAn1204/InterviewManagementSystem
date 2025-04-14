@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using IMS.Business.ViewModels;
+using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
@@ -27,7 +28,7 @@ namespace IMS.Business.Handlers
             .FirstOrDefaultAsync(u => u.Id == request.UserId);
 
         if (user == null)
-            throw new Exception($"User with ID {request.UserId} not found");
+                new ResourceNotFoundException($"User with ID {request.UserId} not found");
 
         // Map và trả về kết quả
         var result = _mapper.Map<UserDetailViewModel>(user);

@@ -1,22 +1,11 @@
-<div class="container mx-auto max-w-screen-xl py-8 px-4">
-  <!-- Tiêu đề -->
-  <h1 class="text-4xl font-semibold mb-8">
-    Create Offer
-  </h1>
-
-  <!-- Breadcrumb -->
-  <div class="pb-8">
-    <a routerLink="/admin/offers" class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Offer List</a>
-    >
-    <a class="cursor-pointer text-xl text-[#1976d2] hover:underline" href="">Create Offer</a>
-  </div>
+<div class="container mx-auto max-w-screen-xl py-4">
 
   <!-- Card bao quanh form -->
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <form [formGroup]="offerForm" (ngSubmit)="submitOffer()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Candidate name -->
-        <div class="md:col-span-2">
+        <div>
           <label for="candidateId" class="block text-lg font-semibold mb-1">
             Candidate
             <span class="text-red-500">*</span>
@@ -73,19 +62,30 @@
           </div>
         </div>
 
-        <!-- Interview info -->
-        <div class="md:col-span-2">
+        <!-- Interview Info -->
+        <div>
           <label for="interviewId" class="block text-lg font-semibold mb-1">
             Interview info
           </label>
-          <select id="interviewId" formControlName="interviewId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
+          <select
+            id="interviewId"
+            formControlName="interviewId"
+            (change)="onInterviewSelected()"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+          >
             <option [ngValue]="''">Select interview</option>
             <option *ngFor="let interview of interviews" [ngValue]="interview.id">
-              {{ interview.title + " ( Ngày " + interview.interviewDate + " From " + interview.startTime + " to " + interview.endTime + " )" }}
+              {{ interview.title }}
             </option>
           </select>
+
+          <div *ngIf="selectedInterview" class="mt-4 bg-gray-100 p-4 rounded-md shadow-sm">
+            <p><strong>Date:</strong> {{ selectedInterview.interviewDate }}  from {{ selectedInterview.startTime }} to {{ selectedInterview.endTime }}</p>
+            <p><strong>Location:</strong> {{ selectedInterview.location }}</p>
+            <p><strong>Interviewers:</strong> {{ selectedInterview.interviewersName.join(", ") }}</p>
+          </div>
         </div>
+
 
         <!-- Contract Period -->
         <div class="md:col-span-2">
@@ -190,7 +190,7 @@
           </label>
           <div class="flex">
             <select id="recruiterId" formControlName="recruiterId"
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            class="w-full border border-gray-300 rounded-l-md rounded-r-none px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
             [ngClass]="{'border-red-500': isFieldInvalid('recruiterId')}">
             <option [ngValue]="''">Select recruiter</option>
             <option *ngFor="let recruiter of recruiterOwner" [ngValue]="recruiter.id">
@@ -211,7 +211,7 @@
         </div>
 
         <!-- Due date -->
-        <div class="md:col-span-2">
+        <div>
           <label for="dueDate" class="block text-lg font-semibold mb-1">
             Due date
             <span class="text-red-500">*</span>
@@ -225,7 +225,7 @@
         </div>
 
         <!-- Basic salary -->
-        <div class="md:col-span-2">
+        <div>
           <label for="salaryBasic" class="block text-lg font-semibold mb-1">
             Basic salary
             <span class="text-red-500">*</span>
@@ -239,8 +239,19 @@
           </div>
         </div>
 
+        <!-- Interview Note -->
+        <div>
+          <label class="block text-lg font-semibold mb-1">
+            Interview Notes
+          </label>
+          <textarea rows="4" readonly  *ngIf="selectedInterview" [value]="selectedInterview.note"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]"
+            placeholder="Type a note">
+          </textarea>
+        </div>
+
         <!-- Note -->
-        <div class="md:col-span-2">
+        <div>
           <label for="note" class="block text-lg font-semibold mb-1">
             Note
           </label>

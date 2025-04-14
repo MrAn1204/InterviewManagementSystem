@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { SidebarService } from '../../../../../services/sidebar/sidebar.service';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,7 +29,7 @@ export class SidebarComponent {
   public faAngleDoubleLeft: IconDefinition = faAngleDoubleLeft;
   public faAngleDoubleRight: IconDefinition = faAngleDoubleRight;
 
-  constructor(public sidebarService: SidebarService) { }
+  constructor(public sidebarService: SidebarService, public authService: AuthService) { }
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: any) {

@@ -15,24 +15,21 @@ public class OfferExportExcelCommandHandler(IUnitOfWorks unitOfWork, IFileServic
     {
         var query = _unitOfWork.OfferRepository.GetQuery(o => (!request.fromDate.HasValue || o.CreatedDate >= request.fromDate.Value) &&
             (!request.toDate.HasValue || o.CreatedDate <= request.toDate.Value));
-        var result = query.Include(o => o.Candidate)
-                            .Include(o => o.UserApproved)
-                            .Include(o => o.Department)
-                            .Select(o => new OfferExcelDto
-                            {
-                                candidateName = o.Candidate.FullName,
-                                email = o.Candidate.Email,
-                                approver = o.UserApproved.FullName,
-                                department = o.Department.DepartmentName,
-                                notes = o.Note,
-                                status = o.Status
-                            }).ToList();
 
-        // Kiểm tra nếu kết quả là null hoặc trống
-        // if (result == null || result.Count == 0)
-        // {
-        //     return Task.FromResult(new byte[0]);
-        // }
+        var result = query.Include(o => o.Candidate)
+                  .Include(o => o.UserApproved)
+                  .Include(o => o.Department)
+                  .Select(o => new OfferExcelDto
+                  {
+                      candidateName = o.Candidate != null ? o.Candidate.FullName : "",
+                      email = o.Candidate != null ? o.Candidate.Email : "",
+                      approver = o.UserApproved != null ? o.UserApproved.FullName : "",
+                      department = o.Department != null ? o.Department.DepartmentName : "",
+                      notes = o.Note != null ? o.Note : "",
+                      status = o.Status
+                  })
+                  .ToList();
+
 
         return _fileService.GenerateOfferExcelFile(result);
     }

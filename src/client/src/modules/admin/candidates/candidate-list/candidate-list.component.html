@@ -40,7 +40,7 @@
       >
         Search
       </button>
-      <button
+      <button *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
         routerLink="/admin/candidates/create"
         routerLinkActive="router-link-active"
         class="bg-[#1976d2] hover:bg-[#1565c0] text-white px-4 py-2 rounded font-semibold w-full md:w-auto cursor-pointer"

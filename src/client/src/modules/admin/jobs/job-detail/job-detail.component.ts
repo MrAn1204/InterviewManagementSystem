@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { BenefitModel } from '../../../../models/data-for-input/benefit.modes';
 import { SkillModel } from '../../../../models/data-for-input/skill.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-job-detail',
@@ -20,6 +21,7 @@ export class JobDetailComponent implements OnInit {
 
   constructor(
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
+    public readonly authService : AuthService,
     private readonly route: ActivatedRoute,
   ) {
   }
@@ -47,12 +49,12 @@ export class JobDetailComponent implements OnInit {
   public getBenefitNames(benefits: BenefitModel[]): string {
     return this.jobService.getBenefitNames(benefits);
   }
-  
+
   public getSkillNames(skills: SkillModel[]): string {
     return this.jobService.getSkillNames(skills);
   }
 
   public getLevelNames(levels: LevelModel[]): string {
     return this.jobService.getLevelNames(levels);
-  }  
+  }
 }

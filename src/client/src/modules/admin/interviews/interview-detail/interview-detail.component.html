@@ -89,6 +89,7 @@
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
       <button type="button" [routerLink]="`/admin/interviews/${id}/edit/`"
+        *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
         class="cursor-pointer not-only-of-type:mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
         Edit
       </button>

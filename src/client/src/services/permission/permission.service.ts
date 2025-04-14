@@ -8,9 +8,10 @@ import { IAuthService } from '../auth/auth-service.interface';
   providedIn: 'root',
 })
 export class PermissionService implements IPermissionService {
+  private roles: string[] = [];
   constructor(
-    private router: Router,
-    @Inject(AUTH_SERVICE) private authService: IAuthService
+    private readonly router: Router,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService
   ) {}
 
   canActivate(): boolean {
@@ -41,5 +42,12 @@ export class PermissionService implements IPermissionService {
       return roles.some(role=>res?.roles.includes(role));
     });
     return false;
+  }
+
+  setRoles(roles: string[]) {
+    this.roles = roles;
+  }
+  clearRoles() {
+    this.roles = [];
   }
 }

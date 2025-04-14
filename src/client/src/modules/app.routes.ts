@@ -8,7 +8,6 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { AdminLayoutComponent } from './shared/layout/admin-layout.component';
 import { AuthGuard } from '../guards/auth.guard';
 
-// Import các component admin
 import { UserListComponent } from './admin/users/user-list/user-list.component';
 import { UserCreateComponent } from './admin/users/user-create/user-create.component';
 import { UserEditComponent } from './admin/users/user-edit/user-edit.component';
@@ -33,10 +32,13 @@ import { SimpleLayoutComponent } from './shared/common/simple-layout/simple-layo
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UserInactiveComponent } from './modals/user-inactive/user-inactive.component';
 import { NotFoundComponent } from '../errors/not-found/not-found.component';
+import { AccessDeniedComponent } from '../errors/access-denied/access-denied.component';
+import { roleGuard } from '../guards/role.guard';
 
 export const routes: Routes = [
-  // Redirect root '' về '/login'
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // Redirect root '' về 'login' (không dùng dấu /)
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
   // Các route không cần layout admin: login, forget-password, reset-password
   {
     path: '',
@@ -47,7 +49,6 @@ export const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent },
     ]
   },
-
 
   {
     path: 'admin',
@@ -102,8 +103,7 @@ export const routes: Routes = [
         children: [
           { path: '', component: OfferListComponent },
           { path: 'create', component: OfferCreateComponent },
-          { path: ':id/edit', component: OfferCreateComponent },
-          // { path: ':id/edit', component: OfferEditComponent },
+          { path: ':id/edit', component: OfferEditComponent },
           { path: ':id/detail', component: OfferDetailComponent }
         ]
       },
@@ -113,10 +113,9 @@ export const routes: Routes = [
     ]
   },
 
-  {
-    path: '**',
-    component: NotFoundComponent
-  }
+  { path: 'not-found', component: NotFoundComponent },
+
+  { path: 'access-denied', component: AccessDeniedComponent }
 ];
 
 @NgModule({

@@ -55,6 +55,17 @@ export class UserService {
     );
   }
 
+  checkUnique(username: string | null, email: string | null): Observable<{ usernameExists: boolean, emailExists: boolean }> {
+    let params = new HttpParams();
+    if (username) {
+      params = params.set('username', username);
+    }
+    if (email) {
+      params = params.set('email', email);
+    }
+    return this.http.get<{ usernameExists: boolean, emailExists: boolean }>(`${this.baseUrl}users/check-unique`, { params });
+  }
+
   getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}users/${id}`);
   }

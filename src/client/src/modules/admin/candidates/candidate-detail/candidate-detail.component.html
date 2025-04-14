@@ -30,7 +30,7 @@
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
     <div class="flex justify-end">
       <!-- Cancel -->
-      <button
+      <button *ngIf="authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
         type="button"
         class="cursor-pointer mr-4 bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300"
         (click)="openModal('Are you sure you want to ban this candidate?')"
@@ -174,7 +174,7 @@
     <div class="mt-8 flex justify-end">
       <!-- Edit -->
       <button
-        *ngIf="candidate && candidate.id"
+        *ngIf="candidate && candidate.id || authService.hasRole(['ADMIN', 'MANAGER','RECRUITER'])"
         type="button"
         [routerLink]="['/admin/candidates/' + candidate.id + '/edit']"
         class="cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]"
