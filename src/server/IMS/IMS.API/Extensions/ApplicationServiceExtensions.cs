@@ -6,8 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.API.Extensions
 {
+	/// <summary>
+	/// Extension class used to refactor code for program
+	/// </summary>
 	public static class ApplicationServiceExtensions
 	{
+		/// <summary>
+		/// Extension used to refactor code for program
+		/// </summary>
+		/// <param name="services"></param>
+		/// <param name="config"></param>
+		/// <returns>return service </returns>
 		public static IServiceCollection AddApplicationServices(this IServiceCollection services,
 		IConfiguration config)
 		{

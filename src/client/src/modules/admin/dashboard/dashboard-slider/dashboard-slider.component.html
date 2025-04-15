@@ -1,43 +1,46 @@
-<div class="flex overflow-auto space-x-4
+<!-- Dashboard Summary Buttons (Responsive Scrollable) -->
+<div class="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4
     *:flex *:border *:md:p-4 *:py-4 *:md:min-w-60 *:min-w-40
-    *:cursor-pointer *:bg-white *:rounded-md *:hover:bg-gray-100">
-    <button routerLink="/admin/users">
-        <fa-icon [icon]="faUsers" class="text-6xl md:px-4 pl-2"></fa-icon>
-        <div class="flex flex-col w-full">
-            <p class="font-bold text-3xl">{{users}}</p>
-            <p class="font-bold">Users</p>
-        </div>
-    </button>
+    *:cursor-pointer *:bg-white *:rounded-xl *:shadow-md *:hover:bg-blue-50
+    *:transition *:duration-300 *:ease-in-out overflow-x-auto">
 
-    <button routerLink="/admin/candidates">
-        <fa-icon [icon]="faUserTie" class="text-6xl md:px-4 pl-2"></fa-icon>
-        <div class="flex flex-col w-full">
-            <p class="font-bold text-3xl">{{candidates}}</p>
-            <p class="font-bold">Candidates</p>
-        </div>
-    </button>
+  <button routerLink="/admin/users" *ngIf="authService.hasRole(['ADMIN'])" class="text-blue-600 hover:text-blue-800">
+    <fa-icon [icon]="faUsers" class="text-6xl md:px-4 pl-2"></fa-icon>
+    <div class="flex flex-col w-full text-left">
+      <p class="font-bold text-3xl">{{users}}</p>
+      <p class="font-semibold text-gray-600">Users</p>
+    </div>
+  </button>
 
-    <button routerLink="/admin/interviews">
-        <fa-icon [icon]="faCalendarDay" class="text-6xl md:px-4 pl-2"></fa-icon>
-        <div class="flex flex-col w-full">
-            <p class="font-bold text-3xl">{{interviews}}</p>
-            <p class="font-bold">Interviews</p>
-        </div>
-    </button>
+  <button routerLink="/admin/candidates" class="text-green-600 hover:text-green-800">
+    <fa-icon [icon]="faUserTie" class="text-6xl md:px-4 pl-2"></fa-icon>
+    <div class="flex flex-col w-full text-left">
+      <p class="font-bold text-3xl">{{candidates}}</p>
+      <p class="font-semibold text-gray-600">Candidates</p>
+    </div>
+  </button>
 
-    <button routerLink="/admin/jobs">
-        <fa-icon [icon]="faBriefcase" class="text-6xl md:px-4 pl-2"></fa-icon>
-        <div class="flex flex-col w-full">
-            <p class="font-bold text-3xl">{{jobs}}</p>
-            <p class="font-bold">Jobs</p>
-        </div>
-    </button>
+  <button routerLink="/admin/interviews" class="text-purple-600 hover:text-purple-800">
+    <fa-icon [icon]="faCalendarDay" class="text-6xl md:px-4 pl-2"></fa-icon>
+    <div class="flex flex-col w-full text-left">
+      <p class="font-bold text-3xl">{{interviews}}</p>
+      <p class="font-semibold text-gray-600">Interviews</p>
+    </div>
+  </button>
 
-    <button routerLink="/admin/offers">
-        <fa-icon [icon]="faHandshake" class="text-6xl md:px-4 pl-2"></fa-icon>
-        <div class="flex flex-col w-full">
-            <p class="font-bold text-3xl">{{offers}}</p>
-            <p class="font-bold">Offers</p>
-        </div>
-    </button>
+  <button routerLink="/admin/jobs" class="text-yellow-600 hover:text-yellow-800">
+    <fa-icon [icon]="faBriefcase" class="text-6xl md:px-4 pl-2"></fa-icon>
+    <div class="flex flex-col w-full text-left">
+      <p class="font-bold text-3xl">{{jobs}}</p>
+      <p class="font-semibold text-gray-600">Jobs</p>
+    </div>
+  </button>
+
+  <button routerLink="/admin/offers" class="text-pink-600 hover:text-pink-800">
+    <fa-icon [icon]="faHandshake" class="text-6xl md:px-4 pl-2"></fa-icon>
+    <div class="flex flex-col w-full text-left">
+      <p class="font-bold text-3xl">{{offers}}</p>
+      <p class="font-semibold text-gray-600">Offers</p>
+    </div>
+  </button>
 </div>

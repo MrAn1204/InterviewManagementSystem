@@ -1,18 +1,20 @@
-<app-dashboard-slider>
-  
-</app-dashboard-slider>
+<div >
+  <app-dashboard-slider></app-dashboard-slider>
+</div>
 
-<div class="flex justify-center gap-4 md:flex-wrap">
+<!-- Chart Section (Responsive) -->
+<div class="flex flex-col md:flex-row justify-center gap-6 px-4">
   <app-bar-chart
     title="Candidate Chart by Week"
     label="Candidate"
     [realData]="candidateChartRealData"
-    (monthYearChange)="onMonthYearCandidateSearchChanged($event)"
-  ></app-bar-chart>
+    (monthYearChange)="onMonthYearCandidateSearchChanged($event)">
+  </app-bar-chart>
+
   <app-bar-chart
     title="Job Chart by Week"
     label="Job"
     [realData]="jobChartRealData"
-    (monthYearChange)="onMonthYearJobSearchChanged($event)"
-  ></app-bar-chart>
+    (monthYearChange)="onMonthYearJobSearchChanged($event)">
+  </app-bar-chart>
 </div>

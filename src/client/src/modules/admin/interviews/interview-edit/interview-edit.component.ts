@@ -70,7 +70,7 @@ export class InterviewEditComponent {
   private loadInitialData(): void {
     this.authService.getUserInformation().subscribe((res) => {
       console.log(res?.roles);
-      
+
       this.roles = res?.roles ?? [];
     });
 
@@ -97,7 +97,7 @@ export class InterviewEditComponent {
       }),
       switchMap(res => {
         if (!res.interviewersId?.length) return of([]);
-        return forkJoin(res.interviewersId.map(id => this.userService.getUserById(id)));
+        return forkJoin(res.interviewersId.map(id => this.userService.getById(id)));
       })
     ).subscribe(users => {
       this.selectedInterviewers = users.map(user => `${user.fullName} (${user.username})`);
@@ -147,7 +147,7 @@ export class InterviewEditComponent {
   }
 
   private sendUpdateRequest(
-    data: InterviewModel, 
+    data: InterviewModel,
     successMessage: string = 'Update success'
   ): void {
     this.interviewService.update(this.interviewId, data).subscribe({
@@ -215,7 +215,7 @@ export class InterviewEditComponent {
   }
 
   public checkCancelable(): boolean {
-    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New] 
+    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New]
       || this.interview.status === InterviewStatus[InterviewStatus.Invited];
     return this.checkEditable() && isNewOrInvited;
   }

@@ -3,12 +3,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -21,9 +21,9 @@ export class LoginComponent implements OnInit {
   public form!: FormGroup;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
-    private router: Router,
-    private toastr: ToastrService
+    @Inject('IAuthService') private readonly authService: IAuthService,
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) {}
 
   ngOnInit(): void {

@@ -13,7 +13,7 @@ public class UpdateUserCommandHandler(UserManager<User> _userManager, IUnitOfWor
     public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
-        if (user == null)
+        if (user == null) 
             throw new Exception("User not found");
             
         if (string.IsNullOrEmpty(request.Username))
@@ -25,13 +25,14 @@ public class UpdateUserCommandHandler(UserManager<User> _userManager, IUnitOfWor
         
         user.UserName = request.Username;
         user.Email = request.Email;
-        user.FullName = request.FullName;
+        user.FullName = request.FullName != null ? request.FullName : "N/A";
         user.DOB = request.DOB;
         user.Address = request.Address;
         user.PhoneNumber = request.PhoneNumber;
         user.DepartmentId = request.DepartmentId;
         user.Note = request.Note;
         user.Gender = request.Gender;
+        user.UpdatedDate = DateTime.Now;
 
         var currentRoles = await _userManager.GetRolesAsync(user);
         await _userManager.RemoveFromRolesAsync(user, currentRoles);

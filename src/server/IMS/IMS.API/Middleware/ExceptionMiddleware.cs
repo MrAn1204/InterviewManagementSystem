@@ -3,17 +3,30 @@ using System.Text.Json;
 
 namespace IMS.API.Middleware;
 
+/// <summary>
+/// 
+/// </summary>
 public class ExceptionMiddleware
 {
 	private readonly RequestDelegate _next;
 	private readonly ILogger<ExceptionMiddleware> _logger;
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="next"></param>
+	/// <param name="logger"></param>
 	public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 	{
 		_next = next;
 		_logger = logger;
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="context"></param>
+	/// <returns></returns>
 	public async Task InvokeAsync(HttpContext context)
 	{
 		try

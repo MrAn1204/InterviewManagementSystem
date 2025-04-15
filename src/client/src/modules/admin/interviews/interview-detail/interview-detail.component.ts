@@ -39,7 +39,7 @@ export class InterviewDetailComponent implements OnInit {
 
   public sendReminder(): void {
     const reminderObservables = this.interview.interviewersId?.map(interviewerId =>
-      this.userService.getUserById(interviewerId).pipe(
+      this.userService.getById(interviewerId).pipe(
         switchMap(interviewer =>
           this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).pipe(
             tap(result => result

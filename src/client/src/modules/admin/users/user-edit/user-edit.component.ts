@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Department } from '../../../../models/Department';
+import { Department } from '../../../../models/data-for-input/department.model';
 import { UserService } from '../../../../services/user/user.service';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { ToastrService } from 'ngx-toastr';
@@ -22,12 +22,12 @@ export class UserEditComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    private userService: UserService,
-    private departmentService: DepartmentService,
-    private toastr: ToastrService,
-    private router: Router
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly userService: UserService,
+    private readonly departmentService: DepartmentService,
+    private readonly toastr: ToastrService,
+    private readonly router: Router
   ) {
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)]],
@@ -39,7 +39,6 @@ export class UserEditComponent implements OnInit {
       gender: ['', Validators.required],
       roles: [[], Validators.required],
       departmentId: ['', Validators.required],
-      //status: ['', Validators.required],
       note: ['']
     });
   }
@@ -52,13 +51,12 @@ export class UserEditComponent implements OnInit {
   }
 
   private loadUserData(): void {
-    this.userService.getUserById(this.userId).subscribe({
+    this.userService.getById(this.userId).subscribe({
       next: (user) => {
         this.selectedRoles = user.roles;
         this.userForm.patchValue({
           ...user,
           gender: user.gender?.toLowerCase()
-          // Không cần patch status
         });
         this.isLoading = false;
       },
@@ -106,7 +104,7 @@ export class UserEditComponent implements OnInit {
 
     const formData = { ...this.userForm.value };
 
-    this.userService.updateUser(this.userId, formData).subscribe({
+    this.userService.update(this.userId, formData).subscribe({
       next: () => {
         this.toastr.success('User updated successfully');
         this.router.navigate(['/admin/users']);

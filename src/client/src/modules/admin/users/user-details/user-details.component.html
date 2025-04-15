@@ -2,6 +2,24 @@
 
 
   <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8">
+    <div class="flex items-start justify-between pb-6 flex-col md:flex-row">
+      <h2 class="text-2xl font-semibold">User Information</h2>
+
+      <ng-container *ngIf="userDetail; else createUpdateDate">
+        <div class="text-sm text-gray-500 text-left md:text-right mt-2 md:mt-0">
+          <p>Created at: {{ userDetail.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+          <p>
+            Last updated:
+            {{ userDetail.updatedDate ? (userDetail.updatedDate | date: 'dd/MM/yyyy HH:mm:ss') : "Haven't updated yet" }}
+          </p>
+        </div>
+      </ng-container>
+      <ng-template #createUpdateDate>
+        <div class="text-sm text-gray-400 mt-2 md:mt-0">Loading date info...</div>
+      </ng-template>
+    </div>
+
+
 
     <div *ngIf="isLoading" class="text-center py-8">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
@@ -10,7 +28,7 @@
     <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Full Name -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Full Name</label>
+        <label class="block text-lg font-semibold ">Full Name</label>
         <p class="w-full ">
           {{ userDetail.fullName ? userDetail.fullName : 'null' }}
         </p>
@@ -18,7 +36,7 @@
 
       <!-- Email -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Email</label>
+        <label class="block text-lg font-semibold ">Email</label>
         <p class="w-full ">
           {{ userDetail.email ? userDetail.email : 'null' }}
         </p>
@@ -26,7 +44,7 @@
 
       <!-- Date of Birth -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Date of Birth</label>
+        <label class="block text-lg font-semibold ">Date of Birth</label>
         <p class="w-full ">
           {{ userDetail.dob ? (userDetail.dob | date:'yyyy-MM-dd') : 'null' }}
         </p>
@@ -34,7 +52,7 @@
 
       <!-- Address -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Address</label>
+        <label class="block text-lg font-semibold">Address</label>
         <p class="w-full ">
           {{ userDetail.address ? userDetail.address : 'null' }}
         </p>
@@ -42,7 +60,7 @@
 
       <!-- Phone Number -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Phone Number</label>
+        <label class="block text-lg font-semibold ">Phone Number</label>
         <p class="w-full  ">
           {{ userDetail.phoneNumber ? userDetail.phoneNumber : 'null' }}
         </p>
@@ -50,7 +68,7 @@
 
       <!-- Gender -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Gender</label>
+        <label class="block text-lg font-semibold ">Gender</label>
         <p class="w-full ">
           {{ userDetail.gender ? userDetail.gender : 'null' }}
         </p>
@@ -58,7 +76,7 @@
 
       <!-- Roles -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Roles</label>
+        <label class="block text-lg font-semibold ">Roles</label>
         <p class="w-full  ">
           {{ userDetail.roles && userDetail.roles.length ? userDetail.roles.join(', ') : 'null' }}
         </p>
@@ -66,7 +84,7 @@
 
       <!-- Department -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Department</label>
+        <label class="block text-lg font-semibold ">Department</label>
         <p class="w-full  ">
           {{ userDetail.departmentName ? userDetail.departmentName : 'null' }}
         </p>
@@ -74,7 +92,7 @@
 
       <!-- Status -->
       <div>
-        <label class="block text-lg font-semibold mb-1">Status</label>
+        <label class="block text-lg font-semibold ">Status</label>
         <p class="w-full ">
           {{ getStatusText(userDetail.isActive) ? getStatusText(userDetail.isActive) : 'null' }}
         </p>
@@ -97,13 +115,13 @@
       <button *ngIf="userDetail.isActive" type="button"
         [routerLink]="['/admin/users', userDetail.id, 'toggle-status']"
         [queryParams]="{ currentStatus: userDetail.isActive }"
-        class="mr-4 bg-yellow-400 text-white py-2 px-6 rounded-md hover:bg-yellow-300">
+        class="cursor-pointer mr-4 bg-yellow-400 text-white py-2 px-6 rounded-md hover:bg-yellow-300">
         Inactive
       </button>
       <button *ngIf="!userDetail.isActive" type="button"
         [routerLink]="['/admin/users', userDetail.id, 'toggle-status']"
         [queryParams]="{ currentStatus: userDetail.isActive }"
-        class="mr-4 bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-400">
+        class="cursor-pointer mr-4 bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-400">
         Active
       </button>
 

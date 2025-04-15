@@ -4,13 +4,13 @@ import { UserService } from '../../../../services/user/user.service';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgFor } from '@angular/common';
-import { User } from '../../../../models/User';
+import { User } from '../../../../models/user/user.model';
 import { HeaderService } from '../../../../services/header/header.service';
 import { MasterDataListComponent } from '../../master-data/master-data.component';
 import { PaginatedResult } from '../../../../models/paginated-result.model';
 import { TableColumn } from '../../../../core/models/table/table-column.model';
 import { UserTableComponent } from "../user-table/user-table.component";
-import { Department } from '../../../../models/Department';
+import { Department } from '../../../../models/data-for-input/department.model';
 import { DepartmentService } from '../../../../services/department/department.service';
 
 @Component({
@@ -22,32 +22,26 @@ import { DepartmentService } from '../../../../services/department/department.se
 })
 export class UserListComponent extends MasterDataListComponent<User> implements OnInit {
   headerService = inject(HeaderService);
-  private userService = inject(UserService);
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private departmentService = inject(DepartmentService);
+  private readonly userService = inject(UserService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly departmentService = inject(DepartmentService);
 
-  // Danh sách Role mà bạn muốn hiển thị (nếu cần sử dụng cho mục đích khác)
   roles: string[] = ['ADMIN', 'RECRUITER', 'INTERVIEWER', 'MANAGER'];
-  // Danh sách Department (sẽ load từ API)
   departments: Department[] = [];
 
-  // Cập nhật cột để hiển thị đầy đủ thông tin
   public override columns: TableColumn[] = [
     { name: 'Full Name', value: 'fullName' },
     { name: 'Email', value: 'email' },
     { name: 'Department', value: 'departmentName' },
     { name: 'Address', value: 'address' },
     { name: 'Roles', value: 'roles' },
-    { name: 'Active', value: 'isActive' }
+    { name: 'Status', value: 'isActive' }
   ];
 
   override ngOnInit(): void {
-    // Đặt tiêu đề trang
     this.headerService.setTitle('User Management');
-    // Tải danh sách department để dùng cho filter
     this.loadDepartments();
-    // Khởi tạo form tìm kiếm
     super.ngOnInit();
   }
 
@@ -58,7 +52,6 @@ export class UserListComponent extends MasterDataListComponent<User> implements 
     });
   }
 
-  // Khởi tạo reactive form cho tìm kiếm
   protected override createForm(): void {
     this.searchForm = this.fb.group({
       keyword: [''],
@@ -67,9 +60,7 @@ export class UserListComponent extends MasterDataListComponent<User> implements 
     });
   }
 
-  // Hàm gọi API tìm kiếm và gán kết quả vào this.data
   protected override searchData(): void {
-    // Gộp giá trị filter từ form vào filter hiện có
     Object.assign(this.filter, this.searchForm.value);
 
     const searchParams = {
@@ -78,9 +69,8 @@ export class UserListComponent extends MasterDataListComponent<User> implements 
       isActive: this.filter.status === '' ? undefined : this.filter.status === 'true',
       pageNumber: this.filter.pageNumber,
       pageSize: this.filter.pageSize,
-      roles: []  // Nếu không lọc theo role, giữ mảng rỗng
+      roles: []
     };
-
 
     this.userService.getUsers(searchParams).subscribe({
       next: (response: PaginatedResult<User>) => {
