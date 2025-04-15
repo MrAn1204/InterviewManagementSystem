@@ -1,10 +1,10 @@
 import { MasterDataListComponent } from './../../master-data/master-data.component';
 import { Component, Inject } from '@angular/core';
-import { Route, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HeaderService } from '../../../../services/header/header.service';
 import { COMMON_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { OfferModel } from '../../../../models/offer/offer.model';
 import { CommonModule } from '@angular/common';
 import { ExportOfferModalComponent } from '../../../modals/export-offer-modal/export-offer-modal.component';
@@ -13,7 +13,6 @@ import { ICommonService } from '../../../../services/data-for-input/common-servi
 import { DepartmentService } from '../../../../services/department/department.service';
 import { TableComponent } from "../../../../core/components/table/table.component";
 import { TableColumn } from '../../../../core/models/table/table-column.model';
-import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
@@ -61,7 +60,6 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
 
   override ngOnInit(): void {
     this.headerService.setTitle('Offer');
-    // this.getAllOffers();
 
     this.commonService.getAllCandidateStatus().subscribe((res) => {
       this.statusList = res;
@@ -82,20 +80,7 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
       }
     });
 
-
   }
-
-  // getAllOffers(): void {
-  //   this.offerService.getAll().subscribe({
-  //     next: (response) => {
-  //       this.data = response; // Gán dữ liệu trả về vào biến data
-  //       console.log('Danh sách Offers:', this.data);
-  //     },
-  //     error: (error) => {
-  //       console.error('Lỗi khi lấy danh sách Offer:', error);
-  //     }
-  //   });
-  // }
 
 
   // Hàm lấy giá trị departmentName và status từ form

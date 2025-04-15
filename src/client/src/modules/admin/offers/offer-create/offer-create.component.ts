@@ -38,15 +38,15 @@ export class OfferCreateComponent implements OnInit {
   levels: LevelModel[] = [];
 
   constructor(
-    private departmentService: DepartmentService,
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
+    private readonly departmentService: DepartmentService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
-    @Inject(OFFER_SERVICE) private offerService: IOffService,
-    @Inject(CANDIDATE_SERVICE) private candidateService: ICandidateService,
-    @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
+    @Inject(OFFER_SERVICE) private readonly offerService: IOffService,
+    @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(COMMON_SERVICE)
         private readonly commonService: ICommonService) {}
 
@@ -84,6 +84,7 @@ export class OfferCreateComponent implements OnInit {
           contractEnd: this.offer.contractEnd,
           status: this.offer.status,
           approvedBy: this.offer.approvedBy,
+          recruiterId: [''],
           salaryBasic: this.offer.salaryBasic,
           levelId: this.offer.levelId,
           levelName: this.offer.levelName,
@@ -122,9 +123,10 @@ export class OfferCreateComponent implements OnInit {
     this.candidateService.getAll().subscribe({
       next: (data) => {
         this.candidates = data.filter(candidate => candidate.status !== "BANNED");
-        this.positions = [...new Set(data
-          .map(candidate => candidate.currentPosition)
-          .filter(item => item != null) as string[])];
+        this.positions = [...new Set(
+          data.map(candidate => candidate.currentPosition)
+              .filter(item => item != null)
+        )]
       }
     });
 
@@ -140,7 +142,7 @@ export class OfferCreateComponent implements OnInit {
       }
     });
 
-    this.commonService.getUserForInputData(['RECRUITER']).subscribe({
+    this.commonService.getUserForInputData(['RECRUITER', 'ADMIN', 'MANAGER']).subscribe({
       next: (data) => {
         this.recruiterOwner = data;
       }
@@ -200,13 +202,9 @@ export class OfferCreateComponent implements OnInit {
 
   public assignMe() {
     this.authService.getUserInformation().subscribe((res) => {
-      if (res?.roles.includes('RECRUITER')) {
-        this.offerForm.patchValue({
-          recruiterId: res?.id
-        });
-      } else {
-        this.toastr.info('You do not have RECRUITER role', 'Info');
-      }
+      this.offerForm.patchValue({
+        recruiterId: res?.id
+      });
     })
   }
 
