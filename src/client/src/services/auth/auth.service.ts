@@ -96,6 +96,7 @@ logout(): void {
   sessionStorage.removeItem('userInformation');
   this._isAuthenticated.next(false);
   this._userInformation.next(null);
+  window.location.reload();
 }
 
 public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginResponse> {
@@ -142,7 +143,6 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
 
   public getUserRoles(): string[] {
     const userInfo: UserInformation | null = this._userInformation.getValue();
-    // Giả sử userInfo.roles là array; nếu không, convert sang array
     if (userInfo && userInfo.roles) {
       return Array.isArray(userInfo.roles)
         ? userInfo.roles
@@ -151,7 +151,6 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
     return [];
   }
 
-  // Hàm kiểm tra xem user có role nào trong danh sách allowedRoles hay không
   public hasRole(allowedRoles: string[]): boolean {
     const roles = this.getUserRoles();
     return allowedRoles.some(role => roles.includes(role));

@@ -11,7 +11,7 @@
       <!-- Full Name -->
       <div>
         <label class="block text-lg font-semibold mb-1">Full Name</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.fullName ? userDetail.fullName : 'null' }}
         </p>
       </div>
@@ -19,7 +19,7 @@
       <!-- Email -->
       <div>
         <label class="block text-lg font-semibold mb-1">Email</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.email ? userDetail.email : 'null' }}
         </p>
       </div>
@@ -27,7 +27,7 @@
       <!-- Date of Birth -->
       <div>
         <label class="block text-lg font-semibold mb-1">Date of Birth</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.dob ? (userDetail.dob | date:'yyyy-MM-dd') : 'null' }}
         </p>
       </div>
@@ -35,7 +35,7 @@
       <!-- Address -->
       <div>
         <label class="block text-lg font-semibold mb-1">Address</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.address ? userDetail.address : 'null' }}
         </p>
       </div>
@@ -43,7 +43,7 @@
       <!-- Phone Number -->
       <div>
         <label class="block text-lg font-semibold mb-1">Phone Number</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full  ">
           {{ userDetail.phoneNumber ? userDetail.phoneNumber : 'null' }}
         </p>
       </div>
@@ -51,7 +51,7 @@
       <!-- Gender -->
       <div>
         <label class="block text-lg font-semibold mb-1">Gender</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.gender ? userDetail.gender : 'null' }}
         </p>
       </div>
@@ -59,7 +59,7 @@
       <!-- Roles -->
       <div>
         <label class="block text-lg font-semibold mb-1">Roles</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full  ">
           {{ userDetail.roles && userDetail.roles.length ? userDetail.roles.join(', ') : 'null' }}
         </p>
       </div>
@@ -67,7 +67,7 @@
       <!-- Department -->
       <div>
         <label class="block text-lg font-semibold mb-1">Department</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full  ">
           {{ userDetail.departmentName ? userDetail.departmentName : 'null' }}
         </p>
       </div>
@@ -75,7 +75,7 @@
       <!-- Status -->
       <div>
         <label class="block text-lg font-semibold mb-1">Status</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ getStatusText(userDetail.isActive) ? getStatusText(userDetail.isActive) : 'null' }}
         </p>
       </div>
@@ -83,7 +83,7 @@
       <!-- Note -->
       <div class="md:col-span-2">
         <label class="block text-lg font-semibold mb-1">Note</label>
-        <p class="w-full  bg-gray-50">
+        <p class="w-full ">
           {{ userDetail.note ? userDetail.note : 'null' }}
         </p>
       </div>
