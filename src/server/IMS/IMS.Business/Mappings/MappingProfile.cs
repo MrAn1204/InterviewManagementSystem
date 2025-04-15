@@ -55,6 +55,10 @@ public class MappingProfile : Profile
         src => src.Interviewers != null ? src.Interviewers.Select(i => i.Id) : null))
       .ForMember(dest => dest.InterviewersName, opt => opt.MapFrom(
         src => src.Interviewers != null ? src.Interviewers.Select(i => i.FullName) : null))
+      .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(
+        src => src.CreatedDate.ToLocalTime().ToString()))
+      .ForMember(dest => dest.UpdatedDate, opt => opt.MapFrom(
+        src => src.UpdatedDate.HasValue ? src.UpdatedDate.Value.ToLocalTime().ToString() : null))
       .ReverseMap();
 
     CreateMap<InterviewCreateUpdateCommand, Interview>()

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Hangfire;
 using Humanizer;
 using IMS.Business.Services;
@@ -10,26 +11,25 @@ using Microsoft.EntityFrameworkCore;
 namespace IMS.Business.Handlers;
 
 public class InterviewRemindCommandHandler(
-    IUnitOfWorks unitOfWorks, IEmailService emailService) : IRequestHandler<InterviewRemindCommand, bool>
+    IUnitOfWorks unitOfWork, IMapper mapper, IEmailService emailService) 
+    : BaseHandler(unitOfWork, mapper), IRequestHandler<InterviewRemindCommand, bool>
 {
-    private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
-
     private readonly IEmailService _emailService = emailService;
 
     public int UserId { get; set; }
 
     public async Task<bool> Handle(InterviewRemindCommand request, CancellationToken cancellationToken)
     {
-        var interview = await _unitOfWorks.InterviewRepository.GetQuery()
+        var interview = await _unitOfWork.InterviewRepository.GetQuery()
             .Include(interview => interview.Candidate)
             .Include(interview => interview.Job)
             .Include(interview => interview.Recruiter)
             .FirstOrDefaultAsync(interview => interview.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
-        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(9, 55);
+        var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(8);
 
-        bool reminderExisted = await _unitOfWorks.ReminderRepository.GetQuery()
+        bool reminderExisted = await _unitOfWork.ReminderRepository.GetQuery()
             .AnyAsync(reminder => reminder.Email == request.Email
                 && reminder.ScheduleAt == scheduleAt, cancellationToken);
 
@@ -70,8 +70,8 @@ public class InterviewRemindCommandHandler(
             BackgroundJobId = backgroundJobId
         };
 
-        _unitOfWorks.ReminderRepository.Add(reminder);
-        var result = await _unitOfWorks.SaveChangesAsync();
+        _unitOfWork.ReminderRepository.Add(reminder);
+        var result = await _unitOfWork.SaveChangesAsync();
 
         return result > 0;
     }

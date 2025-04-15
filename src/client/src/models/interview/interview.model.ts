@@ -17,6 +17,8 @@ export class InterviewModel {
     recruiterName?: string;
     jobId?: number;
     jobName?: string;
+    createdDate?: Date;
+    updatedDate?: Date;
 }
 
 export enum InterviewStatus {
