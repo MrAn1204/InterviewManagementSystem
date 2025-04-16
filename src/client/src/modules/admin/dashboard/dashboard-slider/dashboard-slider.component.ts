@@ -7,8 +7,9 @@ import { CandidateService } from '../../../../services/candidate/candidate.servi
 import { InterviewService } from '../../../../services/interview/interview.service';
 import { JobService } from '../../../../services/job/job.service';
 import { OfferService } from '../../../../services/offer/offer.service';
-import { CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-dashboard-slider',
@@ -16,7 +17,7 @@ imports: [CommonModule, FontAwesomeModule, RouterModule],
   templateUrl: './dashboard-slider.component.html',
   styleUrl: './dashboard-slider.component.css'
 })
-export class DashboardSliderComponent implements OnInit {  
+export class DashboardSliderComponent implements OnInit {
   public faUsers = faUsers;
   public faUserTie = faUserTie;
   public faCalendarDay = faCalendarDay;
@@ -36,7 +37,8 @@ export class DashboardSliderComponent implements OnInit {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: CandidateService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: InterviewService,
     @Inject(JOB_SERVICE) private readonly jobService: JobService,
-    @Inject(OFFER_SERVICE) private readonly offerService: OfferService
+    @Inject(OFFER_SERVICE) private readonly offerService: OfferService,
+    @Inject(AUTH_SERVICE) public readonly authService: AuthService
   ) {
     inject(UserService);
   }

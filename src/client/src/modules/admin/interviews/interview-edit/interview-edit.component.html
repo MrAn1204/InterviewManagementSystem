@@ -5,6 +5,14 @@
       <!-- Phần I: Schedule information -->
       <h2 class="text-2xl font-semibold pb-8">Schedule Information</h2>
 
+      <div *ngIf="checkCancelable()" class="py-4 flex justify-end">
+        <!-- Cancel Schedule -->
+        <button type="button" (click)="toggleModal()"
+          class=" cursor-pointer mr-4 bg-[#1976d2] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#125cb0]">
+          Cancel Schedule
+        </button>
+      </div>
+      
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Schedule Title -->
         <div>
@@ -305,6 +313,14 @@
     </form>
   </div>
 </div>
+
+<app-cancel-modal 
+  [isOpen]="isModalOpen" 
+  [action]="'cancel'" 
+  [entity]="'interview'" 
+  (onClose)="toggleModal()"
+  (onConfirm)="confirmCancel()">
+</app-cancel-modal>
 
 <ng-template #readonlyField let-info>
   <p class="bg-gray-100 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-0">

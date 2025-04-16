@@ -1,16 +1,26 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import {  User } from '../../models/User';
+import { User } from '../../models/user/user.model';
 import { environment } from '../../environments/environment.development';
 import { PaginatedResult } from '../../models/paginated-result.model';
+import { IUserService } from './user-service.interface';
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class UserService implements IUserService {
   baseUrl = environment.apiUrl;
   apiUrlList = `${this.baseUrl}users/list`;
   apiUrlCreate = `${this.baseUrl}users/create`;
-  constructor(private http: HttpClient) { }
+
+  constructor(private readonly http: HttpClient) { }
+
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}users`);
+  }
+
+  search(filter: any): Observable<PaginatedResult<User>> {
+    return this.http.post<PaginatedResult<User>>(`${this.baseUrl}users/search`, filter);
+  }
 
   getUsers(params: {
     search?: string;
@@ -24,8 +34,8 @@ export class UserService {
 
     if (params.pageNumber != null && params.pageSize != null) {
       httpParams = new HttpParams()
-        .set('PageNumber', params.pageNumber!.toString())
-        .set('PageSize', params.pageSize!.toString());
+        .set('PageNumber', params.pageNumber.toString())
+        .set('PageSize', params.pageSize.toString());
     }
 
     if (params.search) {
@@ -49,9 +59,8 @@ export class UserService {
     return this.http.get<PaginatedResult<User>>(this.apiUrlList, { params: httpParams });
   }
 
-
-  createUser(user: Partial<User>): Observable<User> {
-    return this.http.post<User>(`${this.apiUrlCreate}`, user).pipe(
+  create(user: Partial<User>): Observable<User> {
+    return this.http.post<User>(this.apiUrlCreate, user).pipe(
       catchError((error) => {
         console.error('Error creating user:', error);
         return throwError(() => error);
@@ -70,18 +79,24 @@ export class UserService {
     return this.http.get<{ usernameExists: boolean, emailExists: boolean }>(`${this.baseUrl}users/check-unique`, { params });
   }
 
-  getUserById(id: number): Observable<User> {
+  getById(id: number): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}users/${id}`);
   }
 
-  updateUser(id: number, user: Partial<User>): Observable<User> {
+  update(id: number, user: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.baseUrl}users/${id}`, user);
+  }
+
+  // Giả sử delete được triển khai, nếu cần
+  delete(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.baseUrl}users/${id}`);
   }
 
   inactiveUser(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}users/${id}/inactive`, {})
       .pipe(catchError(err => throwError(() => err)));
   }
+
   activeUser(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}users/${id}/active`, {})
       .pipe(catchError(err => throwError(() => err)));

@@ -16,9 +16,9 @@ export class ForgetPasswordComponent implements OnInit {
   public forgetPasswordForm!: FormGroup;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
-    private router: Router,
-    private toastr: ToastrService
+    @Inject('IAuthService') private readonly authService: IAuthService,
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) {}
 
   ngOnInit(): void {

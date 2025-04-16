@@ -27,6 +27,7 @@ public class ActiveUserCommandHandler : IRequestHandler<ActiveUserCommand, Unit>
 
         // Đánh dấu user là Inactive
         user.IsActive = true;
+        user.UpdatedDate = DateTime.Now;
 
         var updateResult = await _userManager.UpdateAsync(user);
         if (!updateResult.Succeeded)

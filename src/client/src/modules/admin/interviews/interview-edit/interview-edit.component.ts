@@ -16,10 +16,11 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
 import { timeRangeValidator } from '../../../../validators/time-range.validator';
 import { UserService } from '../../../../services/user/user.service';
 import { forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { CancelModalComponent } from "../../../modals/cancel-modal/cancel-modal.component";
 
 @Component({
   selector: 'app-interview-edit',
-  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, FormsModule, CancelModalComponent],
   templateUrl: './interview-edit.component.html',
   styleUrl: './interview-edit.component.css'
 })
@@ -42,6 +43,8 @@ export class InterviewEditComponent {
   public recruiterList!: UserForInputModel[];
 
   public candidateList!: CandidateModel[];
+
+  public isModalOpen = false;
 
   private roles!: string[];
 
@@ -67,7 +70,7 @@ export class InterviewEditComponent {
   private loadInitialData(): void {
     this.authService.getUserInformation().subscribe((res) => {
       console.log(res?.roles);
-      
+
       this.roles = res?.roles ?? [];
     });
 
@@ -94,7 +97,7 @@ export class InterviewEditComponent {
       }),
       switchMap(res => {
         if (!res.interviewersId?.length) return of([]);
-        return forkJoin(res.interviewersId.map(id => this.userService.getUserById(id)));
+        return forkJoin(res.interviewersId.map(id => this.userService.getById(id)));
       })
     ).subscribe(users => {
       this.selectedInterviewers = users.map(user => `${user.fullName} (${user.username})`);
@@ -127,15 +130,31 @@ export class InterviewEditComponent {
     }
 
     const data: InterviewModel = this.form.value;
+    data.status = InterviewStatus.Interviewed.toString();
 
+    this.sendUpdateRequest(data);
+  }
+
+  public toggleModal(): void {
+    this.isModalOpen = !this.isModalOpen;
+  }
+
+  public confirmCancel(): void {
+    const data: InterviewModel = this.form.value;
+    data.status = InterviewStatus.Cancelled.toString();
+
+    this.sendUpdateRequest(data, 'This interview has been cancelled');
+  }
+
+  private sendUpdateRequest(
+    data: InterviewModel,
+    successMessage: string = 'Update success'
+  ): void {
     this.interviewService.update(this.interviewId, data).subscribe({
       next: (data) => {
         if (data) {
-          console.log('Update success');
-          this.toastr.success('Update success', 'Success')
+          this.toastr.success(successMessage, 'Success')
           this.router.navigate(['/admin/interviews']);
-        } else {
-          console.log('Update failed');
         }
       },
       error: () => {
@@ -193,6 +212,12 @@ export class InterviewEditComponent {
 
   public checkEditable(): boolean {
     return this.roles.includes('ADMIN') || this.roles.includes('MANAGER') || this.roles.includes('RECRUITER');
+  }
+
+  public checkCancelable(): boolean {
+    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New]
+      || this.interview.status === InterviewStatus[InterviewStatus.Invited];
+    return this.checkEditable() && isNewOrInvited;
   }
 
   public mapTime(time: string): string {

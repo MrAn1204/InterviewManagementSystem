@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { User } from '../../../../models/User';
+import { User } from '../../../../models/user/user.model';
 import { UserService } from '../../../../services/user/user.service';
 import { DatePipe, NgIf } from '@angular/common';
 
@@ -15,9 +15,9 @@ export class UserDetailsComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private userService: UserService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private loadUserDetail(userId: number): void {
-    this.userService.getUserById(userId).subscribe({
+    this.userService.getById(userId).subscribe({
       next: (user) => {
         this.userDetail = user;
         this.isLoading = false;

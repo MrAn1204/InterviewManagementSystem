@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class DepartmentService {
 
-  private apiUrl = `${environment.apiUrl}departments`;
+  apiUrl = `${environment.apiUrl}departments`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getAllDepartments(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);

@@ -22,7 +22,7 @@ namespace IMS.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new OfferGetAllQuery());

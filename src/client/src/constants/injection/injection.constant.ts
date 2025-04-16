@@ -9,6 +9,7 @@ import { IInterviewService } from '../../services/interview/interview-service.in
 import { IBenefitService } from '../../services/benefit/benefit-service.interface';
 import { IJobService } from '../../services/job/job-service.interface';
 import { IOffService } from '../../services/offer/offer-service.interface';
+import { IUserService } from '../../services/user/user-service.interface';
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('AUTH_SERVICE');
 export const PERMISSION_SERVICE = new InjectionToken<IPermissionService>(
@@ -32,3 +33,6 @@ export const BENEFIT_SERVICE = new InjectionToken<IBenefitService>(
 export const COMMON_SERVICE = new InjectionToken<ICommonService>(
   'COMMON_SERVICE'
 );
+
+export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');
+

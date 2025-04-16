@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { InterviewModel } from '../../../../models/interview/interview.model';
-import { AUTH_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
+import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ToastrService } from 'ngx-toastr';
-import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { UserService } from '../../../../services/user/user.service';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { catchError, forkJoin, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-interview-detail',
@@ -37,18 +37,31 @@ export class InterviewDetailComponent implements OnInit {
     });
   }
 
-  public sendReminder() {
-    this.interview.interviewersId?.forEach(interviewerId => {
-      this.userService.getUserById(interviewerId).subscribe((interviewer) => {
-        this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).subscribe({
-          next: (result) => result
-            ? this.toastr.success(`Email sent successfully to user ${interviewer.username}`, 'Success')
-            : this.toastr.info(`A reminder email has already been sent to user ${interviewer.email}`, 'Info'),
-          error: () => {
-            this.toastr.error(`Failed to send email to user ${interviewer.email}`, 'Error');
-          }
-        });
-      })
-    })
+  public sendReminder(): void {
+    const reminderObservables = this.interview.interviewersId?.map(interviewerId =>
+      this.userService.getById(interviewerId).pipe(
+        switchMap(interviewer =>
+          this.interviewService.sendReminder(interviewer.email, this.id, window.location.href).pipe(
+            tap(result => result
+              ? this.toastr.success(`Email sent successfully to ${interviewer.username}`, 'Success')
+              : this.toastr.info(`A reminder email has already been sent to ${interviewer.email}`, 'Info')
+            ),
+            catchError(() => {
+              this.toastr.error(`Failed to send email to ${interviewer.email}`, 'Error');
+              return of(null);
+            })
+          )
+        )
+      )
+    ) || [];
+
+    forkJoin(reminderObservables).subscribe(() => {
+      this.interview.status = InterviewStatus.Invited.toString();
+      this.interviewService.update(this.id, this.interview).subscribe();
+    });
+  }
+
+  public checkInterviewed(): boolean {
+    return this.interview.status !== InterviewStatus[InterviewStatus.Interviewed];
   }
 }
