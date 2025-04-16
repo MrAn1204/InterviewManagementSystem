@@ -10,6 +10,8 @@ import { OfferService } from '../../../../services/offer/offer.service';
 import { AUTH_SERVICE, CANDIDATE_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { UserInformation } from '../../../../models/auth/user-information.model';
+import { delay, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-slider',
@@ -41,11 +43,13 @@ export class DashboardSliderComponent implements OnInit {
     @Inject(AUTH_SERVICE) public readonly authService: AuthService
   ) {
     inject(UserService);
+    inject(AuthService)
   }
 
   ngOnInit(): void {
     this.userService.getUsers({}).subscribe((res) => {
       this.users = res.items.length;
+
     })
     this.candidateService.getAll().subscribe((res) => {
       this.candidates = res.length;

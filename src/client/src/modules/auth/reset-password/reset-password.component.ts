@@ -20,15 +20,15 @@ export class ResetPasswordComponent implements OnInit {
   public showConfirmPassword = false;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private toastr: ToastrService // Inject ToastrService
+    @Inject('IAuthService') private readonly authService: IAuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly toastr: ToastrService // Inject ToastrService
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.token = params['token'] || '';
+      this.token = params['token'] ?? '';
     });
 
     this.createForm();
@@ -36,7 +36,7 @@ export class ResetPasswordComponent implements OnInit {
 
   private createForm(): void {
     this.resetPasswordForm = new FormGroup({
-      newPassword: new FormControl('', [Validators.required, 
+      newPassword: new FormControl('', [Validators.required,
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
       confirmNewPassword: new FormControl('', Validators.required)
     });
