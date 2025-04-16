@@ -1,46 +1,46 @@
 <!-- Dashboard Summary Buttons (Responsive Scrollable) -->
-<div class="flex flex-wrap md:flex-nowrap justify-center gap-4 p-4
-    *:flex *:border *:md:p-4 *:py-4 *:md:min-w-60 *:min-w-40
+<div class="flex flex-wrap md:flex-nowrap gap-2 md:gap-4 md:py-4 overflow-x-auto px-[calc(15%-10vh)]
+    *:flex *:border *:md:p-4 *:p-2 *:md:min-w-48 *:w-full *:overflow-hidden *:justify-center *:items-center
     *:cursor-pointer *:bg-white *:rounded-xl *:shadow-md *:hover:bg-blue-50
-    *:transition *:duration-300 *:ease-in-out overflow-x-auto">
+    *:transition *:duration-300 *:ease-in-out">
 
   <button routerLink="/admin/users" *ngIf="authService.hasRole(['ADMIN'])" class="text-blue-600 hover:text-blue-800">
-    <fa-icon [icon]="faUsers" class="text-6xl md:px-4 pl-2"></fa-icon>
-    <div class="flex flex-col w-full text-left">
+    <fa-icon [icon]="faUsers" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
+    <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{users}}</p>
-      <p class="font-semibold text-gray-600">Users</p>
+      <p class="font-semibold text-gray-600 not-md:self-center">Users</p>
     </div>
   </button>
 
   <button routerLink="/admin/candidates" class="text-green-600 hover:text-green-800">
-    <fa-icon [icon]="faUserTie" class="text-6xl md:px-4 pl-2"></fa-icon>
-    <div class="flex flex-col w-full text-left">
+    <fa-icon [icon]="faUserTie" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
+    <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{candidates}}</p>
-      <p class="font-semibold text-gray-600">Candidates</p>
+      <p class="font-semibold text-gray-600 not-md:self-center">Candidates</p>
     </div>
   </button>
 
   <button routerLink="/admin/interviews" class="text-purple-600 hover:text-purple-800">
-    <fa-icon [icon]="faCalendarDay" class="text-6xl md:px-4 pl-2"></fa-icon>
-    <div class="flex flex-col w-full text-left">
+    <fa-icon [icon]="faCalendarDay" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
+    <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{interviews}}</p>
-      <p class="font-semibold text-gray-600">Interviews</p>
+      <p class="font-semibold text-gray-600 not-md:self-center">Interviews</p>
     </div>
   </button>
 
   <button routerLink="/admin/jobs" class="text-yellow-600 hover:text-yellow-800">
-    <fa-icon [icon]="faBriefcase" class="text-6xl md:px-4 pl-2"></fa-icon>
-    <div class="flex flex-col w-full text-left">
+    <fa-icon [icon]="faBriefcase" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
+    <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{jobs}}</p>
-      <p class="font-semibold text-gray-600">Jobs</p>
+      <p class="font-semibold text-gray-600 not-md:self-center">Jobs</p>
     </div>
   </button>
 
   <button routerLink="/admin/offers" class="text-pink-600 hover:text-pink-800">
-    <fa-icon [icon]="faHandshake" class="text-6xl md:px-4 pl-2"></fa-icon>
-    <div class="flex flex-col w-full text-left">
+    <fa-icon [icon]="faHandshake" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
+    <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{offers}}</p>
-      <p class="font-semibold text-gray-600">Offers</p>
+      <p class="font-semibold text-gray-600 not-md:self-center">Offers</p>
     </div>
   </button>
 </div>
