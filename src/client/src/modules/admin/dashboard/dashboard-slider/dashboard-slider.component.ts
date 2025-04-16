@@ -57,7 +57,7 @@ export class DashboardSliderComponent implements OnInit {
       this.jobs = res.length;
     });
     this.offerService.getAll().subscribe((res) => {
-      this.offers = res.items.length;
+      this.offers = res.length;
     });
   }
 }
