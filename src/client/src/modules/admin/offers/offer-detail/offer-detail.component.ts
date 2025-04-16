@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferModel } from '../../../../models/offer/offer.model';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, OFFER_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IOffService } from '../../../../services/offer/offer-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
@@ -11,6 +11,7 @@ import { ConfirmModalComponent } from '../../../modals/confirm-modal/confirm-mod
 import { ToastrService } from 'ngx-toastr';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { InterviewModel } from '../../../../models/interview/interview.model';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-offer-detail',
@@ -33,8 +34,9 @@ export class OfferDetailComponent {
   isModalOpen: boolean = false;
 
   constructor(
-    private toastr: ToastrService,
-    @Inject(INTERVIEW_SERVICE) private interviewService: IInterviewService,
+    private readonly toastr: ToastrService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     private readonly route: ActivatedRoute,
     @Inject(OFFER_SERVICE) private readonly offerService: IOffService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
@@ -42,8 +44,9 @@ export class OfferDetailComponent {
         private readonly commonService: ICommonService,) {}
 
     ngOnInit(): void {
-      const userJson = localStorage.getItem('userInformation') || sessionStorage.getItem('userInformation');
-      this.user = userJson ? JSON.parse(userJson) : null;
+      this.authService.getUserInformation().subscribe((res) => {
+        this.user = res;
+      });
 
       // Lấy ID từ URL
       this.route.paramMap.subscribe(params => {
@@ -56,12 +59,6 @@ export class OfferDetailComponent {
           this.interviews = data;
         }
       });
-      
-      // this.commonService
-      //   .getUserForInputData(['INTERVIEWER'])
-      //   .subscribe((data) => {
-      //     this.usersInterviewer = data;
-      // });
 
       this.commonService
         .getUserForInputData(['RECRUITER'])
