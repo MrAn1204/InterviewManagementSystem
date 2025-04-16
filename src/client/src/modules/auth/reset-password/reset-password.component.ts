@@ -5,6 +5,7 @@ import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { CommonModule } from '@angular/common';
 import { ResetPasswordRequest } from '../../../models/auth/reset-password-request.model';
 import { ToastrService } from 'ngx-toastr';
+import { AUTH_SERVICE } from '../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,7 +21,7 @@ export class ResetPasswordComponent implements OnInit {
   public showConfirmPassword = false;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService // Inject ToastrService

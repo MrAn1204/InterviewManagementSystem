@@ -13,6 +13,7 @@ import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import {
+  AUTH_SERVICE,
   CANDIDATE_SERVICE,
   COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
@@ -52,7 +53,7 @@ export class CandidateDetailComponent {
     @Inject(COMMON_SERVICE)
     private readonly commonService: ICommonService,
     private readonly route: ActivatedRoute,
-    @Inject('IAuthService') public readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) public readonly authService: IAuthService,
     private readonly toastService: ToastrService,
     private readonly router: Router
   ) {}

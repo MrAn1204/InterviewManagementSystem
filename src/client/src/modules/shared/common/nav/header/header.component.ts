@@ -9,6 +9,7 @@ import { IAuthService } from '../../../../../services/auth/auth-service.interfac
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HeaderService } from '../../../../../services/header/header.service';
+import { AUTH_SERVICE } from '../../../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     public sidebarService: SidebarService,
     public headerService: HeaderService,
     private readonly renderer: Renderer2,

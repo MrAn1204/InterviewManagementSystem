@@ -28,10 +28,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideClientHydration(withEventReplay()),
     {
-      provide: 'IAuthService',
-      useClass: AuthService,
-    },
-    {
       provide: AUTH_SERVICE,
       useClass: AuthService,
     },
