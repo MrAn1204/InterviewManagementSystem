@@ -38,12 +38,10 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
 
   openExportModal() {
     this.isExportModalOpen = true;
-    console.log('Modal Open:', this.isExportModalOpen);
   }
 
   closeExportModal() {
     this.isExportModalOpen = false;
-    console.log('Modal Close:', this.isExportModalOpen);
   }
 
   constructor(
@@ -85,11 +83,9 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
 
   // Hàm lấy giá trị departmentName và status từ form
   override searchData(): void {
-    console.log('Filter:', this.filter);
     this.offerService.search(this.filter).subscribe({
       next: (response) => {
         this.data = response;
-        console.log('Kết quả tìm kiếm:', this.data.items);
       },
       error: (error) => {
         console.error('Lỗi khi tìm kiếm Offer:', error);
@@ -98,18 +94,15 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
   }
 
   public keywordChange(): void {
-    console.log(this.searchForm.value.keyword);
     this.filter.keyword = this.searchForm.value.keyword;
   }
 
   public statusChange(): void {
-    console.log(this.searchForm.value.status);
     this.filter.status = this.searchForm.value.status;
   }
 
   public departmentChange(): void {
-    console.log(this.searchForm.value.departmentName);
-    this.filter.departmentName = this.searchForm.value.status;
+    this.filter.departmentName = this.searchForm.value.departmentName;
   }
 
   public edit(id: number): void {

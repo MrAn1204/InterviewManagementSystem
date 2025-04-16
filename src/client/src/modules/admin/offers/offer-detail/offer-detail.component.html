@@ -32,13 +32,13 @@
       <!-- Declined -->
       <button *ngIf="canShowButton('Declined')" type="button"
         (click)="changeStatusOffer('Declined offer')" (click)="changeStatusCandidate('DeclinedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Declined
       </button>
       <!-- Accept -->
       <button *ngIf="canShowButton('Accept')" type="button"
         (click)="changeStatusOffer('Accepted offer')" (click)="changeStatusCandidate('AcceptedOffer')" routerLink="/admin/offers"
-        class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
+        class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">
         Accept
       </button>
       <!-- Approve -->
@@ -54,7 +54,7 @@
       </button>
       <!-- Mark as sent to candidate -->
       <button *ngIf="canShowButton('Mark as sent to candidate')" type="button"
-        (click)="changeStatusOffer('Waiting for Response')" (click)="changeStatusCandidate('Waiting for Response')" routerLink="/admin/offers"
+        (click)="changeStatusOffer('Waiting for Response')" (click)="changeStatusCandidate('WaitingForResponse')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Mark as sent to candidate
       </button>
@@ -130,7 +130,7 @@
         <label for="recruiter" class="block text-lg font-semibold mb-1">
           Recruiter Owner
         </label>
-        <p class="rounded-md">{{recruiter}}</p>
+        <p class="rounded-md">{{offer.approver}}</p>
       </div>
 
       <!-- Due Date (as paragraph) -->
