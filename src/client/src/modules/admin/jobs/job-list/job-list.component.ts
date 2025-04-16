@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { HeaderService } from '../../../../services/header/header.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AUTH_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
@@ -14,7 +13,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrService } from 'ngx-toastr';
 import { JobImportResult } from '../../../../models/job/job-import-result.model';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
-import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-job-list',
@@ -50,7 +48,6 @@ export class JobListComponent
 
 
   constructor(
-    private readonly headerService: HeaderService,
     @Inject(AUTH_SERVICE) public readonly authService: IAuthService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     private readonly toastr: ToastrService,
@@ -61,7 +58,6 @@ export class JobListComponent
 
   public override ngOnInit(): void {
     this.createForm();
-    this.headerService.setTitle('Job');
     this.authService.getUserInformation().subscribe((user) => {
       this.createdBy = user?.id ? Number(user.id) : 1;
     });
@@ -176,11 +172,11 @@ export class JobListComponent
   }
 
   public keywordChange(): void {
-    this.filter.keyword = this.searchForm.get('keyword')?.value || '';
+    this.filter.keyword = this.searchForm.get('keyword')?.value ?? '';
   }
 
   public statusChange(): void {
-    this.filter.status = this.searchForm.get('status')?.value || '';
+    this.filter.status = this.searchForm.get('status')?.value ?? '';
   }
 
   public delete(id: number): void {
