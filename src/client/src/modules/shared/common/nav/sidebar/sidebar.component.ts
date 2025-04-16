@@ -9,12 +9,12 @@ import {
   faAngleDoubleRight
 } from '@fortawesome/free-solid-svg-icons';
 import { SidebarService } from '../../../../../services/sidebar/sidebar.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, FontAwesomeModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
