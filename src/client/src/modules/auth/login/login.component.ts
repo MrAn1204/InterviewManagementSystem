@@ -9,6 +9,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { AUTH_SERVICE } from '../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   public form!: FormGroup;
 
   constructor(
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly router: Router,
     private readonly toastr: ToastrService,
     private readonly cdr: ChangeDetectorRef

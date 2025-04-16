@@ -3,7 +3,7 @@ import { OfferModel } from "../../models/offer/offer.model";
 import { PaginatedResult } from "../../models/candidate/paginated-result.model";
 
 export interface IOffService {
-  getAll(): Observable<PaginatedResult<OfferModel>>;
+  getAll(): Observable<OfferModel[]>;
 
   search(filter: any): Observable<PaginatedResult<OfferModel>>;
 

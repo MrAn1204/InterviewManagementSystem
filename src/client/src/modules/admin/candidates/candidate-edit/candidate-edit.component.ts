@@ -13,6 +13,7 @@ import { UserForInputModel } from '../../../../models/data-for-input/user-for-in
 import { CandidateStatusModel } from '../../../../models/candidate/candidate-status.model';
 import { CommonModule } from '@angular/common';
 import {
+  AUTH_SERVICE,
   CANDIDATE_SERVICE,
   COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
@@ -43,7 +44,7 @@ export class CandidateEditComponent {
     @Inject(COMMON_SERVICE)
     private readonly commonService: ICommonService,
     private readonly route: ActivatedRoute,
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly toastService: ToastrService,
     private readonly router: Router
   ) {}

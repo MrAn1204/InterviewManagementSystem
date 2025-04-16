@@ -3,7 +3,7 @@ import { Component, HostListener, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
@@ -49,7 +49,7 @@ export class InterviewEditComponent {
   private roles!: string[];
 
   constructor(
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
