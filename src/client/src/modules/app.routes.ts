@@ -57,7 +57,8 @@ export const routes: Routes = [
         path: 'dashboard',
         children: [
           { path: '', component: DashboardComponent },
-        ]
+        ],
+        data: { title: 'Homepage' }
       },
       {
         path: 'users',
@@ -67,7 +68,8 @@ export const routes: Routes = [
           { path: ':id/edit', component: UserEditComponent },
           { path: ':id/detail', component: UserDetailsComponent },
           { path: ':id/toggle-status', component: UserInactiveComponent },
-        ]
+        ],
+        data: { title: 'User' }
       },
       {
         path: 'candidates',
@@ -76,7 +78,8 @@ export const routes: Routes = [
           { path: 'create', component: CandidateCreateComponent },
           { path: ':id/edit', component: CandidateEditComponent },
           { path: ':id/detail', component: CandidateDetailComponent }
-        ]
+        ],
+        data: { title: 'Candidate' }
       },
       {
         path: 'jobs',
@@ -85,7 +88,8 @@ export const routes: Routes = [
           { path: 'create', component: JobCreateComponent},
           { path: ':id/edit', component: JobEditComponent},
           { path: ':id/detail', component: JobDetailComponent}
-        ]
+        ],
+        data: { title: 'Job' }
       },
       {
         path: 'interviews',
@@ -94,7 +98,8 @@ export const routes: Routes = [
           { path: 'create', component: InterviewCreateComponent },
           { path: ':id/edit', component: InterviewEditComponent },
           { path: ':id/detail', component: InterviewDetailComponent }
-        ]
+        ],
+        data: { title: 'Interview' }
       },
       {
         path: 'offers',
@@ -103,7 +108,8 @@ export const routes: Routes = [
           { path: 'create', component: OfferCreateComponent },
           { path: ':id/edit', component: OfferCreateComponent },
           { path: ':id/detail', component: OfferDetailComponent }
-        ]
+        ],
+        data: { title: 'Offer' }
       }
     ]
   },
