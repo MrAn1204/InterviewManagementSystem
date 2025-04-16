@@ -40,7 +40,7 @@ export class UserListComponent extends MasterDataListComponent<User> implements 
   ];
 
   override ngOnInit(): void {
-    this.headerService.setTitle('User Management');
+    this.headerService.setTitle('User');
     this.loadDepartments();
     super.ngOnInit();
   }

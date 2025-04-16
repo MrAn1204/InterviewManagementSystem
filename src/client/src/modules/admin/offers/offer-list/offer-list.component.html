@@ -1,20 +1,19 @@
 <div class="py-4 bg-gray-100">
   <div class=" mx-auto bg-white p-8 rounded shadow-md">
-    <h2 class="text-2xl font-bold mb-6 text-gray-900">Offer List</h2>
 
     <div [formGroup]="searchForm" class="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-      <div class="relative w-full md:w-1/3">
+      <div class="relative w-full md:w-1/2">
         <input formControlName="keyword" type="text" placeholder="Search" (change)="keywordChange()"
           class="border border-gray-300 p-3 rounded w-full pr-10 focus:outline-none focus:border-[#1976d2]">
         <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
       </div>
-      <select formControlName="departmentName" (change)="departmentChange()" class="border border-gray-300 p-3 rounded w-full md:w-1/3 focus:outline-none focus:border-[#1976d2]">
+      <select formControlName="departmentName" (change)="departmentChange()" class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
         <option value="" selected>Department</option>
         <option *ngFor="let department of departments" [value]="department.departmentName">
           {{ department.departmentName }}
         </option>
       </select>
-      <select formControlName="status" (change)="statusChange()" class="border border-gray-300 p-3 rounded w-full md:w-1/3 focus:outline-none focus:border-[#1976d2]">
+      <select formControlName="status" (change)="statusChange()" class="border border-gray-300 p-3 rounded w-full md:w-1/4 focus:outline-none focus:border-[#1976d2]">
         <option value="" selected>Status</option>
         <option *ngFor="let status of statusList" [value]="status.name">
           {{ status.name }}
@@ -47,13 +46,5 @@
       [isOpen]="isExportModalOpen"
       (closeModal)="closeExportModal()">
     </app-export-offer-modal>
-
-    <!-- <div class="flex justify-end items-center mt-6 gap-4">
-      <span class="text-gray-700 text-sm">10/60 rows</span>
-      <div class="flex gap-2">
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer">&lt;</button>
-        <button class="px-2 py-1 text-gray-700 rounded border border-gray-300 hover:bg-blue-500 cursor-pointer">&gt;</button>
-      </div>
-    </div> -->
   </div>
 </div>

@@ -8,6 +8,7 @@ import { SidebarComponent } from '../common/nav/sidebar/sidebar.component';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import { filter } from 'rxjs';
 import { BreadcrumbService } from '../../../services/breadcrumb/breadcrumb.service';
+import { HeaderService } from '../../../services/header/header.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -21,18 +22,19 @@ export class AdminLayoutComponent implements OnInit {
   constructor(
     public sidebarService: SidebarService,
     private readonly router: Router,
-    private readonly breadcrumbService: BreadcrumbService
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly headerService: HeaderService
   ) { }
   ngOnInit(): void {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      // Đảm bảo breadcrumbs được cập nhật sau khi Angular hoàn tất điều hướng
       setTimeout(() => this.breadcrumbService.refresh(), 0);
+      setTimeout(() => this.headerService.refresh(), 0);    
     });
 
-    // Khởi tạo breadcrumbs ngay lập tức
     setTimeout(() => this.breadcrumbService.refresh(), 0);
+    setTimeout(() => this.headerService.refresh(), 0);
   }
 
   public isDashboardRoute(): boolean {

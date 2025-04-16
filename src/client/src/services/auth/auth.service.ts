@@ -6,8 +6,7 @@ import { UserInformation } from '../../models/auth/user-information.model';
 import { HttpClient } from '@angular/common/http';
 import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request.model';
 import { ResetPasswordRequest } from '../../models/auth/reset-password-request.model';
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class AuthService implements IAuthService {
   private readonly apiUrl: string = 'http://localhost:5113/api/auth';
 
-  private _isAuthenticated: BehaviorSubject<boolean> =
+  private readonly _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
   private readonly _isAuthenticated$: Observable<boolean> =
@@ -24,10 +23,10 @@ export class AuthService implements IAuthService {
   private readonly _userInformation: BehaviorSubject<UserInformation | null> =
     new BehaviorSubject<UserInformation | null>(null);
 
-  private _userInformation$: Observable<UserInformation | null> =
+  private readonly _userInformation$: Observable<UserInformation | null> =
     this._userInformation.asObservable();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     const lsToken = localStorage.getItem('accessToken');
     const ssToken = sessionStorage.getItem('accessToken');
 
@@ -87,6 +86,7 @@ export class AuthService implements IAuthService {
   }
 
 logout(): void {
+  window.location.reload();
   this.httpClient.post<boolean>(`${this.apiUrl}/logout`, { refreshToken: this.getRefreshToken() });
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
@@ -96,10 +96,11 @@ logout(): void {
   sessionStorage.removeItem('userInformation');
   this._isAuthenticated.next(false);
   this._userInformation.next(null);
-  window.location.reload();
+
 }
 
 public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginResponse> {
+
   return this.httpClient
     .post<LoginResponse>(`${this.apiUrl}/login`, loginRequest)
     .pipe(
@@ -119,6 +120,7 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
         this._userInformation.next(response.userInfo);
       })
     );
+
 }
 
 
@@ -155,4 +157,6 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
     const roles = this.getUserRoles();
     return allowedRoles.some(role => roles.includes(role));
   }
+
+
 }

@@ -29,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.token = params['token'] || '';
+      this.token = params['token'] ?? '';
     });
 
     this.createForm();
@@ -37,7 +37,7 @@ export class ResetPasswordComponent implements OnInit {
 
   private createForm(): void {
     this.resetPasswordForm = new FormGroup({
-      newPassword: new FormControl('', [Validators.required, 
+      newPassword: new FormControl('', [Validators.required,
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
       confirmNewPassword: new FormControl('', Validators.required)
     });
