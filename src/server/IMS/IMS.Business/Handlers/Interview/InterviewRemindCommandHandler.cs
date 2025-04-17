@@ -4,6 +4,7 @@ using Humanizer;
 using IMS.Business.Services;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,13 @@ using Microsoft.EntityFrameworkCore;
 namespace IMS.Business.Handlers;
 
 public class InterviewRemindCommandHandler(
-    IUnitOfWorks unitOfWork, IMapper mapper, IEmailService emailService) 
+    IUnitOfWorks unitOfWork, IMapper mapper, 
+    IEmailService emailService, IHangfireBackgroundService backgroundService) 
     : BaseHandler(unitOfWork, mapper), IRequestHandler<InterviewRemindCommand, bool>
 {
     private readonly IEmailService _emailService = emailService;
+
+    private readonly IHangfireBackgroundService _backgroundService = backgroundService;
 
     public int UserId { get; set; }
 
@@ -27,11 +31,16 @@ public class InterviewRemindCommandHandler(
             .FirstOrDefaultAsync(interview => interview.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
+        if (interview.Status == InterviewStatus.Invited || interview.Status == InterviewStatus.Interviewed)
+        {
+            return false;
+        }
+
         var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(8);
 
         bool reminderExisted = await _unitOfWork.ReminderRepository.GetQuery()
-            .AnyAsync(reminder => reminder.Email == request.Email
-                && reminder.ScheduleAt == scheduleAt, cancellationToken);
+            .AnyAsync(reminder => reminder.InterviewId == request.InterviewId && reminder.Email == request.Email
+                && reminder.ScheduleAt == scheduleAt && !reminder.IsDelete, cancellationToken);
 
         if (reminderExisted)
         {
@@ -58,7 +67,7 @@ public class InterviewRemindCommandHandler(
             </body>
             </html>";
 
-        string backgroundJobId = BackgroundJob.Schedule(
+        string backgroundJobId = _backgroundService.ScheduleBackgroundJob(
             () => _emailService.SendEmailAsync(request.Email, subject, message),
             scheduleAt);
 
@@ -67,7 +76,8 @@ public class InterviewRemindCommandHandler(
             Email = request.Email,
             Title = interview.Title,
             ScheduleAt = scheduleAt,
-            BackgroundJobId = backgroundJobId
+            BackgroundJobId = backgroundJobId,
+            InterviewId = interview.Id
         };
 
         _unitOfWork.ReminderRepository.Add(reminder);
