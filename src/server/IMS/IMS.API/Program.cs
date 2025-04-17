@@ -76,7 +76,8 @@ builder.Services.AddScoped<IUnitOfWorks, UnitOfWorks>();
 builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped(typeof(IEmailService), typeof(EmailService));
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IHangfireBackgroundService, HangfireBackgroundService>();
 builder.Services.AddSingleton<IHostedService, OfferReminderBackgroundService>();
 builder.Services.AddHttpContextAccessor();
 

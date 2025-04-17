@@ -11,10 +11,13 @@ using Microsoft.EntityFrameworkCore;
 namespace IMS.Business.Handlers;
 
 public class InterviewRemindCommandHandler(
-    IUnitOfWorks unitOfWork, IMapper mapper, IEmailService emailService) 
+    IUnitOfWorks unitOfWork, IMapper mapper, 
+    IEmailService emailService, IHangfireBackgroundService backgroundService) 
     : BaseHandler(unitOfWork, mapper), IRequestHandler<InterviewRemindCommand, bool>
 {
     private readonly IEmailService _emailService = emailService;
+
+    private readonly IHangfireBackgroundService _backgroundService = backgroundService;
 
     public int UserId { get; set; }
 
@@ -58,7 +61,7 @@ public class InterviewRemindCommandHandler(
             </body>
             </html>";
 
-        string backgroundJobId = BackgroundJob.Schedule(
+        string backgroundJobId = _backgroundService.ScheduleBackgroundJob(
             () => _emailService.SendEmailAsync(request.Email, subject, message),
             scheduleAt);
 
