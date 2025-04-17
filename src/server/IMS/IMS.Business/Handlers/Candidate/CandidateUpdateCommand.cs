@@ -43,11 +43,6 @@ public class CandidateUpdateCommand : IRequest<bool>
     [MaxLength(100, ErrorMessage = "Position cannot exceed 100 characters.")]
     public required string Position { get; set; }
 
-    [Required(ErrorMessage = "Status is required.")]
-    [MinLength(1, ErrorMessage = "Status cannot be empty.")]
-    [MaxLength(50, ErrorMessage = "Status cannot exceed 50 characters.")]
-    public required string Status { get; set; }
-
     [Required(ErrorMessage = "At least one skill is required.")]
     [MinLength(1, ErrorMessage = "At least one skill must be selected.")]
     public List<int> Skills { get; set; } = [];
