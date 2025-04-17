@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { AUTH_SERVICE } from '../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-forget-password',
@@ -16,9 +17,9 @@ export class ForgetPasswordComponent implements OnInit {
   public forgetPasswordForm!: FormGroup;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
-    private router: Router,
-    private toastr: ToastrService
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) {}
 
   ngOnInit(): void {

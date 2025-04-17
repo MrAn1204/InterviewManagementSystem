@@ -26,20 +26,17 @@ import { InterviewEditComponent } from './admin/interviews/interview-edit/interv
 import { InterviewDetailComponent } from './admin/interviews/interview-detail/interview-detail.component';
 import { OfferListComponent } from './admin/offers/offer-list/offer-list.component';
 import { OfferCreateComponent } from './admin/offers/offer-create/offer-create.component';
-import { OfferEditComponent } from './admin/offers/offer-edit/offer-edit.component';
 import { OfferDetailComponent } from './admin/offers/offer-detail/offer-detail.component';
 import { SimpleLayoutComponent } from './shared/common/simple-layout/simple-layout.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UserInactiveComponent } from './modals/user-inactive/user-inactive.component';
 import { NotFoundComponent } from '../errors/not-found/not-found.component';
 import { AccessDeniedComponent } from '../errors/access-denied/access-denied.component';
-import { roleGuard } from '../guards/role.guard';
+import { ServerErrorComponent } from '../errors/server-error/server-error.component';
 
 export const routes: Routes = [
-  // Redirect root '' về 'login' (không dùng dấu /)
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // Các route không cần layout admin: login, forget-password, reset-password
   {
     path: '',
     component: SimpleLayoutComponent,
@@ -55,11 +52,13 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         children: [
           { path: '', component: DashboardComponent },
-        ]
+        ],
+        data: { title: 'Homepage' }
       },
       {
         path: 'users',
@@ -69,7 +68,8 @@ export const routes: Routes = [
           { path: ':id/edit', component: UserEditComponent },
           { path: ':id/detail', component: UserDetailsComponent },
           { path: ':id/toggle-status', component: UserInactiveComponent },
-        ]
+        ],
+        data: { title: 'User' }
       },
       {
         path: 'candidates',
@@ -78,7 +78,8 @@ export const routes: Routes = [
           { path: 'create', component: CandidateCreateComponent },
           { path: ':id/edit', component: CandidateEditComponent },
           { path: ':id/detail', component: CandidateDetailComponent }
-        ]
+        ],
+        data: { title: 'Candidate' }
       },
       {
         path: 'jobs',
@@ -87,7 +88,8 @@ export const routes: Routes = [
           { path: 'create', component: JobCreateComponent},
           { path: ':id/edit', component: JobEditComponent},
           { path: ':id/detail', component: JobDetailComponent}
-        ]
+        ],
+        data: { title: 'Job' }
       },
       {
         path: 'interviews',
@@ -96,7 +98,8 @@ export const routes: Routes = [
           { path: 'create', component: InterviewCreateComponent },
           { path: ':id/edit', component: InterviewEditComponent },
           { path: ':id/detail', component: InterviewDetailComponent }
-        ]
+        ],
+        data: { title: 'Interview' }
       },
       {
         path: 'offers',
@@ -105,17 +108,16 @@ export const routes: Routes = [
           { path: 'create', component: OfferCreateComponent },
           { path: ':id/edit', component: OfferCreateComponent },
           { path: ':id/detail', component: OfferDetailComponent }
-        ]
-      },
-      {
-        path: '**', redirectTo: 'dashboard', pathMatch: 'full'
+        ],
+        data: { title: 'Offer' }
       }
     ]
   },
 
   { path: 'not-found', component: NotFoundComponent },
-
-  { path: 'access-denied', component: AccessDeniedComponent }
+  { path: 'access-denied', component: AccessDeniedComponent },
+  { path: 'server-error', component: ServerErrorComponent },
+  { path: '**', redirectTo: 'not-found' }
 ];
 
 @NgModule({

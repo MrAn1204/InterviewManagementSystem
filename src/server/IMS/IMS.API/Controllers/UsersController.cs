@@ -10,7 +10,7 @@ namespace IMS.API.Controllers;
 /// </summary>
 [Route("api/users")]
 [ApiController]
-[Authorize(Roles = "ADMIN")]
+
 public class UsersController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
@@ -21,6 +21,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost("create")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> CreateUser([FromBody] CreateMockUserCommand request)
     {
         if (!ModelState.IsValid)
@@ -44,7 +45,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpGet("list")]
-    [Authorize(Roles = "ADMIN")]
+    [Authorize]
     public async Task<IActionResult> GetUserList([FromQuery] GetUserListQuery query)
     {
         var result = await _mediator.Send(query);
@@ -58,6 +59,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserCommand command)
     {
         try
@@ -82,6 +84,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetUserById(int id)
     {
         try

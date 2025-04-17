@@ -1,67 +1,80 @@
 import { IAuthService } from './../../../services/auth/auth-service.interface';
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AUTH_SERVICE } from '../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   public form!: FormGroup;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
-    private router: Router,
-    private toastr: ToastrService
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router,
+    private readonly toastr: ToastrService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.createForm();
   }
 
-  public createForm() {
-  this.form = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
-    rememberMe: new FormControl(false)
-  });
-}
-
-
-  public onSubmit(): void {
-  if (this.form.invalid) {
-    this.toastr.warning('Please fill in all required fields!', 'Warning');
-    return;
+  public createForm(): void {
+    this.form = new FormGroup({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(255)
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20)
+      ]),
+      rememberMe: new FormControl(false)
+    });
   }
 
-  const loginRequest = {
-    username: this.form.value.username,
-    password: this.form.value.password
-  };
+  public onSubmit(): void {
+    if (this.form.invalid) {
+      this.toastr.warning('Please fill in all required fields!', 'Warning');
+      return;
+    }
 
-  const rememberMe = this.form.value.rememberMe;
+    const loginRequest = {
+      username: this.form.value.username,
+      password: this.form.value.password
+    };
 
-  this.authService.login(loginRequest, rememberMe).subscribe({
-    next: (response) => {
-      this.toastr.success('Login successful!', 'Success');
-      this.router.navigate(['/admin']);
-    },
-    error: (err) => {
-      console.error('Login Error:', err);
-      this.toastr.error('Invalid username or password!', 'Error');
-    },
-  });
-}
+    const rememberMe: boolean = this.form.value.rememberMe;
 
+    // Gọi hàm login từ AuthService, hàm login sẽ tự lưu token và cập nhật _userInformation
+    this.authService.login(loginRequest, rememberMe).subscribe({
+      next: (response) => {
+        this.toastr.success('Login successful!', 'Success');
+        this.router.navigate(['/admin/dashboard']);
+        this.cdr.detectChanges();
+
+      },
+      error: (err) => {
+        console.error('Login Error:', err);
+        this.toastr.error('Invalid username or password!', 'Error');
+      },
+    });
+
+
+  }
 }

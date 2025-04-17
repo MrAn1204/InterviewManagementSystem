@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from '../interceptors/loading.interceptor';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, LEVEL_SERVICE, OFFER_SERVICE, SKILL_SERVICE } from '../constants/injection/injection.constant';
+import { CANDIDATE_SERVICE, COMMON_SERVICE, LEVEL_SERVICE, OFFER_SERVICE, SKILL_SERVICE, USER_SERVICE } from '../constants/injection/injection.constant';
 import { BENEFIT_SERVICE, JOB_SERVICE, AUTH_SERVICE, INTERVIEW_SERVICE, PERMISSION_SERVICE } from '../constants/injection/injection.constant';
 import { CandidateService } from '../services/candidate/candidate.service';
 import { SkillService } from '../services/skill/skill.service';
@@ -21,14 +21,12 @@ import { authInterceptor } from '../interceptors/auth.interceptor';
 import { PermissionService } from '../services/permission/permission.service';
 import { BenefitService } from '../services/benefit/benefit.service';
 import { JobService } from '../services/job/job.service';
+import { errorInterceptor } from '../interceptors/error.interceptor';
+import { UserService } from '../services/user/user.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideClientHydration(withEventReplay()),
-    {
-      provide: 'IAuthService',
-      useClass: AuthService,
-    },
     {
       provide: AUTH_SERVICE,
       useClass: AuthService,
@@ -69,9 +67,13 @@ export const appConfig: ApplicationConfig = {
       provide: PERMISSION_SERVICE,
       useClass: PermissionService
     },
+    {
+      provide: USER_SERVICE,
+      useClass: UserService
+    },
     provideHttpClient(
       withFetch(),
-      withInterceptors([loadingInterceptor, authInterceptor]),
+      withInterceptors([loadingInterceptor, authInterceptor,errorInterceptor]),
     ),
     provideAnimations(),
     provideToastr(),

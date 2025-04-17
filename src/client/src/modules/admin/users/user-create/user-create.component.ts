@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DepartmentService } from '../../../../services/department/department.service';
-import { Department } from '../../../../models/Department';
+import { Department } from '../../../../models/data-for-input/department.model';
 import { uniqueUsernameValidator } from '../../../../validators/unique-username.validator';
 import { uniqueEmailValidator } from '../../../../validators/unique-email.validator';
 
@@ -69,7 +69,7 @@ export class UserCreateComponent implements OnInit{
 
     userData.isActive = userData.isActive === 'active' ? true : false;
 
-    this.userService.createUser(userData).subscribe({
+    this.userService.create(userData).subscribe({
       next: (response) => {
         this.toastr.success('User created successfully!', 'Success');
         this.router.navigate(['/admin/users']);

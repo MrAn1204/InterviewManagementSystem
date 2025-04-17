@@ -3,7 +3,7 @@ import { Component, HostListener, inject, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CandidateModel } from '../../../../models/candidate/candidate.model';
-import { CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
+import { AUTH_SERVICE, CANDIDATE_SERVICE, COMMON_SERVICE, INTERVIEW_SERVICE, JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ICandidateService } from '../../../../services/candidate/candidate-service.interface';
 import { InterviewModel, InterviewResult, InterviewStatus } from '../../../../models/interview/interview.model';
@@ -49,7 +49,7 @@ export class InterviewEditComponent {
   private roles!: string[];
 
   constructor(
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
@@ -70,7 +70,7 @@ export class InterviewEditComponent {
   private loadInitialData(): void {
     this.authService.getUserInformation().subscribe((res) => {
       console.log(res?.roles);
-      
+
       this.roles = res?.roles ?? [];
     });
 
@@ -97,7 +97,7 @@ export class InterviewEditComponent {
       }),
       switchMap(res => {
         if (!res.interviewersId?.length) return of([]);
-        return forkJoin(res.interviewersId.map(id => this.userService.getUserById(id)));
+        return forkJoin(res.interviewersId.map(id => this.userService.getById(id)));
       })
     ).subscribe(users => {
       this.selectedInterviewers = users.map(user => `${user.fullName} (${user.username})`);
@@ -147,7 +147,7 @@ export class InterviewEditComponent {
   }
 
   private sendUpdateRequest(
-    data: InterviewModel, 
+    data: InterviewModel,
     successMessage: string = 'Update success'
   ): void {
     this.interviewService.update(this.interviewId, data).subscribe({
@@ -215,7 +215,7 @@ export class InterviewEditComponent {
   }
 
   public checkCancelable(): boolean {
-    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New] 
+    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New]
       || this.interview.status === InterviewStatus[InterviewStatus.Invited];
     return this.checkEditable() && isNewOrInvited;
   }

@@ -5,6 +5,7 @@ import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { CommonModule } from '@angular/common';
 import { ResetPasswordRequest } from '../../../models/auth/reset-password-request.model';
 import { ToastrService } from 'ngx-toastr';
+import { AUTH_SERVICE } from '../../../constants/injection/injection.constant';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,7 +21,7 @@ export class ResetPasswordComponent implements OnInit {
   public showConfirmPassword = false;
 
   constructor(
-    @Inject('IAuthService') private authService: IAuthService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService // Inject ToastrService
@@ -28,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.token = params['token'] || '';
+      this.token = params['token'] ?? '';
     });
 
     this.createForm();
@@ -36,7 +37,7 @@ export class ResetPasswordComponent implements OnInit {
 
   private createForm(): void {
     this.resetPasswordForm = new FormGroup({
-      newPassword: new FormControl('', [Validators.required, 
+      newPassword: new FormControl('', [Validators.required,
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
       confirmNewPassword: new FormControl('', Validators.required)
     });

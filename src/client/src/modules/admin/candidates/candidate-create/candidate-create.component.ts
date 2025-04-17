@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import {
+  AUTH_SERVICE,
   CANDIDATE_SERVICE,
   COMMON_SERVICE,
 } from '../../../../constants/injection/injection.constant';
@@ -40,7 +41,7 @@ export class CandidateCreateComponent implements OnInit {
     private readonly candidateService: ICandidateService,
     @Inject(COMMON_SERVICE)
     private readonly commonService: ICommonService,
-    @Inject('IAuthService') private readonly authService: IAuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly toastService: ToastrService,
     private readonly route: Router
   ) {}
