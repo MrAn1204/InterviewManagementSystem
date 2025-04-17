@@ -152,11 +152,14 @@ public class InterviewCreateUpdateCommandHandler(
         if (updatedInterview.Status == InterviewStatus.Cancelled)
         {
             var emails = updatedInterview.Interviewers!.Select(interviewer => interviewer.Email);
-            var reminders = _unitOfWork.ReminderRepository.GetQuery().Where(reminder => emails.Contains(reminder.Email));
+            var reminders = _unitOfWork.ReminderRepository.GetQuery()
+                .Where(reminder => emails.Contains(reminder.Email) && reminder.InterviewId == request.Id);
 
             foreach (var reminder in reminders)
             {
+                reminder.IsDelete = true;
                 _backgroundService.DeleteBackgroundJob(reminder.BackgroundJobId);
+                _unitOfWork.ReminderRepository.Update(reminder);
             }
         }
 

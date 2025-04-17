@@ -9,4 +9,6 @@ public class Reminder : BaseEntity
     public required string BackgroundJobId { get; set; }
     
     public required string Title { get; set; }
+
+    public required int InterviewId { get; set; }
 }

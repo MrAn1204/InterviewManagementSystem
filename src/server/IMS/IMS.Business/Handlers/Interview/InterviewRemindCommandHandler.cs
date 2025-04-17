@@ -4,6 +4,7 @@ using Humanizer;
 using IMS.Business.Services;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain;
 using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,16 @@ public class InterviewRemindCommandHandler(
             .FirstOrDefaultAsync(interview => interview.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException("Interview not found");
 
+        if (interview.Status == InterviewStatus.Invited || interview.Status == InterviewStatus.Interviewed)
+        {
+            return false;
+        }
+
         var scheduleAt = interview.InterviewDate.ToDateTime(interview.StartTime).AddDays(-1).At(8);
 
         bool reminderExisted = await _unitOfWork.ReminderRepository.GetQuery()
-            .AnyAsync(reminder => reminder.Email == request.Email
-                && reminder.ScheduleAt == scheduleAt, cancellationToken);
+            .AnyAsync(reminder => reminder.InterviewId == request.InterviewId && reminder.Email == request.Email
+                && reminder.ScheduleAt == scheduleAt && !reminder.IsDelete, cancellationToken);
 
         if (reminderExisted)
         {
@@ -70,7 +76,8 @@ public class InterviewRemindCommandHandler(
             Email = request.Email,
             Title = interview.Title,
             ScheduleAt = scheduleAt,
-            BackgroundJobId = backgroundJobId
+            BackgroundJobId = backgroundJobId,
+            InterviewId = interview.Id
         };
 
         _unitOfWork.ReminderRepository.Add(reminder);
