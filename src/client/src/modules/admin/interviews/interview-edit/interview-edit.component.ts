@@ -94,14 +94,9 @@ export class InterviewEditComponent {
         this.selectedInterviewersId = [...res.interviewersId ?? []];
         this.createForm(res);
         this.form.patchValue({ interviewersId: this.selectedInterviewersId });
-      }),
-      switchMap(res => {
-        if (!res.interviewersId?.length) return of([]);
-        return forkJoin(res.interviewersId.map(id => this.userService.getById(id)));
+        this.selectedInterviewers = this.mapInterviewerNames();
       })
-    ).subscribe(users => {
-      this.selectedInterviewers = users.map(user => `${user.fullName} (${user.username})`);
-    });
+    ).subscribe();
   }
 
   public createForm(interview: InterviewModel) {
@@ -225,9 +220,9 @@ export class InterviewEditComponent {
     return `${hours}:${minutes} ${Number(hours) >= 12 ? 'PM' : 'AM'}`;
   }
 
-  public mapInterviewerNames(): string {
+  public mapInterviewerNames(): string[] {
     const interviewers = this.interviewerList.filter(i => this.interview.interviewersId!.includes(i.id));
-    return interviewers.map(interviewer => `${interviewer.fullName} (${interviewer.userName})`).join(', ');
+    return interviewers.map(interviewer => `${interviewer.fullName} (${interviewer.userName})`);
   }
 
   public mapRecruiterNames(): string {

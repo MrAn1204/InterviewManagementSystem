@@ -43,7 +43,6 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// <returns>A list of all interviews.</returns>
     [HttpGet()]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var result = await _mediator.Send(new InterviewGetAllQuery());
@@ -56,7 +55,6 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// <param name="id">The ID of the job to retrieve.</param>
     /// <returns>The job details if found, otherwise a 404 error.</returns>
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new InterviewGetByIdQuery { Id = id });
@@ -100,7 +98,6 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// <param name="request">The interview update request containing updated details.</param>
     /// <returns>The updated interview details if successful, otherwise a 404 or 400 error.</returns>
     [HttpPut("{id}")]
-    [Authorize(Roles = "ADMIN, MANAGER, RECRUITER")]
     public async Task<IActionResult> Update(int id, InterviewCreateUpdateCommand request)
     {
         request.Id = id;
@@ -115,7 +112,6 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// <param name="request">The interview reminder command containing the email, interview ID, and interview link.</param>
     /// <returns>A boolean indicating whether the reminder email has been sent successfully.</returns>
     [HttpPost("send-reminder")]
-    [Authorize(Roles = "INTERVIEWER")]
     public async Task<IActionResult> SendReminder([FromBody] InterviewRemindCommand request)
     {
         var result = await _mediator.Send(request);
