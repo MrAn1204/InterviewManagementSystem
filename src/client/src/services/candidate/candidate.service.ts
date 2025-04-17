@@ -64,7 +64,12 @@ export class CandidateService implements ICandidateService {
     formData.append('id', id);
     formData.append('oldFilePath', oldFilePath);
     Object.keys(candidate).forEach((key) => {
-      if (key !== 'cvAttachment' && key !== 'skills' && key !== 'gender') {
+      if (
+        key !== 'cvAttachment' &&
+        key !== 'skills' &&
+        key !== 'gender' &&
+        key !== 'status'
+      ) {
         formData.append(key, candidate[key as keyof typeof candidate]);
       }
     });

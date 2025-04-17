@@ -62,11 +62,9 @@ export class CandidateEditComponent {
       .subscribe((data) => {
         this.usersInput = data;
       });
-    this.commonService
-      .getSelectableCandidateStatus()
-      .subscribe((data) => {
-        this.selectableCandidateStatuses = data;
-      });
+    this.commonService.getSelectableCandidateStatus().subscribe((data) => {
+      this.selectableCandidateStatuses = data;
+    });
     this.candidateId = +this.route.snapshot.paramMap.get('id')!;
     this.candidateService.getById(this.candidateId).subscribe((res) => {
       this.form.patchValue({
@@ -108,7 +106,10 @@ export class CandidateEditComponent {
       note: new FormControl(''),
       position: new FormControl('', Validators.required),
       skills: new FormArray([], Validators.required),
-      status: new FormControl('', Validators.required),
+      status: new FormControl(
+        { value: '', disabled: true },
+        Validators.required
+      ),
       recruiter: new FormControl(0, Validators.required),
       experience: new FormControl(0),
       highestLevel: new FormControl(0, Validators.min(1)),
@@ -116,7 +117,6 @@ export class CandidateEditComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value);
     this.candidateService
       .update(
         this.candidateId.toString(),

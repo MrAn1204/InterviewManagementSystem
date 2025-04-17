@@ -51,7 +51,6 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
         candidate.CurrentPosition = request.Position;
         candidate.Note = request.Note;
         candidate.Experience = request.Experience;
-        candidate.Status = request.Status;
         candidate.UpdatedDate = DateTime.Now;
         candidate.RecruiterId = request.Recruiter;
         candidate.LevelId = request.HighestLevel;

@@ -35,5 +35,4 @@ public class Candidate : BaseEntity
 	[ForeignKey(nameof(HighestLevel))]
 	public int LevelId { get; set; }
 	public Level? HighestLevel { get; set; }
-	public bool IsDelete { get; set; } = false;
 }
