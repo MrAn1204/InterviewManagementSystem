@@ -7,6 +7,4 @@ namespace IMS.Business.Handlers;
 public class InterviewSearchQuery : BaseSearchQuery<InterviewViewModel>
 {
     public int? InterviewerId { get; set; }
-
-    public string? InterviewStatus { get; set; }
 }

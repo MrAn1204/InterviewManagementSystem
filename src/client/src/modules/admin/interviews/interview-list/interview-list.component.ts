@@ -1,6 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { HeaderService } from '../../../../services/header/header.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
 import { CommonModule } from '@angular/common';
@@ -14,6 +13,7 @@ import { TableColumn } from '../../../../core/models/table/table-column.model';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-interview-list',
@@ -21,7 +21,7 @@ import { AuthService } from '../../../../services/auth/auth.service';
   templateUrl: './interview-list.component.html',
   styleUrl: './interview-list.component.css'
 })
-export class InterviewListComponent extends MasterDataListComponent<InterviewModel> {
+export class InterviewListComponent extends MasterDataListComponent<InterviewModel> implements OnInit {
   public interviewerList!: UserForInputModel[];
   public statusList: string[] = Object.keys(InterviewStatus).filter(key => isNaN(Number(key)));
 
@@ -36,21 +36,27 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
   ];
 
   constructor(
-    private readonly headerService: HeaderService,
     private readonly toastr: ToastrService,
     public readonly authService : AuthService,
+    private readonly router: Router,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(COMMON_SERVICE) private readonly commonService: ICommonService) {
     super();
   }
 
-  override ngOnInit(): void {
-    this.headerService.setTitle('Interview');
-    this.interviewService.search(this.filter).subscribe((res) => {
-      this.data = res;
-    });
-    this.commonService.getUserForInputData(['INTERVIEWER'])
-      .subscribe((res) => this.interviewerList = res);
+  public create(): void {
+    setTimeout(() => {
+      this.router.navigate(['/admin/interviews/create']);
+    }, 150);
+  }
+
+  public override ngOnInit(): void {
+    this.interviewService.search(this.filter).pipe(
+      tap((interviews) => this.data = interviews),
+      switchMap(() => this.commonService.getUserForInputData(['INTERVIEWER'])),
+      tap((interviewers) => this.interviewerList = interviewers),
+    ).subscribe();
+    
     this.createForm();
   }
 
@@ -71,7 +77,7 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
       error: (error) => {
         this.toastr.error('Failed to load interviews', 'Error');
         console.error('Error loading interviews:', error);
-      }
+      },
     });
   }
 }

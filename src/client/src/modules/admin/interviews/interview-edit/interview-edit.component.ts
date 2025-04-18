@@ -15,8 +15,9 @@ import { ICommonService } from '../../../../services/data-for-input/common-servi
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { timeRangeValidator } from '../../../../validators/time-range.validator';
 import { UserService } from '../../../../services/user/user.service';
-import { forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 import { CancelModalComponent } from "../../../modals/cancel-modal/cancel-modal.component";
+import { formatNameList, formatTime } from '../../../../helpers/format-schedule.helper';
 
 @Component({
   selector: 'app-interview-edit',
@@ -63,25 +64,28 @@ export class InterviewEditComponent {
   }
 
   ngOnInit(): void {
-    this.loadInitialData();
-    this.loadInterviewData();
+    this.loadInitialData().subscribe(() => this.loadInterviewData());
   }
 
-  private loadInitialData(): void {
+  private loadInitialData(): Observable<void> {
     this.authService.getUserInformation().subscribe((res) => {
-      console.log(res?.roles);
-
       this.roles = res?.roles ?? [];
     });
 
-    this.candidateService.getAll().subscribe(res => this.candidateList = res);
-    this.jobService.getAll().subscribe(res => this.jobList = res);
-
-    this.commonService.getUserForInputData(['RECRUITER'])
-      .subscribe(res => this.recruiterList = res);
-
-    this.commonService.getUserForInputData(['INTERVIEWER'])
-      .subscribe(res => this.interviewerList = res);
+    return forkJoin({
+      candidateList: this.candidateService.getAll(),
+      jobList: this.jobService.getAll(),
+      recruiterList: this.commonService.getUserForInputData(['RECRUITER']),
+      interviewerList: this.commonService.getUserForInputData(['INTERVIEWER'])
+    }).pipe(
+      tap(res => {
+        this.candidateList = res.candidateList;
+        this.jobList = res.jobList;
+        this.recruiterList = res.recruiterList;
+        this.interviewerList = res.interviewerList;
+      }),
+      map(() => void 0)
+    );
   }
 
   private loadInterviewData(): void {
@@ -94,7 +98,9 @@ export class InterviewEditComponent {
         this.selectedInterviewersId = [...res.interviewersId ?? []];
         this.createForm(res);
         this.form.patchValue({ interviewersId: this.selectedInterviewersId });
-        this.selectedInterviewers = this.mapInterviewerNames();
+
+        const interviewers = this.interviewerList.filter(i => this.interview.interviewersId!.includes(i.id));
+        this.selectedInterviewers = formatNameList(interviewers);
       })
     ).subscribe();
   }
@@ -125,7 +131,9 @@ export class InterviewEditComponent {
     }
 
     const data: InterviewModel = this.form.value;
-    data.status = InterviewStatus.Interviewed.toString();
+    if (data.result) {
+      data.status = InterviewStatus.Interviewed.toString();
+    }
 
     this.sendUpdateRequest(data);
   }
@@ -210,19 +218,15 @@ export class InterviewEditComponent {
   }
 
   public checkCancelable(): boolean {
-    const isNewOrInvited = this.interview.status === InterviewStatus[InterviewStatus.New]
+    if (!this.interview) return false;
+    
+    const isNewOrInvited = this.interview !== undefined && this.interview.status === InterviewStatus[InterviewStatus.New]
       || this.interview.status === InterviewStatus[InterviewStatus.Invited];
     return this.checkEditable() && isNewOrInvited;
   }
 
   public mapTime(time: string): string {
-    const [hours, minutes] = time.split(':');
-    return `${hours}:${minutes} ${Number(hours) >= 12 ? 'PM' : 'AM'}`;
-  }
-
-  public mapInterviewerNames(): string[] {
-    const interviewers = this.interviewerList.filter(i => this.interview.interviewersId!.includes(i.id));
-    return interviewers.map(interviewer => `${interviewer.fullName} (${interviewer.userName})`);
+    return formatTime(time);
   }
 
   public mapRecruiterNames(): string {

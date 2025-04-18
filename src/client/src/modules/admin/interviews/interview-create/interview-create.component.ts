@@ -14,6 +14,8 @@ import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
 import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 import { timeRangeValidator } from '../../../../validators/time-range.validator';
+import { formatNameList } from '../../../../helpers/format-schedule.helper';
+import { forkJoin, tap } from 'rxjs';
 
 @Component({
   selector: 'app-interview-create',
@@ -23,11 +25,10 @@ import { timeRangeValidator } from '../../../../validators/time-range.validator'
 })
 export class InterviewCreateComponent implements OnInit {
   public form!: FormGroup;
-  public interviewerInput!: number[];
   public selectedInterviewers: string[] = [];
   public dropdownVisible = false;
 
-  private readonly selectedInterviewersId: number[] = [];
+  public selectedInterviewersId: number[] = [];
 
   public interviewerList!: UserForInputModel[];
 
@@ -49,14 +50,21 @@ export class InterviewCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createForm();
-    this.candidateService.getAll().subscribe((res) => this.candidateList = res);
-    this.jobService.getAll().subscribe((res) => this.jobList = res);
+    forkJoin({
+      candidates: this.candidateService.getAll(),
+      jobs: this.jobService.getAll(),
+      recruiters: this.commonService.getUserForInputData(['RECRUITER']),
+      interviewers: this.commonService.getUserForInputData(['INTERVIEWER']),
+    }).pipe(
+      tap(res => {
+        this.candidateList = res.candidates;
+        this.jobList = res.jobs;
+        this.recruiterList = res.recruiters;
+        this.interviewerList = res.interviewers;
+      })
+    ).subscribe();
     
-    this.commonService.getUserForInputData(['RECRUITER'])
-      .subscribe((res) => this.recruiterList = res);
-    this.commonService.getUserForInputData(['INTERVIEWER'])
-      .subscribe((res) => this.interviewerList = res);
+    this.createForm();
   }
 
   public createForm() {
@@ -85,17 +93,12 @@ export class InterviewCreateComponent implements OnInit {
     const data: InterviewModel = this.form.value;
 
     this.interviewService.create(data).subscribe({
-      next: (data) => {
-        if (data) {
-          console.log('Create success');
-          this.toastr.success('Create success', 'Success')
-          this.router.navigate(['/admin/interviews']);
-        } else {
-          console.log('Create failed');
-        }
+      next: () => {
+        this.toastr.success('Successfully created interview schedule', 'Success')
+        this.router.navigate(['/admin/interviews']);
       },
       error: (error) => {
-        this.toastr.error('Failed to create jobs', 'Error');
+        this.toastr.error('Failed to created interview schedule', 'Error');
         console.error('Error create jobs:', error);
       },
     });
@@ -105,21 +108,21 @@ export class InterviewCreateComponent implements OnInit {
     this.dropdownVisible = !this.dropdownVisible;
   }
 
-  public updateInterviewerSelected(id: number, name: string): void {
+  public updateInterviewerSelected(id: number): void {
     const idIndex = this.selectedInterviewersId.indexOf(id);
-    const nameIndex = this.selectedInterviewers.indexOf(name);
 
     if (idIndex === -1) {
       this.selectedInterviewersId.push(id);
-      this.selectedInterviewers.push(name);
     } else {
       this.selectedInterviewersId.splice(idIndex, 1);
-      this.selectedInterviewers.splice(nameIndex, 1);
     }
 
     this.form.patchValue({
       interviewersId: this.selectedInterviewersId
     });
+
+    const interviewers = this.interviewerList.filter(i => this.selectedInterviewersId.includes(i.id))
+    this.selectedInterviewers = formatNameList(interviewers);
   }
 
   @HostListener('document:click', ['$event'])

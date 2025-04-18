@@ -18,20 +18,21 @@
                     <td *ngIf="isShowNumber" class="text-center">{{currentPageSize * (currentPage - 1) + i + 1}}</td>
                     <td *ngFor="let column of columns">
                         <div [ngSwitch]="column.value">
-                            <div *ngSwitchCase="'interviewersName'">{{item[column.value].join(', ')}}</div>
-                            <div *ngSwitchCase="'schedule'">{{ `${item.interviewDate} ${item.startTime} -
-                                ${item.endTime}` }}</div>
-                            <div *ngSwitchCase="'result'" class="text-center">{{item[column.value] ?? "N/A"}}</div>
-                            <div *ngSwitchCase="'status'" class="text-center">{{item[column.value]}}</div>
+                            <div *ngSwitchCase="'interviewersName'">{{item.interviewersName.join(', ')}}</div>
+                            <div *ngSwitchCase="'schedule'">{{ `${item.interviewDate | date: 'dd/MM/yyyy'}
+                                ${mapTime(item.startTime)} -
+                                ${mapTime(item.endTime)}` }}</div>
+                            <div *ngSwitchCase="'result'" class="text-center">{{item.result ?? "N/A"}}</div>
+                            <div *ngSwitchCase="'status'" class="text-center">{{item.status}}</div>
                             <div *ngSwitchDefault>{{item[column.value]}}</div>
                         </div>
                     </td>
                     <td>
                         <div class="flex space-x-3 justify-center *:cursor-pointer">
-                            <button class="border-0" title="View" type="button" (click)="view(item.id)">
+                            <button class="border-0" title="View" type="button" [routerLink]="`/admin/interviews/${item.id}/detail`">
                                 <fa-icon [icon]="faEye" class="text-blue-500 hover:text-blue-700"></fa-icon>
                             </button>
-                            <button class="border-0" title="Edit" type="button" (click)="edit(item.id)">
+                            <button class="border-0" title="Edit" type="button" [routerLink]="`/admin/interviews/${item.id}/edit`">
                                 <fa-icon [icon]="faEdit" class="text-green-500 hover:text-green-700"></fa-icon>
                             </button>
                         </div>

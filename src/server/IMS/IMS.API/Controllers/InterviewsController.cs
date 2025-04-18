@@ -66,7 +66,7 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     /// </summary>
     /// <param name="keyword">The keyword to search for in the interview title.</param>
     /// <param name="interviewerId">The ID of the interviewer to search for.</param>
-    /// <param name="interviewStatus">The status of the interview to search for.</param>
+    /// <param name="status">The status of the interview to search for.</param>
     /// <param name="pageNumber">The page number of results to return.</param>
     /// <param name="pageSize">The number of results to return per page.</param>
     /// <returns>A paginated list of interviews matching the search criteria.</returns>
@@ -74,7 +74,7 @@ public class InterviewsController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Search(
         [FromQuery] string? keyword,
         [FromQuery] int? interviewerId,
-        [FromQuery] string? interviewStatus,
+        [FromQuery] string? status,
         [FromQuery] int pageNumber = 1,
         [FromQuery] int pageSize = 10)
     {
@@ -84,7 +84,7 @@ public class InterviewsController(IMediator mediator) : ControllerBase
             PageNumber = pageNumber,
             PageSize = pageSize,
             InterviewerId = interviewerId,
-            InterviewStatus = interviewStatus
+            Status = status ?? string.Empty
         };
 
         var result = await _mediator.Send(request);

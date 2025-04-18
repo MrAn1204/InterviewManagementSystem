@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { FormsModule } from '@angular/forms';
+import { formatTime } from "../../../../helpers/format-schedule.helper";
 
 @Component({
-  selector: 'app-table',
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  selector: 'app-interview-table',
+  imports: [CommonModule, FontAwesomeModule, FormsModule, RouterModule],
   templateUrl: './interview-table.component.html',
   styleUrl: './interview-table.component.css'
 })
 export class InterviewTableComponent extends TableComponent {
-  constructor (private readonly router: Router) {
+  constructor () {
     super();
   }
 
-  public edit(id: string): void {
-    this.router.navigate([`/admin/interviews/${id}/edit`])
-  }
-
-  public view(id: string): void {
-    this.router.navigate([`/admin/interviews/${id}/detail`])
+  public mapTime(time: string): string {
+    return formatTime(time);
   }
 }

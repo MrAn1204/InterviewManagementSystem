@@ -22,7 +22,6 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
             query = query.Where(interview => interview.Title.Contains(request.Keyword));
         }
 
-        // Despite InterviewerId is nullable, ASP.NET Core assigns 0 to int? by default
         if (request.InterviewerId > 0)
         {
             query = query.Where(i => i.Interviewers!
@@ -30,9 +29,9 @@ public class InterviewSearchQueryHandler(IUnitOfWorks unitOfWork, IMapper mapper
                 .Contains(request.InterviewerId!.Value));
         }
 
-        if (request.InterviewStatus != null)
+        if (!string.IsNullOrEmpty(request.Status))
         {
-            query = query.Where(interview => interview.Status.ToString() == request.InterviewStatus);
+            query = query.Where(interview => interview.Status.ToString() == request.Status);
         }
 
         var total = await query.CountAsync(cancellationToken);
