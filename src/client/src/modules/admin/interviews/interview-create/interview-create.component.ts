@@ -88,14 +88,14 @@ export class InterviewCreateComponent implements OnInit {
       next: (data) => {
         if (data) {
           console.log('Create success');
-          this.toastr.success('Create success', 'Success')
+          this.toastr.success('Successfully created interview schedule', 'Success')
           this.router.navigate(['/admin/interviews']);
         } else {
           console.log('Create failed');
         }
       },
       error: (error) => {
-        this.toastr.error('Failed to create jobs', 'Error');
+        this.toastr.error('Failed to created interview schedule', 'Error');
         console.error('Error create jobs:', error);
       },
     });
