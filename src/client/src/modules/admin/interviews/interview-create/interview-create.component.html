@@ -1,6 +1,6 @@
 <div class="container py-4 max-w-full">
   <!-- Card bao quanh form -->
-  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8  mx-auto">
+  <div *ngIf="interviewerList" class="bg-white shadow-md hover:shadow-lg rounded-md p-8  mx-auto">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <!-- Phần I: Schedule information -->
       <h2 class="text-2xl font-semibold mb-8">Schedule Information</h2>
@@ -35,14 +35,14 @@
           <div class="flex flex-wrap sm:flex-nowrap gap-4">
             <!-- Start Time -->
             <div class="w-full sm:w-1/2">
-              <label for="startTime" class="block mb-1">From <span class="text-red-500">*</span></label>
+              <label for="startTime" class="block text-sm content-center font-medium">From <span class="text-red-500">*</span></label>
               <input type="time" id="startTime" formControlName="startTime"
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
             </div>
 
             <!-- End Time -->
             <div class="w-full sm:w-1/2">
-              <label for="endTime" class="block mb-1">To <span class="text-red-500">*</span></label>
+              <label for="endTime" class="block text-sm content-center font-medium">To <span class="text-red-500">*</span></label>
               <input type="time" id="endTime" formControlName="endTime"
                 class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
             </div>
@@ -96,7 +96,7 @@
             Interviewer
             <span class="text-red-500">*</span>
           </label>
-          <input type="text" id="interviewers" formControlName="interviewersId" [value]="selectedInterviewers"
+          <input type="text" id="interviewers" formControlName="interviewersId"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] cursor-pointer"
             placeholder="Click to select interviewer(s)" readonly (click)="toggleDropdown()"
             [value]="selectedInterviewers.join(', ')" />
@@ -106,19 +106,18 @@
             <div class="p-2 max-h-48 overflow-y-auto">
               <label *ngFor="let interviewer of interviewerList" class="flex items-center mb-1 cursor-pointer gap-2">
                 <input type="checkbox" [value]="interviewer.id"
-                  (change)="updateInterviewerSelected(interviewer.id, interviewer.userName)"
-                  [checked]="selectedInterviewers.includes(interviewer.userName)" />
-                {{ `${interviewer.fullName} - ${interviewer.userName}` }}
+                  (change)="updateInterviewerSelected(interviewer.id)"
+                  [checked]="selectedInterviewersId.includes(interviewer.id)" />
+                {{ `${interviewer.fullName} (${interviewer.userName})` }}
               </label>
             </div>
           </div>
           <small class="text-gray-500">
             Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
           </small>
-          <input type="hidden" formControlName="interviewersId" id="interviewersHidden"
-            [value]="selectedInterviewers" />
+          
           <p class="text-red-500 text-xs italic mt-1"
-            *ngIf="selectedInterviewers.length === 0 && form.get('interviewersId')?.touched">
+            *ngIf="selectedInterviewersId.length === 0 && form.get('interviewersId')?.touched">
             Interviewer is required
           </p>
         </div>
@@ -135,7 +134,7 @@
               class="w-10/12 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
               <option value="0" disabled hidden>Select a recruiter...</option>
               <option *ngFor="let recruiter of recruiterList" [value]="recruiter.id">
-                {{ `${recruiter.fullName} - ${recruiter.userName}` }}
+                {{ `${recruiter.fullName} (${recruiter.userName})` }}
               </option>
             </select>
 

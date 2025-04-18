@@ -3,14 +3,16 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
-import { INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
+import { COMMON_SERVICE, INTERVIEW_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IInterviewService } from '../../../../services/interview/interview-service.interface';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../../../services/user/user.service';
 import { AuthService } from '../../../../services/auth/auth.service';
-import { catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, tap } from 'rxjs';
 import { UserInformation } from '../../../../models/auth/user-information.model';
-import { User } from '../../../../models/user/user.model';
+import { formatName, formatNameList, formatTime } from '../../../../helpers/format-schedule.helper';
+import { ICommonService } from '../../../../services/data-for-input/common-service.interface';
+import { UserForInputModel } from '../../../../models/data-for-input/user-for-input.model';
 
 @Component({
   selector: 'app-interview-detail',
@@ -22,8 +24,12 @@ export class InterviewDetailComponent implements OnInit {
   public interview!: InterviewModel;
   public id!: number;
 
+  private interviewers!: UserForInputModel[];
+  private recruiter!: UserForInputModel;
+
   constructor(
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
+    @Inject(COMMON_SERVICE) private readonly commonService: ICommonService,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
     private readonly userService: UserService,
@@ -33,10 +39,24 @@ export class InterviewDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      this.id = Number(params.get('id'));
-      this.interviewService.getById(this.id).subscribe((res) => this.interview = res);
-    });
+    this.route.paramMap.pipe(
+      tap((params) => {
+        this.id = Number(params.get('id'));
+      }),
+      tap(() => {
+        forkJoin({
+          interview: this.interviewService.getById(this.id),
+          interviewers: this.commonService.getUserForInputData(['INTERVIEWER']),
+          recruiter: this.commonService.getUserForInputData(['RECRUITER'])
+        }).pipe(
+          tap((res) => {
+            this.interview = res.interview;
+            this.interviewers = res.interviewers.filter(i => this.interview.interviewersId?.includes(i.id));
+            this.recruiter = res.recruiter.find(i => i.id === this.interview.recruiterId)!;
+          })
+        ).subscribe();
+      })
+    ).subscribe();
   }
 
   private getInterviewerInfo(): Observable<UserInformation[]> {
@@ -83,5 +103,21 @@ export class InterviewDetailComponent implements OnInit {
 
   public checkInterviewed(): boolean {
     return this.interview.status !== InterviewStatus[InterviewStatus.Interviewed];
+  }
+
+  public mapTime(time: string): string {
+    return formatTime(time);
+  }
+
+  public mapInterviewerNames(): string[] {
+    if (!this.interviewers) return [];
+
+    return formatNameList(this.interviewers);
+  }
+
+  public mapRecruiterName(): string {
+    if (!this.recruiter) return '';
+
+    return formatName(this.recruiter);
   }
 }

@@ -1,7 +1,7 @@
 <!-- Container chính, max-width ~1200px, margin auto -->
 <div class="container py-4 max-w-full">
   <!-- Card bao quanh form -->
-  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8 mx-auto">
+  <div *ngIf="interview" class="bg-white shadow-md hover:shadow-lg rounded-md p-8 mx-auto">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-6">
       <!-- Phần I: Schedule information -->
       <h2 class="text-2xl font-semibold">Schedule Information</h2>
@@ -49,7 +49,8 @@
       <!-- Schedule Time (chỉ đọc) -->
       <div>
         <h3 class="text-lg font-medium text-gray-700">Schedule Time</h3>
-        <p class=" rounded-md ">{{ `${interview.interviewDate} ${interview.startTime} - ${interview.endTime}` }}</p>
+        <p class=" rounded-md ">{{ `${interview.interviewDate | date: 'dd/MM/yyyy' } 
+          ${mapTime(interview.startTime)} - ${mapTime(interview.endTime)}` }}</p>
       </div>
 
       <!-- Job (chỉ xem) -->
@@ -61,7 +62,7 @@
       <!-- Interviewers (chỉ xem) -->
       <div>
         <h3 class="text-lg font-medium text-gray-700">Interviewers</h3>
-        <p class=" rounded-md ">{{ interview.interviewersName?.join(', ') }}</p>
+        <p class=" rounded-md ">{{ mapInterviewerNames().join(', ') }}</p>
       </div>
 
       <!-- Location (chỉ đọc) -->
@@ -73,7 +74,7 @@
       <!-- Recruiter owner (chỉ đọc) -->
       <div>
         <h3 class="text-lg font-medium text-gray-700">Recruiter owner</h3>
-        <p class=" rounded-md ">{{ interview.recruiterName }}</p>
+        <p class=" rounded-md ">{{ mapRecruiterName() }}</p>
       </div>
 
       <!-- Meeting ID (chỉ đọc) -->

@@ -1,6 +1,6 @@
 <div class="container py-4 max-w-full">
   <!-- Card bao quanh form -->
-  <div class="bg-white shadow-md hover:shadow-lg rounded-md p-8 mx-auto">
+  <div *ngIf="interview" class="bg-white shadow-md hover:shadow-lg rounded-md p-8 mx-auto">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <!-- Phần I: Schedule information -->
       <h2 class="text-2xl font-semibold pb-8">Schedule Information</h2>
@@ -61,7 +61,7 @@
           <div class="flex flex-wrap sm:flex-nowrap gap-4">
             <!-- Start Time -->
             <div class="w-full sm:w-1/2">
-              <label for="startTime" class="block mb-1">From <span class="text-red-500">*</span></label>
+              <label for="startTime" class="block text-sm content-center font-medium">From <span class="text-red-500">*</span></label>
               <ng-container *ngIf="checkEditable(); else readonlyStartTime">
                 <input type="time" id="startTime" formControlName="startTime" [value]="interview.startTime"
                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
@@ -76,7 +76,7 @@
 
             <!-- End Time -->
             <div class="w-full sm:w-1/2">
-              <label for="endTime" class="block mb-1">To <span class="text-red-500">*</span></label>
+              <label for="endTime" class="block text-sm content-center font-medium">To <span class="text-red-500">*</span></label>
               <ng-container *ngIf="checkEditable(); else readonlyEndTime">
                 <input type="time" id="endTime" formControlName="endTime" [value]="interview.endTime"
                   class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2] min-w-0" />
@@ -174,8 +174,7 @@
             <small class="text-gray-500">
               Click vào ô để mở danh sách. Tích chọn nhiều interviewer nếu cần.
             </small>
-            <input type="hidden" formControlName="interviewersId" id="interviewersHidden"
-              [value]="selectedInterviewersId" />
+            
             <p class="text-red-500 text-xs italic mt-1"
               *ngIf="selectedInterviewers.length === 0 && form.get('interviewersId')?.touched">
               Interviewer is required
@@ -184,7 +183,7 @@
 
           <ng-template #readonlyInterviewers>
             <ng-container 
-              *ngTemplateOutlet="readonlyField; context: { $implicit: mapInterviewerNames() }">
+              *ngTemplateOutlet="readonlyField; context: { $implicit: selectedInterviewers.join(', ') }">
             </ng-container>
           </ng-template>
         </div>
