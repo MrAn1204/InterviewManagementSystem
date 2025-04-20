@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JobModel } from '../../../../models/job/job.model';
 import { JOB_SERVICE } from '../../../../constants/injection/injection.constant';
 import { IJobService } from '../../../../services/job/job-service.interface';
