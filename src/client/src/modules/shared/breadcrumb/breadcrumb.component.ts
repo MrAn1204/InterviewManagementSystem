@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BreadcrumbService } from '../../../services/breadcrumb/breadcrumb.service';
 import { Breadcrumb } from '../../../services/breadcrumb/Breadcrumb';
@@ -22,7 +22,7 @@ export class BreadcrumbComponent implements OnInit {
     private readonly breadcrumbService: BreadcrumbService,
     private readonly router: Router
   ) {}
-
+  
   public ngOnInit() {
     this.breadcrumbService.breadcrumbs$.subscribe(breadcrumbs => {
       this.breadcrumbs = breadcrumbs;

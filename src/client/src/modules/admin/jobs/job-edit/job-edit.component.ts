@@ -5,7 +5,6 @@ import { BenefitModel } from '../../../../models/data-for-input/benefit.modes';
 import { LevelModel } from '../../../../models/data-for-input/level.model';
 import { SkillModel } from '../../../../models/data-for-input/skill.modes';
 import { JobModel } from '../../../../models/job/job.model';
-import { HeaderService } from '../../../../services/header/header.service';
 import { IJobService } from '../../../../services/job/job-service.interface';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';

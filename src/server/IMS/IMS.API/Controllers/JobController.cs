@@ -171,6 +171,13 @@ public class JobController(IMediator mediator, IJobStatusUpdateService jobStatus
         return Ok(new { message = "Job statuses updated successfully" });
     }
 
+
+    /// <summary>
+    /// Retrieves the count of jobs by week for a specified year and month.
+    /// </summary>
+    /// <param name="year">The year for which to retrieve job counts.</param>
+    /// <param name="month">The month for which to retrieve job counts.</param>
+    /// <returns>A list of job counts grouped by week.</returns>
     [HttpGet("count-by-week")]
     public async Task<IActionResult> GetJobCountByWeek(int year, int month)
     {
