@@ -60,12 +60,12 @@ export class InterviewDetailComponent implements OnInit {
   }
 
   private getInterviewerInfo(): Observable<UserInformation[]> {
-    if (this.authService.getUserRoles().some(role => ['ADMIN', 'RECRUITER', 'RECRUITER'].includes(role))) {
+    if (this.authService.getUserRoles().some(role => ['ADMIN', 'RECRUITER', 'MANAGER'].includes(role))) {
       return this.userService.getUsers({}).pipe(
         map((res) => res.items.filter(user => this.interview.interviewersId?.includes(user.id))
           .map(user => ({
             id: user.id.toString(),
-            username: user.username,
+            username: user.username!,
             displayName: user.fullName,
             email: user.email,
             roles: user.roles

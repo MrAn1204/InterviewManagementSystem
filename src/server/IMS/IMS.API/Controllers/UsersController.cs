@@ -27,15 +27,21 @@ public class UsersController(IMediator mediator) : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(new { message = "Invalid input data" });
 
-        var result = await _mediator.Send(request);
-
-        return result switch
+        try
         {
-            "" => Ok(new { message = "Successfully created user" }),
-            "Invalid department" => BadRequest(new { message = "ME028: Invalid department" }),
-            "One or more roles are invalid" => BadRequest(new { message = "ME029: Invalid role(s)" }),
-            _ => BadRequest(new { message = $"ME026: Failed to create user - {result}" })
-        };
+            var userVm = await _mediator.Send(request);
+            // Trả về nguyên object UserDetailViewModel
+            return CreatedAtAction(nameof(GetUserById), new { id = userVm.Id }, userVm);
+        }
+        catch (ArgumentException ex)
+        {
+            // Chuyển các lỗi validation thành 400
+            return BadRequest(new { message = $"ME028: {ex.Message}" });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = $"ME026: Failed to create user - {ex.Message}" });
+        }
     }
 
 

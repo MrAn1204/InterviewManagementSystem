@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   IconDefinition, faGear, faUser,
@@ -29,7 +29,7 @@ export class SidebarComponent {
   public faAngleDoubleLeft: IconDefinition = faAngleDoubleLeft;
   public faAngleDoubleRight: IconDefinition = faAngleDoubleRight;
 
-  constructor(public sidebarService: SidebarService, public authService: AuthService) { }
+  constructor(public sidebarService: SidebarService, public authService: AuthService) {inject(AuthService) }
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: any) {
