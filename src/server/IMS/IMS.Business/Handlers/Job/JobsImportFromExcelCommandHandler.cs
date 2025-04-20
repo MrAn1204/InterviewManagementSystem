@@ -51,79 +51,15 @@ public class JobsImportFromExcelCommandHandler(IUnitOfWorks unitOfWork, IMapper 
                         continue;
                     }
 
-                    decimal salaryMin = 0;
-                    if (!decimal.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out salaryMin))
+                    (bool flowControlSalary, (decimal salaryMin, decimal salaryMax)) = ParseSalary(result, worksheet, row);
+                    if (!flowControlSalary)
                     {
-                        result.Errors.Add($"Row {row}: Invalid Salary Min format");
-                        result.SkippedRows++;
                         continue;
                     }
 
-                    decimal salaryMax = 0;
-                    if (!decimal.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out salaryMax))
+                    (bool flowControlDate, (DateTime? startDate, DateTime? endDate)) = ParseDate(result, worksheet, row);
+                    if (!flowControlDate)
                     {
-                        result.Errors.Add($"Row {row}: Invalid Salary Max format");
-                        result.SkippedRows++;
-                        continue;
-                    }
-
-                    if (salaryMin > salaryMax)
-                    {
-                        result.Errors.Add($"Row {row}: Salary Min cannot be greater than Salary Max");
-                        result.SkippedRows++;
-                        continue;
-                    }
-
-                    DateTime? startDate = null;
-                    if (worksheet.Cells[row, 6].Value != null)
-                    {
-                        try
-                        {
-                            if (double.TryParse(worksheet.Cells[row, 6].Value.ToString(), out double excelDateValue))
-                            {
-                                startDate = DateTime.FromOADate(excelDateValue);
-                            }
-                            else
-                            {
-                                startDate = DateTime.Parse(worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
-                                                          System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                        }
-                        catch
-                        {
-                            result.Errors.Add($"Row {row}: Invalid Start Date format");
-                            result.SkippedRows++;
-                            continue;
-                        }
-                    }
-
-                    DateTime? endDate = null;
-                    if (worksheet.Cells[row, 7].Value != null)
-                    {
-                        try
-                        {
-                            if (double.TryParse(worksheet.Cells[row, 7].Value.ToString(), out double excelDateValue))
-                            {
-                                endDate = DateTime.FromOADate(excelDateValue);
-                            }
-                            else
-                            {
-                                endDate = DateTime.Parse(worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
-                                                          System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                        }
-                        catch
-                        {
-                            result.Errors.Add($"Row {row}: Invalid End Date format");
-                            result.SkippedRows++;
-                            continue;
-                        }
-                    }
-
-                    if (startDate.HasValue && endDate.HasValue && startDate > endDate)
-                    {
-                        result.Errors.Add($"Row {row}: Start Date cannot be after End Date");
-                        result.SkippedRows++;
                         continue;
                     }
 
@@ -150,51 +86,35 @@ public class JobsImportFromExcelCommandHandler(IUnitOfWorks unitOfWork, IMapper 
                         CreatedDate = DateTime.Now
                     };
 
-                    if (!string.IsNullOrEmpty(skillsString))
-                    {
-                        var skills = skillsString.Split(',').Select(s => s.Trim()).ToList();
-                        foreach (var skillName in skills)
-                        {
-                            var skill = await _unitOfWork.GenericRepository<Skill>().GetQuery().FirstOrDefaultAsync(s => s.SkillName == skillName, cancellationToken);
-                            if (skill == null)
-                            {
-                                skill = new Skill { SkillName = skillName };
-                                _unitOfWork.GenericRepository<Skill>().Add(skill);
-                            }
-                            newJob.JobSkills.Add(new JobSkill { SkillId = skill.Id, Skill = skill });
-                        }
-                    }
+                    await AddEntitiesToJobAsync<Skill>(
+                        skillsString,
+                        async (name, ct) => await _unitOfWork.GenericRepository<Skill>().GetQuery()
+                            .FirstOrDefaultAsync(s => s.SkillName == name, ct),
+                        name => new Skill { SkillName = name },
+                        skill => _unitOfWork.GenericRepository<Skill>().Add(skill),
+                        skill => newJob.JobSkills.Add(new JobSkill { SkillId = skill.Id, Skill = skill }),
+                        cancellationToken
+                    );
 
-                    if (!string.IsNullOrEmpty(benefitsString))
-                    {
-                        var benefits = benefitsString.Split(',').Select(b => b.Trim()).ToList();
-                        foreach (var benefitName in benefits)
-                        {
-                            var benefit = await _unitOfWork.GenericRepository<Benefit>().GetQuery().FirstOrDefaultAsync(b => b.BenefitName == benefitName, cancellationToken);
-                            if (benefit == null)
-                            {
-                                benefit = new Benefit { BenefitName = benefitName };
-                                _unitOfWork.GenericRepository<Benefit>().Add(benefit);
-                            }
-                            newJob.JobBenefits.Add(new JobBenefit { BenefitId = benefit.Id, Benefit = benefit });
-                        }
-                    }
+                    await AddEntitiesToJobAsync<Benefit>(
+                        benefitsString,
+                        async (name, ct) => await _unitOfWork.GenericRepository<Benefit>().GetQuery()
+                            .FirstOrDefaultAsync(b => b.BenefitName == name, ct),
+                        name => new Benefit { BenefitName = name },
+                        benefit => _unitOfWork.GenericRepository<Benefit>().Add(benefit),
+                        benefit => newJob.JobBenefits.Add(new JobBenefit { BenefitId = benefit.Id, Benefit = benefit }),
+                        cancellationToken
+                    );
 
-                    if (!string.IsNullOrEmpty(levelsString))
-                    {
-                        var levels = levelsString.Split(',').Select(l => l.Trim()).ToList();
-                        foreach (var levelName in levels)
-                        {
-                            var level = await _unitOfWork.GenericRepository<Level>().GetQuery()
-                                .FirstOrDefaultAsync(l => l.LevelName == levelName, cancellationToken);
-                            if (level == null)
-                            {
-                                level = new Level { LevelName = levelName };
-                                _unitOfWork.GenericRepository<Level>().Add(level);
-                            }
-                            newJob.JobLevels.Add(new JobLevel { LevelId = level.Id, Level = level });
-                        }
-                    }
+                    await AddEntitiesToJobAsync<Level>(
+                        levelsString,
+                        async (name, ct) => await _unitOfWork.GenericRepository<Level>().GetQuery()
+                            .FirstOrDefaultAsync(l => l.LevelName == name, ct),
+                        name => new Level { LevelName = name },
+                        level => _unitOfWork.GenericRepository<Level>().Add(level),
+                        level => newJob.JobLevels.Add(new JobLevel { LevelId = level.Id, Level = level }),
+                        cancellationToken
+                    );
 
                     _unitOfWork.JobRepository.Add(newJob);
                     result.ImportedRows++;
@@ -210,5 +130,115 @@ public class JobsImportFromExcelCommandHandler(IUnitOfWorks unitOfWork, IMapper 
         }
 
         return result;
+    }
+
+    private static async Task AddEntitiesToJobAsync<TEntity>(
+        string inputString,
+        Func<string, CancellationToken, Task<TEntity?>> findEntityAsync,
+        Func<string, TEntity> createEntity,
+        Action<TEntity> addEntityToRepository,
+        Action<TEntity> addRelationToJob,
+        CancellationToken cancellationToken)
+        where TEntity : class
+    {
+        if (string.IsNullOrEmpty(inputString)) return;
+
+        var items = inputString.Split(',').Select(s => s.Trim()).ToList();
+
+        foreach (var itemName in items)
+        {
+            var entity = await findEntityAsync(itemName, cancellationToken);
+            if (entity == null)
+            {
+                entity = createEntity(itemName);
+                addEntityToRepository(entity);
+            }
+            addRelationToJob(entity);
+        }
+    }
+
+    private static (bool flowControl, (decimal salaryMin, decimal salaryMax) value) ParseSalary(JobImportResult result, ExcelWorksheet worksheet, int row)
+    {
+        if (!decimal.TryParse(worksheet.Cells[row, 3].Value?.ToString(), out decimal salaryMin))
+        {
+            result.Errors.Add($"Row {row}: Invalid Salary Min format");
+            result.SkippedRows++;
+            return (flowControl: false, value: default);
+        }
+
+        if (!decimal.TryParse(worksheet.Cells[row, 4].Value?.ToString(), out decimal salaryMax))
+        {
+            result.Errors.Add($"Row {row}: Invalid Salary Max format");
+            result.SkippedRows++;
+            return (flowControl: false, value: default);
+        }
+
+        if (salaryMin > salaryMax)
+        {
+            result.Errors.Add($"Row {row}: Salary Min cannot be greater than Salary Max");
+            result.SkippedRows++;
+            return (flowControl: false, value: default);
+        }
+
+        return (flowControl: true, value: (salaryMin, salaryMax));
+    }
+
+    private static (bool flowControl, (DateTime? startDate, DateTime? endDate) value)
+        ParseDate(JobImportResult result, ExcelWorksheet worksheet, int row)
+    {
+        DateTime? startDate = null;
+        if (worksheet.Cells[row, 6].Value != null)
+        {
+            try
+            {
+                if (double.TryParse(worksheet.Cells[row, 6].Value.ToString(), out double excelDateValue))
+                {
+                    startDate = DateTime.FromOADate(excelDateValue);
+                }
+                else
+                {
+                    startDate = DateTime.Parse(worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
+                                              System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
+            catch
+            {
+                result.Errors.Add($"Row {row}: Invalid Start Date format");
+                result.SkippedRows++;
+                return (flowControl: false, value: default);
+            }
+        }
+
+        DateTime? endDate = null;
+        if (worksheet.Cells[row, 7].Value != null)
+        {
+            try
+            {
+                if (double.TryParse(worksheet.Cells[row, 7].Value.ToString(), out double excelDateValue))
+                {
+                    endDate = DateTime.FromOADate(excelDateValue);
+                }
+                else
+                {
+                    endDate = DateTime.Parse(worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
+                                              System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
+            catch
+            {
+                result.Errors.Add($"Row {row}: Invalid End Date format");
+                result.SkippedRows++;
+                return (flowControl: false, value: default);
+            }
+        }
+
+        if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+        {
+            result.Errors.Add($"Row {row}: Start Date cannot be after End Date");
+            result.SkippedRows++;
+            return (flowControl: false, value: default);
+        }
+
+        return (flowControl: true, value: (startDate, endDate));
     }
 }
