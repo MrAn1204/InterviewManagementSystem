@@ -1,11 +1,8 @@
 using AutoMapper;
 using IMS.Business.ViewModels;
-using IMS.Core.Exceptions;
 using IMS.Core.ViewModels;
 using IMS.Data.UnitOfWorks;
-using IMS.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;

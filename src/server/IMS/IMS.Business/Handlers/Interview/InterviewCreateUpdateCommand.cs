@@ -1,4 +1,3 @@
-using System;
 using IMS.Business.ViewModels;
 using IMS.Domain;
 

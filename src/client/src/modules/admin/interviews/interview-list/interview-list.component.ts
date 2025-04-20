@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InterviewModel, InterviewStatus } from '../../../../models/interview/interview.model';
 import { CommonModule } from '@angular/common';
@@ -38,16 +38,9 @@ export class InterviewListComponent extends MasterDataListComponent<InterviewMod
   constructor(
     private readonly toastr: ToastrService,
     public readonly authService : AuthService,
-    private readonly router: Router,
     @Inject(INTERVIEW_SERVICE) private readonly interviewService: IInterviewService,
     @Inject(COMMON_SERVICE) private readonly commonService: ICommonService) {
     super();
-  }
-
-  public create(): void {
-    setTimeout(() => {
-      this.router.navigate(['/admin/interviews/create']);
-    }, 150);
   }
 
   public override ngOnInit(): void {
