@@ -1,6 +1,4 @@
 using IMS.Business.ViewModels;
-using IMS.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 

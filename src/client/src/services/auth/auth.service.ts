@@ -145,7 +145,7 @@ public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginR
 
   public getUserRoles(): string[] {
     const userInfo: UserInformation | null = this._userInformation.getValue();
-    if (userInfo && userInfo.roles) {
+    if (userInfo?.roles) {
       return Array.isArray(userInfo.roles)
         ? userInfo.roles
         : [userInfo.roles];

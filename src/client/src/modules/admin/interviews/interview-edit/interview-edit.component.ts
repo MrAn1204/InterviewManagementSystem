@@ -55,7 +55,6 @@ export class InterviewEditComponent {
     @Inject(CANDIDATE_SERVICE) private readonly candidateService: ICandidateService,
     @Inject(JOB_SERVICE) private readonly jobService: IJobService,
     @Inject(COMMON_SERVICE) private readonly commonService: ICommonService,
-    private readonly userService: UserService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService
