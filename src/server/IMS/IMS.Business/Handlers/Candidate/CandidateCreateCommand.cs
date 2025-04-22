@@ -16,6 +16,7 @@ public class CandidateCreateCommand : BaseCreateCommand<bool>
     public required string Email { get; set; }
 
     [DataType(DataType.Date)]
+    [DateInPast(ErrorMessage = "Date of birth must be in the past.")]
     public DateTime? DOB { get; set; }
 
     [MaxLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]
@@ -55,4 +56,21 @@ public class CandidateCreateCommand : BaseCreateCommand<bool>
 
     [Required(ErrorMessage = "Highest Level is required.")]
     public int HighestLevel { get; set; }
+}
+
+public class DateInPastAttribute : ValidationAttribute
+{
+    public override bool IsValid(object? value)
+    {
+        if (value is DateTime date)
+        {
+            return date.Date < DateTime.Today;
+        }
+        return true;
+    }
+
+    public override string FormatErrorMessage(string name)
+    {
+        return $"{name} must be in the past.";
+    }
 }
