@@ -38,6 +38,9 @@ namespace IMS.Data.UnitOfWorks
         public IGenericRepository<Reminder> ReminderRepository => _reminderRepository ??= new GenericRepository<Reminder>(_context);
 
 
+        // private IGenericRepository<OfferDepartment>? _offerDepartmentRepository;
+        // public IGenericRepository<OfferDepartment> OfferDepartmentRepository => _offerDepartmentRepository ??= new GenericRepository<OfferDepartment>(_context);
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)

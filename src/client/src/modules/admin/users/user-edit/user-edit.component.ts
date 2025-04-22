@@ -6,7 +6,6 @@ import { UserService } from '../../../../services/user/user.service';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { dobValidator } from '../../../../validators/dob.validator';
 
 @Component({
   selector: 'app-user-edit',
@@ -31,9 +30,10 @@ export class UserEditComponent implements OnInit {
     private readonly router: Router
   ) {
     this.userForm = this.fb.group({
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)]],
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      dob: ['', [Validators.required, dobValidator]],
+      dob: [''],
       address: [''],
       phoneNumber: ['', [Validators.pattern(/^[0-9]{10,11}$/)]],
       gender: ['', Validators.required],
@@ -55,15 +55,8 @@ export class UserEditComponent implements OnInit {
       next: (user) => {
         this.selectedRoles = user.roles;
         this.userForm.patchValue({
-          fullName:     user.fullName,
-          email:        user.email,
-          dob:          this.formatDateForInput(user.dob),      // <-- format
-          address:      user.address,
-          phoneNumber:  user.phoneNumber,
-          gender:       user.gender?.toLowerCase(),
-          roles:        user.roles,
-          departmentId: user.departmentId,
-          note:         user.note
+          ...user,
+          gender: user.gender?.toLowerCase()
         });
         this.isLoading = false;
       },
@@ -82,11 +75,10 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  private formatDateForInput(dateString: string | undefined): string {
+  private formatDateForInput(dateString: string): string {
     if (!dateString) return '';
     const date = new Date(dateString);
-    // Lấy chuỗi "YYYY-MM-DD"
-    return date.toISOString().substring(0, 10);
+    return date.toISOString().slice(0, 16);
   }
 
   onRoleChange(role: string, isChecked: boolean): void {

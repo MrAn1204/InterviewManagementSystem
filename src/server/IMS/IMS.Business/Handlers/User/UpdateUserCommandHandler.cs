@@ -15,10 +15,15 @@ public class UpdateUserCommandHandler(UserManager<User> _userManager, IUnitOfWor
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user == null) 
             throw new Exception("User not found");
+            
+        if (string.IsNullOrEmpty(request.Username))
+                throw new ArgumentException("Username is required");
+    
     
         if (request.Roles == null || request.Roles.Length == 0)
                 throw new ArgumentException("At least one role is required");   
         
+        user.UserName = request.Username;
         user.Email = request.Email;
         user.FullName = request.FullName != null ? request.FullName : "N/A";
         user.DOB = request.DOB;

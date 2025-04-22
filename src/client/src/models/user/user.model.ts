@@ -1,7 +1,7 @@
 // user.model.ts
 export class User {
   id!: number;
-  username?: string;
+  username!: string;
   email!: string;
   fullName!: string;
   address?: string;
@@ -11,7 +11,6 @@ export class User {
   createdDate?: string;
   gender? :string;
   updatedDate?: string;
-  departmentId?: number;
   departmentName?: string;
   roles!: string[];
   note ?: string

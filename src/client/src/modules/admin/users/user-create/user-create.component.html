@@ -4,7 +4,7 @@
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <!-- <div class="md:col-span-2">
+        <div class="md:col-span-2">
           <label for="username" class="block text-lg font-semibold mb-1">
             User Name <span class="text-red-500">*</span>
           </label>
@@ -20,7 +20,7 @@
             <small class="text-red-500" *ngIf="userForm.get('username')?.errors?.['pattern']">Invalid username format.</small>
             <small class="text-red-500" *ngIf="userForm.get('username')?.errors?.['usernameTaken']">Username already exists.</small>
           </div>
-        </div> -->
+        </div>
         <!-- Full Name -->
         <div class="md:col-span-2">
           <label for="fullname" class="block text-lg font-semibold mb-1">
@@ -57,20 +57,9 @@
 
         <!-- Date of Birth -->
         <div>
-          <label for="dob" class="block text-lg font-semibold mb-1">
-            Date of Birth <span class="text-red-500">*</span>
-          </label>
+          <label for="dob" class="block text-lg font-semibold mb-1">Date of Birth</label>
           <input type="date" id="dob" formControlName="dob"
             class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#1976d2]">
-
-          <div *ngIf="userForm.get('dob')?.touched && userForm.get('dob')?.errors">
-            <div *ngIf="userForm.get('dob')?.errors?.['required']" class="text-red-500 mt-1">
-              Date of Birth is required
-            </div>
-            <div *ngIf="userForm.get('dob')?.errors?.['futureDate']" class="text-red-500 mt-1">
-              Date of Birth cannot be in the future
-            </div>
-          </div>
         </div>
 
         <!-- Address -->
@@ -113,7 +102,7 @@
 
         <!-- Phần Department -->
         <div>
-          <label for="" class="block text-lg font-semibold mb-1">
+          <label class="block text-lg font-semibold mb-1">
             Department <span class="text-red-500">*</span>
           </label>
           <select formControlName="departmentId"
@@ -129,7 +118,7 @@
 
         <!-- Phần Roles -->
         <div class="md:col-span-2">
-          <label for="" class="block text-lg font-semibold mb-1">
+          <label class="block text-lg font-semibold mb-1">
             Roles <span class="text-red-500">*</span>
           </label>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">

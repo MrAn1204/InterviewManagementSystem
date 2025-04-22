@@ -4,28 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
 
-/// <summary>
-/// 
-/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class DepartmentsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    /// <summary>
-    /// constructor department 
-    /// </summary>
-    /// <param name="mediator"></param>
     public DepartmentsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
-    /// <summary>
-    /// get all Department
-    /// </summary>
-    /// <returns>list department</returns>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {

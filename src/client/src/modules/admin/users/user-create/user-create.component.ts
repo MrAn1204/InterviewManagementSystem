@@ -6,8 +6,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DepartmentService } from '../../../../services/department/department.service';
 import { Department } from '../../../../models/data-for-input/department.model';
+import { uniqueUsernameValidator } from '../../../../validators/unique-username.validator';
 import { uniqueEmailValidator } from '../../../../validators/unique-email.validator';
-import { dobValidator } from '../../../../validators/dob.validator';
 
 @Component({
   selector: 'app-user-create',
@@ -29,16 +29,16 @@ export class UserCreateComponent implements OnInit{
     private readonly toastr: ToastrService,
   ) {
     this.userForm = this.fb.group({
-      // username: ['', [Validators.required,
-      //   Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)],
-      //   [uniqueUsernameValidator(this.userService)]
-      // ],
+      username: ['', [Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9_@.]{3,30}$/)],
+        [uniqueUsernameValidator(this.userService)]
+      ],
       email: [
         '', [Validators.required, Validators.email],
         [uniqueEmailValidator(this.userService)]
       ],
       fullName: ['', Validators.required],
-      dob:['', [Validators.required, dobValidator]],
+      dob: [''],
       address: [''],
       gender: ['', Validators.required],
       isActive: ['', Validators.required],
