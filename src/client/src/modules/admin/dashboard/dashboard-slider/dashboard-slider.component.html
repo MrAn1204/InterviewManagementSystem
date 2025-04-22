@@ -36,7 +36,7 @@
     </div>
   </button>
 
-  <button routerLink="/admin/offers" *ngIf="authService.hasRole(['ADMIN', 'MANAGER', 'RECRUITER'])" class="text-pink-600 hover:text-pink-800">
+  <button routerLink="/admin/offers" class="text-pink-600 hover:text-pink-800">
     <fa-icon [icon]="faHandshake" class="text-3xl md:text-5xl self-center md:w-2/5 w-1/4 min-w-fit"></fa-icon>
     <div class="flex md:flex-col px-2 md:px-4 not-md:space-x-2 md:w-3/5 w-3/4 text-left">
       <p class="font-bold text-3xl">{{offers}}</p>
