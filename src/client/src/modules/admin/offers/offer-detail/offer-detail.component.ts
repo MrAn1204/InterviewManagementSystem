@@ -139,7 +139,7 @@ export class OfferDetailComponent {
 
     // Kiểm tra điều kiện có thỏa mãn không
     const canShow: boolean = buttonRules[button]?.includes(status) && roles.some(role => roleRules[button]?.includes(role));
-    console.log("Can Show Button: ", canShow);  // Kiểm tra kết quả của điều kiện
+    console.log("Can Show Button: ", canShow);
 
     return canShow;
   }

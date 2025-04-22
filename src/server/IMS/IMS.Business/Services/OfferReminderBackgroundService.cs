@@ -28,7 +28,7 @@ public class OfferReminderBackgroundService : BackgroundService
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWorks>();
                 var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-                var upcomingOffers = unitOfWork.OfferRepository.GetAllQuery().Where(o => o.DueDate <= DateTime.Now.AddDays(1) && o.DueDate > DateTime.Now && o.Status == "Waiting for approval").Include(o => o.Candidate).Include(o => o.UserApproved).ToList();
+                var upcomingOffers = unitOfWork.OfferRepository.GetAllQuery().Where(o => o.DueDate <= DateTime.Now.AddDays(3) && o.DueDate > DateTime.Now && o.Status == "Waiting for approval").Include(o => o.Candidate).Include(o => o.UserApproved).ToList();
 
                 foreach (var offer in upcomingOffers)
                 {

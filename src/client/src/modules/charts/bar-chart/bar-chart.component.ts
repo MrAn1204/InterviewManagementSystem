@@ -70,7 +70,20 @@ export class BarChartComponent implements OnInit, OnChanges {
         labels: this.labelData,
         datasets: [{ label: this.label, data: this.realData }],
       },
-      options: {},
+      options: {
+        responsive: true,
+  scales: {
+    y: {
+      ticks: {
+        stepSize: 1,
+        callback: function (value) {
+          return Number.isInteger(value) ? value : '';
+        }
+      },
+      beginAtZero: true
+    }
+  }
+      },
     });
   }
 
