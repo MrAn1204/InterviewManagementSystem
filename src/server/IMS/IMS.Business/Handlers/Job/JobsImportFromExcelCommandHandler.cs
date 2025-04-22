@@ -63,15 +63,6 @@ public class JobsImportFromExcelCommandHandler(IUnitOfWorks unitOfWork, IMapper 
                         continue;
                     }
 
-                    var existingJob = await _unitOfWork.JobRepository.GetQuery()
-                                .FirstOrDefaultAsync(j => j.Title == title && j.WorkingAddress == workingAddress, cancellationToken);
-
-                    if (existingJob != null)
-                    {
-                        result.SkippedRows++;
-                        continue;
-                    }
-
                     var newJob = new Job
                     {
                         Title = title,
