@@ -4,16 +4,16 @@
 </div>
 
 <!-- Chart Section (Responsive) -->
-<div class="flex flex-col md:flex-row justify-center gap-6 px-4">
-  <app-bar-chart
+<div class="flex flex-col md:flex-row justify-center gap-6 px-4 flex-wrap">
+  <app-bar-chart class="w-full md:w-4/5 lg:w-4/9"
     title="Candidate Chart by Week"
     label="Candidate"
     [realData]="candidateChartRealData"
     (monthYearChange)="onMonthYearCandidateSearchChanged($event)">
   </app-bar-chart>
 
-  <app-bar-chart
-    title="Job Chart by Week"
+  <app-bar-chart class="w-full md:w-4/5 lg:w-4/9"
+    title="Job Chart by Week" 
     label="Job"
     [realData]="jobChartRealData"
     (monthYearChange)="onMonthYearJobSearchChanged($event)">

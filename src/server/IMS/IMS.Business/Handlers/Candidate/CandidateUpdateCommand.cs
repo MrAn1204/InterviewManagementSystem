@@ -21,6 +21,7 @@ public class CandidateUpdateCommand : IRequest<bool>
     public required string Email { get; set; }
 
     [DataType(DataType.Date)]
+    [DateInPast(ErrorMessage = "Date of birth must be in the past.")]
     public DateTime? DOB { get; set; }
 
     [MaxLength(200, ErrorMessage = "Address cannot exceed 200 characters.")]

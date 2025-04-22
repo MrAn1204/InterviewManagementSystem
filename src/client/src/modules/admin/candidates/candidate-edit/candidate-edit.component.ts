@@ -130,9 +130,13 @@ export class CandidateEditComponent {
             'Update candidate successfully!',
             'success'
           );
+          this.router.navigate(['/admin/candidates']);
         },
-        error: () => {
-          this.toastService.error('Update candidate unsuccessfully!', 'error');
+        error: (err) => {
+          this.toastService.error(
+            err.error.errors[Object.keys(err.error.errors)[0]][0],
+            'error'
+          );
         },
       });
   }

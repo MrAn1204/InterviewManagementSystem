@@ -111,7 +111,7 @@ export class CandidateListComponent
   public delete(id: number): void {
     this.candidateService.delete(id).subscribe({
       next: (res) => {
-        this.data.items = this.data.items.filter((item) => item.id != id);
+        this.searchData();
         this.toastService.success('Delete successful!', 'Success');
       },
       error: () => {

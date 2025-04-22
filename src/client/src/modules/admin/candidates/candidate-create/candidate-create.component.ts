@@ -58,11 +58,9 @@ export class CandidateCreateComponent implements OnInit {
       .subscribe((data) => {
         this.usersInput = data;
       });
-    this.commonService
-      .getSelectableCandidateStatus()
-      .subscribe((data) => {
-        this.selectableCandidateStatuses = data;
-      });
+    this.commonService.getSelectableCandidateStatus().subscribe((data) => {
+      this.selectableCandidateStatuses = data;
+    });
     this.createForm();
   }
 
@@ -94,8 +92,11 @@ export class CandidateCreateComponent implements OnInit {
           this.toastService.success('Add candidate successfully!', 'success');
           this.route.navigate(['/admin/candidates']);
         },
-        error: () => {
-          this.toastService.error('Add candidate unsuccessfully!', 'error');
+        error: (err) => {
+          this.toastService.error(
+            err.error.errors[Object.keys(err.error.errors)[0]][0],
+            'error'
+          );
         },
       });
   }

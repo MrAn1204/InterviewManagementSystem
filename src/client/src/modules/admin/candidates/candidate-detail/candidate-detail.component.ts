@@ -112,4 +112,18 @@ export class CandidateDetailComponent {
       });
     this.isModalOpen = false;
   }
+
+  unbanCandidate(): void {
+    this.candidateService
+    .changeStatus({ id: this.candidate.id, status: 'Open' })
+    .subscribe({
+      next: (res) => {
+        this.toastService.success('Unban candidate successfully!', 'success');
+        this.candidate.status = 'Open';
+      },
+      error: () => {
+        this.toastService.error('Unban candidate unsuccessfully!', 'error');
+      },
+    });
+  }
 }
