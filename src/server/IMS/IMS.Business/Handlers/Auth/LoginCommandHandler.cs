@@ -41,7 +41,8 @@ public class LoginCommandHandler(
             Username = user.UserName ?? string.Empty,
             DisplayName = user.FullName,
             Email = user.Email,
-            Roles = [.. roles]
+            Roles = [.. roles],
+            isActive = user.IsActive
         };
 
         var accessToken = await _tokenService.GenerateAccessTokenAsync(user.Id);

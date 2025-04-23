@@ -1,5 +1,5 @@
 import { IAuthService } from './auth-service.interface';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, mergeMap, Observable, of, tap, throwError } from 'rxjs';
 import { LoginRequest } from '../../models/auth/login-request.model';
 import { LoginResponse } from '../../models/auth/login-response.model';
 import { UserInformation } from '../../models/auth/user-information.model';
@@ -99,28 +99,55 @@ logout(): void {
 
 }
 
-public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginResponse> {
+// public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginResponse> {
 
+
+
+//   return this.httpClient
+//     .post<LoginResponse>(`${this.apiUrl}/login`, loginRequest)
+//     .pipe(
+//       tap((response: LoginResponse) => {
+//         if (rememberMe) {
+//           // Lưu vào localStorage
+//           localStorage.setItem('accessToken', response.accessToken);
+//           localStorage.setItem('refreshToken', response.refreshToken);
+//           localStorage.setItem('userInformation', JSON.stringify(response.userInfo));
+//         } else {
+//           // Lưu vào sessionStorage
+//           sessionStorage.setItem('accessToken', response.accessToken);
+//           sessionStorage.setItem('refreshToken', response.refreshToken);
+//           sessionStorage.setItem('userInformation', JSON.stringify(response.userInfo));
+//         }
+//         this._isAuthenticated.next(true);
+//         this._userInformation.next(response.userInfo);
+//       })
+//     );
+
+// }
+// auth.service.ts
+public login(loginRequest: LoginRequest, rememberMe: boolean): Observable<LoginResponse> {
   return this.httpClient
     .post<LoginResponse>(`${this.apiUrl}/login`, loginRequest)
     .pipe(
-      tap((response: LoginResponse) => {
+      mergeMap((response) => {
+        if (!response.userInfo.isActive) {
+          return throwError(() => new Error('Account inactive'));
+        }
+
         if (rememberMe) {
-          // Lưu vào localStorage
           localStorage.setItem('accessToken', response.accessToken);
           localStorage.setItem('refreshToken', response.refreshToken);
           localStorage.setItem('userInformation', JSON.stringify(response.userInfo));
         } else {
-          // Lưu vào sessionStorage
           sessionStorage.setItem('accessToken', response.accessToken);
           sessionStorage.setItem('refreshToken', response.refreshToken);
           sessionStorage.setItem('userInformation', JSON.stringify(response.userInfo));
         }
         this._isAuthenticated.next(true);
         this._userInformation.next(response.userInfo);
+        return of(response);
       })
     );
-
 }
 
 

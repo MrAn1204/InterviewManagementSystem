@@ -4,4 +4,5 @@ export class UserInformation {
     public email!: string;
     public displayName!: string;
     public roles!: string[];
+    public isActive?: boolean;
 }

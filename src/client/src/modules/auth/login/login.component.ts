@@ -63,17 +63,18 @@ export class LoginComponent implements OnInit {
 
     // Gọi hàm login từ AuthService, hàm login sẽ tự lưu token và cập nhật _userInformation
     this.authService.login(loginRequest, rememberMe).subscribe({
-      next: (response) => {
+      next: () => {
         this.toastr.success('Login successful!', 'Success');
         this.router.navigate(['/admin/dashboard']);
-        this.cdr.detectChanges();
-
       },
       error: (err) => {
-        console.error('Login Error:', err);
-        this.toastr.error('Invalid username or password!', 'Error');
-      },
+        const msg = err.message === 'Account inactive'
+          ? 'Your account is inactive and cannot login'
+          : 'Invalid username or password!';
+        this.toastr.error(msg, 'Error');
+      }
     });
+
 
 
   }
