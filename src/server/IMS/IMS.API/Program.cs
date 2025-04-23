@@ -105,6 +105,9 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"Hangfire Connection String: {connectionString}");
+
 builder.Services.AddHangfire(config =>
     config.SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()

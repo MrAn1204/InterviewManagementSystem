@@ -29,7 +29,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.InterviewTitle, opt => opt.MapFrom(src => src.Interview!.Title))
             .ForMember(dest => dest.Approver, opt => opt.MapFrom(src => src.UserApproved!.FullName))
             .ForMember(dest => dest.CandidateName, opt => opt.MapFrom(src => src.Candidate!.FullName))
-            .ForMember(dest => dest.LevelName, opt => opt.MapFrom(src => src.Candidate!.HighestLevel!.LevelName))
+            .ForMember(dest => dest.LevelName, opt => opt.MapFrom(src => src.Level!.LevelName))
             .ForMember(dest => dest.CandidateEmail, opt => opt.MapFrom(src => src.Candidate!.Email));
 
     CreateMap<User, UserDetailViewModel>()

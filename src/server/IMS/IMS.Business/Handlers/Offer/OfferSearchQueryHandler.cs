@@ -19,8 +19,10 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
         var query = _unitOfWork.OfferRepository.GetQuery()
             .Include(o => o.Department)
             .Include(o => o.Candidate)
-            .Include(o => o.UserApproved).AsQueryable()
-            ;
+            .Include(o => o.Level)
+            .Include(o => o.UserApproved).AsQueryable();
+
+        query = query.Where(o => o.IsDelete == false);
 
         if (!string.IsNullOrEmpty(request.Keyword))
         {
@@ -29,17 +31,17 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             query = query.Where(o =>
                 (o.Candidate != null && ( o.Candidate.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) )) ||
                 (o.UserApproved != null && o.UserApproved.FullName.ToLower().Contains(keyword))
-);
+            );
         }
 
         if (!string.IsNullOrEmpty(request.departmentName))
         {
-            query = query.Where(o => o.Department != null && o.Department.DepartmentName.Contains(request.departmentName));
+            query = query.Where(o => o.Department!.DepartmentName.Contains(request.departmentName));
         }
 
         if (!string.IsNullOrEmpty(request.Status))
         {
-            query = query.Where(o => o.Candidate != null && o.Candidate.Status.Contains(request.Status));
+            query = query.Where(o => o.Candidate!.Status.Contains(request.Status));
         }
 
         int total = await query.CountAsync(cancellationToken);
@@ -51,7 +53,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
         }
         else
         {
-            query = query.OrderBy(o => o.Candidate != null ? o.Candidate.FullName : "");
+            query = query.OrderBy(o => o.Candidate!.FullName);
         }
 
         //Lay du lieu
@@ -60,7 +62,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             .ToListAsync(cancellationToken);
 
         var viewModels = _mapper.Map<IEnumerable<OfferViewModel>>(items);
-
+        
         return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, total, viewModels);
     }
 }

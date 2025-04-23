@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using IMS.Business.ViewModels;
 using IMS.Data.UnitOfWorks;
+using IMS.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,8 +25,8 @@ public class OfferGetAllQueryHandler : IRequestHandler<OfferGetAllQuery, IEnumer
 
         var result = await query.Include(o => o.Department)
             .Include(o => o.Candidate)
-            // .Include(o => o.Interview)
-            .Include(o => o.UserApproved).ToListAsync();
+            .Include(o => o.Level)
+            .Include(o => o.UserApproved).AsNoTracking().ToListAsync();
 
         return _mapper.Map<IEnumerable<OfferViewModel>>(result);
     }
