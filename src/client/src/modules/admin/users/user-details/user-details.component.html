@@ -28,7 +28,7 @@
     <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Full Name -->
       <div>
-        <label for="fullName" class="block text-lg font-semibold ">Full Name</label>
+        <label class="block text-lg font-semibold ">Full Name</label>
         <p class="w-full ">
           {{ userDetail.fullName ? userDetail.fullName : 'null' }}
         </p>
@@ -36,7 +36,7 @@
 
       <!-- Email -->
       <div>
-        <label for="email" class="block text-lg font-semibold ">Email</label>
+        <label class="block text-lg font-semibold ">Email</label>
         <p class="w-full ">
           {{ userDetail.email ? userDetail.email : 'null' }}
         </p>
@@ -44,7 +44,7 @@
 
       <!-- Date of Birth -->
       <div>
-        <label for="dob" class="block text-lg font-semibold ">Date of Birth</label>
+        <label class="block text-lg font-semibold ">Date of Birth</label>
         <p class="w-full ">
           {{ userDetail.dob ? (userDetail.dob | date:'yyyy-MM-dd') : 'null' }}
         </p>
@@ -52,7 +52,7 @@
 
       <!-- Address -->
       <div>
-        <label for="address" class="block text-lg font-semibold">Address</label>
+        <label class="block text-lg font-semibold">Address</label>
         <p class="w-full ">
           {{ userDetail.address ? userDetail.address : 'null' }}
         </p>
@@ -60,7 +60,7 @@
 
       <!-- Phone Number -->
       <div>
-        <label for="phoneNumber" class="block text-lg font-semibold ">Phone Number</label>
+        <label class="block text-lg font-semibold ">Phone Number</label>
         <p class="w-full  ">
           {{ userDetail.phoneNumber ? userDetail.phoneNumber : 'null' }}
         </p>
@@ -68,7 +68,7 @@
 
       <!-- Gender -->
       <div>
-        <label for="gender" class="block text-lg font-semibold ">Gender</label>
+        <label class="block text-lg font-semibold ">Gender</label>
         <p class="w-full ">
           {{ userDetail.gender ? userDetail.gender : 'null' }}
         </p>
@@ -76,7 +76,7 @@
 
       <!-- Roles -->
       <div>
-        <label for="roles" class="block text-lg font-semibold ">Roles</label>
+        <label class="block text-lg font-semibold ">Roles</label>
         <p class="w-full  ">
           {{ userDetail.roles && userDetail.roles.length ? userDetail.roles.join(', ') : 'null' }}
         </p>
@@ -84,7 +84,7 @@
 
       <!-- Department -->
       <div>
-        <label for="departmentName" class="block text-lg font-semibold ">Department</label>
+        <label class="block text-lg font-semibold ">Department</label>
         <p class="w-full  ">
           {{ userDetail.departmentName ? userDetail.departmentName : 'null' }}
         </p>
@@ -92,7 +92,7 @@
 
       <!-- Status -->
       <div>
-        <label for="isActive" class="block text-lg font-semibold ">Status</label>
+        <label class="block text-lg font-semibold ">Status</label>
         <p class="w-full ">
           {{ getStatusText(userDetail.isActive) ? getStatusText(userDetail.isActive) : 'null' }}
         </p>
@@ -100,7 +100,7 @@
 
       <!-- Note -->
       <div class="md:col-span-2">
-        <label for="note" class="block text-lg font-semibold mb-1">Note</label>
+        <label class="block text-lg font-semibold mb-1">Note</label>
         <p class="w-full ">
           {{ userDetail.note ? userDetail.note : 'null' }}
         </p>

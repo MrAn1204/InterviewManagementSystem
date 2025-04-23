@@ -42,14 +42,12 @@
         Accept
       </button>
       <!-- Approve -->
-      <button *ngIf="canShowButton('Approve')" type="button" (click)="changeStatusCandidate('ApprovedOffer')" 
-        (click)="changeStatusOffer('Approved offer')" routerLink="/admin/offers"
+      <button *ngIf="canShowButton('Approve')" type="button" (click)="changeStatusOffer('Approved offer')" routerLink="/admin/offers"
         class="cursor-pointer mr-4 bg-green-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-green-500">
         Approve
       </button>
       <!-- Reject -->
-      <button *ngIf="canShowButton('Reject')" type="button" (click)="changeStatusCandidate('RejectedOffer')" 
-        (click)="changeStatusOffer('Rejected offer')" routerLink="/admin/offers"
+      <button *ngIf="canShowButton('Reject')" type="button" (click)="changeStatusOffer('Rejected offer')" routerLink="/admin/offers"
 
         class="cursor-pointer mr-4 bg-yellow-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-yellow-300">
         Reject

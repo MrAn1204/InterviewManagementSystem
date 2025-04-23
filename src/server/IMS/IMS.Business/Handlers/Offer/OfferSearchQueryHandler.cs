@@ -16,11 +16,13 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
 
     public async Task<PaginatedResult<OfferViewModel>> Handle(OfferSearchQuery request, CancellationToken cancellationToken)
     {
+        // Các offer có CandidateId là IsDelete = true thì include sẽ bị null
         var query = _unitOfWork.OfferRepository.GetQuery()
             .Include(o => o.Department)
             .Include(o => o.Candidate)
-            .Include(o => o.UserApproved).AsQueryable()
-            ;
+            .Include(o => o.Level)
+            .Include(o => o.UserApproved).AsQueryable();
+
 
         if (!string.IsNullOrEmpty(request.Keyword))
         {
@@ -29,20 +31,19 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             query = query.Where(o =>
                 (o.Candidate != null && ( o.Candidate.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) )) ||
                 (o.UserApproved != null && o.UserApproved.FullName.ToLower().Contains(keyword))
-);
+            );
         }
 
         if (!string.IsNullOrEmpty(request.departmentName))
         {
-            query = query.Where(o => o.Department != null && o.Department.DepartmentName.Contains(request.departmentName));
+            query = query.Where(o => o.Department!.DepartmentName.Contains(request.departmentName));
         }
 
         if (!string.IsNullOrEmpty(request.Status))
         {
-            query = query.Where(o => o.Candidate != null && o.Candidate.Status.Contains(request.Status));
+            query = query.Where(o => o.Candidate!.Status.Contains(request.Status));
         }
 
-        int total = await query.CountAsync(cancellationToken);
 
         //Sap xep
         if (!string.IsNullOrEmpty(request.OrderBy))
@@ -51,7 +52,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
         }
         else
         {
-            query = query.OrderBy(o => o.Candidate != null ? o.Candidate.FullName : "");
+            query = query.OrderBy(o => o.Candidate!.FullName);
         }
 
         //Lay du lieu
@@ -60,7 +61,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             .ToListAsync(cancellationToken);
 
         var viewModels = _mapper.Map<IEnumerable<OfferViewModel>>(items);
-
-        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, total, viewModels);
+        
+        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, items.Capacity, viewModels);
     }
 }

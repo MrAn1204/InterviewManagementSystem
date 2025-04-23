@@ -86,6 +86,7 @@ export class OfferListComponent extends MasterDataListComponent<OfferModel> {
     this.offerService.search(this.filter).subscribe({
       next: (response) => {
         this.data = response;
+        console.log("Data: ", this.data);
       },
       error: (error) => {
         console.error('Lỗi khi tìm kiếm Offer:', error);

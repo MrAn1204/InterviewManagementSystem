@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     // Điều hướng về trang login (hoặc trang tuỳ ý)
     this.router.navigate(['/login']);
+    this.toastr.warning('You were Logout');
   }
   @HostListener('document:click', ['$event'])
   public clickOutside(event: Event) {

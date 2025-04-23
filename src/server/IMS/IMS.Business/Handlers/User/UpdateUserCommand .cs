@@ -9,6 +9,7 @@ namespace IMS.Business.Handlers
     public class UpdateUserCommand : IRequest<Unit>
     {
         public int UserId { get; set; }
+        public string? Username { get; set; }
         public string? Email { get; set; }
         public string? FullName { get; set; }
         public DateTime? DOB { get; set; }
