@@ -23,13 +23,14 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             .Include(o => o.Level)
             .Include(o => o.UserApproved).AsQueryable();
 
+        query = query.Where(o => o.Candidate != null && o.Candidate!.IsDelete == false);
 
         if (!string.IsNullOrEmpty(request.Keyword))
         {
             string keyword = request.Keyword.ToLower();
             
             query = query.Where(o =>
-                (o.Candidate != null && ( o.Candidate.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) )) ||
+                ( o.Candidate!.FullName.ToLower().Contains(keyword) || o.Candidate.Email.ToLower().Contains(keyword) ) ||
                 (o.UserApproved != null && o.UserApproved.FullName.ToLower().Contains(keyword))
             );
         }
@@ -44,6 +45,7 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             query = query.Where(o => o.Candidate!.Status.Contains(request.Status));
         }
 
+        int total = await query.CountAsync(cancellationToken);
 
         //Sap xep
         if (!string.IsNullOrEmpty(request.OrderBy))
@@ -61,7 +63,9 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             .ToListAsync(cancellationToken);
 
         var viewModels = _mapper.Map<IEnumerable<OfferViewModel>>(items);
+
+        Console.WriteLine(total);
         
-        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, items.Capacity, viewModels);
+        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, total, viewModels);
     }
 }
