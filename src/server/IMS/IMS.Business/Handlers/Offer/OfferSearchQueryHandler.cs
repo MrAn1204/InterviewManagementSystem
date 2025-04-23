@@ -16,13 +16,13 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
 
     public async Task<PaginatedResult<OfferViewModel>> Handle(OfferSearchQuery request, CancellationToken cancellationToken)
     {
+        // Các offer có CandidateId là IsDelete = true thì include sẽ bị null
         var query = _unitOfWork.OfferRepository.GetQuery()
             .Include(o => o.Department)
             .Include(o => o.Candidate)
             .Include(o => o.Level)
             .Include(o => o.UserApproved).AsQueryable();
 
-        query = query.Where(o => o.IsDelete == false);
 
         if (!string.IsNullOrEmpty(request.Keyword))
         {
@@ -44,7 +44,6 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
             query = query.Where(o => o.Candidate!.Status.Contains(request.Status));
         }
 
-        int total = await query.CountAsync(cancellationToken);
 
         //Sap xep
         if (!string.IsNullOrEmpty(request.OrderBy))
@@ -63,6 +62,6 @@ public class OfferSearchQueryHandler(IMapper mapper, IUnitOfWorks unitOfWork) : 
 
         var viewModels = _mapper.Map<IEnumerable<OfferViewModel>>(items);
         
-        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, total, viewModels);
+        return new PaginatedResult<OfferViewModel>(request.PageNumber, request.PageSize, items.Capacity, viewModels);
     }
 }
