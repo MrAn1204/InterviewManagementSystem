@@ -1,11 +1,8 @@
-using System;
-using Amazon.S3;
 using IMS.Business.Services;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using IMS.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
@@ -30,7 +27,7 @@ public class CandidateUpdateCommandHandler : IRequestHandler<CandidateUpdateComm
         }
         if (isDeleted == false)
         {
-            throw new AmazonS3Exception("Remove error");
+            throw new InvalidOperationException("Remove error");
         }
         string filePath = "";
         if (request.CvAttachment != null)

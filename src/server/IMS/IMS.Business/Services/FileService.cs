@@ -1,6 +1,4 @@
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
+using Google.Cloud.Storage.V1;
 using IMS.Business.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -10,19 +8,14 @@ namespace IMS.Business.Services;
 
 public class FileService : IFileService
 {
-    private readonly IAmazonS3 _s3Client;
+    private readonly StorageClient _storageClient;
     private readonly string _bucketName;
 
     public FileService(IConfiguration configuration)
     {
-        var awsOptions = configuration.GetSection("AWS");
-        _bucketName = awsOptions["BucketName"];
-
-        _s3Client = new AmazonS3Client(
-            awsOptions["AccessKey"],
-            awsOptions["SecretKey"],
-            RegionEndpoint.GetBySystemName(awsOptions["Region"])
-        );
+        _bucketName = configuration["GoogleCloudStorage:BucketName"]
+            ?? throw new InvalidOperationException("GoogleCloudStorage:BucketName is not configured.");
+        _storageClient = StorageClient.Create();
     }
 
     public async Task<string> UploadFileAsync(IFormFile file)
@@ -37,30 +30,8 @@ public class FileService : IFileService
         await file.CopyToAsync(memoryStream); // Copy file vào memory stream
         memoryStream.Position = 0; // Reset vị trí đọc
 
-        var uploadRequest = new PutObjectRequest
-        {
-            BucketName = _bucketName,
-            Key = fileKey,
-            InputStream = memoryStream, // Dùng memoryStream thay vì OpenReadStream()
-            ContentType = file.ContentType,
-            CannedACL = S3CannedACL.Private // Tránh lỗi ACL nếu bucket không cho phép
-        };
-
-        try
-        {
-            await _s3Client.PutObjectAsync(uploadRequest);
-            return $"https://{_bucketName}.s3.amazonaws.com/{fileKey}";
-        }
-        catch (AmazonS3Exception ex)
-        {
-            Console.WriteLine($"S3 error: {ex.Message}");
-            throw;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"General error: {ex.Message}");
-            throw;
-        }
+        await _storageClient.UploadObjectAsync(_bucketName, fileKey, file.ContentType, memoryStream);
+        return $"https://storage.googleapis.com/{_bucketName}/{fileKey}";
     }
 
     public async Task<bool> DeleteFileAsync(string fileUrl)
@@ -68,18 +39,21 @@ public class FileService : IFileService
         if (string.IsNullOrEmpty(fileUrl))
             return false;
 
-        // Lấy fileKey từ URL (bỏ phần domain)
-        Uri uri = new Uri(fileUrl);
-        string fileKey = uri.AbsolutePath.TrimStart('/');
-
-        var deleteRequest = new DeleteObjectRequest
-        {
-            BucketName = _bucketName,
-            Key = fileKey
-        };
-
-        await _s3Client.DeleteObjectAsync(deleteRequest);
+        string fileKey = GetObjectKey(fileUrl);
+        await _storageClient.DeleteObjectAsync(_bucketName, fileKey);
         return true;
+    }
+
+    private string GetObjectKey(string fileUrl)
+    {
+        if (!Uri.TryCreate(fileUrl, UriKind.Absolute, out var uri))
+            return fileUrl.TrimStart('/');
+
+        var path = Uri.UnescapeDataString(uri.AbsolutePath.TrimStart('/'));
+        var bucketPrefix = $"{_bucketName}/";
+        return path.StartsWith(bucketPrefix, StringComparison.OrdinalIgnoreCase)
+            ? path[bucketPrefix.Length..]
+            : path;
     }
 
     public async Task<byte[]> GenerateOfferExcelFile(List<OfferExcelDto> offerExcels)
