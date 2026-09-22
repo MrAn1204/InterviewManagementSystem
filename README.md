@@ -1,92 +1,172 @@
-# ims
+# Interview Management System
 
+An interview management system with an Angular frontend and an ASP.NET Core Web API backend. The backend uses SQL Server and Entity Framework Core for persistence, JWT for authentication, Hangfire for background jobs, and Swagger for API documentation.
 
+## Project Structure
 
-## Getting started
+| Path | Description |
+| --- | --- |
+| `src/client` | Angular 19 frontend |
+| `src/server/IMS/IMS.API` | ASP.NET Core Web API |
+| `src/server/IMS/IMS.Business` | Application and business logic |
+| `src/server/IMS/IMS.Core` | Shared core functionality |
+| `src/server/IMS/IMS.Data` | Entity Framework Core data access and migrations |
+| `src/server/IMS/IMS.Domain` | Domain entities and models |
+| `src/server/IMS/IMS.Tests` | NUnit backend tests |
+| `design` | UI design mockups and team design notes |
+| `docs` | Meeting, planning, QA, and requirements documentation |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Prerequisites
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Node.js and npm compatible with Angular 19
+- .NET 9 SDK
+- SQL Server
+- Optional: the Entity Framework Core CLI for database migrations
 
-## Add your files
+The repository does not pin a Node.js version. Use a current LTS version that is compatible with Angular 19.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## Configuration
 
+The API requires SQL Server, JWT, email, and Google Cloud Storage settings. The tracked `src/server/IMS/IMS.API/appsettings.json` contains logging configuration only, so provide local settings through the ignored `appsettings.Development.json` file, .NET user secrets, or environment variables.
+
+Required settings:
+
+```json
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=.;Database=IMS;User Id=sa;Password=replace-with-local-password;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;Integrated Security=False"
+    },
+    "Jwt": {
+        "ValidAudience": "https://localhost:5131",
+        "ValidIssuer": "https://localhost:5131",
+        "Secret": "replace-with-a-long-development-secret",
+        "ExpirationInMinutes": 3600,
+        "RefreshDuration": 7
+    },
+    "GoogleCloudStorage": {
+        "BucketName": "your-gcs-bucket",
+        "ProjectId": "your-gcp-project"
+    },
+    "EmailSettings": {
+        "SmtpServer": "smtp.gmail.com",
+        "Port": 587,
+        "SenderEmail": "your-sender@example.com",
+        "SenderName": "IMS",
+        "Password": "use-a-secret-or-provider-app-password"
+    }
+}
 ```
-cd existing_repo
-git remote add origin http://git.fa.edu.vn/hn25_cpl_net_02_g2/ims.git
-git branch -M main
-git push -uf origin main
+
+`DefaultConnection` is the only connection string consumed by the application. SQL Server must be available before starting the API.
+
+Use development-only values for local work and do not commit secrets, service-account JSON files, or production connection strings. The development settings file is ignored by Git.
+
+### Google Cloud Storage
+
+Candidate CVs are stored in a Google Cloud Storage bucket under the `cv/` prefix. Create a bucket in the configured Google Cloud project and grant the runtime service account the minimum required permissions.
+
+For hosted environments, use the platform service account. Do not add a service-account JSON key to the repository. Replace the placeholder bucket and project values for each environment. `GoogleCloudStorage:BucketName` selects the bucket used by the application, while `ProjectId` identifies the project.
+
+### Email
+
+Password-reset and notification email use the `EmailSettings` values shown above. For Gmail, use an SMTP app password rather than an account password. Store the password outside source control.
+
+## Run the Frontend
+
+Run these commands from `src/client`:
+
+```bash
+npm ci
+npx ng serve
 ```
 
-## Integrate with your tools
+Open [http://localhost:4200](http://localhost:4200). The development build calls the API at `http://localhost:5113/api/`.
 
-- [ ] [Set up project integrations](http://git.fa.edu.vn/hn25_cpl_net_02_g2/ims/-/settings/integrations)
+### Frontend Commands
 
-## Collaborate with your team
+From `src/client`:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+# Build the production bundle
+npx ng build
 
-## Test and Deploy
+# Run unit tests with Karma
+npx ng test
+```
 
-Use the built-in continuous integration in GitLab.
+The production build uses the relative API URL `api/`, which is configured in `src/client/src/environments/environment.ts`. No end-to-end test target is currently configured.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## Run the Backend
 
-***
+Run these commands from `src/server/IMS`:
 
-# Editing this README
+```bash
+dotnet restore
+dotnet build
+dotnet run --project IMS.API
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+The API launch profiles provide:
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- HTTP: [http://localhost:5113](http://localhost:5113)
+- HTTPS: [https://localhost:7287](https://localhost:7287)
 
-## Name
-Choose a self-explaining name for your project.
+Both profiles use the `Development` environment. When running in development, Swagger is available at [http://localhost:5113/swagger](http://localhost:5113/swagger), and the Hangfire dashboard is available at [http://localhost:5113/hangfire](http://localhost:5113/hangfire).
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Backend Commands
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+From `src/server/IMS`:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```bash
+# Restart automatically when source files change
+dotnet watch --project IMS.API
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+# Run backend tests
+dotnet test
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+If you use the HTTPS profile, trust the local ASP.NET Core development certificate with:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```bash
+dotnet dev-certs https --trust
+```
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Database Migrations
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Install the EF Core CLI if it is not already available:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```bash
+dotnet tool install --global dotnet-ef
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Run migration commands from `src/server/IMS`. The solution contains both `ApplicationDbContext` and `StorageDbContext`; update both databases when setting up a local environment:
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+```bash
+dotnet ef database update --project IMS.Data --startup-project IMS.API --context ApplicationDbContext
+dotnet ef database update --project IMS.Data --startup-project IMS.API --context StorageDbContext
+```
 
-## License
-For open source projects, say how it is licensed.
+The API seeds roles, users, and application data during startup after the database is available. For adding, rolling back, removing, or dropping migrations, see [Appendix/MigrationCommand.md](src/server/IMS/Appendix/MigrationCommand.md).
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Testing and Building
+
+Build and test the backend from `src/server/IMS`:
+
+```bash
+dotnet build
+dotnet test
+```
+
+Build and test the frontend from `src/client`:
+
+```bash
+npx ng build
+npx ng test
+```
+
+## Additional Documentation
+
+- [Angular client documentation](src/client/README.md)
+- [Backend run commands](src/server/IMS/Appendix/RunCommand.md)
+- [Backend migration commands](src/server/IMS/Appendix/MigrationCommand.md)
+- [Backend package commands](src/server/IMS/Appendix/PackageCommand.md)
